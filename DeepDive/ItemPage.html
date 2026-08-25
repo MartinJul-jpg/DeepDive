@@ -4,23 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div>
-        <!-- laver senere -->
+    <div id="headDiv">
+        <img id="logoImg" src="logo.png">
+        <h1 id="head">
+            DIVE DEEP
+        </h1>
+        <input id="searchInput">
+        <button id="searchBtn">
+            SØG
+        </button> 
+        <button id="shoppingCartBtn">
+            <img id="shoppingCart" src= "whiteshoppingCart.png" alt="shoppingcart">
+        </button>
     </div>
     <div id="pageContent">
-        <div>
-            <p>
+        <div id="itemDiv1" class="itemDiv">
+            <p id="itemPageTitle">
                 Dykker dragt
             </p>
-            <img src="https://t3.ftcdn.net/jpg/10/22/24/80/360_F_1022248039_7LDxHRi3Mlt9BK3wzLBUGZp9XAO1gt2s.jpg">
-            <p>
-                Beskrivelse blablabla
-            </p>
+            <img src="https://ls.codetech.nl/shops/296139/files/319150367/650x650x2/scubapro-definition-5mm-female.jpg">
         </div>
-        <div>
-            <p>
+        <div id="itemDiv2" class="itemDiv">
+            <p id="itemPagePrice">
                 pris
             </p>
             <p>
@@ -29,9 +37,12 @@
             <button>
                 Tilføj til kurv
             </button>
-            <ul> 
+            <p>
+                Beskrivelse blablabla
+            </p>
+            <ul id="specs">
                 <li>Materiale: Cotton</li>
-                <li>Våddragt</li>
+                <li>Type: Våddragt</li>
             </ul>
         </div>
     </div>
