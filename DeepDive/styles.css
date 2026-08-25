@@ -24,11 +24,9 @@ figure {
     margin-bottom: -10%;
     flex: 1 0 21%;
 } 
-
-img{
+img {
     height: 40%;
 }
-
 .categoryBtn {
     width: 20%;
     height: 10%;
@@ -36,21 +34,55 @@ img{
     margin: 10px;
     font-size: 120%;
 }
-#pageContent{
+#itemPageTitle {
+    font-size: 50px;
+    margin: 0;
+}
+#itemPagePrice {
+    font-size: 30px;
+    margin: 0;
+}
+#pageContent {
     display: grid;
-    grid-template-columns: auto auto auto;
-    padding: 10px;
-    align-items: center;
+    grid-template-areas: "itemDiv1 itemDiv2";
+    grid-template-columns: 1fr 3fr;
+    gap: 3px;
+    padding: 5px;
 }
 #pageContent div {
     padding: 10px;
     text-align: left;
-    align-items: center;
+}
+#pageContent div.itemDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+}
+#pageContent div.itemDiv1 {
+    grid-area: itemDiv1;;
+}
+#pageContent div.itemDiv2 {
+    grid-area: itemDiv2;
+}
+#pageContent img {
+    aspect-ratio: 1/3;
+    width: 100%;
+}
+#pageContent button {
+    height: 2%;
+    width: 15%;
 }
 #specs {
     list-style-type: none;
+    padding: 0;
+    border: 1px solid #ddd;
+    width: 50%;
 }
-#categoryDiv{
+#specs li {
+    padding: 8px 16px;
+    border-bottom: 1px solid #ddd;
+}
+#categoryDiv {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,7 +94,7 @@ img{
     display: flex;
     align-items: center;
 }
-#productDiv{
+#productDiv {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -89,17 +121,14 @@ img{
     border-radius: 20px;
     padding: 5px 15px 5px 15px;
     font-size: 120%;
-    
-
 }
-#shoppingCartBtn{
+#shoppingCartBtn {
     width: 5%;
     border-radius: 20px;
     padding: 5px 15px 5px 15px;
     margin-left: auto;
-
 }
-#shoppingCart{
+#shoppingCart {
     height: 45%;
     width: 45%;
 }
@@ -108,11 +137,3 @@ img{
     height: 15%;
     padding: 10px;
 } 
- 
- 
- 
- 
- 
- 
- 
- 
