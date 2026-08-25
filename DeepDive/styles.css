@@ -22,6 +22,7 @@ figure {
     height: 500px;
     width: 20%;
 }
+
 .categoryBtn {
     width: 20%;
     height: 10%;
@@ -29,7 +30,20 @@ figure {
     margin: 10px;
     font-size: 120%;
 }
-
+#pageContent{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 10px;
+    align-items: center;
+}
+#pageContent div {
+    padding: 10px;
+    text-align: left;
+    align-items: center;
+}
+#specs {
+    list-style-type: none;
+}
 #categoryDiv{
     display: flex;
     justify-content: center;
