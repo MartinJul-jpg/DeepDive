@@ -269,5 +269,18 @@ new DivingSuit
 
     };
 
+
+
+        public static List<Product> GetAll()
+        {
+            return products;
+        }
+
+        public static Product? GetById(int id)
+        {
+            return products.FirstOrDefault(x => x.ProductId == id);
+        }
+
+
     }
 }
