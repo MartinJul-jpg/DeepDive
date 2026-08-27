@@ -2,7 +2,6 @@
 {
     public class Fin : Product
     {
-        public int FinId { get; set; }
 
         public string Model { get; set; }
 
