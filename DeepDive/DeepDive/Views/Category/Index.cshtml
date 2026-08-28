@@ -1,16 +1,24 @@
-﻿@section categorySector {
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@section categorySector {
     <div id="categoryDiv">
-        <button class="categoryBtn">
-            DRAGTER
-        </button>
-        <button class="categoryBtn">
-            SKO
-        </button>
-        <button class="categoryBtn">
-            POPULÆRE
-        </button>
-        <button class="categoryBtn">
-            UDSTYR
-        </button>
+        <a asp-controller="Category" asp-action="Show" asp-route-id="BCD" class="btn btn-secondary">
+            BCD
+        </a>
+        <a asp-controller="Category" asp-action="Show" asp-route-id="DivingSuit" class="btn btn-secondary">
+            Dragter
+        </a>
+        <a asp-controller="Category" asp-action="Show" asp-route-id="Fin" class="btn btn-secondary">
+            Finner
+        </a>
+        <a asp-controller="Category" asp-action="Show" asp-route-id="RegulatorSet" class="btn btn-secondary">
+            Regulatorsæt
+        </a>
+        <a asp-controller="Category" asp-action="Show" asp-route-id="Snorkel" class="btn btn-secondary">
+            Snorkler
+        </a>
+        <a asp-controller="Category" asp-action="Show" asp-route-id="Tank" class="btn btn-secondary">
+            Tanke
+        </a>
     </div>
 }
