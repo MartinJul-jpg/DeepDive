@@ -1,11 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MovieMania</title>
-    <link rel="stylesheet" href="~/lib/custom/css/styles.css"/>
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="~/lib/custom/css/styles.css"/>
 </head>
 <body>
     <header>
@@ -18,9 +20,11 @@
             <button id="searchBtn">
                 SØG
             </button>
-            <button id="shoppingCartBtn">
-                <img id="shoppingCart" src="~/lib/custom/resource/whiteshoppingCart.png" alt="shoppingcart">
-            </button>
+            <a asp-controller="Basket" asp-action="Index" id="shoppingCartBtn" class="btn btn-secondary">
+                <img id="shoppingCart"
+                     src="~/lib/custom/resource/whiteshoppingCart.png"
+                     alt="Shopping cart">
+            </a>
         </div>
     </header>
     <div>
@@ -29,7 +33,6 @@
     <div>
         @RenderBody()
     </div>
-
     <hr id="infoSeperator">
     <div id="footerDiv">
         <div class="footerBox">
@@ -41,7 +44,6 @@
                 <li>
                     Åbningstider
                 </li>
-
             </ul>
         </div>
         <div class="footerBox">
@@ -53,7 +55,6 @@
                 <li>
                     mail@Customersupport.dk
                 </li>
-
             </ul>
         </div>
         <div class="footerBox">
