@@ -1,0 +1,74 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieMania</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="~/lib/custom/css/styles.css"/>
+</head>
+<body>
+    <header>
+        <div id="headDiv">
+            <img id="logoImg" src="~/lib/custom/resource/logo.png">
+            <h1 id="head">
+                DIVE DEEP
+            </h1>
+            <input id="searchInput">
+            <button id="searchBtn">
+                SØG
+            </button>
+            <a asp-controller="Basket" asp-action="Index" id="shoppingCartBtn" class="btn btn-secondary">
+                <img id="shoppingCart"
+                     src="~/lib/custom/resource/whiteshoppingCart.png"
+                     alt="Shopping cart">
+            </a>
+        </div>
+    </header>
+    <div>
+        @RenderSection("categorySector", false)
+    </div>
+    <div class="container">
+        @RenderBody()
+    </div>
+    <hr id="infoSeperator">
+    <div id="footerDiv">
+        <div class="footerBox">
+            Information <br>
+            <ul class="footerList">
+                <li>
+                    Adresse her
+                </li>
+                <li>
+                    Åbningstider
+                </li>
+            </ul>
+        </div>
+        <div class="footerBox">
+            Customer Service <br>
+            <ul class="footerList">
+                <li>
+                    +45 12 34 56 78
+                </li>
+                <li>
+                    mail@Customersupport.dk
+                </li>
+            </ul>
+        </div>
+        <div class="footerBox">
+            Dive Deep A/S <br>
+            <ul class="footerList">
+                <li>
+                    Adresse
+                </li>
+                <li>
+                    Kommune
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

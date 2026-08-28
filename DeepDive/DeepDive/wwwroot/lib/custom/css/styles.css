@@ -1,0 +1,165 @@
+body {
+    background-color: rgb(233,245,245);
+    margin: 0px;
+}
+div {
+    text-align: center;
+    font-family: Arial;
+}
+input {
+    width: 10%;
+    margin: 10px;
+}
+button {
+    background-color: rgb(0,54,100);
+    color: white;
+    font-weight: bold;
+    border-radius: 20px;
+    border: none;
+}
+figure {
+    height: 500px;
+    width: 20%;
+    margin: auto;
+    margin-bottom: -10%;
+    flex: 1 0 21%;
+} 
+img {
+    height: 40%;
+}
+.categoryBtn {
+    width: 20%;
+    height: 10%;
+    padding: 20px;
+    margin: 10px;
+    font-size: 120%;
+}
+.footerBox{
+    padding: 20px;
+
+    
+}
+
+.footerList{
+    list-style-type: none;
+    display: inline;  
+}
+
+#itemPageTitle {
+    font-size: 50px;
+    margin: 0;
+}
+#itemPagePrice {
+    font-size: 30px;
+    margin: 0;
+}
+#pageContent {
+    display: grid;
+    grid-template-areas: "itemDiv1 itemDiv2";
+    grid-template-columns: 1fr 3fr;
+    gap: 3px;
+    padding: 5px;
+}
+#pageContent div {
+    padding: 10px;
+    text-align: left;
+}
+#pageContent div.itemDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+}
+#pageContent div.itemDiv1 {
+    grid-area: itemDiv1;;
+}
+#pageContent div.itemDiv2 {
+    grid-area: itemDiv2;
+}
+#pageContent img {
+    aspect-ratio: 1/3;
+    width: 100%;
+}
+#pageContent button {
+    height: 2%;
+    width: 15%;
+}
+#specs {
+    list-style-type: none;
+    padding: 0;
+    border: 1px solid #ddd;
+    width: 50%;
+}
+#specs li {
+    padding: 8px 16px;
+    border-bottom: 1px solid #ddd;
+}
+#categoryDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#headDiv {
+    background-color: rgb(126,208,222);
+    color: rgb(0,54,100); 
+    padding: 2%;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+}
+#productDiv {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+#footerDiv{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    min-height: 200px;
+    text-align: center;
+    list-style-position: inside;
+}
+#head {
+    font-family: Helvetica;
+    font-size: 500%;
+    margin: 10px;
+    display: inline-block;
+}
+#searchInput {
+    width: 20%;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 15px 5px 15px;
+    font-size: 120%;
+}
+#searchBtn {
+    width: 5%;
+    background-color: rgb(0,54,100);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 15px 5px 15px;
+    font-size: 120%;
+}
+#shoppingCartBtn {
+    width: 5%;
+    border-radius: 20px;
+    padding: 5px 15px 5px 15px;
+    margin-left: auto;
+}
+#shoppingCart {
+    height: 45%;
+    width: 45%;
+}
+#logoImg {
+    width: 15%;
+    height: 15%;
+    padding: 10px;
+} 
+
+#infoSeperator{
+    height: 1px;
+    color:rgb(0,54,100);
+    background-color: rgb(0,54,100);
+}

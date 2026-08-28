@@ -1,0 +1,38 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@using DeepDive.Models
+
+@section categorySector {
+    <div id="categoryDiv">
+        <a asp-controller="Category" asp-action="Show" asp-route-id="BCD" class="btn btn-secondary">
+            BCD
+        </a>
+        <a asp-controller="Category" asp-action="Show" asp-route-id="DivingSuit" class="btn btn-secondary">
+            Dragter
+        </a>
+        <a asp-controller="Category" asp-action="Show" asp-route-id="Fin" class="btn btn-secondary">
+            Finner
+        </a>
+        <a asp-controller="Category" asp-action="Show" asp-route-id="RegulatorSet" class="btn btn-secondary">
+            Regulatorsæt
+        </a>
+        <a asp-controller="Category" asp-action="Show" asp-route-id="Snorkel" class="btn btn-secondary">
+            Snorkler
+        </a>
+        <a asp-controller="Category" asp-action="Show" asp-route-id="Tank" class="btn btn-secondary">
+            Tanke
+        </a>
+    </div>
+}
+
+<div class="d-flex flex-wrap">
+    @foreach (Product product in Model)
+    {
+        <div class="card m-1" style="width: 18rem;">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+                <p class="card-text">"@($"{product.GetUniqueInfo()}")"</p>
+            </div>
+        </div>
+    }
+</div>
