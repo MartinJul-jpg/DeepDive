@@ -12,8 +12,7 @@ namespace DeepDive.Controllers
 
         public IActionResult Show(int id)
         {
-            List<Product> repoList = new List<Product>(Repository.ProductRepository.GetAll());
-            Product product = repoList.Find(product => product.ProductId == id);
+            Product product = Repository.ProductRepository.GetById(id);
 
             return View(product);
         }
