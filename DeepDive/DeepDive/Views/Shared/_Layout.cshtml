@@ -12,7 +12,9 @@
 <body>
     <header>
         <div id="headDiv">
-            <img id="logoImg" src="~/lib/custom/resource/logo.png">
+            <a asp-controller="Home" asp-action="Index">
+                <img src="~/lib/custom/resource/logo.png" id="logoImg">
+            </a>
             <h1 id="head">
                 DIVE DEEP
             </h1>
@@ -20,7 +22,7 @@
             <button id="searchBtn">
                 SØG
             </button>
-            <a asp-controller="Basket" asp-action="Index" id="shoppingCartBtn" class="btn btn-secondary">
+            <a asp-controller="Basket" asp-action="Index" id="shoppingCartBtn" class="btn btn-primary">
                 <img id="shoppingCart"
                      src="~/lib/custom/resource/whiteshoppingCart.png"
                      alt="Shopping cart">
