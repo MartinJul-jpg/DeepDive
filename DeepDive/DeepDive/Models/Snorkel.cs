@@ -8,7 +8,7 @@ namespace DeepDive.Models
 
         public override string GetUniqueInfo()
         {
-            return $"{this.GetProductInfo()} Model: {Model}";
+            return $"{this.GetProductInfo()} Model: {Model}{"\n"}";
         }
     }
 }

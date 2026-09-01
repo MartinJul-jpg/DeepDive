@@ -7,7 +7,7 @@
 
         public override string GetUniqueInfo()
         {
-            return $"{this.GetProductInfo()} Model: {Model} Size: {Size}";
+            return $"{this.GetProductInfo()} Model: {Model}{"\n"} Size: {Size}{"\n"}";
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+﻿@using DeepDive.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @section categorySector {
     <div id="categoryDiv">
@@ -24,5 +25,15 @@
 }
 
 <p>
-    HOME/INDEX PAGE content
+    <div class="d-flex flex-wrap">
+        @foreach (Package package in Model)
+        {
+            <div class="card m-1" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <a asp-controller="Package" asp-action="Show" asp-route-id="@($"{package.PackageId}")" class="card-text">"@($"{package.GetInfo()}")"</a>
+                </div>
+            </div>
+        }
+    </div>
 </p>

@@ -12,7 +12,7 @@ namespace DeepDive.Controllers
 
         public IActionResult Show(string id)
         {
-            List<Product> repoList = new List<Product>(Repository.ProductRepository.GetAll());
+            List<Product> repoList = new List<Product>(Repository.ProductRepository.GetAllProducts());
             List<Product> resultList = new List<Product>();
 
             foreach (Product product in repoList)

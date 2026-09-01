@@ -7,59 +7,59 @@ namespace DeepDive.Repository
         private static List<Product> products = new List<Product> {
             new BCD
             {
-                ProductId = 1,
+                ProductId = 10,
                 Brand = "Scubapro",
                 Model = "Navigator Lite BCD",
                 Size = "S,M,L",
                 Price = 125.0
             },
             new BCD{
-                ProductId = 2,
+                ProductId = 11,
                 Brand = "Scubapro",
                 Model = "BCD Glide",
                 Size = "S,M,L",
                 Price = 140.0
             },
             new BCD{
-                ProductId = 3,
+                ProductId = 12,
                 Brand = "Scubapro",
                 Model = "BCD Hydros Pro",
                 Size = "S,M,L",
                 Price = 200.0
             },
             new BCD{
-                ProductId = 4,
+                ProductId = 13,
                 Brand = "Seac",
                 Model = "BCD Modular",
                 Size = "S,M,L",
                 Price = 125.0
             },
             new Tank{
-                ProductId = 5,
+                ProductId = 20,
                 Brand = "ScubaPro",
                 Volume = "5 liter",
                 Price = 150.0
             },
             new Tank{
-                ProductId = 6,
+                ProductId = 21,
                 Brand = "ScubaPro",
                 Volume = "10 liter",
                 Price = 160.0
             },
             new Tank{
-                ProductId = 7,
+                ProductId = 22,
                 Brand = "ScubaPro",
                 Volume = "12 liter",
                 Price = 170.0
             },
             new Tank{
-                ProductId = 8,
+                ProductId = 23,
                 Brand = "ScubaPro",
                 Volume = "15 liter",
                 Price = 180.0
             },
             new RegulatorSet{
-                ProductId = 9,
+                ProductId = 30,
                 Brand = "ScubaPro",
                 FirstStage = "MK25EVO",
                 SecondStage = "S600",
@@ -67,7 +67,7 @@ namespace DeepDive.Repository
                 Price = 125.0
             },
             new RegulatorSet{
-                ProductId = 10,
+                ProductId = 31,
                 Brand = "ScubaPro",
                 FirstStage = "MK17EVO",
                 SecondStage = "C370",
@@ -75,7 +75,7 @@ namespace DeepDive.Repository
                 Price = 100.0
             },
             new RegulatorSet{
-                ProductId = 11,
+                ProductId = 32,
                 Brand = "ScubaPro",
                 FirstStage = "MK25EVO BT",
                 SecondStage = "A700 Carbon BT",
@@ -83,49 +83,49 @@ namespace DeepDive.Repository
                 Price = 150.0
             },
             new Fin{
-                ProductId = 12,
+                ProductId = 40,
                 Brand = "ScubaPro",
                 Model = "Jet Fin",
                 Size = "XS,S,M,L,XL",
                 Price = 50.0
             },
             new Fin{
-                ProductId = 13,
+                ProductId = 41,
                 Brand = "ScubaPro",
                 Model = "GO Travel",
                 Size = "XS,S,M,L,XL",
                 Price = 50.0
             },
             new Fin{
-                ProductId = 14,
+                ProductId = 42,
                 Brand = "ScubaPro",
                 Model = "Seawing Supernova",
                 Size = "XS,S,M,L,XL",
                 Price = 60.0
             },
             new Fin{
-                ProductId = 15,
+                ProductId = 43,
                 Brand = "Seac",
                 Model = "Propulsion",
                 Size = "XS,S,M,L,XL",
                 Price = 50.0
             },
             new Fin{
-                ProductId = 16,
+                ProductId = 44,
                 Brand = "Seac",
                 Model = "ALA",
                 Size = "XS,S,M,L,XL",
                 Price = 50.0
             },
             new Fin{
-                ProductId = 17,
+                ProductId = 45,
                 Brand = "Fourth Element",
                 Model = "Tech",
                 Size = "XS,S,M,L,XL",
                 Price = 75.0
             },
             new Fin{
-                ProductId = 18,
+                ProductId = 46,
                 Brand = "Fourth Element",
                 Model = "Rec Fin",
                 Size = "XS,S,M,L,XL",
@@ -133,7 +133,7 @@ namespace DeepDive.Repository
             },
             new DivingSuit
             {
-                ProductId = 19,
+                ProductId = 50,
                 Brand = "Scubapro",
                 Model = "Definition",
                 Size = "XS,S,N,L,XL",
@@ -144,7 +144,7 @@ namespace DeepDive.Repository
             },
             new DivingSuit
             {
-                ProductId = 20,
+                ProductId = 51,
                 Brand = "Scubapro",
                 Model = "Definition",
                 Size = "XS,S,N,L,XL",
@@ -155,7 +155,7 @@ namespace DeepDive.Repository
             },
             new DivingSuit
             {
-                ProductId = 21,
+                ProductId = 52,
                 Brand = "Scubapro",
                 Model = "Definition",
                 Size = "XS,S,N,L,XL",
@@ -166,7 +166,7 @@ namespace DeepDive.Repository
             },
             new DivingSuit
             {
-                ProductId = 22,
+                ProductId = 53,
                 Brand = "Waterproof",
                 Model = "W5",
                 Size = "XS,S,N,L,XL",
@@ -177,7 +177,7 @@ namespace DeepDive.Repository
             },
             new DivingSuit
             {
-                ProductId = 23,
+                ProductId = 54,
                 Brand = "Fourth Element",
                 Model = "Proteus",
                 Size = "XS,S,N,L,XL",
@@ -188,7 +188,7 @@ namespace DeepDive.Repository
             },
             new DivingSuit
             {
-                ProductId = 24,
+                ProductId = 55,
                 Brand = "Scubapro",
                 Model = "Exodry 4.0",
                 Size = "XS,S,N,L,XL",
@@ -199,7 +199,7 @@ namespace DeepDive.Repository
             },
             new DivingSuit
             {
-                ProductId = 25,
+                ProductId = 56,
                 Brand = "Waterproof",
                 Model = "D7 Evo",
                 Size = "XS,S,N,L,XL",
@@ -208,9 +208,9 @@ namespace DeepDive.Repository
                 Thickness = " ",
                 Price = 320
             },
-        new DivingSuit
+            new DivingSuit
             {
-                ProductId = 26,
+                ProductId = 57,
                 Brand = "Santi",
                 Model = "E.Lite plus",
                 Size = "XS,S,N,L,XL",
@@ -220,57 +220,78 @@ namespace DeepDive.Repository
                 Price = 350
             },
             new Snorkel{
-                ProductId = 27,
+                ProductId = 60,
                 Brand = "Scubapro",
                 Model = "Ghost",
                 Price = 50
             },
             new Snorkel{
-                ProductId = 28,
+                ProductId = 61,
                 Brand = "Scubapro",
                 Model = "D-Mask",
                 Price = 60
             },
             new Snorkel{
-                ProductId = 29,
+                ProductId = 62,
                 Brand = "Scubapro",
                 Model = "Spectra Mini",
                 Price = 50
             },
             new Snorkel{
-                ProductId = 30,
+                ProductId = 63,
                 Brand = "Scubapro",
                 Model = "Crystal VU",
                 Price = 75
             },
             new Snorkel{
-                ProductId = 31,
+                ProductId = 64,
                 Brand = "Fourth Element",
                 Model = "Scout Kontrast",
                 Price = 75
             },
             new Snorkel{
-                ProductId = 32,
+                ProductId = 65,
                 Brand = "Fourth Element",
                 Model = "Scout Enhance",
                 Price = 75.0
             },
             new Snorkel{
-                ProductId = 33,
+                ProductId = 66,
                 Brand = "Tusa",
                 Model = "Element",
                 Price = 75.0
             },
         };
+        private static List<Package> packages = new List<Package>()
+        {
+            new DivingPackage(GetProductById(10) as BCD, GetProductById(50) as DivingSuit, GetProductById(30) as RegulatorSet, GetProductById(20) as Tank, GetProductById(40) as Fin, GetProductById(60) as Snorkel)
+            {
+                PackageId = 10
+            }, 
+            new SnorkelPackage(GetProductById(60) as Snorkel, GetProductById(40) as Fin)
+            {
+                PackageId = 20
+            }
+        };
 
-        public static List<Product> GetAll()
+        public static List<Product> GetAllProducts()
         {
             return products;
         }
 
-        public static Product? GetById(int id)
+        public static Product? GetProductById(int id)
         {
             return products.FirstOrDefault(product => product.ProductId == id);
+        }
+
+        public static List<Package> GetAllPackages()
+        {
+            return packages;
+        }
+
+        public static Package? GetPackageById(int id)
+        {
+            return packages.FirstOrDefault(package => package.PackageId == id);
         }
     }
 }
