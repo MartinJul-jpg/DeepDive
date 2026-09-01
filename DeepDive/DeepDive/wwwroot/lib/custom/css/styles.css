@@ -186,3 +186,15 @@ img {
     margin: 0px 5px 0px 15%;
     list-style-type: none;
 }
+
+#productGrid {
+
+    width: 100%;
+    margin: 0;
+    padding: 1%;
+}
+
+#productText {
+    text-decoration: none;
+    color: black;
+}
