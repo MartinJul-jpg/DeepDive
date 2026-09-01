@@ -10,7 +10,7 @@
 
         public string GetProductInfo() 
         {
-            return $"Price: {Price} Brand: {Brand}";
+            return $"Price: {Price}{"\n"} Brand: {Brand}{"\n"}";
         }
     }
 }

@@ -10,7 +10,7 @@ namespace DeepDive.Models
 
         public override string GetUniqueInfo()
         {
-            return $"{this.GetProductInfo()} FirstStage: {FirstStage} SecondStage: {SecondStage} Octopus: {Octopus}";
+            return $"{this.GetProductInfo()} FirstStage: {FirstStage}{"\n"} SecondStage: {SecondStage}{"\n"} Octopus: {Octopus}{"\n"}";
         }
     }
 }

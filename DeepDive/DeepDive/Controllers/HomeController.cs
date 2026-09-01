@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DeepDive.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DeepDive.Controllers
 {
@@ -6,7 +7,9 @@ namespace DeepDive.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            List<Package> packages =  new List<Package>(Repository.ProductRepository.GetAllPackages());
+
+            return View(packages);
         }
     }
 }

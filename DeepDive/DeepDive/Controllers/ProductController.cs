@@ -12,7 +12,7 @@ namespace DeepDive.Controllers
 
         public IActionResult Show(int id)
         {
-            Product product = Repository.ProductRepository.GetById(id);
+            Product product = Repository.ProductRepository.GetProductById(id);
 
             return View(product);
         }
