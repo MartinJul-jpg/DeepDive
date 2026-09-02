@@ -12,5 +12,9 @@ namespace DeepDive.Models
         {
             return $"{this.GetProductInfo()} FirstStage: {FirstStage}{"\n"} SecondStage: {SecondStage}{"\n"} Octopus: {Octopus}{"\n"}";
         }
+        public override string GetUniqueInfoPage()
+        {
+            return $"FirstStage: {FirstStage}{"\n"} SecondStage: {SecondStage}{"\n"} Octopus: {Octopus}{"\n"}";
+        }
     }
 }

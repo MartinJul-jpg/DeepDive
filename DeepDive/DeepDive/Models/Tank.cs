@@ -10,5 +10,9 @@ namespace DeepDive.Models
         {
             return $"{this.GetProductInfo()} Volume: {Volume}{"\n"}";
         }
+        public override string GetUniqueInfoPage()
+        {
+            return $"Volume: {Volume}{"\n"}";
+        }
     }
 }

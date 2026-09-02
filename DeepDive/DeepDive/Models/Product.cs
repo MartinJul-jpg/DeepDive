@@ -7,10 +7,12 @@
         public string Brand { get; set; }
 
         public abstract string GetUniqueInfo();
+        public abstract string GetUniqueInfoPage();
 
         public string GetProductInfo() 
         {
             return $"Price: {Price}{"\n"} Brand: {Brand}{"\n"}";
         }
+        
     }
 }

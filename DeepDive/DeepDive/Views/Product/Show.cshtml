@@ -22,10 +22,31 @@
         </a>
     </div>
 }
-
-<div class="card m-1" style="width: 18rem;">
-    <img src="~/lib/custom/resource/product-placeholder.png" class="card-img-top">
-    <div class="card-body">
-        <p class="card-text">"@($"{Model.GetUniqueInfo()}")"</p>
+<div class="container text-center m-5">
+    <div class="row">
+        <div class="col">
+            <img src="~/lib/custom/resource/product-placeholder.png" class="card">
+        </div>
+        <div class="col">
+            <h3>@($"{Model.Brand}")</h3>
+            <br />
+            @($"{Model.GetUniqueInfoPage()}")
+            <br />
+            @($"Pris: {Model.Price} kr. per dage")
+        </div>
+        <div class="col">
+            <label>Start Dato</label>
+            <br />
+            <input type="date" class="w-25 p3"/>
+            <br />
+            <label>Slut Dato</label>
+            <br />
+            <input type="date" class="w-25 p3" />
+            <br />
+            <label class="m-1">Total Pris [Temp]</label>
+            <br />
+            <button>Book</button>
+        </div>
     </div>
 </div>
+

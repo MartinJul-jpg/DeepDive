@@ -9,5 +9,9 @@
         {
             return $"{this.GetProductInfo()} Model: {Model}{"\n"} Size: {Size}{"\n"}";
         }
+        public override string GetUniqueInfoPage()
+        {
+            return $"Model: {Model}{"\n"} Size: {Size}{"\n"}";
+        }
     }
 }
