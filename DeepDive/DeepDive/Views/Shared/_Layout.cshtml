@@ -5,14 +5,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MovieMania</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css"/>
-    <link rel="stylesheet" href="~/lib/custom/css/styles.css"/>
+    <title>Dive Deep</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/lib/custom/css/styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
         <div id="headDiv">
-            <img id="logoImg" src="~/lib/custom/resource/logo.png">
+            <a asp-controller="Home" asp-action="Index">
+                <img src="~/lib/custom/resource/logo.png" id="logoImg">
+            </a>
             <h1 id="head">
                 DIVE DEEP
             </h1>
@@ -20,7 +22,7 @@
             <button id="searchBtn">
                 SØG
             </button>
-            <a asp-controller="Basket" asp-action="Index" id="shoppingCartBtn" class="btn btn-secondary">
+            <a asp-controller="Basket" asp-action="Index" id="shoppingCartBtn" class="btn btn-primary">
                 <img id="shoppingCart"
                      src="~/lib/custom/resource/whiteshoppingCart.png"
                      alt="Shopping cart">
@@ -36,37 +38,35 @@
     <hr id="infoSeperator">
     <div id="footerDiv">
         <div class="footerBox">
-            Information <br>
+            <h5 class="footerTitle">Information</h5>
+            <ul class="footerList">
+                <li>Åbningstider:</li>
+                <ul id="openTimeList">
+                    <li>Mandag-fredag: 10:00 - 17:30 </li>
+                    <li>Lørdag: 10:00 - 14:00</li>
+                    <li>Søndag: Lukket</li>
+                </ul>
+            </ul>
+        </div>
+        <div class="footerBox">
+            <h5 class="footerTitle">Kundeservice </h5>
             <ul class="footerList">
                 <li>
-                    Adresse her
+                    +45 60 70 80 90
                 </li>
                 <li>
-                    Åbningstider
+                    info@divedeep.dk
                 </li>
             </ul>
         </div>
         <div class="footerBox">
-            Customer Service <br>
+            <h5 class="footerTitle">Dive Deep A/S</h5>
             <ul class="footerList">
-                <li>
-                    +45 12 34 56 78
-                </li>
-                <li>
-                    mail@Customersupport.dk
-                </li>
-            </ul>
-        </div>
-        <div class="footerBox">
-            Dive Deep A/S <br>
-            <ul class="footerList">
-                <li>
-                    Adresse
-                </li>
-                <li>
-                    Kommune
-                </li>
+                <li>Adresse:</li>
+                <li> Dykkervej 10</li>
+                <li>5000 Odense C</li> <br />
 
+                <li>CVR: 81828384</li>
             </ul>
         </div>
     </div>
