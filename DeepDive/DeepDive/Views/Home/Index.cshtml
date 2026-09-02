@@ -25,19 +25,22 @@
 }
 
 <p>
-    <div class="d-flex flex-wrap">
+    <div class="d-flex justify-content-center">
         @foreach (Package package in Model)
         {
-            <div class="card m-1" style="width: 18rem;">
-                @foreach (Product product in package.setList)
-                {
-                    <div class="card m-1" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <a asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")" class="card-text">"@($"{product.GetUniqueInfo()}")"</a>
+            <div class="card m-1">
+                <a id="productText" asp-controller="Package" asp-action="Show" asp-route-id="@($"{package.PackageId}")" class="card-text">@($"Pakke: {package.PackageId}")</a>
+                <div class="d-flex justify-content-left flex-wrap" style="width: 18rem;">
+                    @foreach (Product product in package.setList)
+                    {
+                        <div class="card m-1" style="width: 30%">
+                            <img src="~/lib/custom/resource/product-placeholder.png" class="card-img-top h-auto" alt="...">
+                            <div class="card-body">
+                                <a id="productText" class="card-text">@($"Produkt: {product.ProductId}")</a>
+                            </div>
                         </div>
-                    </div>
-                }
+                    }
+                </div>
             </div>
         }
     </div>
