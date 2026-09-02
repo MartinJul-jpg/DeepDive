@@ -29,10 +29,15 @@
         @foreach (Package package in Model)
         {
             <div class="card m-1" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">
-                    <a asp-controller="Package" asp-action="Show" asp-route-id="@($"{package.PackageId}")" class="card-text">"@($"{package.GetInfo()}")"</a>
-                </div>
+                @foreach (Product product in package.setList)
+                {
+                    <div class="card m-1" style="width: 18rem;">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <a asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")" class="card-text">"@($"{product.GetUniqueInfo()}")"</a>
+                        </div>
+                    </div>
+                }
             </div>
         }
     </div>
