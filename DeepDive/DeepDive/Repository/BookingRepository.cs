@@ -1,19 +1,29 @@
 ﻿using DeepDive.Models;
+using DeepDive.ViewModels;
+using System.Runtime.CompilerServices;
 
 namespace DeepDive.Repository
 {
     public static class BookingRepository
     {
-        private static List<Booking> bookings = new List<Booking>();
+        private static Booking booking;
 
-        public static List<Booking> GetAllBookings()
+        public static Booking GetAllBookings()
         {
-            return bookings;
+            return booking;
         }
 
-        public static Booking? GetBookingById(int id)
+        public static void AddProductToBooking(int id)
         {
-            return bookings.FirstOrDefault(booking => booking.BookingId == id);
+            if (booking == null)
+            {
+                booking = new Booking { BookingId = id};
+            }
+            else
+            {
+                booking.BookedProducts.Add(id);
+
+            }
         }
     }
 }
