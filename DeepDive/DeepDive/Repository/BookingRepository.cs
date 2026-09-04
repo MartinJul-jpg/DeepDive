@@ -14,7 +14,7 @@ namespace DeepDive.Repository
             Booking booking = new Booking();
             booking.BookedProducts = list;
             booking.BookingId = 5;
-            booking.Start = DateOnly.MinValue;
+            //booking.Start = DateOnly.Parse("2026-09-04");
             booking.End = DateOnly.MaxValue;
             bookings.Add(booking);
             return bookings;
