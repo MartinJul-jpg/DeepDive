@@ -8,6 +8,15 @@ namespace DeepDive.Repository
 
         public static List<Booking> GetAllBookings()
         {
+            List<int> list = new List<int>();
+            list.Add(10);
+            list.Add(11);
+            Booking booking = new Booking();
+            booking.BookedProducts = list;
+            booking.BookingId = 5;
+            booking.Start = DateOnly.MinValue;
+            booking.End = DateOnly.MaxValue;
+            bookings.Add(booking);
             return bookings;
         }
 
@@ -15,5 +24,7 @@ namespace DeepDive.Repository
         {
             return bookings.FirstOrDefault(booking => booking.BookingId == id);
         }
+
+        
     }
 }

@@ -1,3 +1,44 @@
-﻿<p>
-    BASKET/INDEX PAGE content
-</p>
+﻿@using DeepDive.Repository;
+@using DeepDive.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div>
+    <h1>Kurv</h1>
+    @foreach (Booking booking in BookingRepository.GetAllBookings())
+    {
+        <div class="card cartCard">
+            <div class="d-flex">
+                <div class="col">
+                    <h5 class="fw-bold">Start Dato</h5>
+                    <input type="date" class="w-50 p3" />
+                    <br />
+                </div>
+                <div class="col">
+                    <h5 class="fw-bold">Slut Dato</h5>
+                    <input type="date" class="w-50 p3" />
+                </div>
+            </div>
+
+            
+            <br />
+            <h4>Vare:</h4>
+            @foreach (int productId in booking.BookedProducts)
+            {
+                Product product = ProductRepository.GetProductById(productId);
+                <a id="productText" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")" id="cartItem">@product.GetProductBrand() - Pris pr. dag: Kr. @product.GetProductPrice().ToString(),-</a> <br />
+            }
+            <h5>Total pris: Kr. @booking.TotalPrice.ToString(),-</h5>
+            <br />
+            <div>
+                <div>
+                </div>
+                <div>
+                </div>
+            </div>
+            <div class="align-content-end">
+                <button class="bottomCartBtn btn btn-success">Book</button>
+                <button class="bottomCartBtn btn btn-danger">Slet</button>
+            </div>
+        </div>
+    }
+</div>
