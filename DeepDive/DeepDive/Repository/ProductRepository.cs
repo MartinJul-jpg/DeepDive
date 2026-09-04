@@ -2,7 +2,7 @@
 
 namespace DeepDive.Repository
 {
-    public class ProductRepository
+    public static class ProductRepository
     {
         private static List<Product> products = new List<Product> {
             new BCD
