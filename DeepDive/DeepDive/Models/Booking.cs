@@ -48,5 +48,10 @@ namespace DeepDive.Models
 
             TotalPrice = totalPrice;
         }
+
+        public Booking()
+        {
+            BookedProducts = new List<int>();
+        }
     }
 }

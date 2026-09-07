@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DeepDive.Models;
+using DeepDive.Repository;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DeepDive.Controllers
 {
@@ -6,7 +8,20 @@ namespace DeepDive.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            Booking booking = BookingRepository.booking;
+            return View(booking);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Booking booking)
+        {
+            if (ModelState.IsValid)
+            {
+                booking.BookedProducts = BookingRepository.booking.BookedProducts;
+                BookingRepository.booking = booking;
+                return RedirectToAction(nameof(Index));
+            }
+            return View(booking);
         }
     }
 }

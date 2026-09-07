@@ -6,26 +6,17 @@ namespace DeepDive.Repository
 {
     public static class BookingRepository
     {
-        private static Booking booking;
-
-        public static Booking GetAllBookings()
-        {
-            return booking;
-        }
+        public static Booking booking;
 
         public static void AddProductToBooking(int id)
         {
             if (booking == null)
             {
-                booking = new Booking { BookingId = id};
+                booking = new Booking { BookingId = id };
             }
-            else
-            {
-                booking.BookedProducts.Add(id);
-
-            }
+            booking.BookedProducts.Add(id);
         }
 
-        
+
     }
 }

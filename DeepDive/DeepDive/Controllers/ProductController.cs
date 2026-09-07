@@ -23,14 +23,8 @@ namespace DeepDive.Controllers
 
         public IActionResult AddBooking(int id)
         {
-            
             BookingRepository.AddProductToBooking(id);
             return RedirectToAction("Index", "Basket");
-            
-
-            
-            
-            
         }
     }
 }
