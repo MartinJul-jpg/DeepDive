@@ -13,6 +13,15 @@
         {
             return $"Price: {Price}{"\n"} Brand: {Brand}{"\n"}";
         }
-        
+
+        public string GetProductBrand()
+        {
+            return $"{Brand}";
+        }
+
+        public string GetProductPrice()
+        {
+            return $"{Price}";
+        }
     }
 }

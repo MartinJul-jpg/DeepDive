@@ -58,6 +58,22 @@ img {
     text-decoration: underline;
 }
 
+.cartCard {
+    text-align: left;
+    width: 70%;
+    height: auto;
+    padding: 30px;
+    margin: auto;
+}
+
+.bottomCartBtn {
+    align-self: end;
+}
+
+#cartItem{
+    height: 5px;
+}
+
 #itemPageTitle {
     font-size: 50px;
     margin: 0;
