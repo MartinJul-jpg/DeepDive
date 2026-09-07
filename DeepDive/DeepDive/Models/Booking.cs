@@ -15,26 +15,21 @@ namespace DeepDive.Models
             }
             set
             {
-                if (true)
-                {
-                    CalculatePriceOfBooking();
-                }
                 _start = value;
+                CalculatePriceOfBooking();
             }
         }
         private DateOnly _end;
-        public DateOnly End {
+        public DateOnly End
+        {
             get
             {
                 return _end;
             }
             set
             {
-                if (true)
-                {
-                    CalculatePriceOfBooking();
-                }
                 _end = value;
+                CalculatePriceOfBooking();
             }
         }
         public double TotalPrice { get; set; }
@@ -45,9 +40,9 @@ namespace DeepDive.Models
             foreach (int productId in BookedProducts)
             {
                 Product product = ProductRepository.GetProductById(productId);
-                
+
                 int daysBooked = End.DayNumber - Start.DayNumber;
-                
+
                 totalPrice += daysBooked * product.Price;
             }
 
