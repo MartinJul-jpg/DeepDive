@@ -8,19 +8,27 @@ namespace DeepDive.Controllers
     {
         public IActionResult Index()
         {
-            Booking booking = BookingRepository.booking;
+            Booking basket = BookingRepository.GetBasket();
+
+            return View(basket);
+        }
+
+        [HttpPost]
+        public IActionResult Index(Booking booking)
+        {
             return View(booking);
         }
 
         [HttpPost]
-        public IActionResult Edit(Booking booking)
+        public IActionResult Add(Booking booking)
         {
             if (ModelState.IsValid)
             {
-                booking.BookedProducts = BookingRepository.booking.BookedProducts;
-                BookingRepository.booking = booking;
-                return RedirectToAction(nameof(Index));
+                BookingRepository.AddBooking(booking);
+                BookingRepository.ClearBasket();
+                return RedirectToAction("Index", "Home");
             }
+
             return View(booking);
         }
     }

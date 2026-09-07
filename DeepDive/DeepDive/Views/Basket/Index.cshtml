@@ -7,21 +7,23 @@
     <h1>Kurv</h1>
 
     @{
-        Booking booking = BookingRepository.booking;
-        if (booking != null)
+        if (Model != null)
         {
             <div class="card cartCard">
                 <div class="d-flex">
-                    <form id="bookingForm" asp-controller="Basket" asp-action="Edit" class="d-flex">
-                        <input type="hidden" asp-for="BookedProducts" />
+                    <form id="bookingForm" asp-controller="Basket" asp-action="Index" class="d-flex">
+                        @for (int i = 0; i < Model.BookedProducts.Count(); i++)
+                        {
+                            <input type="hidden" asp-for="BookedProducts[i]" />
+                        }
                         <div class="col">
                             <h5 class="fw-bold">Start Dato</h5>
-                            <input type="date" asp-for="@booking.Start" onchange="document.getElementById('bookingForm').submit()" class="w-50 p3" />
+                            <input type="date" asp-for="Start" onchange="document.getElementById('bookingForm').submit()" class="w-50 p3" />
                             <br />
                         </div>
                         <div class="col">
                             <h5 class="fw-bold">Slut Dato</h5>
-                            <input type="date" asp-for="@booking.End" onchange="document.getElementById('bookingForm').submit()" class="w-50 p3" />
+                            <input type="date" asp-for="End" onchange="document.getElementById('bookingForm').submit()" class="w-50 p3" />
                         </div>
                     </form>
                 </div>
@@ -29,12 +31,12 @@
 
                 <br />
                 <h4>Vare:</h4>
-                @foreach (int productId in booking.BookedProducts)
+                @foreach (int productId in Model.BookedProducts)
                 {
                     Product product = ProductRepository.GetProductById(productId);
                     <a id="productText" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")" id="cartItem">@product.GetProductBrand() - Pris pr. dag: Kr. @product.GetProductPrice().ToString(),-</a> <br />
                 }
-                <h5>Total pris: Kr. @booking.TotalPrice.ToString(),-</h5>
+                <h5>Total pris: Kr. @Model.TotalPrice.ToString(),-</h5>
                 <br />
                 <div>
                     <div>
@@ -42,9 +44,16 @@
                     <div>
                     </div>
                 </div>
-                <div class="align-content-end">
-                    <button class="bottomCartBtn btn btn-success">Book</button>
-                    <button class="bottomCartBtn btn btn-danger">Slet</button>
+                <div class="align-content-end d-flex justify-content-center flex-wrap">
+                    <form asp-controller="Basket" asp-action="Add">
+                        @for (int i = 0; i < Model.BookedProducts.Count(); i++)
+                        {
+                            <input type="hidden" asp-for="BookedProducts[i]" />
+                        }
+                        <input type="hidden" asp-for="Start" />
+                        <input type="hidden" asp-for="End" />
+                        <input class="bottomCartBtn btn btn-success" style="width: 6rem;" type="submit" value="Book" />
+                    </form>
                 </div>
             </div>
         }
