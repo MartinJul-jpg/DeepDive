@@ -1,28 +1,29 @@
 ﻿using DeepDive.Models;
+using DeepDive.ViewModels;
+using System.Runtime.CompilerServices;
 
 namespace DeepDive.Repository
 {
     public static class BookingRepository
     {
-        private static List<Booking> bookings = new List<Booking>();
+        private static Booking booking;
 
-        public static List<Booking> GetAllBookings()
+        public static Booking GetAllBookings()
         {
-            List<int> list = new List<int>();
-            list.Add(10);
-            list.Add(11);
-            Booking booking = new Booking();
-            booking.BookedProducts = list;
-            booking.BookingId = 5;
-            booking.Start = DateOnly.MinValue;
-            booking.End = DateOnly.MaxValue;
-            bookings.Add(booking);
-            return bookings;
+            return booking;
         }
 
-        public static Booking? GetBookingById(int id)
+        public static void AddProductToBooking(int id)
         {
-            return bookings.FirstOrDefault(booking => booking.BookingId == id);
+            if (booking == null)
+            {
+                booking = new Booking { BookingId = id};
+            }
+            else
+            {
+                booking.BookedProducts.Add(id);
+
+            }
         }
 
         
