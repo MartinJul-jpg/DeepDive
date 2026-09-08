@@ -6,16 +6,16 @@
     <div class="d-flex justify-content-center flex-wrap">
         @foreach (Package package in Model)
         {
+            double _price = 0;
             <a id="productText" class="card m-1" asp-controller="Package" asp-action="Show" asp-route-id="@($"{package.PackageId}")">
-                <h4 id="packageText" class="card-text">@($"Pakke: {package.PackageId}")</h4>
-                <div class="d-flex justify-content-evenly  flex-wrap" style="width: 32rem; padding: 24px">
+                <div class="d-flex justify-content-evenly  flex-wrap" style="width: 32rem; height: 80%; padding: 24px">
                     @foreach (Product product in package.setList)
                     {
-                        <div class="card m-2" style="width: 8rem; height: 8rem">
-                            <img src="~/lib/custom/resource/product-placeholder.png" class="card-img-top h-auto" alt="...">
-                        </div>
+                        _price += product.Price;
+                        <img src="~/lib/custom/resource/product-placeholder.png" class="packageImg" style="width: 8rem; height: 8rem" alt="...">
                     }
                 </div>
+                <h4 id="packageText" class="card-text">Pakkeløsning @package.PackageId - @_price kr. per dag</h4>
             </a>
         }
     </div>

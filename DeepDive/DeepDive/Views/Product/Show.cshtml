@@ -7,15 +7,14 @@
         <div class="col">
             <img src="~/lib/custom/resource/product-placeholder.png" class="card">
         </div>
-        <div class="col">
+        <div class="col productText">
             <h3>@($"{Model.Product.Brand}")</h3>
             <br />
-            @($"{Model.Product.GetUniqueInfoPage()}")
+            <h5>@($"{Model.Product.GetUniqueInfoPage()}")</h5>
             <br />
-            @($"Pris: {Model.Product.Price} kr. per dage")
+            <h5>Pris: @Model.Product.Price kr. per dag</h5>
         </div>
         <div class="col">
-
             <a class="btn btn-primary" asp-controller="Product" asp-action="AddToBasket" asp-route-id="@Model.Product.ProductId">Book</a>
         </div>
     </div>

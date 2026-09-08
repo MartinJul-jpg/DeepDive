@@ -70,6 +70,18 @@ img {
     align-self: end;
 }
 
+.productText{
+    text-align: left;
+}
+
+.packageImg{
+    border: none;
+    border-radius: 10px;
+    margin: 5px;
+    height: 125px;
+    width: 125px;
+}
+
 #cartItem{
     height: 5px;
 }
@@ -211,10 +223,9 @@ img {
 }
 
 #packageText{
-    margin: 20px 20px 0px 20px;
+    margin: 0px 20px 40px 20px;
 }
 
 #packageImageContainer{
     height: 18rem;
-    width: 18rem;
 }
