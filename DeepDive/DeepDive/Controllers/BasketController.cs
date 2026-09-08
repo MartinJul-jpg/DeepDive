@@ -14,22 +14,23 @@ namespace DeepDive.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(Booking booking)
+        public IActionResult Index(Booking basket)
         {
-            return View(booking);
+            BookingRepository.UpdateBasket(basket);
+            return View(basket);
         }
 
         [HttpPost]
-        public IActionResult Add(Booking booking)
+        public IActionResult Add(Booking basket)
         {
             if (ModelState.IsValid)
             {
-                BookingRepository.AddBooking(booking);
+                BookingRepository.AddBooking(basket);
                 BookingRepository.ClearBasket();
                 return RedirectToAction("Index", "Home");
             }
 
-            return View(booking);
+            return RedirectToAction("Index", "Basket");
         }
     }
 }

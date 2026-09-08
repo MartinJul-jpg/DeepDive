@@ -50,6 +50,8 @@
                         }
                         <input type="hidden" asp-for="Start" />
                         <input type="hidden" asp-for="End" />
+                        <input type="hidden" asp-for="DurationInDays" />
+                        <div class="text-danger" asp-validation-summary="All"></div>
                         <input class="bottomCartBtn btn btn-success" style="width: 6rem;" type="submit" value="Book" />
                     </form>
                 </div>
