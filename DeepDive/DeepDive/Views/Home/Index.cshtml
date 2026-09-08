@@ -28,20 +28,17 @@
     <div class="d-flex justify-content-center flex-wrap">
         @foreach (Package package in Model)
         {
-            <div class="card m-1">
-                <a id="productText" asp-controller="Package" asp-action="Show" asp-route-id="@($"{package.PackageId}")" class="card-text">@($"Pakke: {package.PackageId}")</a>
-                <div class="d-flex justify-content-center flex-wrap" style="width: 18rem;">
+            <a id="productText" class="card m-1" asp-controller="Package" asp-action="Show" asp-route-id="@($"{package.PackageId}")">
+                <h4 id="packageText" class="card-text">@($"Pakke: {package.PackageId}")</h4>
+                <div class="d-flex justify-content-evenly  flex-wrap" style="width: 32rem; padding: 24px">
                     @foreach (Product product in package.setList)
                     {
-                        <div class="card m-1" style="width: 8rem;">
+                        <div class="card m-2" style="width: 8rem; height: 8rem">
                             <img src="~/lib/custom/resource/product-placeholder.png" class="card-img-top h-auto" alt="...">
-                            <div class="card-body">
-                                <a id="productText" class="card-text">@($"Produkt: {product.ProductId}")</a>
-                            </div>
                         </div>
                     }
                 </div>
-            </div>
+            </a>
         }
     </div>
 </p>

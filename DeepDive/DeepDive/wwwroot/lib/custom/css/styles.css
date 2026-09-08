@@ -209,3 +209,12 @@ img {
     text-decoration: none;
     color: black;
 }
+
+#packageText{
+    margin: 20px 20px 0px 20px;
+}
+
+#packageImageContainer{
+    height: 18rem;
+    width: 18rem;
+}

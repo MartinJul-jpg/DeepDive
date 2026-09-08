@@ -36,20 +36,6 @@
             @($"Pris: {Model.Product.Price} kr. per dage")
         </div>
         <div class="col">
-            @* <form method="post" asp-controller="product" asp-action="AddBooking">
-            <input type="hidden" asp-for="Product"/>
-            <label>Start Dato</label>
-            <br />
-            <input type="date" asp-for="Booking.Start" class="w-25 p3"/>
-            <br />
-            <label>Slut Dato</label>
-            <br />
-            <input type="date" asp-for="Booking.End"class="w-25 p3" />
-            <br />
-            <label class="m-1">Total Pris [Temp]</label>
-            <br />
-            <input type="submit" class="btn btn-primary" value="Book"/> 
-            </form> *@
 
             <a class="btn btn-primary" asp-controller="Product" asp-action="AddToBasket" asp-route-id="@Model.Product.ProductId">Book</a>
         </div>
