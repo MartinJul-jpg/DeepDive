@@ -2,37 +2,14 @@
 
 @using DeepDive.Models
 
-@section categorySector {
-    <div id="categoryDiv">
-        <a asp-controller="Category" asp-action="Show" asp-route-id="BCD" class="btn categoryBtn btn-secondary">
-            BCD
-        </a>
-        <a asp-controller="Category" asp-action="Show" asp-route-id="DivingSuit" class="btn categoryBtn btn-secondary">
-            Dragter
-        </a>
-        <a asp-controller="Category" asp-action="Show" asp-route-id="Fin" class="btn categoryBtn btn-secondary">
-            Finner
-        </a>
-        <a asp-controller="Category" asp-action="Show" asp-route-id="RegulatorSet" class="btn categoryBtn btn-secondary">
-            Regulatorsæt
-        </a>
-        <a asp-controller="Category" asp-action="Show" asp-route-id="Snorkel" class="btn categoryBtn btn-secondary">
-            Snorkler
-        </a>
-        <a asp-controller="Category" asp-action="Show" asp-route-id="Tank" class="btn categoryBtn btn-secondary">
-            Tanke
-        </a>
-    </div>
-}
-
 <div class="d-flex justify-content-center flex-wrap" id="productGrid">
     @foreach (Product product in Model)
     {
-        <div class="card m-3" style="width: 18rem;">
+        <a id="productText" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")" class="card m-3" style="width: 18rem;">
             <img src="~/lib/custom/resource/product-placeholder.png" class="card-img-top h-auto" alt="...">
             <div class="card-body">
-                <a id="productText" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")" class="card-text">"@($"{product.GetUniqueInfo()}")"</a>
+                <h6 class="card-text">@($"{product.GetUniqueInfo()}")</h6>
             </div>
-        </div>
+        </a>
     }
 </div>
