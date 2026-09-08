@@ -12,11 +12,24 @@
             <br />
             <h5>@($"{Model.Product.GetUniqueInfoPage()}")</h5>
             <br />
-            <h5>Pris: @Model.Product.Price kr. per dag</h5>
+            <h5>@($"Pris: {Model.Product.Price} kr. per dage")</h5>
+            <br />
+            <h5>@($"Mængde: {Model.Product.Amount}")</h5>
         </div>
         <div class="col">
-            <a class="btn btn-primary" asp-controller="Product" asp-action="AddToBasket" asp-route-id="@Model.Product.ProductId">Book</a>
+            <a class="btn btn-primary" id="BookBtn" asp-controller="Product" asp-action="AddToBasket" asp-route-id="@Model.Product.ProductId">Book</a>
         </div>
     </div>
 </div>
-
+@section Scripts {
+    <script>
+        const link = document.getElementById('BookBtn');
+        const amount = @Model.Product.Amount;
+        link.addEventListener('click', (event) => {
+            if (amount <= 0) {
+                event.preventDefault();
+                alert('Produktet er Udbookede ')
+            }
+        });
+    </script>
+}
