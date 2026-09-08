@@ -1,27 +1,31 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using DeepDive.Models;
 
-@section categorySector {
-    <div id="categoryDiv">
-        <a asp-controller="Category" asp-action="Show" asp-route-id="BCD" class="btn btn-secondary">
-            BCD
-        </a>
-        <a asp-controller="Category" asp-action="Show" asp-route-id="DivingSuit" class="btn btn-secondary">
-            Dragter
-        </a>
-        <a asp-controller="Category" asp-action="Show" asp-route-id="Fin" class="btn btn-secondary">
-            Finner
-        </a>
-        <a asp-controller="Category" asp-action="Show" asp-route-id="RegulatorSet" class="btn btn-secondary">
-            Regulatorsæt
-        </a>
-        <a asp-controller="Category" asp-action="Show" asp-route-id="Snorkel" class="btn btn-secondary">
-            Snorkler
-        </a>
-        <a asp-controller="Category" asp-action="Show" asp-route-id="Tank" class="btn btn-secondary">
-            Tanke
-        </a>
+@{
+    double _price = 0;
+    <div class="container text-center m-5">
+        <div class="row">
+            <div class="col">
+                <div id="packageImageContainer" class="card d-flex flex-wrap justify-content-evenly align-content-center">
+                    @foreach (Product product in Model.setList)
+                    {
+                        <img src="~/lib/custom/resource/product-placeholder.png" class="packageImg">
+                        _price += product.Price;
+                    }
+                </div>
+            </div>
+            <div class="col productText">
+                <h3>Pakke: @Model.PackageId</h3>
+                <br />
+                <h5>Pris: @_price kr. per dag</h5>
+            </div>
+            <div class="col">
+                <a class="btn btn-primary" asp-controller="Package" asp-action="AddPackageToBasket" asp-route-id="@Model.PackageId">Book</a>
+            </div>
+        </div>
     </div>
 }
+<<<<<<< HEAD
 
 <div class="card m-1" style="width: 18rem;">
     <img src="~/lib/custom/resource/product-placeholder.png" class="card-img-top">
@@ -30,3 +34,5 @@
     </div>
 </div>
 
+=======
+>>>>>>> origin/main

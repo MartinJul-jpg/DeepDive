@@ -1,4 +1,5 @@
 ﻿using DeepDive.Models;
+using DeepDive.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeepDive.Controllers
@@ -15,6 +16,16 @@ namespace DeepDive.Controllers
             Package package = Repository.ProductRepository.GetPackageById(id);
 
             return View(package);
+        }
+
+        public IActionResult AddPackageToBasket(int id)
+        {
+            Package package = ProductRepository.GetPackageById(id);
+            foreach (Product product in package.setList)
+            {
+                BookingRepository.AddProductToBasket(product.ProductId);
+            }
+            return RedirectToAction("Index", "Basket");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DeepDive.Repository;
+using System.ComponentModel.DataAnnotations;
 
 namespace DeepDive.Models
 {
@@ -17,6 +18,7 @@ namespace DeepDive.Models
             {
                 _start = value;
                 CalculatePriceOfBooking();
+                DurationInDays = _end.DayNumber - _start.DayNumber;
             }
         }
         private DateOnly _end;
@@ -30,8 +32,12 @@ namespace DeepDive.Models
             {
                 _end = value;
                 CalculatePriceOfBooking();
+                DurationInDays = _end.DayNumber - _start.DayNumber;
             }
         }
+        private int _durationInDays;
+        [Range(1, int.MaxValue)]
+        public int DurationInDays { get; set; }
         public double TotalPrice { get; set; }
 
         public void CalculatePriceOfBooking()

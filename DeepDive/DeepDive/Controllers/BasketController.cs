@@ -14,24 +14,26 @@ namespace DeepDive.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(Booking booking)
+        public IActionResult Index(Booking basket)
         {
-            return View(booking);
+            BookingRepository.UpdateBasket(basket);
+            return View(basket);
         }
 
         [HttpPost]
-        public IActionResult Add(Booking booking)
+        public IActionResult Add(Booking basket)
         {
             if (ModelState.IsValid)
             {
-                BookingRepository.AddBooking(booking);
-                booking.BookedProducts.ToList().ForEach(product => ProductRepository.RemoveAmount(product, 1));
+                BookingRepository.AddBooking(basket);
+                //Change this to be more dynamic instead of static
+                basket.BookedProducts.ToList().ForEach(product => ProductRepository.RemoveAmount(product, 1));
 
                 BookingRepository.ClearBasket();
                 return RedirectToAction("Index", "Home");
             }
 
-            return View(booking);
+            return RedirectToAction("Index", "Basket");
         }
     }
 }
