@@ -25,6 +25,8 @@ namespace DeepDive.Controllers
             if (ModelState.IsValid)
             {
                 BookingRepository.AddBooking(booking);
+                booking.BookedProducts.ToList().ForEach(product => ProductRepository.RemoveAmount(product, 1));
+
                 BookingRepository.ClearBasket();
                 return RedirectToAction("Index", "Home");
             }

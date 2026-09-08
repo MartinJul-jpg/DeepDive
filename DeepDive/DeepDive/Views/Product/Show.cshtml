@@ -47,7 +47,7 @@
         const link = document.getElementById('BookBtn');
         const amount = @Model.Product.Amount;
         link.addEventListener('click', (event) => {
-            if (amount == 0) {
+            if (amount <= 0) {
                 event.preventDefault();
                 alert('Produktet er Udbookede ')
             }

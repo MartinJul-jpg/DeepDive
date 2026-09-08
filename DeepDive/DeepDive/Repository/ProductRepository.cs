@@ -312,9 +312,11 @@ namespace DeepDive.Repository
             return products;
         }
 
-        public static Product RemoveAmount (int id)
+        public static Product? RemoveAmount (int id, int amount)
         {
-            return products.FirstOrDefault(product => product.ProductId == id); ;
+            Product Tmproduct = GetProductById(id)!;
+            Tmproduct.Amount -= amount;
+            return Tmproduct;
         }
 
         public static Product? GetProductById(int id)
