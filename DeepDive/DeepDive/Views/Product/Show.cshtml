@@ -34,25 +34,23 @@
             @($"{Model.Product.GetUniqueInfoPage()}")
             <br />
             @($"Pris: {Model.Product.Price} kr. per dage")
+            <br />
+            @($"Mængde: {Model.Product.Amount}")
         </div>
         <div class="col">
-            @* <form method="post" asp-controller="product" asp-action="AddBooking">
-            <input type="hidden" asp-for="Product"/>
-            <label>Start Dato</label>
-            <br />
-            <input type="date" asp-for="Booking.Start" class="w-25 p3"/>
-            <br />
-            <label>Slut Dato</label>
-            <br />
-            <input type="date" asp-for="Booking.End"class="w-25 p3" />
-            <br />
-            <label class="m-1">Total Pris [Temp]</label>
-            <br />
-            <input type="submit" class="btn btn-primary" value="Book"/> 
-            </form> *@
-
-            <a class="btn btn-primary" asp-controller="Product" asp-action="AddToBasket" asp-route-id="@Model.Product.ProductId">Book</a>
+            <a class="btn btn-primary" id="BookBtn" asp-controller="Product" asp-action="AddToBasket" asp-route-id="@Model.Product.ProductId">Book</a>
         </div>
     </div>
 </div>
-
+@section Scripts {
+    <script>
+        const link = document.getElementById('BookBtn');
+        const amount = @Model.Product.Amount;
+        link.addEventListener('click', (event) => {
+            if (amount == 0) {
+                event.preventDefault();
+                alert('Produktet er Udbookede ')
+            }
+        });
+    </script>
+}
