@@ -6,26 +6,41 @@ namespace DeepDive.Repository
 {
     public static class BookingRepository
     {
-        private static Booking booking;
+        private static Booking _basket;
+        private static List<Booking> _bookings = new List<Booking>();
 
-        public static Booking GetAllBookings()
+        public static Booking GetBasket()
         {
-            return booking;
+            return _basket;
         }
 
-        public static void AddProductToBooking(int id)
+        public static void AddProductToBasket(int id)
         {
-            if (booking == null)
+            if (_basket == null)
             {
-                booking = new Booking { BookingId = id};
+                _basket = new Booking();
             }
-            else
-            {
-                booking.BookedProducts.Add(id);
 
-            }
+            _basket.BookedProducts.Add(id);
+            _basket.Start = DateOnly.FromDateTime(DateTime.Today);
+            _basket.End = DateOnly.FromDateTime(DateTime.Today.AddDays(1));
         }
 
-        
+        public static void ClearBasket()
+        {
+            _basket = null;
+        }
+
+        public static void AddBooking(Booking basket)
+        {
+            Booking booking = new Booking();
+
+            booking.BookingId = _bookings.Any() ? _bookings.Max(x => x.BookingId) + 1 : 1;
+            booking.BookedProducts = basket.BookedProducts;
+            booking.Start = basket.Start;
+            booking.End = basket.End;
+
+            _bookings.Add(booking);
+        }
     }
 }

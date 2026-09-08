@@ -5,7 +5,7 @@ namespace DeepDive.Models
     public class Booking
     {
         public int BookingId { get; set; }
-        public List<int> BookedProducts { get; set; }
+        public List<int> BookedProducts { get; set; } = new List<int>();
         private DateOnly _start;
         public DateOnly Start
         {
@@ -41,7 +41,7 @@ namespace DeepDive.Models
             {
                 Product product = ProductRepository.GetProductById(productId);
 
-                int daysBooked = End.DayNumber - Start.DayNumber;
+                int daysBooked = _end.DayNumber - _start.DayNumber;
 
                 totalPrice += daysBooked * product.Price;
             }
