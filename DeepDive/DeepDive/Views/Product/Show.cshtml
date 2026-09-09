@@ -1,58 +1,35 @@
 ﻿@using DeepDive.ViewModels
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model BookingViewModel;
-@section categorySector {
-    <div id="categoryDiv">
-        <a asp-controller="Category" asp-action="Show" asp-route-id="BCD" class="btn categoryBtn btn-secondary">
-            BCD
-        </a>
-        <a asp-controller="Category" asp-action="Show" asp-route-id="DivingSuit" class="btn categoryBtn btn-secondary">
-            Dragter
-        </a>
-        <a asp-controller="Category" asp-action="Show" asp-route-id="Fin" class="btn categoryBtn btn-secondary">
-            Finner
-        </a>
-        <a asp-controller="Category" asp-action="Show" asp-route-id="RegulatorSet" class="btn categoryBtn btn-secondary">
-            Regulatorsæt
-        </a>
-        <a asp-controller="Category" asp-action="Show" asp-route-id="Snorkel" class="btn categoryBtn btn-secondary">
-            Snorkler
-        </a>
-        <a asp-controller="Category" asp-action="Show" asp-route-id="Tank" class="btn categoryBtn btn-secondary">
-            Tanke
-        </a>
-    </div>
-}
+
 <div class="container text-center m-5">
     <div class="row">
         <div class="col">
             <img src="~/lib/custom/resource/product-placeholder.png" class="card">
         </div>
-        <div class="col">
+        <div class="col productText">
             <h3>@($"{Model.Product.Brand}")</h3>
             <br />
-            @($"{Model.Product.GetUniqueInfoPage()}")
+            <h5>@($"{Model.Product.GetUniqueInfoPage()}")</h5>
             <br />
-            @($"Pris: {Model.Product.Price} kr. per dage")
+            <h5>@($"Pris: {Model.Product.Price} kr. per dage")</h5>
+            <br />
+            <h5>@($"Mængde: {Model.Product.Amount}")</h5>
         </div>
         <div class="col">
-            @* <form method="post" asp-controller="product" asp-action="AddBooking">
-            <input type="hidden" asp-for="Product"/>
-            <label>Start Dato</label>
-            <br />
-            <input type="date" asp-for="Booking.Start" class="w-25 p3"/>
-            <br />
-            <label>Slut Dato</label>
-            <br />
-            <input type="date" asp-for="Booking.End"class="w-25 p3" />
-            <br />
-            <label class="m-1">Total Pris [Temp]</label>
-            <br />
-            <input type="submit" class="btn btn-primary" value="Book"/> 
-            </form> *@
-
-            <a class="btn btn-primary" asp-controller="Product" asp-action="AddToBasket" asp-route-id="@Model.Product.ProductId">Book</a>
+            <a class="btn btn-primary" id="BookBtn" asp-controller="Product" asp-action="AddToBasket" asp-route-id="@Model.Product.ProductId">Book</a>
         </div>
     </div>
 </div>
-
+@section Scripts {
+    <script>
+        const link = document.getElementById('BookBtn');
+        const amount = @Model.Product.Amount;
+        link.addEventListener('click', (event) => {
+            if (amount <= 0) {
+                event.preventDefault();
+                alert('Produktet er Udbookede ')
+            }
+        });
+    </script>
+}

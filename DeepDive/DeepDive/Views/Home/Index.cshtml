@@ -1,47 +1,22 @@
 ﻿@using DeepDive.Models
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
-@section categorySector {
-    <div id="categoryDiv">
-        <a asp-controller="Category" asp-action="Show" asp-route-id="BCD" class="btn categoryBtn btn-secondary">
-            BCD
-        </a>
-        <a asp-controller="Category" asp-action="Show" asp-route-id="DivingSuit" class="btn categoryBtn btn-secondary">
-            Dragter
-        </a>
-        <a asp-controller="Category" asp-action="Show" asp-route-id="Fin" class="btn categoryBtn btn-secondary">
-            Finner
-        </a>
-        <a asp-controller="Category" asp-action="Show" asp-route-id="RegulatorSet" class="btn categoryBtn btn-secondary">
-            Regulatorsæt
-        </a>
-        <a asp-controller="Category" asp-action="Show" asp-route-id="Snorkel" class="btn categoryBtn btn-secondary">
-            Snorkler
-        </a>
-        <a asp-controller="Category" asp-action="Show" asp-route-id="Tank" class="btn categoryBtn btn-secondary">
-            Tanke
-        </a>
-    </div>
-}
 
 <p>
     <div class="d-flex justify-content-center flex-wrap">
         @foreach (Package package in Model)
         {
-            <div class="card m-1">
-                <a id="productText" asp-controller="Package" asp-action="Show" asp-route-id="@($"{package.PackageId}")" class="card-text">@($"Pakke: {package.PackageId}")</a>
-                <div class="d-flex justify-content-center flex-wrap" style="width: 18rem;">
+            double _price = 0;
+            <a id="productText" class="card m-1" asp-controller="Package" asp-action="Show" asp-route-id="@($"{package.PackageId}")">
+                <div class="d-flex justify-content-evenly  flex-wrap" style="width: 32rem; height: 80%; padding: 24px">
                     @foreach (Product product in package.setList)
                     {
-                        <div class="card m-1" style="width: 8rem;">
-                            <img src="~/lib/custom/resource/product-placeholder.png" class="card-img-top h-auto" alt="...">
-                            <div class="card-body">
-                                <a id="productText" class="card-text">@($"Produkt: {product.ProductId}")</a>
-                            </div>
-                        </div>
+                        _price += product.Price;
+                        <img src="~/lib/custom/resource/product-placeholder.png" class="packageImg" style="width: 8rem; height: 8rem" alt="...">
                     }
                 </div>
-            </div>
+                <h4 id="packageText" class="card-text">Pakkeløsning @package.PackageId - @_price kr. per dag</h4>
+            </a>
         }
     </div>
 </p>

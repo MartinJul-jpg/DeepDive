@@ -14,6 +14,11 @@ namespace DeepDive.Repository
             return _basket;
         }
 
+        public static void UpdateBasket(Booking basket)
+        {
+            _basket = basket;
+        }
+
         public static void AddProductToBasket(int id)
         {
             if (_basket == null)
