@@ -7,6 +7,8 @@ namespace DeepDive.Models
     {
         public int BookingId { get; set; }
         public List<int> BookedProducts { get; set; } = new List<int>();
+
+        public List<Product_Booking> Product_Bookings { get; set; } = new List<Product_Booking>();
         private DateOnly _start;
         public DateOnly Start
         {
