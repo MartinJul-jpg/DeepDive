@@ -20,14 +20,19 @@
                 <h5>@($"Mængde: {Model.Product.Amount}")</h5>
             </div>
             <div class="col justify-content-center">
-                <div class="d-flex justify-content-center" style="width: 250px; height: 40px;">
-                    <button id="addRemoveBtn" class="btn btn-primary">-</button>
-                    <input id="addRemoveBtn" class="" type="number" style="margin: 0;" value="@amount" />
-                    <button id="addRemoveBtn" class="btn btn-primary">+</button>
+                <div class="d-flex justify-content-center" style="height: 40px;">
+                    <button name="minusBtn" class="amountSelector btn btn-primary">-</button>
+                    <input class="amountSelector" type="number" style="margin: 0;" value="@amount" />
+                    <button name="addBtn" class="amountSelector btn btn-primary">+</button>
                 </div>
 
                 <div class="justify-content-center">
-                    <a class="btn btn-success" id="BookBtn" asp-controller="Product" asp-action="AddToBasket" asp-route-id="@Model.Product.ProductId" asp-route-id2="@amount" style="margin: 10px;">Book</a>
+                    <form asp-controller="Product" asp-action="AddToBasket" method="get">
+                        <input type="hidden" name="id" value="@Model.Product.ProductId" />
+                        <input type="hidden" name="amount" id="amountInput" value="@amount" />
+
+                        <button type="submit" class="btn btn-success" style="margin: 10px;">Book</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -35,6 +40,32 @@
 }
 @section Scripts {
     <script>
+        // Plus button click
+        const plusBtn = document.querySelector('button[name="addBtn"]');
+        plusBtn.addEventListener('click', () => {
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+            amountInput.value = quantityInput.value;
+        });
+
+        // Minus button click
+        const minusBtn = document.querySelector('button[name="minusBtn"]');
+        minusBtn.addEventListener('click', () => {
+            if (parseInt(quantityInput.value) > 1) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+                amountInput.value = quantityInput.value;
+            }
+        });
+
+        // Update amount when typed or clicked
+        const quantityInput = document.querySelector('input[type="number"]');
+        const amountInput = document.getElementById('amountInput');
+
+        quantityInput.addEventListener('input', () => {
+            amountInput.value = quantityInput.value;
+        });
+
+
+        // Prevent booking if amount is 0 or less
         const link = document.getElementById('BookBtn');
         const amount = @Model.Product.Amount;
         link.addEventListener('click', (event) => {
