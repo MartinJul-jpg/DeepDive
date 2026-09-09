@@ -82,6 +82,12 @@ img {
     width: 125px;
 }
 
+#addRemoveBtn{
+    height: 40px;
+    width: 80px;
+    margin: 0;
+}
+
 #cartItem{
     height: 5px;
 }
