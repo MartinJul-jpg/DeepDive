@@ -297,13 +297,25 @@ namespace DeepDive.Repository
         };
         private static List<Package> packages = new List<Package>()
         {
-            new DivingPackage(GetProductById(10) as BCD, GetProductById(50) as DivingSuit, GetProductById(30) as RegulatorSet, GetProductById(20) as Tank, GetProductById(40) as Fin, GetProductById(60) as Snorkel)
+            new Package()
             {
-                PackageId = 10
-            }, 
-            new SnorkelPackage(GetProductById(60) as Snorkel, GetProductById(40) as Fin)
+                PackageId = 10,
+                SetList = new List<Product>() {
+                    GetProductById(10) as BCD,
+                    GetProductById(50) as DivingSuit,
+                    GetProductById(30) as RegulatorSet,
+                    GetProductById(20) as Tank,
+                    GetProductById(40) as Fin,
+                    GetProductById(60) as Snorkel}
+            },
+            new Package()
             {
-                PackageId = 20
+                PackageId = 20,
+                SetList = new List<Product>()
+                {
+                    GetProductById(60) as Snorkel,
+                    GetProductById(40) as Fin
+                }
             }
         };
 

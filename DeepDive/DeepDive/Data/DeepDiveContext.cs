@@ -8,10 +8,6 @@ namespace DeepDive.Data
     {
         public DbSet<Package>Packages { get; set; }
 
-        public DbSet<DivingPackage>DivingPackages { get; set; }
-
-        public DbSet<SnorkelPackage> SnorkelPackages { get; set; }
-
         public DbSet<Package_Product> Package_Products { get; set; }
         public DbSet<Booking> Bookings { get; set; }
 
@@ -38,8 +34,42 @@ namespace DeepDive.Data
              * var booking = BookingRepository.GetBasket();
             */
 
-            modelBuilder.Entity<Product>().HasData(products);
-            modelBuilder.Entity<Package>().HasData(packages);
+            //modelBuilder.Entity<Product>().HasData(products);
+
+            foreach (var product in products)
+            {
+                if (product is RegulatorSet)
+                {
+                    modelBuilder.Entity<RegulatorSet>().HasData(product);
+                }
+                if (product is Snorkel)
+                {
+                    modelBuilder.Entity<Snorkel>().HasData(product);
+                }
+                if (product is Tank)
+                {
+                    modelBuilder.Entity<Tank>().HasData(product);
+                }
+                if (product is BCD)
+                {
+                    modelBuilder.Entity<BCD>().HasData(product);
+                }
+                if (product is DivingSuit)
+                {
+                    modelBuilder.Entity<DivingSuit>().HasData(product);
+                }
+                if (product is Fin)
+                {
+                    modelBuilder.Entity<Fin>().HasData(product);
+                }
+
+
+            }
+
+           
+
+
+            //modelBuilder.Entity<Package>().HasData(packages);
 
 
 
@@ -54,21 +84,16 @@ namespace DeepDive.Data
                 .HasValue<DivingSuit>("product_DS")
                 .HasValue<Fin>("product_F");
 
-            modelBuilder.Entity<RegulatorSet>();
+            
             modelBuilder.Entity<Snorkel>();
             modelBuilder.Entity<Tank>();
             modelBuilder.Entity<BCD>();
             modelBuilder.Entity<DivingSuit>();
             modelBuilder.Entity<Fin>();
+            modelBuilder.Entity<RegulatorSet>();
 
-            // Packages table
-            modelBuilder.Entity<Package>()
-            .HasDiscriminator<string>("package_base")
-            .HasValue<DivingPackage>("package_Dive")
-            .HasValue<SnorkelPackage>("package_SNO");
 
-            modelBuilder.Entity<DivingPackage>();
-            modelBuilder.Entity<SnorkelPackage>();
+            
 
 
             // Booking table

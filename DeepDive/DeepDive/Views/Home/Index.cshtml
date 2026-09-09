@@ -9,7 +9,7 @@
             double _price = 0;
             <a id="productText" class="card m-1" asp-controller="Package" asp-action="Show" asp-route-id="@($"{package.PackageId}")">
                 <div class="d-flex justify-content-evenly  flex-wrap" style="width: 32rem; height: 80%; padding: 24px">
-                    @foreach (Product product in package.setList)
+                    @foreach (Product product in package.SetList)
                     {
                         _price += product.Price;
                         <img src="~/lib/custom/resource/product-placeholder.png" class="packageImg" style="width: 8rem; height: 8rem" alt="...">

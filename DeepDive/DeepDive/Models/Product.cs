@@ -6,7 +6,7 @@ namespace DeepDive.Models
     {
         public int ProductId { get; set; }
         public double Price { get; set; }
-        public string Brand { get; set; }
+        public string Brand { get; set; } = string.Empty;
         [Range(0, int.MaxValue)]
         public int Amount { get; set; } = 0;
 

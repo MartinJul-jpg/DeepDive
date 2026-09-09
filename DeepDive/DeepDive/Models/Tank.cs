@@ -4,7 +4,7 @@ namespace DeepDive.Models
 {
     public class Tank : Product
     {
-        public string Volume { get; set; }
+        public string Volume { get; set; } = string.Empty;
 
         public override string GetUniqueInfo()
         {

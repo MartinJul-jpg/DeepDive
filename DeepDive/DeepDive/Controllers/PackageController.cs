@@ -21,7 +21,7 @@ namespace DeepDive.Controllers
         public IActionResult AddPackageToBasket(int id)
         {
             Package package = ProductRepository.GetPackageById(id);
-            foreach (Product product in package.setList)
+            foreach (Product product in package.SetList)
             {
                 BookingRepository.AddProductToBasket(product.ProductId);
             }
