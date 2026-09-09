@@ -64,8 +64,46 @@ namespace DeepDive.Data
                 {
                     package_products.Add(new Package_Product() { PackageId = package.PackageId, ProductId = product.ProductId });
                 }
-
                 modelBuilder.Entity<Package_Product>().HasData(package_products);
+            }
+
+            // pre-seed bookings
+            List<Booking> bookings = new List<Booking>()
+            {
+                new Booking
+                {
+                    BookingId = 1,
+                    Start = DateOnly.FromDateTime(DateTime.Now),
+                    End = DateOnly.FromDateTime(DateTime.Now.AddDays(2)),
+                    BookedProducts = new List<int>()
+                    {
+                        10, 10, 10
+                    }
+                },
+                new Booking
+                {
+                    BookingId = 2,
+                    Start = DateOnly.FromDateTime(DateTime.Now),
+                    End = DateOnly.FromDateTime(DateTime.Now.AddDays(2)),
+                    BookedProducts = new List<int>()
+                    {
+                        20, 20, 20
+                    }
+                }
+            };
+
+            int i = 0;
+            foreach (Booking booking in bookings)
+            {
+                modelBuilder.Entity<Booking>().HasData(booking);
+
+                List<Product_Booking> product_bookings = new List<Product_Booking>();
+                foreach (int productId in booking.BookedProducts)
+                {
+                    i += 1;
+                    product_bookings.Add(new Product_Booking() { Product_BookingId = i, BookingId = booking.BookingId, ProductId = productId });
+                }
+                modelBuilder.Entity<Product_Booking>().HasData(product_bookings);
             }
 
             // Product table
@@ -110,7 +148,7 @@ namespace DeepDive.Data
 
             // Products x Bookings linking table
             modelBuilder.Entity<Product_Booking>()
-                .HasKey(pk => new { pk.ProductId, pk.BookingId });
+                .HasKey(pk => new { pk.Product_BookingId });
 
             modelBuilder.Entity<Product_Booking>()
                 .HasOne<Booking>(p => p.Booking)

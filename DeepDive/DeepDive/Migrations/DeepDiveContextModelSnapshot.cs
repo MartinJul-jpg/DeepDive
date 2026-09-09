@@ -45,6 +45,24 @@ namespace DeepDive.Migrations
                     b.HasKey("BookingId");
 
                     b.ToTable("Bookings");
+
+                    b.HasData(
+                        new
+                        {
+                            BookingId = 1,
+                            DurationInDays = 2,
+                            End = new DateOnly(2026, 9, 11),
+                            Start = new DateOnly(2026, 9, 9),
+                            TotalPrice = 0.0
+                        },
+                        new
+                        {
+                            BookingId = 2,
+                            DurationInDays = 2,
+                            End = new DateOnly(2026, 9, 11),
+                            Start = new DateOnly(2026, 9, 9),
+                            TotalPrice = 0.0
+                        });
                 });
 
             modelBuilder.Entity("DeepDive.Models.Package", b =>
@@ -161,17 +179,63 @@ namespace DeepDive.Migrations
 
             modelBuilder.Entity("DeepDive.Models.Product_Booking", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int>("Product_BookingId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Product_BookingId"));
 
                     b.Property<int>("BookingId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductId", "BookingId");
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Product_BookingId");
 
                     b.HasIndex("BookingId");
 
+                    b.HasIndex("ProductId");
+
                     b.ToTable("Product_Bookings");
+
+                    b.HasData(
+                        new
+                        {
+                            Product_BookingId = 1,
+                            BookingId = 1,
+                            ProductId = 10
+                        },
+                        new
+                        {
+                            Product_BookingId = 2,
+                            BookingId = 1,
+                            ProductId = 10
+                        },
+                        new
+                        {
+                            Product_BookingId = 3,
+                            BookingId = 1,
+                            ProductId = 10
+                        },
+                        new
+                        {
+                            Product_BookingId = 4,
+                            BookingId = 2,
+                            ProductId = 20
+                        },
+                        new
+                        {
+                            Product_BookingId = 5,
+                            BookingId = 2,
+                            ProductId = 20
+                        },
+                        new
+                        {
+                            Product_BookingId = 6,
+                            BookingId = 2,
+                            ProductId = 20
+                        });
                 });
 
             modelBuilder.Entity("DeepDive.Models.BCD", b =>

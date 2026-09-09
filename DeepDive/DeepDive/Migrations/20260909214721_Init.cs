@@ -99,12 +99,14 @@ namespace DeepDive.Migrations
                 name: "Product_Bookings",
                 columns: table => new
                 {
+                    Product_BookingId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     BookingId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Product_Bookings", x => new { x.ProductId, x.BookingId });
+                    table.PrimaryKey("PK_Product_Bookings", x => x.Product_BookingId);
                     table.ForeignKey(
                         name: "FK_Product_Bookings_Bookings_BookingId",
                         column: x => x.BookingId,
@@ -117,6 +119,15 @@ namespace DeepDive.Migrations
                         principalTable: "Products",
                         principalColumn: "ProductId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Bookings",
+                columns: new[] { "BookingId", "DurationInDays", "End", "Start", "TotalPrice" },
+                values: new object[,]
+                {
+                    { 1, 2, new DateOnly(2026, 9, 11), new DateOnly(2026, 9, 9), 0.0 },
+                    { 2, 2, new DateOnly(2026, 9, 11), new DateOnly(2026, 9, 9), 0.0 }
                 });
 
             migrationBuilder.InsertData(
@@ -218,6 +229,19 @@ namespace DeepDive.Migrations
                     { 20, 60 }
                 });
 
+            migrationBuilder.InsertData(
+                table: "Product_Bookings",
+                columns: new[] { "Product_BookingId", "BookingId", "ProductId" },
+                values: new object[,]
+                {
+                    { 1, 1, 10 },
+                    { 2, 1, 10 },
+                    { 3, 1, 10 },
+                    { 4, 2, 20 },
+                    { 5, 2, 20 },
+                    { 6, 2, 20 }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Package_Products_ProductId",
                 table: "Package_Products",
@@ -227,6 +251,11 @@ namespace DeepDive.Migrations
                 name: "IX_Product_Bookings_BookingId",
                 table: "Product_Bookings",
                 column: "BookingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_Bookings_ProductId",
+                table: "Product_Bookings",
+                column: "ProductId");
         }
 
         /// <inheritdoc />
