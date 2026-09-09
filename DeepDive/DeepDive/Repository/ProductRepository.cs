@@ -317,6 +317,7 @@ namespace DeepDive.Repository
             Product product = GetProductById(id)!;
             if (product.Amount >= amount)
             {
+                RemoveAmount(id, 1);
                 return true;
             }
             else return false;
