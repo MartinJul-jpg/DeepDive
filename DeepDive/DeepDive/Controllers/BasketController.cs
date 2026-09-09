@@ -25,14 +25,17 @@ namespace DeepDive.Controllers
         {
             if (ModelState.IsValid)
             {
-                BookingRepository.AddBooking(basket);
-                //Change this to be more dynamic instead of static
-                basket.BookedProducts.ToList().ForEach(product => ProductRepository.RemoveAmount(product, 1));
+                //Checks if product amount is smaller or equal to actuall product amount saved inside storage
+                if (basket.BookedProducts.Any(product => ProductRepository.ProductCheckAmount(product, 1)) == false)
+                {
+                    BookingRepository.AddBooking(basket);
+                    //Change this to be more dynamic instead of static
+                    basket.BookedProducts.ToList().ForEach(product => ProductRepository.RemoveAmount(product, 1));
 
-                BookingRepository.ClearBasket();
-                return RedirectToAction("Index", "Home");
+                    BookingRepository.ClearBasket();
+                    return RedirectToAction("Index", "Home");
+                }
             }
-
             return RedirectToAction("Index", "Basket");
         }
     }
