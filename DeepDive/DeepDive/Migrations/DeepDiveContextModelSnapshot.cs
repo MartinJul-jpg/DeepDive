@@ -30,10 +30,6 @@ namespace DeepDive.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingId"));
 
-                    b.PrimitiveCollection<string>("BookedProducts")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("DurationInDays")
                         .HasColumnType("int");
 
@@ -62,6 +58,16 @@ namespace DeepDive.Migrations
                     b.HasKey("PackageId");
 
                     b.ToTable("Packages");
+
+                    b.HasData(
+                        new
+                        {
+                            PackageId = 10
+                        },
+                        new
+                        {
+                            PackageId = 20
+                        });
                 });
 
             modelBuilder.Entity("DeepDive.Models.Package_Product", b =>
@@ -77,6 +83,48 @@ namespace DeepDive.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Package_Products");
+
+                    b.HasData(
+                        new
+                        {
+                            PackageId = 10,
+                            ProductId = 10
+                        },
+                        new
+                        {
+                            PackageId = 10,
+                            ProductId = 50
+                        },
+                        new
+                        {
+                            PackageId = 10,
+                            ProductId = 30
+                        },
+                        new
+                        {
+                            PackageId = 10,
+                            ProductId = 20
+                        },
+                        new
+                        {
+                            PackageId = 10,
+                            ProductId = 40
+                        },
+                        new
+                        {
+                            PackageId = 10,
+                            ProductId = 60
+                        },
+                        new
+                        {
+                            PackageId = 20,
+                            ProductId = 60
+                        },
+                        new
+                        {
+                            PackageId = 20,
+                            ProductId = 40
+                        });
                 });
 
             modelBuilder.Entity("DeepDive.Models.Product", b =>
@@ -94,9 +142,6 @@ namespace DeepDive.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PackageId")
-                        .HasColumnType("int");
-
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
@@ -106,8 +151,6 @@ namespace DeepDive.Migrations
                         .HasColumnType("nvarchar(13)");
 
                     b.HasKey("ProductId");
-
-                    b.HasIndex("PackageId");
 
                     b.ToTable("Products");
 
@@ -597,13 +640,6 @@ namespace DeepDive.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("DeepDive.Models.Product", b =>
-                {
-                    b.HasOne("DeepDive.Models.Package", null)
-                        .WithMany("SetList")
-                        .HasForeignKey("PackageId");
-                });
-
             modelBuilder.Entity("DeepDive.Models.Product_Booking", b =>
                 {
                     b.HasOne("DeepDive.Models.Booking", "Booking")
@@ -631,8 +667,6 @@ namespace DeepDive.Migrations
             modelBuilder.Entity("DeepDive.Models.Package", b =>
                 {
                     b.Navigation("Package_Products");
-
-                    b.Navigation("SetList");
                 });
 
             modelBuilder.Entity("DeepDive.Models.Product", b =>

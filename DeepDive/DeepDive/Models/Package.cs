@@ -7,8 +7,6 @@
 
         public List<Package_Product> Package_Products { get; set; } = new List<Package_Product>();
 
-
-        
         public string GetInfo()
         {
             string result = string.Empty;
