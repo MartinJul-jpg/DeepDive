@@ -43,7 +43,6 @@ namespace DeepDive.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            }
             return RedirectToAction("Index", "Basket");
         }
     }
