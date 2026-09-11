@@ -34,17 +34,6 @@ namespace DeepDive.Repository
             return product;
         }
 
-        public static bool ProductCheckAmount(int id, int amount)
-        {
-            Product product = GetProductById(id)!;
-            if (product.Amount >= amount)
-            {
-                RemoveAmount(id, 1);
-                return true;
-            }
-            else return false;
-        }
-
         public void AddProductToBasket(int id)
         {
             if (_basketRepository.GetBasket() == null)

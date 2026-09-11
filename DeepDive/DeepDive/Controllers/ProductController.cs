@@ -32,7 +32,7 @@ namespace DeepDive.Controllers
         {
             for (int i = 0; i < amount; i++)
             {
-                BookingRepository.AddProductToBasket(id);
+                _productRepository.AddProductToBasket(id);
             }
             return RedirectToAction("Index", "Basket");
         }

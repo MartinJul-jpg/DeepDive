@@ -33,7 +33,15 @@ namespace DeepDive.Repository
                 _deepDiveContext.Product_Bookings.Add(pb);
             }
             _deepDiveContext.SaveChanges();
-        } 
+        }
+
+        public List<Booking> GetAllBookings()
+        {
+            List<Booking> bookings = _deepDiveContext.Bookings
+                .Include(b => b.Product_Bookings)
+                .ThenInclude(pb => pb.Product).ToList();
+            return bookings;
+        }
 
         public Booking? GetBookingById(int id)
         {

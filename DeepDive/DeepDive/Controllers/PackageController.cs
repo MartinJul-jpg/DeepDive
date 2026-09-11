@@ -32,10 +32,10 @@ namespace DeepDive.Controllers
         {
             for (int i = 0; i < amount; i++)
             {
-                Package package = ProductRepository.GetPackageById(id);
-                foreach (Product product in package.setList)
+                Package package = _productRepository.GetPackageById(id);
+                foreach (Package_Product pp in package.Package_Products)
                 {
-                    BookingRepository.AddProductToBasket(product.ProductId);
+                    _productRepository.AddProductToBasket(pp.ProductId);
                 }
             }
             return RedirectToAction("Index", "Basket");
