@@ -1,17 +1,18 @@
 ﻿using DeepDive.Models;
 using DeepDive.Repository;
-using DeepDive.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeepDive.Controllers
 {
     public class ProductController : Controller
     {
+        private BasketRepository _basketRepository;
         private ProductRepository _productRepository;
         private BookingRepository _bookingRepository;
 
-        public ProductController(ProductRepository productRepository, BookingRepository bookingRepository)
+        public ProductController(BasketRepository basketRepository, ProductRepository productRepository, BookingRepository bookingRepository)
         {
+            _basketRepository = basketRepository;
             _productRepository = productRepository;
             _bookingRepository = bookingRepository;
         }
@@ -29,7 +30,7 @@ namespace DeepDive.Controllers
 
         public IActionResult AddToBasket(int id)
         {
-            _bookingRepository.AddProductToBasket(id);
+            _productRepository.AddProductToBasket(id);
             return RedirectToAction("Index", "Basket");
         }
     }

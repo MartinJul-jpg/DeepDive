@@ -1,6 +1,5 @@
 ﻿using DeepDive.Data;
 using DeepDive.Models;
-using DeepDive.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 
@@ -8,8 +7,6 @@ namespace DeepDive.Repository
 {
     public class BookingRepository
     {
-        private Booking _basket;
-
         private ProductRepository _productRepository;
         private DeepDiveContext _deepDiveContext;
 
@@ -17,39 +14,6 @@ namespace DeepDive.Repository
         {
             _deepDiveContext = deepDiveContext;
             _productRepository = productRepository;
-
-        }
-
-        public Booking GetBasket()
-        {
-            return _basket;
-        }
-
-        public void UpdateBasket(Booking basket)
-        {
-            
-            _basket = basket;
-        }
-
-        public void AddProductToBasket(int id)
-        {
-            if (_basket == null)
-            {
-                _basket = new Booking();
-            }
-
-            _basket.Product_Bookings.Add(new Product_Booking()
-            {
-                Product = _productRepository.GetProductById(id),
-                Booking = _basket
-            });
-            _basket.Start = DateOnly.FromDateTime(DateTime.Today);
-            _basket.End = DateOnly.FromDateTime(DateTime.Today.AddDays(1));
-        }
-
-        public void ClearBasket()
-        {
-            _basket = null;
         }
 
         public void AddBooking(Booking basket)
@@ -77,7 +41,7 @@ namespace DeepDive.Repository
             return booking;
         }
 
-        public bool ValidateBasketOverlap(Booking basket)
+        public bool ValidateBookingOverlap(Booking basket)
         {
             List<DateOnly> dates = new List<DateOnly>();
             for (int days = 0; days < basket.DurationInDays; days++)

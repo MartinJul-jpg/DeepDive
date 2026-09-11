@@ -42,9 +42,6 @@ namespace DeepDive.Models
         public int DurationInDays { get; set; }
         public double TotalPrice { get; set; } 
 
-       
-        // TO DO: Make this a service or move it away from this class
-
         public void CalculatePriceOfBooking()
         {
             double totalPrice = 0;

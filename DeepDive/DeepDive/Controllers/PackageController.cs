@@ -6,11 +6,13 @@ namespace DeepDive.Controllers
 {
     public class PackageController : Controller
     {
+        private BasketRepository _basketRepository;
         private ProductRepository _productRepository;
         private BookingRepository _bookingRepository;
 
-        public PackageController(ProductRepository productRepository, BookingRepository bookingRepository)
+        public PackageController(BasketRepository basketRepository, ProductRepository productRepository, BookingRepository bookingRepository)
         {
+            _basketRepository = basketRepository;
             _productRepository = productRepository;
             _bookingRepository = bookingRepository;
         }
@@ -29,9 +31,9 @@ namespace DeepDive.Controllers
         public IActionResult AddPackageToBasket(int id)
         {
             Package package = _productRepository.GetPackageById(id);
-            foreach (Product product in package.SetList)
+            foreach (Package_Product pp in package.Package_Products)
             {
-                _bookingRepository.AddProductToBasket(product.ProductId);
+                _productRepository.AddProductToBasket(pp.Product.ProductId);
             }
             return RedirectToAction("Index", "Basket");
         }

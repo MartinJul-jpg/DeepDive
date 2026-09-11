@@ -6,10 +6,12 @@ namespace DeepDive.Repository
 {
     public class ProductRepository
     {
+        private BasketRepository _basketRepository;
         private DeepDiveContext _deepDiveContext;
 
-        public ProductRepository(DeepDiveContext deepDiveContext)
+        public ProductRepository(BasketRepository basketRepository, DeepDiveContext deepDiveContext)
         {
+            _basketRepository = basketRepository;
             _deepDiveContext = deepDiveContext;
         }
         public List<Product> GetAllProducts()
@@ -18,13 +20,6 @@ namespace DeepDive.Repository
                 .Include(p => p.Product_Bookings)
                 .ThenInclude(pb => pb.Booking).ToList();
             return products;
-        }
-
-        public Product? RemoveAmount (int id, int amount)
-        {
-            Product Tmproduct = GetProductById(id)!;
-            Tmproduct.Amount -= amount;
-            return Tmproduct;
         }
 
         public Product? GetProductById(int id)
@@ -36,8 +31,23 @@ namespace DeepDive.Repository
                 .ToList()
                 .First();
 
-
             return product;
+        }
+
+        public void AddProductToBasket(int id)
+        {
+            if (_basketRepository.GetBasket() == null)
+            {
+                _basketRepository.ResetBasket();
+            }
+
+            _basketRepository.GetBasket().Product_Bookings.Add(new Product_Booking()
+            {
+                Product = GetProductById(id),
+                Booking = _basketRepository.GetBasket()
+            });
+
+            _basketRepository.GetBasket().CalculatePriceOfBooking();
         }
 
         public List<Package> GetAllPackages()
