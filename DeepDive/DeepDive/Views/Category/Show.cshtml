@@ -5,10 +5,11 @@
 <div class="d-flex justify-content-center flex-wrap" id="productGrid">
     @foreach (Product product in Model)
     {
-        <a id="productText" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")" class="card m-3" style="width: 18rem;">
-            <img src="~/lib/custom/resource/product-placeholder.png" class="card-img-top h-auto" alt="...">
-            <div class="card-body">
-                <h6 class="card-text">@($"{product.GetUniqueInfo()}")</h6>
+        <a id="productText" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")" class="card m-3" style="width: 15vw; height: 18vw;">
+            <img src="~/lib/custom/resource/product-placeholder.png" class="card-img-top h-auto" alt="..." style="height: 80%;">
+            <div class="card-body p-0 productCardText" style="height: 20%;">
+                <p class="card-text m-0" style="font-size: 2vh;">@product.Brand</p>
+                <h6>Kr. @product.Price per. dag</h6>
             </div>
         </a>
     }
