@@ -14,6 +14,11 @@ namespace DeepDive.Repository
             return _basket;
         }
 
+        public static List<Booking> GetBookings()
+        {
+            return _bookings;
+        }
+
         public static void UpdateBasket(Booking basket)
         {
             _basket = basket;
