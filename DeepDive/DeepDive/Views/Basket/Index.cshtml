@@ -6,6 +6,7 @@
     <h1>Kurv</h1>
 
     @{
+        int amount = 1;
         if (Model != null)
         {
             <div class="card cartCard">
@@ -30,17 +31,27 @@
                 <h4>Vare:</h4>
                 @foreach (int productId in Model.BookedProducts)
                 {
+                    @* Enkelt vare *@
                     Product product = ProductRepository.GetProductById(productId);
-                    <a id="productText" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")" id="cartItem">@product.GetProductBrand() - Pris pr. dag: Kr. @product.GetProductPrice().ToString(),-</a> <br />
+                    <div id="@productId">
+                        <hr id="infoSeperator">
+                        <div class="d-flex justify-content-between">
+                            <a class="d-flex" id="cartItem" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")">
+                                <img src="~/lib/custom/resource/product-placeholder.png" class="m-0" style="height: 40px; width: 40px;">
+                                <h5 class="m-2">@product.GetProductBrand() - Pris pr. dag: Kr. @product.GetProductPrice().ToString(),-</h5>
+                            </a> <br />
+                            <div class="d-flex justify-content-center" style="height: 40px;">
+                                <button id="minusBtn" name="minusBtn" class="amountSelector btn btn-primary">-</button>
+                                <input class="amountSelector m-0" type="number" value="@amount" />
+                                <button id="plusBtn" name="addBtn" class="amountSelector btn btn-primary">+</button>
+                                <button id="removeCartBtn" class="btn btn-danger">🗑︎</button>
+                            </div>
+                        </div>
+                    </div>
                 }
+                <hr id="infoSeperator">
                 <h5>Total pris: Kr. @Model.TotalPrice.ToString(),-</h5>
                 <br />
-                <div>
-                    <div>
-                    </div>
-                    <div>
-                    </div>
-                </div>
                 <div class="align-content-end d-flex justify-content-center flex-wrap">
                     <form asp-controller="Basket" asp-action="Add">
                         @for (int i = 0; i < Model.BookedProducts.Count(); i++)
@@ -64,3 +75,46 @@
         }
     }
 </div>
+@section Scripts {
+    <script>
+
+        
+        // Update amount when typed or clicked
+        const quantityInput = document.querySelector('input[type="number"]');
+        const amountInput = document.getElementById('amountInput');
+
+        quantityInput.addEventListener('input', () => {
+            amountInput.value = quantityInput.value;
+        });
+
+        // Plus button click
+        const plusBtn = document.querySelector('button[name="addBtn"]');
+        plusBtn.addEventListener('click', () => {
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+            amountInput.value = quantityInput.value;
+        });
+
+        // Minus button click
+        const minusBtn = document.querySelector('button[name="minusBtn"]');
+        minusBtn.addEventListener('click', () => {
+            if (parseInt(quantityInput.value) > 1) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+                amountInput.value = quantityInput.value;
+            }
+        });
+
+        // Don't add two lines for one product, update amount
+        function checkForDouble(id) {
+            let counter = 0;
+            
+            while (document.getElementById(id)){
+                counter = counter + 1;
+                if(counter > 1){
+                    document.getElementById(id).remove();
+                }
+            }
+        }
+
+
+    </script>
+}

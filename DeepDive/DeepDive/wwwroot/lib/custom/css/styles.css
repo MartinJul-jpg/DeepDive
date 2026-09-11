@@ -83,8 +83,8 @@ img {
 }
 
 .amountSelector{
-    height: 40px;
-    width: 40px;
+    height: 7vh;
+    width: 7vh;
     margin: 0;
     border-radius: 0;
     border: none;
@@ -93,6 +93,11 @@ img {
 
 .productCardText{
     overflow: hidden;
+}
+
+#removeCartBtn{
+    border: 5px;
+    margin: 0 5px 0 5px;
 }
 
 #plusBtn{
@@ -104,7 +109,7 @@ img {
 }
 
 #cartItem{
-    height: 5px;
+    height: 7vh;
 }
 
 #itemPageTitle {
@@ -132,7 +137,7 @@ img {
     justify-content: top;
 }
 #pageContent div.itemDiv1 {
-    grid-area: itemDiv1;;
+    grid-area: itemDiv1;
 }
 #pageContent div.itemDiv2 {
     grid-area: itemDiv2;
