@@ -9,6 +9,7 @@
         int amount = 1;
         if (Model != null)
         {
+            @* Update the quantity of existing items in the cart *@
             <div class="card cartCard">
                 <form id="bookingForm" asp-controller="Basket" asp-action="Index" class="d-flex">
                     @for (int i = 0; i < Model.BookedProducts.Count(); i++)
@@ -26,25 +27,27 @@
                     </div>
                 </form>
 
-
-                <br />
                 <h4>Vare:</h4>
                 @foreach (int productId in Model.BookedProducts)
                 {
                     @* Enkelt vare *@
                     Product product = ProductRepository.GetProductById(productId);
-                    <div id="@productId">
+                    <div data-product-id="@productId" class="cart-item">
                         <hr id="infoSeperator">
                         <div class="d-flex justify-content-between">
-                            <a class="d-flex" id="cartItem" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")">
+                            <a class="d-flex" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")">
                                 <img src="~/lib/custom/resource/product-placeholder.png" class="m-0" style="height: 40px; width: 40px;">
                                 <h5 class="m-2">@product.GetProductBrand() - Pris pr. dag: Kr. @product.GetProductPrice().ToString(),-</h5>
                             </a> <br />
                             <div class="d-flex justify-content-center" style="height: 40px;">
                                 <button id="minusBtn" name="minusBtn" class="amountSelector btn btn-primary">-</button>
-                                <input class="amountSelector m-0" type="number" value="@amount" />
+                                @* Current problem: Form is not being submitted correctly *@
+                                <form class="amountForm" asp-controller="Basket" asp-action="Index">
+                                    <input type="hidden" name="productId" value="@productId" />
+                                    <input name="quantity" onchange="this.closest('form').submit()" class="amountSelector m-0" type="number" value="@amount" />
+                                </form>
                                 <button id="plusBtn" name="addBtn" class="amountSelector btn btn-primary">+</button>
-                                <button id="removeCartBtn" class="btn btn-danger">🗑︎</button>
+                                <button id="removeCartBtn" class="removeCartBtn btn btn-danger">🗑︎</button>
                             </div>
                         </div>
                     </div>
@@ -77,44 +80,58 @@
 </div>
 @section Scripts {
     <script>
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Remove duplicate products
+            const productIds = new Set();
+            const cartItems = document.querySelectorAll('[data-product-id]');
 
-        
-        // Update amount when typed or clicked
-        const quantityInput = document.querySelector('input[type="number"]');
-        const amountInput = document.getElementById('amountInput');
+            cartItems.forEach((item) => {
+                const productId = item.getAttribute('data-product-id');
 
-        quantityInput.addEventListener('input', () => {
-            amountInput.value = quantityInput.value;
-        });
-
-        // Plus button click
-        const plusBtn = document.querySelector('button[name="addBtn"]');
-        plusBtn.addEventListener('click', () => {
-            quantityInput.value = parseInt(quantityInput.value) + 1;
-            amountInput.value = quantityInput.value;
-        });
-
-        // Minus button click
-        const minusBtn = document.querySelector('button[name="minusBtn"]');
-        minusBtn.addEventListener('click', () => {
-            if (parseInt(quantityInput.value) > 1) {
-                quantityInput.value = parseInt(quantityInput.value) - 1;
-                amountInput.value = quantityInput.value;
-            }
-        });
-
-        // Don't add two lines for one product, update amount
-        function checkForDouble(id) {
-            let counter = 0;
-            
-            while (document.getElementById(id)){
-                counter = counter + 1;
-                if(counter > 1){
-                    document.getElementById(id).remove();
+                if (productIds.has(productId)) {
+                    // It's a duplicate - update the first occurrence's quantity
+                    const existingItem = document.querySelector(`[data-product-id="${productId}"]`);
+                    const quantityInput = existingItem.querySelector('input[type="number"]');
+                    quantityInput.value = parseInt(quantityInput.value) + 1;
+                    // Remove the duplicate
+                    item.remove();
+                } else {
+                    // First time seeing this product
+                    productIds.add(productId);
                 }
-            }
-        }
+            });
 
+            // Setup event listeners for all plus/minus buttons
+            const plusBtns = document.querySelectorAll('button[name="addBtn"]');
+            const minusBtns = document.querySelectorAll('button[name="minusBtn"]');
+            const removeBtns = document.querySelectorAll('button.removeCartBtn');
 
+            plusBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const quantityInput = btn.closest('.d-flex').querySelector('input[type="number"]');
+                    quantityInput.value = parseInt(quantityInput.value) + 1;
+                });
+            });
+
+            minusBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const quantityInput = btn.closest('.d-flex').querySelector('input[type="number"]');
+                    if (parseInt(quantityInput.value) > 1) {
+                        quantityInput.value = parseInt(quantityInput.value) - 1;
+                    }
+                });
+            });
+
+            removeBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const cartItem = btn.closest('.cart-item');
+                    cartItem.remove();
+                });
+            });
+        });
     </script>
 }

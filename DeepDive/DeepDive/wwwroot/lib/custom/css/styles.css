@@ -83,8 +83,8 @@ img {
 }
 
 .amountSelector{
-    height: 7vh;
-    width: 7vh;
+    height: 40px;
+    width: 40px;
     margin: 0;
     border-radius: 0;
     border: none;
@@ -95,12 +95,20 @@ img {
     overflow: hidden;
 }
 
-#removeCartBtn{
+#removeCartBtn {
     border: 5px;
     margin: 0 5px 0 5px;
+    height: 40px;
+    width: 40px;
 }
 
-#plusBtn{
+#productImg {
+    height: 40vh;
+    width: 25vw;
+    margin: 0;
+}
+
+#plusBtn {
     border-radius: 0 5px 5px 0;
 }
 
@@ -109,7 +117,7 @@ img {
 }
 
 #cartItem{
-    height: 7vh;
+    height: 50px;
 }
 
 #itemPageTitle {

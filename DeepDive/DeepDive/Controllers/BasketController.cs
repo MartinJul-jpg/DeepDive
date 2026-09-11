@@ -21,6 +21,13 @@ namespace DeepDive.Controllers
         }
 
         [HttpPost]
+        public IActionResult Index(int? productId, int quantity, Booking booking)
+        {
+            
+            return View();
+        }
+
+        [HttpPost]
         public IActionResult Add(Booking basket)
         {
             if (ModelState.IsValid)
