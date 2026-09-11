@@ -21,9 +21,12 @@ namespace DeepDive.Controllers
             return View(bookingvm);
         }
 
-        public IActionResult AddToBasket(int id)
+        public IActionResult AddToBasket(int id, int amount)
         {
-            BookingRepository.AddProductToBasket(id);
+            for (int i = 0; i < amount; i++)
+            {
+                BookingRepository.AddProductToBasket(id);
+            }
             return RedirectToAction("Index", "Basket");
         }
     }

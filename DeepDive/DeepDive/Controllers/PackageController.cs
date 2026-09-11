@@ -18,12 +18,15 @@ namespace DeepDive.Controllers
             return View(package);
         }
 
-        public IActionResult AddPackageToBasket(int id)
+        public IActionResult AddPackageToBasket(int id, int amount)
         {
-            Package package = ProductRepository.GetPackageById(id);
-            foreach (Product product in package.setList)
+            for (int i = 0; i < amount; i++)
             {
-                BookingRepository.AddProductToBasket(product.ProductId);
+                Package package = ProductRepository.GetPackageById(id);
+                foreach (Product product in package.setList)
+                {
+                    BookingRepository.AddProductToBasket(product.ProductId);
+                }
             }
             return RedirectToAction("Index", "Basket");
         }
