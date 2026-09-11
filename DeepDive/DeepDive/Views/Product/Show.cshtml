@@ -17,15 +17,14 @@
                 <br />
                 <h5>@($"Pris: {Model.Product.Price} kr. per dage")</h5>
                 <br />
-                <h5>@($"Mængde: {Model.Product.Amount}")</h5>
             </div>
             <div class="col justify-content-center">
                 <div class="d-flex justify-content-center" style="height: 40px;">
-                    <button name="minusBtn" class="amountSelector btn btn-primary">-</button>
-                    <input class="amountSelector" type="number" style="margin: 0;" value="@amount" />
-                    <button name="addBtn" class="amountSelector btn btn-primary">+</button>
+                    <button id="minusBtn" name="minusBtn" class="amountSelector btn btn-primary">-</button>
+                    <input class="amountSelector m-0" type="number" value="@amount"/>
+                    <button id="plusBtn" name="addBtn" class="amountSelector btn btn-primary">+</button>
                 </div>
-
+                <br/>
                 <div class="justify-content-center">
                     <form asp-controller="Product" asp-action="AddToBasket" method="get">
                         <input type="hidden" name="id" value="@Model.Product.ProductId" />
@@ -34,6 +33,7 @@
                         <button type="submit" class="btn btn-success" style="margin: 10px;">Book</button>
                     </form>
                 </div>
+                <p class="text-info-emphasis">@($"På lager: {Model.Product.Amount}")</p>
             </div>
         </div>
     </div>

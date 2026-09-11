@@ -2,6 +2,7 @@
 @using DeepDive.Models;
 
 @{
+    int amount = 1;
     double _price = 0;
     <div class="container text-center m-5">
         <div class="row">
@@ -20,8 +21,49 @@
                 <h5>Pris: @_price kr. per dag</h5>
             </div>
             <div class="col">
-                <a class="btn btn-primary" asp-controller="Package" asp-action="AddPackageToBasket" asp-route-id="@Model.PackageId">Book</a>
+                <div class="d-flex justify-content-center" style="height: 40px;">
+                    <button id="minusBtn" name="minusBtn" class="amountSelector btn btn-primary">-</button>
+                    <input class="amountSelector m-0" type="number" value="@amount" />
+                    <button id="plusBtn" name="addBtn" class="amountSelector btn btn-primary">+</button>
+                </div>
+                <br />
+                <div class="justify-content-center">
+                    <form asp-controller="Package" asp-action="AddPackageToBasket" method="get">
+                        <input type="hidden" name="id" value="@Model.PackageId" />
+                        <input type="hidden" name="amount" id="amountInput" value="@amount" />
+
+                        <button type="submit" class="btn btn-success" style="margin: 10px;">Book</button>
+                    </form>
+                </div>
+                <p class="text-info-emphasis">@($"På lager: ?")</p>
             </div>
         </div>
     </div>
+}
+@section Scripts {
+    <script>
+        // Plus button click
+        const plusBtn = document.querySelector('button[name="addBtn"]');
+        plusBtn.addEventListener('click', () => {
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+            amountInput.value = quantityInput.value;
+        });
+
+        // Minus button click
+        const minusBtn = document.querySelector('button[name="minusBtn"]');
+        minusBtn.addEventListener('click', () => {
+            if (parseInt(quantityInput.value) > 1) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+                amountInput.value = quantityInput.value;
+            }
+        });
+
+        // Update amount when typed or clicked
+        const quantityInput = document.querySelector('input[type="number"]');
+        const amountInput = document.getElementById('amountInput');
+
+        quantityInput.addEventListener('input', () => {
+            amountInput.value = quantityInput.value;
+        });
+    </script>
 }
