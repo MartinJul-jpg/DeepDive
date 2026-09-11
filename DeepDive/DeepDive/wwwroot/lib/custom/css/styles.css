@@ -91,6 +91,10 @@ img {
     text-align: center;
 }
 
+.productCardText{
+    overflow: hidden;
+}
+
 #plusBtn{
     border-radius: 0 5px 5px 0;
 }
