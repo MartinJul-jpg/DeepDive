@@ -7,7 +7,7 @@ namespace DeepDive.Repository
     public class ProductRepository
     {
         private BasketRepository _basketRepository;
-        private DeepDiveContext _deepDiveContext;
+        private readonly DeepDiveContext _deepDiveContext;
 
         public ProductRepository(BasketRepository basketRepository, DeepDiveContext deepDiveContext)
         {
@@ -43,6 +43,7 @@ namespace DeepDive.Repository
 
             _basketRepository.GetBasket().Product_Bookings.Add(new Product_Booking()
             {
+                ProductId = id,
                 Product = GetProductById(id),
                 Booking = _basketRepository.GetBasket()
             });

@@ -30,17 +30,11 @@ namespace DeepDive.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingId"));
 
-                    b.Property<int>("DurationInDays")
-                        .HasColumnType("int");
-
                     b.Property<DateOnly>("End")
                         .HasColumnType("date");
 
                     b.Property<DateOnly>("Start")
                         .HasColumnType("date");
-
-                    b.Property<double>("TotalPrice")
-                        .HasColumnType("float");
 
                     b.HasKey("BookingId");
 
@@ -50,18 +44,14 @@ namespace DeepDive.Migrations
                         new
                         {
                             BookingId = 1,
-                            DurationInDays = 2,
                             End = new DateOnly(2026, 9, 13),
-                            Start = new DateOnly(2026, 9, 11),
-                            TotalPrice = 0.0
+                            Start = new DateOnly(2026, 9, 11)
                         },
                         new
                         {
                             BookingId = 2,
-                            DurationInDays = 2,
                             End = new DateOnly(2026, 9, 13),
-                            Start = new DateOnly(2026, 9, 11),
-                            TotalPrice = 0.0
+                            Start = new DateOnly(2026, 9, 11)
                         });
                 });
 
@@ -265,7 +255,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 10,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Scubapro",
                             Price = 125.0,
                             Model = "Navigator Lite BCD",
@@ -274,7 +264,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 11,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Scubapro",
                             Price = 140.0,
                             Model = "BCD Glide",
@@ -283,7 +273,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 12,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Scubapro",
                             Price = 200.0,
                             Model = "BCD Hydros Pro",
@@ -292,7 +282,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 13,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Seac",
                             Price = 125.0,
                             Model = "BCD Modular",
@@ -339,7 +329,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 50,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Scubapro",
                             Price = 100.0,
                             Gender = "Herre/Dame",
@@ -351,7 +341,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 51,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Scubapro",
                             Price = 100.0,
                             Gender = "Herre/Dame",
@@ -363,7 +353,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 52,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Scubapro",
                             Price = 100.0,
                             Gender = "Herre/Dame",
@@ -375,7 +365,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 53,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Waterproof",
                             Price = 100.0,
                             Gender = "Herre/Dame",
@@ -387,7 +377,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 54,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Fourth Element",
                             Price = 120.0,
                             Gender = "Herre/Dame",
@@ -399,7 +389,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 55,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Scubapro",
                             Price = 300.0,
                             Gender = "Herre/Dame",
@@ -411,7 +401,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 56,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Waterproof",
                             Price = 320.0,
                             Gender = "Herre/Dame",
@@ -423,7 +413,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 57,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Santi",
                             Price = 350.0,
                             Gender = "Herre/Dame",
@@ -452,7 +442,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 40,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "ScubaPro",
                             Price = 50.0,
                             Model = "Jet Fin",
@@ -461,7 +451,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 41,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "ScubaPro",
                             Price = 50.0,
                             Model = "GO Travel",
@@ -470,7 +460,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 42,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "ScubaPro",
                             Price = 60.0,
                             Model = "Seawing Supernova",
@@ -479,7 +469,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 43,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Seac",
                             Price = 50.0,
                             Model = "Propulsion",
@@ -488,7 +478,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 44,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Seac",
                             Price = 50.0,
                             Model = "ALA",
@@ -497,7 +487,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 45,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Fourth Element",
                             Price = 75.0,
                             Model = "Tech",
@@ -506,7 +496,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 46,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Fourth Element",
                             Price = 80.0,
                             Model = "Rec Fin",
@@ -536,7 +526,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 30,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "ScubaPro",
                             Price = 125.0,
                             FirstStage = "MK25EVO",
@@ -546,7 +536,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 31,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "ScubaPro",
                             Price = 100.0,
                             FirstStage = "MK17EVO",
@@ -556,7 +546,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 32,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "ScubaPro",
                             Price = 150.0,
                             FirstStage = "MK25EVO BT",
@@ -585,7 +575,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 60,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Scubapro",
                             Price = 50.0,
                             Model = "Ghost"
@@ -593,7 +583,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 61,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Scubapro",
                             Price = 60.0,
                             Model = "D-Mask"
@@ -601,7 +591,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 62,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Scubapro",
                             Price = 50.0,
                             Model = "Spectra Mini"
@@ -609,7 +599,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 63,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Scubapro",
                             Price = 75.0,
                             Model = "Crystal VU"
@@ -617,7 +607,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 64,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Fourth Element",
                             Price = 75.0,
                             Model = "Scout Kontrast"
@@ -625,7 +615,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 65,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Fourth Element",
                             Price = 75.0,
                             Model = "Scout Enhance"
@@ -633,7 +623,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 66,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "Tusa",
                             Price = 75.0,
                             Model = "Element"
@@ -654,7 +644,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 20,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "ScubaPro",
                             Price = 150.0,
                             Volume = "5 liter"
@@ -662,7 +652,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 21,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "ScubaPro",
                             Price = 160.0,
                             Volume = "10 liter"
@@ -670,7 +660,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 22,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "ScubaPro",
                             Price = 170.0,
                             Volume = "12 liter"
@@ -678,7 +668,7 @@ namespace DeepDive.Migrations
                         new
                         {
                             ProductId = 23,
-                            Amount = 1,
+                            Amount = 5,
                             Brand = "ScubaPro",
                             Price = 180.0,
                             Volume = "15 liter"

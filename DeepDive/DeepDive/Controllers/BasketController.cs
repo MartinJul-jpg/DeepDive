@@ -30,6 +30,8 @@ namespace DeepDive.Controllers
             return View(_basketRepository.GetBasket());
         }
 
+        //does not inform the user that their booking overlaps and thus cannot be made yet.
+        //For now it just redirects the user back to the basket without carrying out AddBooking. 
         [HttpPost]
         public IActionResult Add(Booking basket)
         {

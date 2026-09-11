@@ -8,7 +8,7 @@ namespace DeepDive.Repository
     public class BookingRepository
     {
         private ProductRepository _productRepository;
-        private DeepDiveContext _deepDiveContext;
+        private readonly DeepDiveContext _deepDiveContext;
 
         public BookingRepository(DeepDiveContext deepDiveContext, ProductRepository productRepository)
         {
@@ -19,12 +19,19 @@ namespace DeepDive.Repository
         public void AddBooking(Booking basket)
         {
             Booking booking = new Booking();
-
-            booking.Product_Bookings = basket.Product_Bookings;
+            booking.BookingId = 0;
             booking.Start = basket.Start;
             booking.End = basket.End;
-
             _deepDiveContext.Bookings.Add(booking);
+            _deepDiveContext.SaveChanges();
+
+            foreach (Product_Booking pb in basket.Product_Bookings)
+            {
+                pb.Product = null;
+                pb.Booking = null;
+                pb.BookingId = booking.BookingId;
+                _deepDiveContext.Product_Bookings.Add(pb);
+            }
             _deepDiveContext.SaveChanges();
         } 
 
