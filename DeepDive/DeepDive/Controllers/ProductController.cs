@@ -7,6 +7,14 @@ namespace DeepDive.Controllers
 {
     public class ProductController : Controller
     {
+        private ProductRepository _productRepository;
+        private BookingRepository _bookingRepository;
+
+        public ProductController(ProductRepository productRepository, BookingRepository bookingRepository)
+        {
+            _productRepository = productRepository;
+            _bookingRepository = bookingRepository;
+        }
         public IActionResult Index()
         {
             return View();
@@ -14,16 +22,14 @@ namespace DeepDive.Controllers
 
         public IActionResult Show(int id)
         {
-            var bookingvm = new BookingViewModel();
-            Product product = Repository.ProductRepository.GetProductById(id);
-            bookingvm.Product = product;
+            Product product = _productRepository.GetProductById(id);
 
-            return View(bookingvm);
+            return View(product);
         }
 
         public IActionResult AddToBasket(int id)
         {
-            BookingRepository.AddProductToBasket(id);
+            _bookingRepository.AddProductToBasket(id);
             return RedirectToAction("Index", "Basket");
         }
     }

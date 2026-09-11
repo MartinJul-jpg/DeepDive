@@ -40,14 +40,17 @@ namespace DeepDive.Models
         private int _durationInDays;
         [Range(1, int.MaxValue)]
         public int DurationInDays { get; set; }
-        public double TotalPrice { get; set; }
+        public double TotalPrice { get; set; } 
+
+       
+        // TO DO: Make this a service or move it away from this class
 
         public void CalculatePriceOfBooking()
         {
             double totalPrice = 0;
-            foreach (int productId in BookedProducts)
+            foreach (Product_Booking product_Booking in Product_Bookings)
             {
-                Product product = ProductRepository.GetProductById(productId);
+                Product product = product_Booking.Product;
 
                 int daysBooked = _end.DayNumber - _start.DayNumber;
 

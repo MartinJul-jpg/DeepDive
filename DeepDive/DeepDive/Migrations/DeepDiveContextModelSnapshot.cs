@@ -51,16 +51,16 @@ namespace DeepDive.Migrations
                         {
                             BookingId = 1,
                             DurationInDays = 2,
-                            End = new DateOnly(2026, 9, 11),
-                            Start = new DateOnly(2026, 9, 9),
+                            End = new DateOnly(2026, 9, 13),
+                            Start = new DateOnly(2026, 9, 11),
                             TotalPrice = 0.0
                         },
                         new
                         {
                             BookingId = 2,
                             DurationInDays = 2,
-                            End = new DateOnly(2026, 9, 11),
-                            Start = new DateOnly(2026, 9, 9),
+                            End = new DateOnly(2026, 9, 13),
+                            Start = new DateOnly(2026, 9, 11),
                             TotalPrice = 0.0
                         });
                 });

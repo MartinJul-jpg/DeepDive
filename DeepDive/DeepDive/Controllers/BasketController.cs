@@ -6,9 +6,17 @@ namespace DeepDive.Controllers
 {
     public class BasketController : Controller
     {
+        private BookingRepository _bookingRepository;
+        private ProductRepository _productRepository;
+
+        public BasketController(BookingRepository bookingRepository, ProductRepository productRepository)
+        {
+            _bookingRepository = bookingRepository;
+            _productRepository = productRepository;
+        }
         public IActionResult Index()
         {
-            Booking basket = BookingRepository.GetBasket();
+            Booking basket = _bookingRepository.GetBasket();
 
             return View(basket);
         }
@@ -16,7 +24,7 @@ namespace DeepDive.Controllers
         [HttpPost]
         public IActionResult Index(Booking basket)
         {
-            BookingRepository.UpdateBasket(basket);
+            _bookingRepository.UpdateBasket(basket);
             return View(basket);
         }
 
@@ -25,11 +33,11 @@ namespace DeepDive.Controllers
         {
             if (ModelState.IsValid)
             {
-                BookingRepository.AddBooking(basket);
+                _bookingRepository.AddBooking(basket);
                 //Change this to be more dynamic instead of static
-                basket.BookedProducts.ToList().ForEach(product => ProductRepository.RemoveAmount(product, 1));
+                basket.BookedProducts.ToList().ForEach(product => _productRepository.RemoveAmount(product, 1));
 
-                BookingRepository.ClearBasket();
+                _bookingRepository.ClearBasket();
                 return RedirectToAction("Index", "Home");
             }
 

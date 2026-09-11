@@ -126,8 +126,8 @@ namespace DeepDive.Migrations
                 columns: new[] { "BookingId", "DurationInDays", "End", "Start", "TotalPrice" },
                 values: new object[,]
                 {
-                    { 1, 2, new DateOnly(2026, 9, 11), new DateOnly(2026, 9, 9), 0.0 },
-                    { 2, 2, new DateOnly(2026, 9, 11), new DateOnly(2026, 9, 9), 0.0 }
+                    { 1, 2, new DateOnly(2026, 9, 13), new DateOnly(2026, 9, 11), 0.0 },
+                    { 2, 2, new DateOnly(2026, 9, 13), new DateOnly(2026, 9, 11), 0.0 }
                 });
 
             migrationBuilder.InsertData(

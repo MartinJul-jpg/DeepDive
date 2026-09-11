@@ -29,9 +29,9 @@
 
                 <br />
                 <h4>Vare:</h4>
-                @foreach (int productId in Model.BookedProducts)
+                @foreach (Product_Booking productBooking in Model.Product_Bookings)
                 {
-                    Product product = ProductRepository.GetProductById(productId);
+                    Product product = productBooking.Product;
                     <a id="productText" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")" id="cartItem">@product.GetProductBrand() - Pris pr. dag: Kr. @product.GetProductPrice().ToString(),-</a> <br />
                 }
                 <h5>Total pris: Kr. @Model.TotalPrice.ToString(),-</h5>
