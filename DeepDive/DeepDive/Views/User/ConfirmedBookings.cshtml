@@ -1,0 +1,32 @@
+﻿@model List<Booking>;
+ 
+<div>
+    <br />
+    <h1>Bookinger</h1>
+@{
+    if (Model != null)
+    {
+        foreach (Booking booking in Model) {
+                <div class="card  m-2">
+                <div class="col">
+                    <h5 class="fw-bold">Start Dato</h5>
+                    @booking.Start
+                    <br />
+                </div>
+                <div class="col">
+                    <h5 class="fw-bold">Slut Dato</h5>
+                    @booking.End
+                </div>
+            <h4>Vare:</h4>
+            @foreach (int productId in booking.BookedProducts)
+            {
+                Product product = ProductRepository.GetProductById(productId);
+                <a id="productText" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")" id="cartItem">@product.GetProductBrand()</a>
+                <br />
+            }
+                <h5>@booking.TotalPrice,-</h5>
+            </div>
+        }
+    }
+}
+    </div>
