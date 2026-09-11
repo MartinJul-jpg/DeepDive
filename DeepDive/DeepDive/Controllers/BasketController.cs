@@ -20,6 +20,7 @@ namespace DeepDive.Controllers
             return View(basket);
         }
 
+        // For changning amount of one product in basket
         [HttpPost]
         public IActionResult Index(int? productId, int quantity, Booking booking)
         {
