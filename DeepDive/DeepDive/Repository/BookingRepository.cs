@@ -107,7 +107,7 @@ namespace DeepDive.Repository
             }
 
             //getting overlapsIdTuple<(Booking, List<DateOnly>)>
-            List<(Booking, List<DateOnly>)> overlapsIdTuple = new List<(Booking, List<DateOnly>)>();
+            List<(Booking, List<DateOnly>)> overlapsIdTuples = new List<(Booking, List<DateOnly>)>();
             foreach (Booking booking in overlapsId)
             {
                 int durationInDays = booking.End.DayNumber - booking.Start.DayNumber;
@@ -118,59 +118,86 @@ namespace DeepDive.Repository
                     bookingDates.Add(booking.Start.AddDays(days));
                 }
 
-                overlapsIdTuple.Add((booking, new List<DateOnly>(bookingDates)));
+                overlapsIdTuples.Add((booking, new List<DateOnly>(bookingDates)));
             }
 
-            //getting overlaps<Booking>
-            List<Booking> overlaps = new List<Booking>();
-            foreach ((Booking, List<DateOnly>) bookingTuple in overlapsIdTuple)
+            //getting overlapsBasketDate_List<List<Booking>>
+            List<List<Booking>> overlapsBasketDate_List = new List<List<Booking>>();
+            foreach (DateOnly basketDate in basketDates)
             {
-                bool foundInTuple = false;
-                foreach (DateOnly bookingDate in bookingTuple.Item2)
+                List<Booking> overlapsBasketDate = new List<Booking>();
+                foreach ((Booking, List<DateOnly>) bookingTuple in overlapsIdTuples)
                 {
-                    foreach (DateOnly basketDate in basketDates)
+                    bool foundInBookingTuple = false;
+                    foreach (DateOnly bookingDate in bookingTuple.Item2)
                     {
                         if (bookingDate == basketDate)
                         {
-                            foundInTuple = true;
+                            foundInBookingTuple = true;
+                        }
+                    }
+                    if (foundInBookingTuple)
+                    {
+                        overlapsBasketDate.Add(bookingTuple.Item1);
+                    }
+                }
+
+                overlapsBasketDate_List.Add(overlapsBasketDate);
+            }
+
+            //getting overlapsBasketDate_pbs_List<List<Product_Booking>>
+            List<List<Product_Booking>> overlapsBasketDate_pbs_List = new List<List<Product_Booking>>();
+            foreach (List<Booking> booking_List in overlapsBasketDate_List)
+            {
+                List<Product_Booking> overlapsBasketDate_pbs = new List<Product_Booking>();
+                foreach (Booking booking in booking_List)
+                {
+                    foreach (Product_Booking pb in booking.Product_Bookings)
+                    {
+                        overlapsBasketDate_pbs.Add(pb);
+                    }
+                }
+                overlapsBasketDate_pbs_List.Add(overlapsBasketDate_pbs);
+            }
+
+            //check that store capacity isnt exceeded by cart + booking, per date
+            foreach (List<Product_Booking> pbs in overlapsBasketDate_pbs_List)
+            {
+                foreach ((int, int) basketProductIdTuple in basketProductIdsTuple)
+                {
+                    int basketProductId = basketProductIdTuple.Item1;
+                    int basketProductIdAmount = basketProductIdTuple.Item2;
+
+                    int amount = _productRepository.GetProductById(basketProductId).Amount;
+                    foreach (var item in pbs.Where(pb => pb.ProductId == basketProductId))
+                    {
+                        //in here only pbs with the correct productId are present
+                        amount -= 1;
+
+                        if (amount < basketProductIdAmount)
+                        {
+                            return false;
                         }
                     }
                 }
-                if (foundInTuple)
-                {
-                    overlaps.Add(bookingTuple.Item1);
-                }
             }
 
-            //getting overlaps_pbs<Product_Booking>
-            List<Product_Booking> overlaps_pbs = new List<Product_Booking>();
-            foreach (Booking booking in overlaps)
-            {
-                foreach (Product_Booking pb in booking.Product_Bookings)
-                {
-                    overlaps_pbs.Add(pb);
-                }
-            }
-
-            //final stuff
+            //in case no overlapping bookings are detected, a check is required anyway,
+            //checks that store capacity isnt exceeded by cart, in general
             foreach ((int, int) basketProductIdTuple in basketProductIdsTuple)
             {
                 int basketProductId = basketProductIdTuple.Item1;
                 int basketProductIdAmount = basketProductIdTuple.Item2;
 
                 int amount = _productRepository.GetProductById(basketProductId).Amount;
-                foreach (var item in overlaps_pbs.Where(pb => pb.ProductId == basketProductId))
-                {
-                    //in here only pbs with the correct productId are present
-                    amount -= 1;
 
-                    if (amount < basketProductIdAmount)
-                    {
-                        return false;
-                    }
+                if (amount < basketProductIdAmount)
+                {
+                    return false;
                 }
             }
 
+            //cart items did not exceed remaining stock, at any point
             return true;
         }
     }
