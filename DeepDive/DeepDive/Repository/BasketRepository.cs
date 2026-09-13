@@ -15,6 +15,12 @@ namespace DeepDive.Repository
         {
             _basket.Start = basket.Start;
             _basket.End = basket.End;
+            _basket.ExceedsStock = basket.ExceedsStock;
+        }
+
+        public void UpdateBasketOverlap(bool exceedsStock)
+        {
+            _basket.ExceedsStock = exceedsStock;
         }
 
         public void ResetBasket()

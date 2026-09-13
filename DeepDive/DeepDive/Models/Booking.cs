@@ -1,4 +1,6 @@
 ﻿using DeepDive.Repository;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace DeepDive.Models
@@ -6,6 +8,7 @@ namespace DeepDive.Models
     public class Booking
     {
         public int BookingId { get; set; }
+        [ValidateNever]
         public List<Product_Booking> Product_Bookings { get; set; } = new List<Product_Booking>();
 
         private DateOnly _start;
@@ -39,7 +42,9 @@ namespace DeepDive.Models
         private int _durationInDays;
         [Range(1, int.MaxValue)]
         public int DurationInDays { get; set; }
-        public double TotalPrice { get; set; } 
+        public double TotalPrice { get; set; }
+        [Range(typeof(bool), "false", "false", ErrorMessage = $"Mængden af en vare overskrider lager på en af de pågældende datoer")]
+        public bool ExceedsStock { get; set; }
 
         public void CalculatePriceOfBooking()
         {

@@ -437,6 +437,8 @@ namespace DeepDive.Data
                 .Ignore(booking => booking.DurationInDays);
             modelBuilder.Entity<Booking>()
                 .Ignore(booking => booking.TotalPrice);
+            modelBuilder.Entity<Booking>()
+                .Ignore(booking => booking.ExceedsStock);
 
             // Packages x Products linking table
             modelBuilder.Entity<Package_Product>()

@@ -7,12 +7,14 @@ namespace DeepDive.Repository
 {
     public class BookingRepository
     {
+        private BasketRepository _basketRepository;
         private ProductRepository _productRepository;
         private readonly DeepDiveContext _deepDiveContext;
 
-        public BookingRepository(DeepDiveContext deepDiveContext, ProductRepository productRepository)
+        public BookingRepository(DeepDiveContext deepDiveContext, BasketRepository basketRepository, ProductRepository productRepository)
         {
             _deepDiveContext = deepDiveContext;
+            _basketRepository = basketRepository;
             _productRepository = productRepository;
         }
 
@@ -56,7 +58,7 @@ namespace DeepDive.Repository
             return booking;
         }
 
-        public bool ValidateBookingOverlap(Booking basket)
+        public void ValidateBookingOverlap(Booking basket)
         {
             //getting basketDates<DateOnly>
             List<DateOnly> basketDates = new List<DateOnly>();
@@ -176,7 +178,8 @@ namespace DeepDive.Repository
 
                         if (amount < basketProductIdAmount)
                         {
-                            return false;
+                            _basketRepository.UpdateBasketOverlap(true);
+                            return;
                         }
                     }
                 }
@@ -193,12 +196,14 @@ namespace DeepDive.Repository
 
                 if (amount < basketProductIdAmount)
                 {
-                    return false;
+                    _basketRepository.UpdateBasketOverlap(true);
+                    return;
                 }
             }
 
             //cart items did not exceed remaining stock, at any point
-            return true;
+            _basketRepository.UpdateBasketOverlap(false);
+            return;
         }
     }
 }

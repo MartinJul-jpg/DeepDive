@@ -1,6 +1,7 @@
 ﻿using DeepDive.Models;
 using DeepDive.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace DeepDive.Controllers
 {
@@ -18,24 +19,31 @@ namespace DeepDive.Controllers
         }
         public IActionResult Index()
         {
-            Booking basket = _basketRepository.GetBasket();
+            _bookingRepository.ValidateBookingOverlap(_basketRepository.GetBasket());
+            TryValidateModel(_basketRepository.GetBasket(), nameof(Booking));
 
-            return View(basket);
+            return View(_basketRepository.GetBasket());
         }
 
         [HttpPost]
         public IActionResult Index(Booking basket)
         {
             _basketRepository.UpdateBasketDates(basket);
+
+            ModelState.Clear();
+            _bookingRepository.ValidateBookingOverlap(_basketRepository.GetBasket());
+            TryValidateModel(_basketRepository.GetBasket(), nameof(Booking));
+
             return View(_basketRepository.GetBasket());
         }
 
-        //does not inform the user that their booking overlaps and thus cannot be made yet.
-        //For now it just redirects the user back to the basket without carrying out AddBooking. 
         [HttpPost]
         public IActionResult Add(Booking basket)
         {
-            if (ModelState.IsValid && _bookingRepository.ValidateBookingOverlap(_basketRepository.GetBasket()))
+            _bookingRepository.ValidateBookingOverlap(_basketRepository.GetBasket());
+            TryValidateModel(_basketRepository.GetBasket(), nameof(Booking));
+
+            if (ModelState.IsValid)
             {
                 _bookingRepository.AddBooking(_basketRepository.GetBasket());
                 _basketRepository.ResetBasket();
