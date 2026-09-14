@@ -20,10 +20,15 @@ namespace DeepDive.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            _bookingRepository.ValidateBookingOverlap(_basketRepository.GetBasket());
-            TryValidateModel(_basketRepository.GetBasket(), nameof(Booking));
+            if (_basketRepository.GetBasket() != null && _basketRepository.GetBasket().Product_Bookings.Count >= 0)
+            {
+                _bookingRepository.ValidateBookingOverlap(_basketRepository.GetBasket());
+                TryValidateModel(_basketRepository.GetBasket(), nameof(Booking));
 
-            return View(_basketRepository.GetBasket());
+                return View(_basketRepository.GetBasket());
+            }
+
+            return View();
         }
 
 
@@ -85,6 +90,13 @@ namespace DeepDive.Controllers
 
             // Recalculate DurationInDays and TotalPrice
             _basketRepository.GetBasket().CalculatePriceOfBooking();
+
+            // If the basket is empty, return empty view
+            if (_basketRepository.GetBasket().Product_Bookings.Count <= 0)
+            {
+                return View();
+            }
+
             return View(_basketRepository.GetBasket());
         }
 

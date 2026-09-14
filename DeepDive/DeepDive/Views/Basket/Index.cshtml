@@ -45,7 +45,14 @@
                                     <input name="quantity" onchange="this.closest('form').submit()" class="amountSelector m-0" type="number" value="@amount" />
                                 </form>
                                 <button id="plusBtn" name="addBtn" class="amountSelector btn btn-primary">+</button>
-                                <button id="removeCartBtn" class="removeCartBtn btn btn-danger">🗑︎</button>
+                                <form class ="removeForm" asp-controller="Basket" asp-action="Index" method="post">
+                                    <input type="hidden" name="bookingId" value="@Model.BookingId" />
+                                    <input type="hidden" name="productId" value="@productBooking.ProductId" />
+                                    <input type="hidden" name="start" value="@Model.Start" />
+                                    <input type="hidden" name="end" value="@Model.End" />
+                                    <input type="hidden" name="quantity" value="0" />
+                                    <button id="removeCartBtn" onclick="this.closest('form').submit()" class="removeCartBtn btn btn-danger">🗑︎</button>
+                                </form>
                             </div>
                         </div>
                     </div>
