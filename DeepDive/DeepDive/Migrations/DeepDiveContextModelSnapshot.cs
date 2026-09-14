@@ -44,14 +44,14 @@ namespace DeepDive.Migrations
                         new
                         {
                             BookingId = 1,
-                            End = new DateOnly(2026, 9, 13),
-                            Start = new DateOnly(2026, 9, 11)
+                            End = new DateOnly(2026, 9, 16),
+                            Start = new DateOnly(2026, 9, 14)
                         },
                         new
                         {
                             BookingId = 2,
-                            End = new DateOnly(2026, 9, 13),
-                            Start = new DateOnly(2026, 9, 11)
+                            End = new DateOnly(2026, 9, 16),
+                            Start = new DateOnly(2026, 9, 14)
                         });
                 });
 

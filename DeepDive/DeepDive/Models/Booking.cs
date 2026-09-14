@@ -39,7 +39,6 @@ namespace DeepDive.Models
                 CalculatePriceOfBooking();
             }
         }
-        private int _durationInDays;
         [Range(1, int.MaxValue)]
         public int DurationInDays { get; set; }
         public double TotalPrice { get; set; }

@@ -11,7 +11,7 @@ namespace DeepDive.Controllers
         private BookingRepository _bookingRepository;
         private ProductRepository _productRepository;
 
-        public BasketController(BasketRepository basketRepository,BookingRepository bookingRepository, ProductRepository productRepository)
+        public BasketController(BasketRepository basketRepository, BookingRepository bookingRepository, ProductRepository productRepository)
         {
             _basketRepository = basketRepository;
             _bookingRepository = bookingRepository;
@@ -25,7 +25,7 @@ namespace DeepDive.Controllers
 
             return View(_basketRepository.GetBasket());
         }
-            
+
 
         public IActionResult Index(int? bookingId, int? productId, int? quantity, Booking cart)
         {
@@ -33,41 +33,49 @@ namespace DeepDive.Controllers
             // Handle quantity update for specific product
             if (productId.HasValue && quantity.HasValue && bookingId.HasValue)
             {
-                // Count how many of this product are in the basket
-                //List<int> ofSameProduct = new List<int>();
-                //foreach (int id in cart.Product_Bookings)
-                //{
-                //    if (id == productId)
-                //    {
-                //        ofSameProduct.Add(id);
-                //    }
-                //}
+                // Get info for new Product_Booking
+                Product? product = _productRepository.GetProductById(productId.Value);
+                Product_Booking newProductBooking = new Product_Booking
+                {
+                    ProductId = productId.Value,
+                    Product = product,
+                    BookingId = bookingId.Value,
+                    Booking = cart,
+                };
 
-                //if (ofSameProduct.Count > quantity)
-                //{
-                //    // Remove products from basket
-                //    int amountToRemove = ofSameProduct.Count - quantity.Value;
-                //    for (int i = 0; i < amountToRemove; i++)
-                //    {
-                //        cart.Product_Bookings.Remove(productId);
-                //    }
-                //}
-                //else if (ofSameProduct.Count < quantity)
-                //{
-                //    // Add products to basket
-                //    int amountToAdd = quantity.Value - ofSameProduct.Count;
-                //    for (int i = 0; i < amountToAdd; i++)
-                //    {
-                //        cart.Product_Bookings.Add(productId);
-                //    }
-                //}
+                Booking currentCart = _basketRepository.GetBasket();
+
+                // Count how many of this product are in the basket
+                List<Product_Booking> ofSameProduct = new List<Product_Booking>();
+                foreach (Product_Booking productBooking in currentCart.Product_Bookings)
+                {
+                    if (productBooking.ProductId == newProductBooking.ProductId)
+                    {
+                        ofSameProduct.Add(productBooking);
+                    }
+                }
+
+                if (ofSameProduct.Count > quantity)
+                {
+                    // Remove products from basket
+                    int amountToRemove = ofSameProduct.Count - quantity.Value;
+                    for (int i = 0; i < amountToRemove; i++)
+                    {
+                        currentCart.Product_Bookings.Remove(ofSameProduct[i]);
+                    }
+                }
+                else if (ofSameProduct.Count < quantity)
+                {
+                    // Add products to basket
+                    int amountToAdd = quantity.Value - ofSameProduct.Count;
+                    for (int i = 0; i < amountToAdd; i++)
+                    {
+                        currentCart.Product_Bookings.Add(newProductBooking);
+                    }
+                }
             }
             else
             {
-                // Handle date changes
-                //cart.Start = basket.Start;
-                //cart.End = basket.End;
-
                 _basketRepository.UpdateBasketDates(cart);
 
                 ModelState.Clear();
@@ -76,7 +84,7 @@ namespace DeepDive.Controllers
             }
 
             // Recalculate DurationInDays and TotalPrice
-            cart.CalculatePriceOfBooking();
+            _basketRepository.GetBasket().CalculatePriceOfBooking();
             return View(_basketRepository.GetBasket());
         }
 
