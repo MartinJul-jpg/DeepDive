@@ -12,10 +12,6 @@
             @* Update the quantity of existing items in the cart *@
             <div class="card cartCard">
                 <form id="bookingForm" asp-controller="Basket" asp-action="Index" method="post" class="d-flex">
-                    @for (int i = 0; i < Model.BookedProducts.Count(); i++)
-                    {
-                        <input type="hidden" asp-for="BookedProducts[i]" />
-                    }
                     <div class="col">
                         <h5 class="fw-bold">Start Dato</h5>
                         <input type="date" asp-for="Start" value="@Model.Start.ToString("yyyy-MM-dd")" onchange="document.getElementById('bookingForm').submit()" class="w-50 p3" />
@@ -31,8 +27,8 @@
                 @foreach (Product_Booking productBooking in Model.Product_Bookings)
                 {
                     @* Enkelt vare *@
-                    Product product = ProductRepository.GetProductById(productId);
-                    <div data-product-id="@productId" class="cart-item">
+                    Product product = ProductRepository.GetProductById(productBooking.ProductId);
+                    <div data-product-id="@productBooking.ProductId" class="cart-item">
                         <hr id="infoSeperator">
                         <div class="d-flex justify-content-between">
                             <a class="d-flex" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")">
@@ -44,7 +40,7 @@
                                 @* Current problem: Form is not being submitted correctly *@
                                 <form class="amountForm" asp-controller="Basket" asp-action="Index" method="post">
                                     <input type="hidden" name="bookingId" value="@Model.BookingId" />
-                                    <input type="hidden" name="productId" value="@productId" />
+                                    <input type="hidden" name="productId" value="@productBooking.ProductId" />
                                     <input type="hidden" name="start" value="@Model.Start" />
                                     <input type="hidden" name="end" value="@Model.End" />
                                     <input name="quantity" onchange="this.closest('form').submit()" class="amountSelector m-0" type="number" value="@amount" />
@@ -60,10 +56,6 @@
                 <br />
                 <div class="align-content-end d-flex justify-content-center flex-wrap">
                     <form asp-controller="Basket" asp-action="Add" method="post">
-                        @for (int i = 0; i < Model.BookedProducts.Count(); i++)
-                        {
-                            <input type="hidden" asp-for="BookedProducts[i]" />
-                        }
                         <input type="hidden" asp-for="Start" />
                         <input type="hidden" asp-for="End" />
                         <input type="hidden" asp-for="DurationInDays" />

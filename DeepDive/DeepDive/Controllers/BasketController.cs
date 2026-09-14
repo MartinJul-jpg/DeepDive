@@ -25,64 +25,59 @@ namespace DeepDive.Controllers
 
             return View(_basketRepository.GetBasket());
         }
+            
 
-        [HttpPost]
-        public IActionResult Index(Booking basket)
+        public IActionResult Index(int? bookingId, int? productId, int? quantity, Booking cart)
         {
-            _basketRepository.UpdateBasketDates(basket);
-
-            ModelState.Clear();
-            _bookingRepository.ValidateBookingOverlap(_basketRepository.GetBasket());
-            TryValidateModel(_basketRepository.GetBasket(), nameof(Booking));
-
-            return View(_basketRepository.GetBasket());
-        public IActionResult Index(int? bookingId, int? productId, int? quantity, Booking basket)
-        {
-            Booking booking = BookingRepository.GetBasket();
 
             // Handle quantity update for specific product
             if (productId.HasValue && quantity.HasValue && bookingId.HasValue)
             {
                 // Count how many of this product are in the basket
-                List<int> ofSameProduct = new List<int>();
-                foreach (int id in booking.BookedProducts)
-                {
-                    if (id == productId)
-                    {
-                        ofSameProduct.Add(id);
-                    }
-                }
+                //List<int> ofSameProduct = new List<int>();
+                //foreach (int id in cart.Product_Bookings)
+                //{
+                //    if (id == productId)
+                //    {
+                //        ofSameProduct.Add(id);
+                //    }
+                //}
 
-                if (ofSameProduct.Count > quantity)
-                {
-                    // Remove products from basket
-                    int amountToRemove = ofSameProduct.Count - quantity.Value;
-                    for (int i = 0; i < amountToRemove; i++)
-                    {
-                        booking.BookedProducts.Remove(productId.Value);
-                    }
-                }
-                else if (ofSameProduct.Count < quantity)
-                {
-                    // Add products to basket
-                    int amountToAdd = quantity.Value - ofSameProduct.Count;
-                    for (int i = 0; i < amountToAdd; i++)
-                    {
-                        booking.BookedProducts.Add(productId.Value);
-                    }
-                }
+                //if (ofSameProduct.Count > quantity)
+                //{
+                //    // Remove products from basket
+                //    int amountToRemove = ofSameProduct.Count - quantity.Value;
+                //    for (int i = 0; i < amountToRemove; i++)
+                //    {
+                //        cart.Product_Bookings.Remove(productId);
+                //    }
+                //}
+                //else if (ofSameProduct.Count < quantity)
+                //{
+                //    // Add products to basket
+                //    int amountToAdd = quantity.Value - ofSameProduct.Count;
+                //    for (int i = 0; i < amountToAdd; i++)
+                //    {
+                //        cart.Product_Bookings.Add(productId);
+                //    }
+                //}
             }
             else
             {
                 // Handle date changes
-                booking.Start = basket.Start;
-                booking.End = basket.End;
+                //cart.Start = basket.Start;
+                //cart.End = basket.End;
+
+                _basketRepository.UpdateBasketDates(cart);
+
+                ModelState.Clear();
+                _bookingRepository.ValidateBookingOverlap(_basketRepository.GetBasket());
+                TryValidateModel(_basketRepository.GetBasket(), nameof(Booking));
             }
 
             // Recalculate DurationInDays and TotalPrice
-            booking.CalculatePriceOfBooking();
-            BookingRepository.UpdateBasket(booking);
-            return View(booking);
+            cart.CalculatePriceOfBooking();
+            return View(_basketRepository.GetBasket());
         }
 
         [HttpPost]
