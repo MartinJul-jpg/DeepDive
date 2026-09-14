@@ -11,19 +11,19 @@
         {
             @* Update the quantity of existing items in the cart *@
             <div class="card cartCard">
-                <form id="bookingForm" asp-controller="Basket" asp-action="Index" class="d-flex">
+                <form id="bookingForm" asp-controller="Basket" asp-action="Index" method="post" class="d-flex">
                     @for (int i = 0; i < Model.BookedProducts.Count(); i++)
                     {
                         <input type="hidden" asp-for="BookedProducts[i]" />
                     }
                     <div class="col">
                         <h5 class="fw-bold">Start Dato</h5>
-                        <input type="date" asp-for="Start" onchange="document.getElementById('bookingForm').submit()" class="w-50 p3" />
+                        <input type="date" asp-for="Start" value="@Model.Start.ToString("yyyy-MM-dd")" onchange="document.getElementById('bookingForm').submit()" class="w-50 p3" />
                         <br />
                     </div>
                     <div class="col">
                         <h5 class="fw-bold">Slut Dato</h5>
-                        <input type="date" asp-for="End" onchange="document.getElementById('bookingForm').submit()" class="w-50 p3" />
+                        <input type="date" asp-for="End" value="@Model.End.ToString("yyyy-MM-dd")" onchange="document.getElementById('bookingForm').submit()" class="w-50 p3" />
                     </div>
                 </form>
 
@@ -42,8 +42,11 @@
                             <div class="d-flex justify-content-center" style="height: 40px;">
                                 <button id="minusBtn" name="minusBtn" class="amountSelector btn btn-primary">-</button>
                                 @* Current problem: Form is not being submitted correctly *@
-                                <form class="amountForm" asp-controller="Basket" asp-action="Index">
+                                <form class="amountForm" asp-controller="Basket" asp-action="Index" method="post">
+                                    <input type="hidden" name="bookingId" value="@Model.BookingId" />
                                     <input type="hidden" name="productId" value="@productId" />
+                                    <input type="hidden" name="start" value="@Model.Start" />
+                                    <input type="hidden" name="end" value="@Model.End" />
                                     <input name="quantity" onchange="this.closest('form').submit()" class="amountSelector m-0" type="number" value="@amount" />
                                 </form>
                                 <button id="plusBtn" name="addBtn" class="amountSelector btn btn-primary">+</button>
@@ -56,7 +59,7 @@
                 <h5>Total pris: Kr. @Model.TotalPrice.ToString(),-</h5>
                 <br />
                 <div class="align-content-end d-flex justify-content-center flex-wrap">
-                    <form asp-controller="Basket" asp-action="Add">
+                    <form asp-controller="Basket" asp-action="Add" method="post">
                         @for (int i = 0; i < Model.BookedProducts.Count(); i++)
                         {
                             <input type="hidden" asp-for="BookedProducts[i]" />
@@ -110,17 +113,21 @@
             plusBtns.forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.preventDefault();
-                    const quantityInput = btn.closest('.d-flex').querySelector('input[type="number"]');
+                    const form = btn.closest('.cart-item').querySelector('.amountForm');
+                    const quantityInput = form.querySelector('input[name="quantity"]');
                     quantityInput.value = parseInt(quantityInput.value) + 1;
+                    form.submit();
                 });
             });
 
             minusBtns.forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.preventDefault();
-                    const quantityInput = btn.closest('.d-flex').querySelector('input[type="number"]');
+                    const form = btn.closest('.cart-item').querySelector('.amountForm');
+                    const quantityInput = form.querySelector('input[name="quantity"]');
                     if (parseInt(quantityInput.value) > 1) {
                         quantityInput.value = parseInt(quantityInput.value) - 1;
+                        form.submit();
                     }
                 });
             });
