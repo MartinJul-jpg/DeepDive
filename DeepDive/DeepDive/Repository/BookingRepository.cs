@@ -61,6 +61,7 @@ namespace DeepDive.Repository
         public void ValidateBookingOverlap(Booking basket)
         {
             //getting basketDates<DateOnly>
+            //is filled with the dates that exist within baskets timespan
             List<DateOnly> basketDates = new List<DateOnly>();
             for (int days = 0; days < basket.DurationInDays + 1; days++)
             {
@@ -68,6 +69,7 @@ namespace DeepDive.Repository
             }
 
             //getting basketProductIds<int>
+            //is filled with the productId's that exist within the basket
             List<int> basketProductIds = new List<int>();
             foreach (Product_Booking pb in basket.Product_Bookings)
             {
@@ -78,6 +80,7 @@ namespace DeepDive.Repository
             }
 
             //getting basketProductIdsTuple<(int, int)>
+            //is filled with tuple pairs that represent the productId's and the amounts that are within the basket
             List<(int, int)> basketProductIdsTuple = new List<(int, int)>();
             foreach (int productId in basketProductIds)
             {
@@ -86,11 +89,13 @@ namespace DeepDive.Repository
             }
 
             //getting bookings<Booking>
+            //gets all bookings that exist in the database
             List <Booking> bookings = _deepDiveContext.Bookings
                 .Include(b => b.Product_Bookings)
                 .ToList();
 
             //getting overlapsId<Booking>
+            //is filled with the bookings that have any productId that exists in the basket
             List<Booking> overlapsId = new List<Booking>();
             foreach (Booking booking in bookings)
             {
@@ -109,6 +114,7 @@ namespace DeepDive.Repository
             }
 
             //getting overlapsIdTuple<(Booking, List<DateOnly>)>
+            //tuple pairs of those bookings and their dates
             List<(Booking, List<DateOnly>)> overlapsIdTuples = new List<(Booking, List<DateOnly>)>();
             foreach (Booking booking in overlapsId)
             {
