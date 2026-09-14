@@ -1,56 +1,215 @@
-﻿using DeepDive.Models;
-using DeepDive.ViewModels;
+﻿using DeepDive.Data;
+using DeepDive.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 
 namespace DeepDive.Repository
 {
-    public static class BookingRepository
+    public class BookingRepository
     {
-        private static Booking _basket;
-        private static List<Booking> _bookings = new List<Booking>();
+        private BasketRepository _basketRepository;
+        private ProductRepository _productRepository;
+        private readonly DeepDiveContext _deepDiveContext;
 
-        public static Booking GetBasket()
+        public BookingRepository(DeepDiveContext deepDiveContext, BasketRepository basketRepository, ProductRepository productRepository)
         {
-            return _basket;
+            _deepDiveContext = deepDiveContext;
+            _basketRepository = basketRepository;
+            _productRepository = productRepository;
         }
 
-        public static List<Booking> GetBookings()
-        {
-            return _bookings;
-        }
-
-        public static void UpdateBasket(Booking basket)
-        {
-            _basket = basket;
-        }
-
-        public static void AddProductToBasket(int id)
-        {
-            if (_basket == null)
-            {
-                _basket = new Booking();
-            }
-
-            _basket.BookedProducts.Add(id);
-            _basket.Start = DateOnly.FromDateTime(DateTime.Today);
-            _basket.End = DateOnly.FromDateTime(DateTime.Today.AddDays(1));
-        }
-
-        public static void ClearBasket()
-        {
-            _basket = null;
-        }
-
-        public static void AddBooking(Booking basket)
+        public void AddBooking(Booking basket)
         {
             Booking booking = new Booking();
-
-            booking.BookingId = _bookings.Any() ? _bookings.Max(x => x.BookingId) + 1 : 1;
-            booking.BookedProducts = basket.BookedProducts;
+            booking.BookingId = 0;
             booking.Start = basket.Start;
             booking.End = basket.End;
+            _deepDiveContext.Bookings.Add(booking);
+            _deepDiveContext.SaveChanges();
 
-            _bookings.Add(booking);
+            foreach (Product_Booking pb in basket.Product_Bookings)
+            {
+                pb.Product = null;
+                pb.Booking = null;
+                pb.BookingId = booking.BookingId;
+                _deepDiveContext.Product_Bookings.Add(pb);
+            }
+            _deepDiveContext.SaveChanges();
+        }
+
+        public List<Booking> GetAllBookings()
+        {
+            List<Booking> bookings = _deepDiveContext.Bookings
+                .Include(b => b.Product_Bookings)
+                .ThenInclude(pb => pb.Product).ToList();
+            return bookings;
+        }
+
+        public Booking? GetBookingById(int id)
+        {
+            Booking booking = _deepDiveContext.Bookings
+                .Include(b => b.Product_Bookings)
+                .ThenInclude(pb => pb.Product)
+                .Where(booking => booking.BookingId == id)
+                .ToList()
+                .First();
+
+
+            return booking;
+        }
+
+        public void ValidateBookingOverlap(Booking basket)
+        {
+            //getting basketDates<DateOnly>
+            //is filled with the dates that exist within baskets timespan
+            List<DateOnly> basketDates = new List<DateOnly>();
+            for (int days = 0; days < basket.DurationInDays + 1; days++)
+            {
+                basketDates.Add(basket.Start.AddDays(days));
+            }
+
+            //getting basketProductIds<int>
+            //is filled with the productId's that exist within the basket
+            List<int> basketProductIds = new List<int>();
+            foreach (Product_Booking pb in basket.Product_Bookings)
+            {
+                if (!basketProductIds.Contains(pb.ProductId))
+                {
+                    basketProductIds.Add(pb.ProductId);
+                }
+            }
+
+            //getting basketProductIdsTuple<(int, int)>
+            //is filled with tuple pairs that represent the productId's and the amounts that are within the basket
+            List<(int, int)> basketProductIdsTuple = new List<(int, int)>();
+            foreach (int productId in basketProductIds)
+            {
+                int basketAmount = basket.Product_Bookings.Where(pb => pb.ProductId == productId).ToList().Count();
+                basketProductIdsTuple.Add((productId, basketAmount));
+            }
+
+            //getting bookings<Booking>
+            //gets all bookings that exist in the database
+            List <Booking> bookings = _deepDiveContext.Bookings
+                .Include(b => b.Product_Bookings)
+                .ToList();
+
+            //getting overlapsId<Booking>
+            //is filled with the bookings that have any productId that exists in the basket
+            List<Booking> overlapsId = new List<Booking>();
+            foreach (Booking booking in bookings)
+            {
+                bool foundInBooking = false;
+                foreach (Product_Booking pb in booking.Product_Bookings)
+                {
+                    if (basketProductIds.Contains(pb.ProductId))
+                    {
+                        foundInBooking = true;
+                    }
+                }
+                if (foundInBooking)
+                {
+                    overlapsId.Add(booking);
+                }
+            }
+
+            //getting overlapsIdTuple<(Booking, List<DateOnly>)>
+            //tuple pairs of those bookings and their dates
+            List<(Booking, List<DateOnly>)> overlapsIdTuples = new List<(Booking, List<DateOnly>)>();
+            foreach (Booking booking in overlapsId)
+            {
+                int durationInDays = booking.End.DayNumber - booking.Start.DayNumber;
+
+                List<DateOnly> bookingDates = new List<DateOnly>();
+                for (int days = 0; days < durationInDays + 1; days++)
+                {
+                    bookingDates.Add(booking.Start.AddDays(days));
+                }
+
+                overlapsIdTuples.Add((booking, new List<DateOnly>(bookingDates)));
+            }
+
+            //getting overlapsBasketDate_List<List<Booking>>
+            List<List<Booking>> overlapsBasketDate_List = new List<List<Booking>>();
+            foreach (DateOnly basketDate in basketDates)
+            {
+                List<Booking> overlapsBasketDate = new List<Booking>();
+                foreach ((Booking, List<DateOnly>) bookingTuple in overlapsIdTuples)
+                {
+                    bool foundInBookingTuple = false;
+                    foreach (DateOnly bookingDate in bookingTuple.Item2)
+                    {
+                        if (bookingDate == basketDate)
+                        {
+                            foundInBookingTuple = true;
+                        }
+                    }
+                    if (foundInBookingTuple)
+                    {
+                        overlapsBasketDate.Add(bookingTuple.Item1);
+                    }
+                }
+
+                overlapsBasketDate_List.Add(overlapsBasketDate);
+            }
+
+            //getting overlapsBasketDate_pbs_List<List<Product_Booking>>
+            List<List<Product_Booking>> overlapsBasketDate_pbs_List = new List<List<Product_Booking>>();
+            foreach (List<Booking> booking_List in overlapsBasketDate_List)
+            {
+                List<Product_Booking> overlapsBasketDate_pbs = new List<Product_Booking>();
+                foreach (Booking booking in booking_List)
+                {
+                    foreach (Product_Booking pb in booking.Product_Bookings)
+                    {
+                        overlapsBasketDate_pbs.Add(pb);
+                    }
+                }
+                overlapsBasketDate_pbs_List.Add(overlapsBasketDate_pbs);
+            }
+
+            //check that store capacity isnt exceeded by cart + booking, per date
+            foreach (List<Product_Booking> pbs in overlapsBasketDate_pbs_List)
+            {
+                foreach ((int, int) basketProductIdTuple in basketProductIdsTuple)
+                {
+                    int basketProductId = basketProductIdTuple.Item1;
+                    int basketProductIdAmount = basketProductIdTuple.Item2;
+
+                    int amount = _productRepository.GetProductById(basketProductId).Amount;
+                    foreach (var item in pbs.Where(pb => pb.ProductId == basketProductId))
+                    {
+                        //in here only pbs with the correct productId are present
+                        amount -= 1;
+
+                        if (amount < basketProductIdAmount)
+                        {
+                            _basketRepository.UpdateBasketOverlap(true);
+                            return;
+                        }
+                    }
+                }
+            }
+
+            //in case no overlapping bookings are detected, a check is required anyway,
+            //checks that store capacity isnt exceeded by cart, in general
+            foreach ((int, int) basketProductIdTuple in basketProductIdsTuple)
+            {
+                int basketProductId = basketProductIdTuple.Item1;
+                int basketProductIdAmount = basketProductIdTuple.Item2;
+
+                int amount = _productRepository.GetProductById(basketProductId).Amount;
+
+                if (amount < basketProductIdAmount)
+                {
+                    _basketRepository.UpdateBasketOverlap(true);
+                    return;
+                }
+            }
+
+            //cart items did not exceed remaining stock, at any point
+            _basketRepository.UpdateBasketOverlap(false);
+            return;
         }
     }
 }

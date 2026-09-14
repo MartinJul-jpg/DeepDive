@@ -1,4 +1,5 @@
-﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+﻿@model Package;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using DeepDive.Models;
 
 @{
@@ -8,10 +9,10 @@
         <div class="row">
             <div class="col">
                 <div id="packageImageContainer" class="card d-flex flex-wrap justify-content-evenly align-content-center">
-                    @foreach (Product product in Model.setList)
+                    @foreach (Package_Product pp in Model.Package_Products)
                     {
                         <img src="~/lib/custom/resource/product-placeholder.png" class="packageImg">
-                        _price += product.Price;
+                        _price += pp.Product.Price;
                     }
                 </div>
             </div>

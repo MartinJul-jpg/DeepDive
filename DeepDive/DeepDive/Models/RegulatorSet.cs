@@ -1,12 +1,13 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 
 namespace DeepDive.Models
 {
     public class RegulatorSet : Product
     {
-        public string FirstStage { get; set; }
-        public string SecondStage { get; set; }
-        public string Octopus { get; set; }
+        public string FirstStage { get; set; } = string.Empty;
+        public string SecondStage { get; set; }= string.Empty;
+        public string Octopus { get; set; } = string.Empty;
 
         public override string GetUniqueInfo()
         {

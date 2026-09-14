@@ -18,9 +18,9 @@
                     @booking.End
                 </div>
             <h4>Vare:</h4>
-            @foreach (int productId in booking.BookedProducts)
+            @foreach (Product_Booking pb in booking.Product_Bookings)
             {
-                Product product = ProductRepository.GetProductById(productId);
+                Product product = pb.Product;
                 <a id="productText" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")" id="cartItem">@product.GetProductBrand()</a>
                 <br />
             }

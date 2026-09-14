@@ -1,20 +1,41 @@
 ﻿using DeepDive.Models;
 using DeepDive.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace DeepDive.Controllers
 {
     public class BasketController : Controller
     {
+        private BasketRepository _basketRepository;
+        private BookingRepository _bookingRepository;
+        private ProductRepository _productRepository;
+
+        public BasketController(BasketRepository basketRepository,BookingRepository bookingRepository, ProductRepository productRepository)
+        {
+            _basketRepository = basketRepository;
+            _bookingRepository = bookingRepository;
+            _productRepository = productRepository;
+        }
         [HttpGet]
         public IActionResult Index()
         {
-            Booking basket = BookingRepository.GetBasket();
+            _bookingRepository.ValidateBookingOverlap(_basketRepository.GetBasket());
+            TryValidateModel(_basketRepository.GetBasket(), nameof(Booking));
 
-            return View(basket);
+            return View(_basketRepository.GetBasket());
         }
 
         [HttpPost]
+        public IActionResult Index(Booking basket)
+        {
+            _basketRepository.UpdateBasketDates(basket);
+
+            ModelState.Clear();
+            _bookingRepository.ValidateBookingOverlap(_basketRepository.GetBasket());
+            TryValidateModel(_basketRepository.GetBasket(), nameof(Booking));
+
+            return View(_basketRepository.GetBasket());
         public IActionResult Index(int? bookingId, int? productId, int? quantity, Booking basket)
         {
             Booking booking = BookingRepository.GetBasket();
@@ -67,19 +88,17 @@ namespace DeepDive.Controllers
         [HttpPost]
         public IActionResult Add(Booking basket)
         {
+            _bookingRepository.ValidateBookingOverlap(_basketRepository.GetBasket());
+            TryValidateModel(_basketRepository.GetBasket(), nameof(Booking));
+
             if (ModelState.IsValid)
             {
-                //Checks if product amount is smaller or equal to actuall product amount saved inside storage
-                if (basket.BookedProducts.All(product => ProductRepository.ProductCheckAmount(product, 1)))
-                {
-                    BookingRepository.AddBooking(basket);
-                    //Change this to be more dynamic instead of static
-                    //basket.BookedProducts.ToList().ForEach(product => ProductRepository.RemoveAmount(product, 1));
-                    BookingRepository.ClearBasket();
-                    return RedirectToAction("Index", "Home");
-                }
+                _bookingRepository.AddBooking(_basketRepository.GetBasket());
+                _basketRepository.ResetBasket();
 
+                return RedirectToAction("Index", "Home");
             }
+
             return RedirectToAction("Index", "Basket");
         }
     }
