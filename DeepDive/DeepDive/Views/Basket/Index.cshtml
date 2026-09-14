@@ -27,7 +27,7 @@
                 @foreach (Product_Booking productBooking in Model.Product_Bookings)
                 {
                     @* Enkelt vare *@
-                    Product product = ProductRepository.GetProductById(productBooking.ProductId);
+                    Product product = productBooking.Product;
                     <div data-product-id="@productBooking.ProductId" class="cart-item">
                         <hr id="infoSeperator">
                         <div class="d-flex justify-content-between">
