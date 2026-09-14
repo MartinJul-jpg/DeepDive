@@ -78,8 +78,8 @@ img {
     border: none;
     border-radius: 10px;
     margin: 5px;
-    height: 15vh;
-    width: 15vh;
+    height: 30%;
+    width: 30%;
 }
 
 .amountSelector{
@@ -261,5 +261,7 @@ img {
 }
 
 #packageImageContainer{
-    height: 18rem;
+    height: 25vw;
+    width: 25vw;
+    padding: 20px;
 }
