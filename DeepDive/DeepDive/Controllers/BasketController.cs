@@ -79,14 +79,11 @@ namespace DeepDive.Controllers
                     }
                 }
             }
-            else
-            {
-                _basketRepository.UpdateBasketDates(cart);
+            _basketRepository.UpdateBasketDates(cart);
 
-                ModelState.Clear();
-                _bookingRepository.ValidateBookingOverlap(_basketRepository.GetBasket());
-                TryValidateModel(_basketRepository.GetBasket(), nameof(Booking));
-            }
+            ModelState.Clear();
+            _bookingRepository.ValidateBookingOverlap(_basketRepository.GetBasket());
+            TryValidateModel(_basketRepository.GetBasket(), nameof(Booking));
 
             // Recalculate DurationInDays and TotalPrice
             _basketRepository.GetBasket().CalculatePriceOfBooking();
