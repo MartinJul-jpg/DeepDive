@@ -85,9 +85,6 @@ namespace DeepDive.Controllers
             _bookingRepository.ValidateBookingOverlap(_basketRepository.GetBasket());
             TryValidateModel(_basketRepository.GetBasket(), nameof(Booking));
 
-            // Recalculate DurationInDays and TotalPrice
-            _basketRepository.GetBasket().CalculatePriceOfBooking();
-
             // If the basket is empty, return empty view
             if (_basketRepository.GetBasket().Product_Bookings.Count <= 0)
             {
