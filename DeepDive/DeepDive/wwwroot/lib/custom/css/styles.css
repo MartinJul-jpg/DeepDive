@@ -78,8 +78,8 @@ img {
     border: none;
     border-radius: 10px;
     margin: 5px;
-    height: 15vh;
-    width: 15vh;
+    height: 30%;
+    width: 30%;
 }
 
 .amountSelector{
@@ -95,7 +95,20 @@ img {
     overflow: hidden;
 }
 
-#plusBtn{
+#removeCartBtn {
+    border: 5px;
+    margin: 0 5px 0 5px;
+    height: 40px;
+    width: 40px;
+}
+
+#productImg {
+    height: 40vh;
+    width: 25vw;
+    margin: 0;
+}
+
+#plusBtn {
     border-radius: 0 5px 5px 0;
 }
 
@@ -104,7 +117,7 @@ img {
 }
 
 #cartItem{
-    height: 5px;
+    height: 50px;
 }
 
 #itemPageTitle {
@@ -132,7 +145,7 @@ img {
     justify-content: top;
 }
 #pageContent div.itemDiv1 {
-    grid-area: itemDiv1;;
+    grid-area: itemDiv1;
 }
 #pageContent div.itemDiv2 {
     grid-area: itemDiv2;
@@ -248,5 +261,7 @@ img {
 }
 
 #packageImageContainer{
-    height: 18rem;
+    height: 25vw;
+    width: 25vw;
+    padding: 20px;
 }

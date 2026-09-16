@@ -1,44 +1,67 @@
 ﻿@model Booking;
-@using DeepDive.Repository;
 @using DeepDive.Models;
 <div>
     <br />
     <h1>Kurv</h1>
 
     @{
+        int amount = 1;
         if (Model != null)
         {
+            @* Update the quantity of existing items in the cart *@
             <div class="card cartCard">
-                <form id="bookingForm" asp-controller="Basket" asp-action="Index" class="d-flex">
+                <form id="bookingForm" asp-controller="Basket" asp-action="Index" method="post" class="d-flex">
                     <div class="col">
                         <h5 class="fw-bold">Start Dato</h5>
-                        <input type="date" asp-for="Start" onchange="document.getElementById('bookingForm').submit()" class="w-50 p3" />
+                        <input type="date" asp-for="Start" value="@Model.Start.ToString("yyyy-MM-dd")" onchange="document.getElementById('bookingForm').submit()" class="w-50 p3" />
                         <br />
                     </div>
                     <div class="col">
                         <h5 class="fw-bold">Slut Dato</h5>
-                        <input type="date" asp-for="End" onchange="document.getElementById('bookingForm').submit()" class="w-50 p3" />
+                        <input type="date" asp-for="End" value="@Model.End.ToString("yyyy-MM-dd")" onchange="document.getElementById('bookingForm').submit()" class="w-50 p3" />
                     </div>
                 </form>
 
-
-                <br />
                 <h4>Vare:</h4>
                 @foreach (Product_Booking productBooking in Model.Product_Bookings)
                 {
+                    @* Enkelt vare *@
                     Product product = productBooking.Product;
-                    <a id="productText" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")" id="cartItem">@product.GetProductBrand() - Pris pr. dag: Kr. @product.GetProductPrice().ToString(),-</a> <br />
+                    <div data-product-id="@productBooking.ProductId" class="cart-item">
+                        <hr id="infoSeperator">
+                        <div class="d-flex justify-content-between">
+                            <a class="d-flex" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")">
+                                <img src="~/lib/custom/resource/product-placeholder.png" class="m-0" style="height: 40px; width: 40px;">
+                                <h5 class="m-2">@product.GetProductBrand() - Pris pr. dag: Kr. @product.GetProductPrice().ToString(),-</h5>
+                            </a> <br />
+                            <div class="d-flex justify-content-center" style="height: 40px;">
+                                <button id="minusBtn" name="minusBtn" class="amountSelector btn btn-primary">-</button>
+                                @* Current problem: Form is not being submitted correctly *@
+                                <form class="amountForm" asp-controller="Basket" asp-action="Index" method="post">
+                                    <input type="hidden" name="bookingId" value="@Model.BookingId" />
+                                    <input type="hidden" name="productId" value="@productBooking.ProductId" />
+                                    <input type="hidden" name="start" value="@Model.Start" />
+                                    <input type="hidden" name="end" value="@Model.End" />
+                                    <input name="quantity" onchange="this.closest('form').submit()" class="amountSelector m-0" type="number" value="@amount" />
+                                </form>
+                                <button id="plusBtn" name="addBtn" class="amountSelector btn btn-primary">+</button>
+                                <form class ="removeForm" asp-controller="Basket" asp-action="Index" method="post">
+                                    <input type="hidden" name="bookingId" value="@Model.BookingId" />
+                                    <input type="hidden" name="productId" value="@productBooking.ProductId" />
+                                    <input type="hidden" name="start" value="@Model.Start" />
+                                    <input type="hidden" name="end" value="@Model.End" />
+                                    <input type="hidden" name="quantity" value="0" />
+                                    <button id="removeCartBtn" onclick="this.closest('form').submit()" class="removeCartBtn btn btn-danger">🗑︎</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 }
+                <hr id="infoSeperator">
                 <h5>Total pris: Kr. @Model.TotalPrice.ToString(),-</h5>
                 <br />
-                <div>
-                    <div>
-                    </div>
-                    <div>
-                    </div>
-                </div>
                 <div class="align-content-end d-flex justify-content-center flex-wrap">
-                    <form asp-controller="Basket" asp-action="Add">
+                    <form asp-controller="Basket" asp-action="Add" method="post">
                         <input type="hidden" asp-for="Start" />
                         <input type="hidden" asp-for="End" />
                         <input type="hidden" asp-for="DurationInDays" />
@@ -57,3 +80,64 @@
         }
     }
 </div>
+@section Scripts {
+    <script>
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Remove duplicate products
+            const productIds = new Set();
+            const cartItems = document.querySelectorAll('[data-product-id]');
+
+            cartItems.forEach((item) => {
+                const productId = item.getAttribute('data-product-id');
+
+                if (productIds.has(productId)) {
+                    // It's a duplicate - update the first occurrence's quantity
+                    const existingItem = document.querySelector(`[data-product-id="${productId}"]`);
+                    const quantityInput = existingItem.querySelector('input[type="number"]');
+                    quantityInput.value = parseInt(quantityInput.value) + 1;
+                    // Remove the duplicate
+                    item.remove();
+                } else {
+                    // First time seeing this product
+                    productIds.add(productId);
+                }
+            });
+
+            // Setup event listeners for all plus/minus buttons
+            const plusBtns = document.querySelectorAll('button[name="addBtn"]');
+            const minusBtns = document.querySelectorAll('button[name="minusBtn"]');
+            const removeBtns = document.querySelectorAll('button.removeCartBtn');
+
+            plusBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const form = btn.closest('.cart-item').querySelector('.amountForm');
+                    const quantityInput = form.querySelector('input[name="quantity"]');
+                    quantityInput.value = parseInt(quantityInput.value) + 1;
+                    form.submit();
+                });
+            });
+
+            minusBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const form = btn.closest('.cart-item').querySelector('.amountForm');
+                    const quantityInput = form.querySelector('input[name="quantity"]');
+                    if (parseInt(quantityInput.value) > 1) {
+                        quantityInput.value = parseInt(quantityInput.value) - 1;
+                        form.submit();
+                    }
+                });
+            });
+
+            removeBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const cartItem = btn.closest('.cart-item');
+                    cartItem.remove();
+                });
+            });
+        });
+    </script>
+}
