@@ -1,12 +1,13 @@
 ﻿using DeepDive.Models;
 using DeepDive.Repository;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client.NativeInterop;
 using System.Drawing;
 
 namespace DeepDive.Data
 {
-    public class DeepDiveContext : DbContext
+    public class DeepDiveContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Package>Packages { get; set; }
         public DbSet<Package_Product> Package_Products { get; set; }
@@ -399,7 +400,7 @@ namespace DeepDive.Data
                 modelBuilder.Entity<Package_Product>().HasData(package_products);
             }
 
-            // pre-seed bookings
+            // pre-seed Bookings
             int i = 0;
             foreach ((Booking, List<int>) tuple in bookings)
             {
@@ -431,6 +432,13 @@ namespace DeepDive.Data
             modelBuilder.Entity<DivingSuit>();
             modelBuilder.Entity<Fin>();
             modelBuilder.Entity<RegulatorSet>();
+
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Booking>()
+                .HasOne<ApplicationUser>(b => b.User)
+                .WithMany(a => a.Bookings)
+                .HasForeignKey(b => b.UserId);
 
             // Booking table
             modelBuilder.Entity<Booking>()

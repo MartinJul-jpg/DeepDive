@@ -88,14 +88,14 @@ namespace DeepDive.Repository
                 basketProductIdsTuple.Add((productId, basketAmount));
             }
 
-            //getting bookings<Booking>
-            //gets all bookings that exist in the database
+            //getting Bookings<Booking>
+            //gets all Bookings that exist in the database
             List <Booking> bookings = _deepDiveContext.Bookings
                 .Include(b => b.Product_Bookings)
                 .ToList();
 
             //getting overlapsId<Booking>
-            //is filled with the bookings that have any productId that exists in the basket
+            //is filled with the Bookings that have any productId that exists in the basket
             List<Booking> overlapsId = new List<Booking>();
             foreach (Booking booking in bookings)
             {
@@ -114,7 +114,7 @@ namespace DeepDive.Repository
             }
 
             //getting overlapsIdTuple<(Booking, List<DateOnly>)>
-            //tuple pairs of those bookings and their dates
+            //tuple pairs of those Bookings and their dates
             List<(Booking, List<DateOnly>)> overlapsIdTuples = new List<(Booking, List<DateOnly>)>();
             foreach (Booking booking in overlapsId)
             {
@@ -191,7 +191,7 @@ namespace DeepDive.Repository
                 }
             }
 
-            //in case no overlapping bookings are detected, a check is required anyway,
+            //in case no overlapping Bookings are detected, a check is required anyway,
             //checks that store capacity isnt exceeded by cart, in general
             foreach ((int, int) basketProductIdTuple in basketProductIdsTuple)
             {

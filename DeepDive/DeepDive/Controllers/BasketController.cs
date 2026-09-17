@@ -1,10 +1,12 @@
 ﻿using DeepDive.Models;
 using DeepDive.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace DeepDive.Controllers
 {
+    [Authorize]
     public class BasketController : Controller
     {
         private BasketRepository _basketRepository;
