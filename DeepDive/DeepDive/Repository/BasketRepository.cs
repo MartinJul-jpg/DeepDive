@@ -1,4 +1,5 @@
 ﻿using DeepDive.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DeepDive.Repository
 {
@@ -22,6 +23,12 @@ namespace DeepDive.Repository
         {
             _basket.ExceedsStock = exceedsStock;
         }
+
+        public void clearBasket()
+        {
+            _basket = null;
+        }
+       
 
         public void ResetBasket()
         {
