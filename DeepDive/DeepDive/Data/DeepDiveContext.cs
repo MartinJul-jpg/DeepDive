@@ -359,18 +359,26 @@ namespace DeepDive.Data
                 )
             };
 
-            IdentityRole admin = new IdentityRole()
+            List<IdentityRole> roles = new List<IdentityRole>
             {
-                Id = "1",
-                Name = "Admin",
-                NormalizedName = "ADMIN",
-                ConcurrencyStamp = "6ac343b0-00ef-4a1c-8f64-68daaca77b5b"
+                new IdentityRole()
+                {
+                    Id = "1",
+                    Name = "Admin",
+                    NormalizedName = "ADMIN",
+                    ConcurrencyStamp = "1ac343b0-10ef-1a1c-1f64-18daaca77b5b"
+                },
+                new IdentityRole()
+                {
+                    Id = "2",
+                    Name = "User",
+                    NormalizedName = "USER",
+                    ConcurrencyStamp = "2ac343b0-20ef-2a1c-2f64-28daaca77b5b"
+                }
             };
-            //IdentityRole user = new IdentityRole() { Id = "2", Name = "User" };
 
             // Pre-seed roles
-            modelBuilder.Entity<IdentityRole>().HasData(admin);
-            //modelBuilder.Entity<IdentityRole>().HasData(user);
+            modelBuilder.Entity<IdentityRole>().HasData(roles);
 
             //pre-seed different product-type tables
             foreach (var product in products)
