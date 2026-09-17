@@ -39,7 +39,7 @@ namespace DeepDive.Models
                 CalculatePriceOfBooking();
             }
         }
-        [Range(1, int.MaxValue)]
+        [Range(1, int.MaxValue, ErrorMessage = "Dage må ikke ligge i fortiden.")]
         public int DurationInDays { get; set; }
         public double TotalPrice { get; set; }
         [Range(typeof(bool), "false", "false", ErrorMessage = $"Mængden af en vare overskrider lager på en af de pågældende datoer")]

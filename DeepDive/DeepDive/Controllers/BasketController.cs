@@ -103,7 +103,7 @@ namespace DeepDive.Controllers
             if (ModelState.IsValid)
             {
                 _bookingRepository.AddBooking(_basketRepository.GetBasket());
-                _basketRepository.ResetBasket();
+                _basketRepository.clearBasket();
 
                 return RedirectToAction("Index", "Home");
             }
