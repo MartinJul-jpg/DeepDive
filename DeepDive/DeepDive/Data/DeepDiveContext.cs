@@ -1,5 +1,6 @@
 ﻿using DeepDive.Models;
 using DeepDive.Repository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client.NativeInterop;
@@ -357,6 +358,13 @@ namespace DeepDive.Data
                     new List<int> { 20, 20, 20 }
                 )
             };
+
+            IdentityRole admin = new IdentityRole() { Id = "1", Name = "Admin" };
+            IdentityRole user = new IdentityRole() { Id = "2", Name = "User" };
+
+            // Pre-seed roles
+            //modelBuilder.Entity<IdentityRole>().HasData(admin);
+            //modelBuilder.Entity<IdentityRole>().HasData(user);
 
             //pre-seed different product-type tables
             foreach (var product in products)

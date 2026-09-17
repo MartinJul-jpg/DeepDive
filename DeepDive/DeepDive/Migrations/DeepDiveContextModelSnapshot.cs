@@ -108,7 +108,7 @@ namespace DeepDive.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bookings");
+                    b.ToTable("Bookings", (string)null);
 
                     b.HasData(
                         new
@@ -135,7 +135,7 @@ namespace DeepDive.Migrations
 
                     b.HasKey("PackageId");
 
-                    b.ToTable("Packages");
+                    b.ToTable("Packages", (string)null);
 
                     b.HasData(
                         new
@@ -160,7 +160,7 @@ namespace DeepDive.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Package_Products");
+                    b.ToTable("Package_Products", (string)null);
 
                     b.HasData(
                         new
@@ -230,7 +230,7 @@ namespace DeepDive.Migrations
 
                     b.HasKey("ProductId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
 
                     b.HasDiscriminator<string>("product_type").HasValue("product_base");
 
@@ -257,7 +257,7 @@ namespace DeepDive.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Product_Bookings");
+                    b.ToTable("Product_Bookings", (string)null);
 
                     b.HasData(
                         new
@@ -447,7 +447,7 @@ namespace DeepDive.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Products", t =>
+                    b.ToTable("Products", null, t =>
                         {
                             t.Property("Model")
                                 .HasColumnName("BCD_Model");
@@ -521,7 +521,7 @@ namespace DeepDive.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Products", t =>
+                    b.ToTable("Products", null, t =>
                         {
                             t.Property("Model")
                                 .HasColumnName("DivingSuit_Model");
@@ -770,7 +770,7 @@ namespace DeepDive.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Products", t =>
+                    b.ToTable("Products", null, t =>
                         {
                             t.Property("Model")
                                 .HasColumnName("Snorkel_Model");

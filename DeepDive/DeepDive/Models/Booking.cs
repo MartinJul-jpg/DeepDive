@@ -12,7 +12,7 @@ namespace DeepDive.Models
         [ValidateNever]
         public List<Product_Booking> Product_Bookings { get; set; } = new List<Product_Booking>();
         public string? UserId { get; set; }
-        public ApplicationUser User { get; set; }
+        public ApplicationUser? User { get; set; }
 
         private DateOnly _start;
         public DateOnly Start

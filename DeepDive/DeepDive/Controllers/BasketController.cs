@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace DeepDive.Controllers
 {
-    [Authorize]
     public class BasketController : Controller
     {
         private BasketRepository _basketRepository;
@@ -96,6 +95,7 @@ namespace DeepDive.Controllers
             return View(_basketRepository.GetBasket());
         }
 
+        [Authorize (Roles = "Admin, User")]
         [HttpPost]
         public IActionResult Add(Booking basket)
         {
