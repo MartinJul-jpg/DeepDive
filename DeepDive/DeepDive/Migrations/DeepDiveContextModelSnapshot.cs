@@ -85,6 +85,40 @@ namespace DeepDive.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "84cd148c-e055-4d01-8a32-d06e7489e2a3",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "451190ea-b605-4320-980a-6b863f169b73",
+                            Email = "kaede@mail.weeb",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "KAEDE@MAIL.WEEB",
+                            NormalizedUserName = "KAEDE@MAIL.WEEB",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPLm8PWZaT7SCiLonPE0fCuRfv1/I5tpvitirqwxafypHXTXHtZXEe2fwvsW26UyPQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "E6PKSVRQKLTX6JM23QOOG7NSEMZAT47O",
+                            TwoFactorEnabled = false,
+                            UserName = "kaede@mail.weeb"
+                        },
+                        new
+                        {
+                            Id = "9542f2d5-1f05-405c-b9df-eead849cd99f",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e322824d-2dab-48bc-ade6-9fc4d2a873bc",
+                            Email = "admin@mail.weeb",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "ADMIN@MAIL.WEEB",
+                            NormalizedUserName = "ADMIN@MAIL.WEEB",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBEVmLtgwFMZs35MUjXhKmcugpijRN4PRdczdzESGAEHJ3JA9IPKoq6XCexeD3KMtg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "OINHVGDBRL3BYMS5GX6ZUR6LIH6YPQNN",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@mail.weeb"
+                        });
                 });
 
             modelBuilder.Entity("DeepDive.Models.Booking", b =>
@@ -115,13 +149,15 @@ namespace DeepDive.Migrations
                         {
                             BookingId = 1,
                             End = new DateOnly(2026, 9, 19),
-                            Start = new DateOnly(2026, 9, 17)
+                            Start = new DateOnly(2026, 9, 17),
+                            UserId = "84cd148c-e055-4d01-8a32-d06e7489e2a3"
                         },
                         new
                         {
                             BookingId = 2,
                             End = new DateOnly(2026, 9, 19),
-                            Start = new DateOnly(2026, 9, 17)
+                            Start = new DateOnly(2026, 9, 17),
+                            UserId = "84cd148c-e055-4d01-8a32-d06e7489e2a3"
                         });
                 });
 
@@ -225,8 +261,8 @@ namespace DeepDive.Migrations
 
                     b.Property<string>("product_type")
                         .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("nvarchar(13)");
+                        .HasMaxLength(21)
+                        .HasColumnType("nvarchar(21)");
 
                     b.HasKey("ProductId");
 
@@ -428,6 +464,23 @@ namespace DeepDive.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "9542f2d5-1f05-405c-b9df-eead849cd99f",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            UserId = "9542f2d5-1f05-405c-b9df-eead849cd99f",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            UserId = "84cd148c-e055-4d01-8a32-d06e7489e2a3",
+                            RoleId = "2"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -546,7 +599,7 @@ namespace DeepDive.Migrations
                                 .HasColumnName("DivingSuit_Size");
                         });
 
-                    b.HasDiscriminator().HasValue("product_DS");
+                    b.HasDiscriminator().HasValue("product_DivingSuit");
 
                     b.HasData(
                         new
@@ -659,7 +712,7 @@ namespace DeepDive.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasDiscriminator().HasValue("product_F");
+                    b.HasDiscriminator().HasValue("product_Fin");
 
                     b.HasData(
                         new
@@ -743,7 +796,7 @@ namespace DeepDive.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasDiscriminator().HasValue("product_RS");
+                    b.HasDiscriminator().HasValue("product_RegulatorSet");
 
                     b.HasData(
                         new
@@ -792,7 +845,7 @@ namespace DeepDive.Migrations
                                 .HasColumnName("Snorkel_Model");
                         });
 
-                    b.HasDiscriminator().HasValue("product_SNO");
+                    b.HasDiscriminator().HasValue("product_Snorkel");
 
                     b.HasData(
                         new
@@ -861,7 +914,7 @@ namespace DeepDive.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasDiscriminator().HasValue("product_T");
+                    b.HasDiscriminator().HasValue("product_Tank");
 
                     b.HasData(
                         new
