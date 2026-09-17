@@ -1,7 +1,7 @@
 ﻿@model Product
 
-
 @{
+
     List<Product> products = new()
     { new BCD{Price = 500.0, Brand = "BcdDemo"},
         new DivingSuit{Price = 100.0, Brand = "DSDemo" },
@@ -16,32 +16,78 @@
     string action = ViewBag.Action ?? string.Empty;
 }
 
-
-
 <form method="post" asp-controller="Admin" asp-action="@action">
     @if (action == "Edit")
-        {
-            <input type ="hidden" asp-for="ProductId" />
+    {
+        <input type="hidden" asp-for="ProductId" />
 
-        }
+    }
 
-        @if (action == "Add")
-        {
-            <input type="text" asp-for="Brand" class="form-label" />
-        }
-        <div class="mb-3">
-        
-        <select asp-for="Brand"
-                asp-items="@(new SelectList(products, "Price", "Brand"))"
-                class="form-select"></select>
+    <div class="mb-3">
 
-        
-        <input asp-for="Price" class="form-label"/>
+        <select id="productTypeSelector" asp-for="Brand" class="form-select">
+            <option value="BCD">BCD</option>
+            <option value="DivingSuit">DivingSuit</option>
+            <option value="Fin">Fin</option>
+            <option value="RegulatorSet">RegulatorSet</option>
+            <option value="Snorkel">Snorkel</option>
+            <option value="Tank">Tank</option>
+        </select>
 
+        <input asp-for="Price" class="form-label" />
+
+        <div id="fields-BCD" class="subclass-fields" style="display:none;">
+            <input type="text" name="Model" value="@((Model as BCD)?.Model)" />
+            <input type="text" name="Size" value="@((Model as BCD)?.Size)" />
+        </div>
+
+        <div id="fields-DivingSuit" class="subclass-fields" style="display:none;">
+            <input type="text" name="Model" value="@((Model as DivingSuit)?.Model)" />
+            <input type="text" name="Size" value="@((Model as DivingSuit)?.Size)" />
+            <input type="text" name="Type" value="@((Model as DivingSuit)?.Type)" />
+            <input type="text" name="Gender" value="@((Model as DivingSuit)?.Gender)" />
+            <input type="text" name="Thickness" value="@((Model as DivingSuit)?.Thickness)" />
+        </div>
+
+        <div id="fields-Fin" class="subclass-fields" style="display:none;">
+            <input type="text" name="Model" value="@((Model as Fin)?.Model)" />
+            <input type="text" name="Size" value="@((Model as Fin)?.Size)" />
+        </div>
+
+        <div id="fields-RegulatorSet" class="subclass-fields" style="display:none;">
+            <input type="text" name="FirstStage" value="@((Model as RegulatorSet)?.FirstStage)" />
+            <input type="text" name="SecondStage" value="@((Model as RegulatorSet)?.SecondStage)" />
+            <input type="text" name="Octopus" value="@((Model as RegulatorSet)?.Octopus)" />
+        </div>
+
+        <div id="fields-Snorkel" class="subclass-fields" style="display:none;">
+            <input type="text" name="Model" value="@((Model as Snorkel)?.Model)" />
+        </div>
+
+        <div id="fields-Tank" class="subclass-fields" style="display:none;">
+            <input type="text" name="Model" value="@((Model as Tank)?.Volume)" />
+        </div>
     </div>
-   
+</form>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+          const selector = document.getElementById("productTypeSelector");
 
+          function toggleFields() {
+              const selectedType = selector.value;
 
-       
-</form> 
+              const sections = document.querySelectorAll(".subclass-fields");
+
+              sections.forEach(sec => sec.style.display = "none");
+
+              const activeSection = document.getElementById("fields-" + selectedType);
+              if (activeSection) {
+                  activeSection.style.display = "block";
+              }
+          }
+
+          selector.addEventListener("change", toggleFields);
+          toggleFields(); 
+      });
+</script>

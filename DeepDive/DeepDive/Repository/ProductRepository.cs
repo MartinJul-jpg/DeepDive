@@ -53,7 +53,7 @@ namespace DeepDive.Repository
 
         public List<Package> GetAllPackages()
         {
-            List<Package> packages = _deepDiveContext.Packages
+           List<Package> packages = _deepDiveContext.Packages
                 .Include(p => p.Package_Products)
                 .ThenInclude(pp => pp.Product).ToList();
 
