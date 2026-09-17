@@ -1,0 +1,47 @@
+﻿@model Product
+
+
+@{
+    List<Product> products = new()
+    { new BCD{Price = 500.0, Brand = "BcdDemo"},
+        new DivingSuit{Price = 100.0, Brand = "DSDemo" },
+        new Fin{Price = 100.0, Brand = "FinDemo" },
+        new RegulatorSet{Price = 100.0, Brand = "RSDemo" },
+        new Tank{Price = 100.0, Brand = "TankDemo" },
+        new Snorkel{Price = 100.0, Brand = "SnorkelDemo"}
+ };
+}
+
+@{
+    string action = ViewBag.Action ?? string.Empty;
+}
+
+
+
+<form method="post" asp-controller="Admin" asp-action="@action">
+    @if (action == "Edit")
+        {
+            <input type ="hidden" asp-for="ProductId" />
+
+        }
+
+        @if (action == "Add")
+        {
+            <input type="text" asp-for="Brand" class="form-label" />
+        }
+        <div class="mb-3">
+        
+        <select asp-for="Brand"
+                asp-items="@(new SelectList(products, "Price", "Brand"))"
+                class="form-select"></select>
+
+        
+        <input asp-for="Price" class="form-label"/>
+
+    </div>
+   
+
+
+
+       
+</form> 
