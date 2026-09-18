@@ -16,7 +16,8 @@ namespace DeepDive.Controllers
         }
         public IActionResult Index()
         {
-            return View(); 
+            List<Product> products = new List<Product>(_productRepository.GetAllProducts());
+            return View(products); 
 
 
 
@@ -33,11 +34,11 @@ namespace DeepDive.Controllers
             return View();
         } 
 
-        public IActionResult EditProduct(Product? product)
+        public IActionResult EditProduct(int productid)
         {
-
-            ViewBag.Action = "Edit";
-            return View(product);
+            Product foundproduct = _productRepository.GetProductById(productid);
+            ViewBag.Action = "EditProduct";
+            return View(foundproduct);
         }
 
         
@@ -45,13 +46,26 @@ namespace DeepDive.Controllers
         public IActionResult CreateNewProduct()
         {
             
-            ViewBag.Action = "Add";
+            ViewBag.Action = "CreateNewProduct";
             return View();
         } 
 
-        public IActionResult DeleteProduct()
+        [HttpPost]
+        public IActionResult CreateNewProduct(Product product)
         {
+            if (product != null)
+            {
+                _productRepository.AddNewProduct(product);
+                return RedirectToAction("Index");
+            }
+
             return View();
+        }
+
+        public IActionResult DeleteProduct(int productid)
+        {
+            _productRepository.DeleteProduct(productid);
+            return RedirectToAction("Index");
         } 
 
         
