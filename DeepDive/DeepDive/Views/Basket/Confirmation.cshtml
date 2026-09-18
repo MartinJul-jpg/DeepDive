@@ -1,0 +1,68 @@
+﻿@model Booking;
+@using DeepDive.Repository;
+@using DeepDive.Models;
+
+<form asp-controller="Basket" asp-action="Confirmation" method="post" class="needs-validation" novalidate>
+    @Html.AntiForgeryToken()
+    <div class="mb-3 form">
+        <label for="validationCustom01" class="form-label">Navn</label>
+        <input type="text" class="form-control" id="validationCustom01" required>
+        <div class="invalid-feedback">
+            Navn skal udfyldes
+        </div>
+    </div>
+
+    <div class="mb-3 form">
+        <label for="validationCustom02" class="form-label">Efternavn</label>
+        <input type="text" class="form-control" id="validationCustom02" required>
+        <div class="invalid-feedback">
+            Efternavn skal udfyldes
+        </div>
+    </div>
+x
+    <div class="mb-3 form">
+        <label for="validationCustom02" class="form-label">Telefon</label>
+        <input type="number" class="form-control" id="validationCustom02" required>
+        <div class="invalid-feedback">
+            Telefon skal udfyldes
+        </div>
+    </div>
+
+    <div class="col-12 form">
+        <div class="form-check">
+            <input type="checkbox" value="" id="invalidCheck" required>
+            <label class="form-check-label" for="invalidCheck">
+                Acceptér handelsbetingelser
+            </label>
+            <div class="invalid-feedback">
+                Du skal acceptere handelsbetingelserne
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="text-danger" asp-validation-summary="All"></div>
+        <input class="bottomCartBtn btn btn-success" style="width: 6rem;" type="submit" value="Book" />
+    </div>
+</form>
+
+<script>
+    (function() {
+        'use strict'
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>

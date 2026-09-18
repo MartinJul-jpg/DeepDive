@@ -9,7 +9,9 @@
         if (Model != null)
         {
             <div class="card cartCard">
-                <form id="bookingForm" asp-controller="Basket" asp-action="Index" class="d-flex">
+                <form id="bookingForm" asp-controller="Basket" asp-action="Index" method="post" class="d-flex">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="submitAction" value="update" />
                     @for (int i = 0; i < Model.BookedProducts.Count(); i++)
                     {
                         <input type="hidden" asp-for="BookedProducts[i]" />
@@ -42,7 +44,9 @@
                     </div>
                 </div>
                 <div class="align-content-end d-flex justify-content-center flex-wrap">
-                    <form asp-controller="Basket" asp-action="Add">
+                    <form asp-controller="Basket" asp-action="Index" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="submitAction" value="book" />
                         @for (int i = 0; i < Model.BookedProducts.Count(); i++)
                         {
                             <input type="hidden" asp-for="BookedProducts[i]" />
