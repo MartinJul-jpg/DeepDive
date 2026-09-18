@@ -51,8 +51,20 @@ namespace DeepDive.Controllers
         } 
 
         [HttpPost]
-        public IActionResult CreateNewProduct(Product product)
+        public IActionResult CreateNewProduct(BCD? bcd, DivingSuit? divingSuit, Fin? fin, RegulatorSet? regulatorSet, Snorkel? snorkel, Tank? tank, string productTypeSelector)
         {
+            Product? product = productTypeSelector switch
+            {
+                "BCD" => bcd,
+                "DivingSuit" => divingSuit,
+                "Fin" => fin,
+                "RegulatorSet" => regulatorSet,
+                "Snorkel" => snorkel,
+                "Tank" => tank,
+                _ => null
+
+            };
+
             if (product != null)
             {
                 _productRepository.AddNewProduct(product);
