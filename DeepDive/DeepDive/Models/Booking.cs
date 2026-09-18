@@ -1,4 +1,5 @@
-﻿using DeepDive.Repository;
+﻿using DeepDive.Data;
+using DeepDive.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
@@ -10,6 +11,8 @@ namespace DeepDive.Models
         public int BookingId { get; set; }
         [ValidateNever]
         public List<Product_Booking> Product_Bookings { get; set; } = new List<Product_Booking>();
+        public string? UserId { get; set; }
+        public ApplicationUser? User { get; set; }
 
         private DateOnly _start;
         public DateOnly Start

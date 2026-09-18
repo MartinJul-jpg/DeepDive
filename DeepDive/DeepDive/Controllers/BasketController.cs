@@ -1,5 +1,6 @@
 ﻿using DeepDive.Models;
 using DeepDive.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -94,6 +95,7 @@ namespace DeepDive.Controllers
             return View(_basketRepository.GetBasket());
         }
 
+        [Authorize (Roles = "Admin, User")]
         [HttpPost]
         public IActionResult Add(Booking basket)
         {

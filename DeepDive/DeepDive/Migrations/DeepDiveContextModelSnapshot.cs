@@ -22,6 +22,105 @@ namespace DeepDive.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("DeepDive.Data.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "84cd148c-e055-4d01-8a32-d06e7489e2a3",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "451190ea-b605-4320-980a-6b863f169b73",
+                            Email = "kaede@mail.weeb",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "KAEDE@MAIL.WEEB",
+                            NormalizedUserName = "KAEDE@MAIL.WEEB",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPLm8PWZaT7SCiLonPE0fCuRfv1/I5tpvitirqwxafypHXTXHtZXEe2fwvsW26UyPQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "E6PKSVRQKLTX6JM23QOOG7NSEMZAT47O",
+                            TwoFactorEnabled = false,
+                            UserName = "kaede@mail.weeb"
+                        },
+                        new
+                        {
+                            Id = "9542f2d5-1f05-405c-b9df-eead849cd99f",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e322824d-2dab-48bc-ade6-9fc4d2a873bc",
+                            Email = "admin@mail.weeb",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "ADMIN@MAIL.WEEB",
+                            NormalizedUserName = "ADMIN@MAIL.WEEB",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBEVmLtgwFMZs35MUjXhKmcugpijRN4PRdczdzESGAEHJ3JA9IPKoq6XCexeD3KMtg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "OINHVGDBRL3BYMS5GX6ZUR6LIH6YPQNN",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@mail.weeb"
+                        });
+                });
+
             modelBuilder.Entity("DeepDive.Models.Booking", b =>
                 {
                     b.Property<int>("BookingId")
@@ -36,7 +135,12 @@ namespace DeepDive.Migrations
                     b.Property<DateOnly>("Start")
                         .HasColumnType("date");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("BookingId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Bookings");
 
@@ -44,14 +148,16 @@ namespace DeepDive.Migrations
                         new
                         {
                             BookingId = 1,
-                            End = new DateOnly(2026, 9, 16),
-                            Start = new DateOnly(2026, 9, 14)
+                            End = new DateOnly(2026, 9, 19),
+                            Start = new DateOnly(2026, 9, 17),
+                            UserId = "84cd148c-e055-4d01-8a32-d06e7489e2a3"
                         },
                         new
                         {
                             BookingId = 2,
-                            End = new DateOnly(2026, 9, 16),
-                            Start = new DateOnly(2026, 9, 14)
+                            End = new DateOnly(2026, 9, 19),
+                            Start = new DateOnly(2026, 9, 17),
+                            UserId = "84cd148c-e055-4d01-8a32-d06e7489e2a3"
                         });
                 });
 
@@ -155,8 +261,8 @@ namespace DeepDive.Migrations
 
                     b.Property<string>("product_type")
                         .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("nvarchar(13)");
+                        .HasMaxLength(21)
+                        .HasColumnType("nvarchar(21)");
 
                     b.HasKey("ProductId");
 
@@ -226,6 +332,176 @@ namespace DeepDive.Migrations
                             BookingId = 2,
                             ProductId = 20
                         });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            ConcurrencyStamp = "1ac343b0-10ef-1a1c-1f64-18daaca77b5b",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            ConcurrencyStamp = "2ac343b0-20ef-2a1c-2f64-28daaca77b5b",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "9542f2d5-1f05-405c-b9df-eead849cd99f",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            UserId = "9542f2d5-1f05-405c-b9df-eead849cd99f",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            UserId = "84cd148c-e055-4d01-8a32-d06e7489e2a3",
+                            RoleId = "2"
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("DeepDive.Models.BCD", b =>
@@ -323,7 +599,7 @@ namespace DeepDive.Migrations
                                 .HasColumnName("DivingSuit_Size");
                         });
 
-                    b.HasDiscriminator().HasValue("product_DS");
+                    b.HasDiscriminator().HasValue("product_DivingSuit");
 
                     b.HasData(
                         new
@@ -436,7 +712,7 @@ namespace DeepDive.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasDiscriminator().HasValue("product_F");
+                    b.HasDiscriminator().HasValue("product_Fin");
 
                     b.HasData(
                         new
@@ -520,7 +796,7 @@ namespace DeepDive.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasDiscriminator().HasValue("product_RS");
+                    b.HasDiscriminator().HasValue("product_RegulatorSet");
 
                     b.HasData(
                         new
@@ -569,7 +845,7 @@ namespace DeepDive.Migrations
                                 .HasColumnName("Snorkel_Model");
                         });
 
-                    b.HasDiscriminator().HasValue("product_SNO");
+                    b.HasDiscriminator().HasValue("product_Snorkel");
 
                     b.HasData(
                         new
@@ -638,7 +914,7 @@ namespace DeepDive.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasDiscriminator().HasValue("product_T");
+                    b.HasDiscriminator().HasValue("product_Tank");
 
                     b.HasData(
                         new
@@ -673,6 +949,15 @@ namespace DeepDive.Migrations
                             Price = 180.0,
                             Volume = "15 liter"
                         });
+                });
+
+            modelBuilder.Entity("DeepDive.Models.Booking", b =>
+                {
+                    b.HasOne("DeepDive.Data.ApplicationUser", "User")
+                        .WithMany("Bookings")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DeepDive.Models.Package_Product", b =>
@@ -711,6 +996,62 @@ namespace DeepDive.Migrations
                     b.Navigation("Booking");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("DeepDive.Data.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("DeepDive.Data.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DeepDive.Data.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("DeepDive.Data.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DeepDive.Data.ApplicationUser", b =>
+                {
+                    b.Navigation("Bookings");
                 });
 
             modelBuilder.Entity("DeepDive.Models.Booking", b =>

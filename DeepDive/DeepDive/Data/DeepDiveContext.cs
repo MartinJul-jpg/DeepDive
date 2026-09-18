@@ -1,12 +1,14 @@
 ﻿using DeepDive.Models;
 using DeepDive.Repository;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client.NativeInterop;
 using System.Drawing;
 
 namespace DeepDive.Data
 {
-    public class DeepDiveContext : DbContext
+    public class DeepDiveContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Package>Packages { get; set; }
         public DbSet<Package_Product> Package_Products { get; set; }
@@ -335,7 +337,7 @@ namespace DeepDive.Data
                 )
             };
 
-            List<(Booking, List<int>)> bookings = new List<(Booking, List<int>)>
+            List<(Booking, List<int>)> bookings = new List<(Booking, List<int>)>()
             {
                 (
                     new Booking()
@@ -343,6 +345,7 @@ namespace DeepDive.Data
                         BookingId = 1,
                         Start = DateOnly.FromDateTime(DateTime.Now),
                         End = DateOnly.FromDateTime(DateTime.Now.AddDays(2)),
+                        UserId = "84cd148c-e055-4d01-8a32-d06e7489e2a3"
                     },
                     new List<int>() { 10, 10, 10 }
                 ),
@@ -352,10 +355,97 @@ namespace DeepDive.Data
                         BookingId = 2,
                         Start = DateOnly.FromDateTime(DateTime.Now),
                         End = DateOnly.FromDateTime(DateTime.Now.AddDays(2)),
+                        UserId = "84cd148c-e055-4d01-8a32-d06e7489e2a3"
                     },
                     new List<int> { 20, 20, 20 }
                 )
             };
+
+            List<IdentityRole> roles = new List<IdentityRole>()
+            {
+                new IdentityRole()
+                {
+                    Id = "1",
+                    Name = "Admin",
+                    NormalizedName = "ADMIN",
+                    ConcurrencyStamp = "1ac343b0-10ef-1a1c-1f64-18daaca77b5b"
+                },
+                new IdentityRole()
+                {
+                    Id = "2",
+                    Name = "User",
+                    NormalizedName = "USER",
+                    ConcurrencyStamp = "2ac343b0-20ef-2a1c-2f64-28daaca77b5b"
+                }
+            };
+
+            List<IdentityUser> users = new List<IdentityUser>()
+            {
+                new ApplicationUser()
+                {
+                    Id = "84cd148c-e055-4d01-8a32-d06e7489e2a3",
+                    UserName = "kaede@mail.weeb",
+                    NormalizedUserName = "KAEDE@MAIL.WEEB",
+                    Email = "kaede@mail.weeb",
+                    NormalizedEmail = "KAEDE@MAIL.WEEB",
+                    EmailConfirmed = false,
+                    PasswordHash = "AQAAAAIAAYagAAAAEPLm8PWZaT7SCiLonPE0fCuRfv1/I5tpvitirqwxafypHXTXHtZXEe2fwvsW26UyPQ==",
+                    SecurityStamp = "E6PKSVRQKLTX6JM23QOOG7NSEMZAT47O",
+                    ConcurrencyStamp = "451190ea-b605-4320-980a-6b863f169b73",
+                    PhoneNumber = null,
+                    PhoneNumberConfirmed = false,
+                    TwoFactorEnabled = false,
+                    LockoutEnd = null,
+                    LockoutEnabled = true,
+                    AccessFailedCount = 0
+                },
+                new ApplicationUser()
+                {
+                    Id = "9542f2d5-1f05-405c-b9df-eead849cd99f",
+                    UserName = "admin@mail.weeb",
+                    NormalizedUserName = "ADMIN@MAIL.WEEB",
+                    Email = "admin@mail.weeb",
+                    NormalizedEmail = "ADMIN@MAIL.WEEB",
+                    EmailConfirmed = false,
+                    PasswordHash = "AQAAAAIAAYagAAAAEBEVmLtgwFMZs35MUjXhKmcugpijRN4PRdczdzESGAEHJ3JA9IPKoq6XCexeD3KMtg==",
+                    SecurityStamp = "OINHVGDBRL3BYMS5GX6ZUR6LIH6YPQNN",
+                    ConcurrencyStamp = "e322824d-2dab-48bc-ade6-9fc4d2a873bc",
+                    PhoneNumber = null,
+                    PhoneNumberConfirmed = false,
+                    TwoFactorEnabled = false,
+                    LockoutEnd = null,
+                    LockoutEnabled = true,
+                    AccessFailedCount = 0
+                }
+            };
+
+            List<IdentityUserRole<string>> userRoles = new List<IdentityUserRole<string>>()
+            {
+                new IdentityUserRole<string>
+                {
+                    RoleId = "1",
+                    UserId = "9542f2d5-1f05-405c-b9df-eead849cd99f"
+                },
+                new IdentityUserRole<string>
+                {
+                    RoleId = "2",
+                    UserId = "9542f2d5-1f05-405c-b9df-eead849cd99f"
+                },
+                new IdentityUserRole<string>
+                {
+                    RoleId = "2",
+                    UserId = "84cd148c-e055-4d01-8a32-d06e7489e2a3"
+                }
+            };
+
+            //pre-seed users
+            modelBuilder.Entity<ApplicationUser>().HasData(users);
+
+            // Pre-seed roles
+            modelBuilder.Entity<IdentityRole>().HasData(roles);
+
+            //pre-seed userRoles
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(userRoles);
 
             //pre-seed different product-type tables
             foreach (var product in products)
@@ -399,7 +489,7 @@ namespace DeepDive.Data
                 modelBuilder.Entity<Package_Product>().HasData(package_products);
             }
 
-            // pre-seed bookings
+            // pre-seed Bookings
             int i = 0;
             foreach ((Booking, List<int>) tuple in bookings)
             {
@@ -418,12 +508,12 @@ namespace DeepDive.Data
             modelBuilder.Entity<Product>()
                 .HasDiscriminator<string>("product_type")
                 .HasValue<Product>("product_base")
-                .HasValue<RegulatorSet>("product_RS")
-                .HasValue<Snorkel>("product_SNO")
-                .HasValue<Tank>("product_T")
+                .HasValue<RegulatorSet>("product_RegulatorSet")
+                .HasValue<Snorkel>("product_Snorkel")
+                .HasValue<Tank>("product_Tank")
                 .HasValue<BCD>("product_BCD")
-                .HasValue<DivingSuit>("product_DS")
-                .HasValue<Fin>("product_F");
+                .HasValue<DivingSuit>("product_DivingSuit")
+                .HasValue<Fin>("product_Fin");
             
             modelBuilder.Entity<Snorkel>();
             modelBuilder.Entity<Tank>();
@@ -431,6 +521,13 @@ namespace DeepDive.Data
             modelBuilder.Entity<DivingSuit>();
             modelBuilder.Entity<Fin>();
             modelBuilder.Entity<RegulatorSet>();
+
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Booking>()
+                .HasOne<ApplicationUser>(b => b.User)
+                .WithMany(a => a.Bookings)
+                .HasForeignKey(b => b.UserId);
 
             // Booking table
             modelBuilder.Entity<Booking>()
