@@ -41,6 +41,30 @@ namespace DeepDive.Controllers
             return View(foundproduct);
         }
 
+        [HttpPost]
+        public IActionResult EditProduct(BCD? bcd, DivingSuit? divingSuit, Fin? fin, RegulatorSet? regulatorSet, Snorkel? snorkel, Tank? tank, string productTypeSelector)
+        {
+            Product? product = productTypeSelector switch
+            {
+                "BCD" => bcd,
+                "DivingSuit" => divingSuit,
+                "Fin" => fin,
+                "RegulatorSet" => regulatorSet,
+                "Snorkel" => snorkel,
+                "Tank" => tank,
+                _ => null
+
+            }; 
+
+            if (product != null)
+            {
+                _productRepository.UpdateProduct(product);
+                return RedirectToAction("Index");
+            }
+
+            return View();
+        }
+
         
 
         public IActionResult CreateNewProduct()
@@ -51,9 +75,9 @@ namespace DeepDive.Controllers
         } 
 
         [HttpPost]
-        public IActionResult CreateNewProduct(BCD? bcd, DivingSuit? divingSuit, Fin? fin, RegulatorSet? regulatorSet, Snorkel? snorkel, Tank? tank, string Brand)
+        public IActionResult CreateNewProduct(BCD? bcd, DivingSuit? divingSuit, Fin? fin, RegulatorSet? regulatorSet, Snorkel? snorkel, Tank? tank, string productTypeSelector)
         {
-            Product? product = Brand switch
+            Product? product = productTypeSelector switch
             {
                 "BCD" => bcd,
                 "DivingSuit" => divingSuit,

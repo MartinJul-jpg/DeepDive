@@ -9,20 +9,37 @@
     {
         <input type="hidden" asp-for="ProductId" />
 
+
     }
 
     <div class="mb-3">
-
-        <select id="productTypeSelector" asp-for="Brand" class="form-select">
-            <option value="BCD">BCD</option>
-            <option value="DivingSuit">DivingSuit</option>
-            <option value="Fin">Fin</option>
-            <option value="RegulatorSet">RegulatorSet</option>
-            <option value="Snorkel">Snorkel</option>
-            <option value="Tank">Tank</option>
-        </select>
-
-        <input asp-for="Price" class="form-label" />
+            @if (action == "CreateNewProduct")
+            {
+            <select id="productTypeSelector" name="productTypeSelector" class="form-select">
+                <option value="BCD">BCD</option>
+                <option value="DivingSuit">DivingSuit</option>
+                <option value="Fin">Fin</option>
+                <option value="RegulatorSet">RegulatorSet</option>
+                <option value="Snorkel">Snorkel</option>
+                <option value="Tank">Tank</option>
+            </select>
+                
+            }
+            
+            @if (action == "EditProduct")
+            {
+            <select disabled id="productTypeSelector" class="form-select">
+                <option value="BCD">BCD</option>
+                <option value="DivingSuit">DivingSuit</option>
+                <option value="Fin">Fin</option>
+                <option value="RegulatorSet">RegulatorSet</option>
+                <option value="Snorkel">Snorkel</option>
+                <option value="Tank">Tank</option>
+            </select>
+            }
+            <input asp-for="Price" class="form-label" />
+            <input asp-for="Amount" class="form-label" />
+            <input asp-for="Brand" class="form-label" />
 
         <div id="fieldsBCD" class="subclassFields" style="display:none;">
             <input type="text" name="Model" value="@((Model as BCD)?.Model)" />

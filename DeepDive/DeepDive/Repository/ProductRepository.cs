@@ -89,6 +89,15 @@ namespace DeepDive.Repository
                 _deepDiveContext.Products.Remove(product);
                 _deepDiveContext.SaveChanges();
             }
+        } 
+
+        public void UpdateProduct(Product product)
+        {
+
+
+            _deepDiveContext.Products.Update(product);
+            _deepDiveContext.SaveChanges();
+
         }
     }
 }
