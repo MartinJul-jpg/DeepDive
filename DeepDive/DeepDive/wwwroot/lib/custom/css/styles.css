@@ -100,6 +100,12 @@ figure {
     overflow: hidden;
 }
 
+.productImgContainer {
+    max-width: 60vw;
+    width: 60vw;
+    max-height: 40vw;
+}
+
 #removeCartBtn {
     border: 5px;
     margin: 0 5px 0 5px;
@@ -108,8 +114,8 @@ figure {
 }
 
 #productImg {
-    height: 40vh;
-    width: 25vw;
+    object-fit: cover;
+    overflow: hidden;
     margin: 0;
 }
 

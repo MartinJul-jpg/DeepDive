@@ -7,24 +7,22 @@
     int amount = 1;
     <div class="container text-center m-5">
         <div class="row">
-            <div class="col">
-                <img id="productImg" src="@Url.Content(Model.ImgPath)" class="card" style="object-fit: contain">
+            <div class="col-2 card productImgContainer" style="width: 65%;">
+                <img id="productImg" src="@Url.Content(Model.ImgPath)" style="object-fit: contain">
             </div>
-            <div class="col productText">
+            <div class="col justify-content-center" style="width: 35%;">
                 <h3>@($"{Model.Brand}")</h3>
                 <br />
                 <h5>@($"{Model.GetUniqueInfoPage()}")</h5>
                 <br />
                 <h5>@($"Pris: {Model.Price} kr. per dage")</h5>
                 <br />
-            </div>
-            <div class="col justify-content-center">
                 <div class="d-flex justify-content-center" style="height: 40px;">
                     <button id="minusBtn" name="minusBtn" class="amountSelector btn btn-primary">-</button>
-                    <input class="amountSelector m-0" type="number" value="@amount"/>
+                    <input class="amountSelector m-0" type="number" value="@amount" />
                     <button id="plusBtn" name="addBtn" class="amountSelector btn btn-primary">+</button>
                 </div>
-                <br/>
+                <br />
                 <div class="justify-content-center">
                     <form asp-controller="Product" asp-action="AddToBasket" method="get">
                         <input type="hidden" name="id" value="@Model.ProductId" />
