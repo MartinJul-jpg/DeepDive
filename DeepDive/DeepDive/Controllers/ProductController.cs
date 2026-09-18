@@ -1,5 +1,8 @@
-﻿using DeepDive.Models;
+﻿using DeepDive.Data;
+using DeepDive.Models;
 using DeepDive.Repository;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeepDive.Controllers
@@ -8,13 +11,13 @@ namespace DeepDive.Controllers
     {
         private BasketRepository _basketRepository;
         private ProductRepository _productRepository;
-        private BookingRepository _bookingRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ProductController(BasketRepository basketRepository, ProductRepository productRepository, BookingRepository bookingRepository)
+        public ProductController(BasketRepository basketRepository, ProductRepository productRepository, UserManager<ApplicationUser> userManager)
         {
             _basketRepository = basketRepository;
             _productRepository = productRepository;
-            _bookingRepository = bookingRepository;
+            _userManager = userManager;
         }
         public IActionResult Index()
         {
@@ -28,11 +31,12 @@ namespace DeepDive.Controllers
             return View(product);
         }
 
+        [Authorize(Roles = "User")]
         public IActionResult AddToBasket(int id, int amount)
         {
             for (int i = 0; i < amount; i++)
             {
-                _productRepository.AddProductToBasket(id);
+                _basketRepository.AddProductToBasket(id, _userManager.GetUserId(this.User));
             }
             return RedirectToAction("Index", "Basket");
         }

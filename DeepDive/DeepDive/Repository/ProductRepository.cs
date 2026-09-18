@@ -6,12 +6,10 @@ namespace DeepDive.Repository
 {
     public class ProductRepository
     {
-        private BasketRepository _basketRepository;
         private readonly DeepDiveContext _deepDiveContext;
 
-        public ProductRepository(BasketRepository basketRepository, DeepDiveContext deepDiveContext)
+        public ProductRepository(DeepDiveContext deepDiveContext)
         {
-            _basketRepository = basketRepository;
             _deepDiveContext = deepDiveContext;
         }
         public List<Product> GetAllProducts()
@@ -34,23 +32,6 @@ namespace DeepDive.Repository
             return product;
         }
 
-        public void AddProductToBasket(int id)
-        {
-            if (_basketRepository.GetBasket() == null)
-            {
-                _basketRepository.ResetBasket();
-            }
-
-            _basketRepository.GetBasket().Product_Bookings.Add(new Product_Booking()
-            {
-                ProductId = id,
-                Product = GetProductById(id),
-                Booking = _basketRepository.GetBasket()
-            });
-
-            _basketRepository.GetBasket().CalculatePriceOfBooking();
-        }
-
         public List<Package> GetAllPackages()
         {
             List<Package> packages = _deepDiveContext.Packages
@@ -68,7 +49,6 @@ namespace DeepDive.Repository
                  .Where(package => package.PackageId == id)
                  .ToList()
                  .First();
-
 
             return package;
         }

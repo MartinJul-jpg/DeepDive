@@ -345,7 +345,8 @@ namespace DeepDive.Data
                         BookingId = 1,
                         Start = DateOnly.FromDateTime(DateTime.Now),
                         End = DateOnly.FromDateTime(DateTime.Now.AddDays(2)),
-                        UserId = "84cd148c-e055-4d01-8a32-d06e7489e2a3"
+                        UserId = "84cd148c-e055-4d01-8a32-d06e7489e2a3",
+                        Finalized = true
                     },
                     new List<int>() { 10, 10, 10 }
                 ),
@@ -355,7 +356,8 @@ namespace DeepDive.Data
                         BookingId = 2,
                         Start = DateOnly.FromDateTime(DateTime.Now),
                         End = DateOnly.FromDateTime(DateTime.Now.AddDays(2)),
-                        UserId = "84cd148c-e055-4d01-8a32-d06e7489e2a3"
+                        UserId = "84cd148c-e055-4d01-8a32-d06e7489e2a3",
+                        Finalized = true
                     },
                     new List<int> { 20, 20, 20 }
                 )
@@ -524,6 +526,7 @@ namespace DeepDive.Data
 
             base.OnModelCreating(modelBuilder);
 
+            // ApplicationUser relations
             modelBuilder.Entity<Booking>()
                 .HasOne<ApplicationUser>(b => b.User)
                 .WithMany(a => a.Bookings)
