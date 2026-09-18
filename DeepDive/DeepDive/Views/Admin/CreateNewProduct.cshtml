@@ -1,39 +1,3 @@
 ﻿@model Product
 
 <partial name="_Product" model="@Model" />
-
-@if (Model != null)
-{
-    @switch (Model)
-    {
-        case Fin fin:
-
-            <partial name="_ProductFields" model="fin" />
-            break;
-
-        case RegulatorSet regulatorSet:
-
-            <partial name="_ProductFields" model="regulatorSet" />
-            break;
-        case Tank tank:
-
-            <partial name="_ProductFields" model="tank" />
-            break;
-
-        case BCD bcd:
-            <partial name="_ProductFields" model="bcd" />
-            break;
-
-        case DivingSuit divingSuit:
-            <partial name="_ProductFields" model="divingSuit" />
-            break;
-
-        case Snorkel snorkel:
-            <partial name="_ProductFields" model="snorkel" />
-            break;
-        default:
-
-            <partial name="_ProductFields" />
-            break;
-    }
-}

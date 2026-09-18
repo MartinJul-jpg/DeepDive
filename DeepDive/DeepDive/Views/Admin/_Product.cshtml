@@ -36,12 +36,12 @@
 
         <input asp-for="Price" class="form-label" />
 
-        <div id="fields-BCD" class="subclass-fields" style="display:none;">
+        <div id="fieldsBCD" class="subclassFields" style="display:none;">
             <input type="text" name="Model" value="@((Model as BCD)?.Model)" />
             <input type="text" name="Size" value="@((Model as BCD)?.Size)" />
         </div>
 
-        <div id="fields-DivingSuit" class="subclass-fields" style="display:none;">
+        <div id="fieldsDivingSuit" class="subclassFields" style="display:none;">
             <input type="text" name="Model" value="@((Model as DivingSuit)?.Model)" />
             <input type="text" name="Size" value="@((Model as DivingSuit)?.Size)" />
             <input type="text" name="Type" value="@((Model as DivingSuit)?.Type)" />
@@ -49,22 +49,22 @@
             <input type="text" name="Thickness" value="@((Model as DivingSuit)?.Thickness)" />
         </div>
 
-        <div id="fields-Fin" class="subclass-fields" style="display:none;">
+        <div id="fieldsFin" class="subclassFields" style="display:none;">
             <input type="text" name="Model" value="@((Model as Fin)?.Model)" />
             <input type="text" name="Size" value="@((Model as Fin)?.Size)" />
         </div>
 
-        <div id="fields-RegulatorSet" class="subclass-fields" style="display:none;">
+        <div id="fieldsRegulatorSet" class="subclassFields" style="display:none;">
             <input type="text" name="FirstStage" value="@((Model as RegulatorSet)?.FirstStage)" />
             <input type="text" name="SecondStage" value="@((Model as RegulatorSet)?.SecondStage)" />
             <input type="text" name="Octopus" value="@((Model as RegulatorSet)?.Octopus)" />
         </div>
 
-        <div id="fields-Snorkel" class="subclass-fields" style="display:none;">
+        <div id="fieldsSnorkel" class="subclassFields" style="display:none;">
             <input type="text" name="Model" value="@((Model as Snorkel)?.Model)" />
         </div>
 
-        <div id="fields-Tank" class="subclass-fields" style="display:none;">
+        <div id="fieldsTank" class="subclassFields" style="display:none;">
             <input type="text" name="Model" value="@((Model as Tank)?.Volume)" />
         </div>
     </div>
@@ -77,11 +77,11 @@
           function toggleFields() {
               const selectedType = selector.value;
 
-              const sections = document.querySelectorAll(".subclass-fields");
+            const sections = document.querySelectorAll(".subclassFields");
 
               sections.forEach(sec => sec.style.display = "none");
 
-              const activeSection = document.getElementById("fields-" + selectedType);
+              const activeSection = document.getElementById("fields" + selectedType);
               if (activeSection) {
                   activeSection.style.display = "block";
               }
