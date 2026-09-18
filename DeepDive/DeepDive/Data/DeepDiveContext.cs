@@ -35,7 +35,8 @@ namespace DeepDive.Data
                     Model = "Navigator Lite BCD",
                     Size = "S,M,L",
                     Price = 125.0,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/ScubaproNavigatorLiteBCD.jpg"
                 },
                 new BCD{
                     ProductId = 11,
@@ -43,7 +44,8 @@ namespace DeepDive.Data
                     Model = "BCD Glide",
                     Size = "S,M,L",
                     Price = 140.0,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/ScubaproBCDGlide.jpg"
                 },
                 new BCD{
                     ProductId = 12,
@@ -51,7 +53,8 @@ namespace DeepDive.Data
                     Model = "BCD Hydros Pro",
                     Size = "S,M,L",
                     Price = 200.0,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/ScubaproBCDHydrosPro.jpg"
                 },
                 new BCD{
                     ProductId = 13,
@@ -59,35 +62,40 @@ namespace DeepDive.Data
                     Model = "BCD Modular",
                     Size = "S,M,L",
                     Price = 125.0,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/SeacBCDModular.jpg"
                 },
                 new Tank{
                     ProductId = 20,
                     Brand = "ScubaPro",
                     Volume = "5 liter",
                     Price = 150.0,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/ScubaproDykkerflaske5liter.jpg"
                 },
                 new Tank{
                     ProductId = 21,
                     Brand = "ScubaPro",
                     Volume = "10 liter",
                     Price = 160.0,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/ScubaproDykkerflaske10liter.jpg"
                 },
                 new Tank{
                     ProductId = 22,
                     Brand = "ScubaPro",
                     Volume = "12 liter",
                     Price = 170.0,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/ScubaproDykkerflaske12liter.jpg"
                 },
                 new Tank{
                     ProductId = 23,
                     Brand = "ScubaPro",
                     Volume = "15 liter",
                     Price = 180.0,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/ScubaproDykkerflaske15liter.jpg"
                 },
                 new RegulatorSet{
                     ProductId = 30,
@@ -96,7 +104,8 @@ namespace DeepDive.Data
                     SecondStage = "S600",
                     Octopus = "R105",
                     Price = 125.0,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/scubapro_mk25_s600_regulator_2_98f86760b6.jpg"
                 },
                 new RegulatorSet{
                     ProductId = 31,
@@ -105,7 +114,8 @@ namespace DeepDive.Data
                     SecondStage = "C370",
                     Octopus = "R095",
                     Price = 100.0,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/scubapro_mk25_s600_regulator_2_98f86760b6.jpg"
                 },
                 new RegulatorSet{
                     ProductId = 32,
@@ -114,7 +124,8 @@ namespace DeepDive.Data
                     SecondStage = "A700 Carbon BT",
                     Octopus = "S270",
                     Price = 150.0,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/mk25-bt-a700carbon-s270.w1200.jpg"
                 },
                 new Fin{
                     ProductId = 40,
@@ -122,7 +133,8 @@ namespace DeepDive.Data
                     Model = "Jet Fin",
                     Size = "XS,S,M,L,XL",
                     Price = 50.0,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/ScubaproJetFin.jpg"
                 },
                 new Fin{
                     ProductId = 41,
@@ -130,7 +142,8 @@ namespace DeepDive.Data
                     Model = "GO Travel",
                     Size = "XS,S,M,L,XL",
                     Price = 50.0,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/ScubaproGoTravel.jpg"
                 },
                 new Fin{
                     ProductId = 42,
@@ -138,7 +151,8 @@ namespace DeepDive.Data
                     Model = "Seawing Supernova",
                     Size = "XS,S,M,L,XL",
                     Price = 60.0,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/ScubaproSeawingSupernova.jpg"
                 },
                 new Fin{
                     ProductId = 43,
@@ -146,7 +160,8 @@ namespace DeepDive.Data
                     Model = "Propulsion",
                     Size = "XS,S,M,L,XL",
                     Price = 50.0,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/SeacPropulsion.jpg"
                 },
                 new Fin{
                     ProductId = 44,
@@ -154,7 +169,8 @@ namespace DeepDive.Data
                     Model = "ALA",
                     Size = "XS,S,M,L,XL",
                     Price = 50.0,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/SeacALA.jpg"
                 },
                 new Fin{
                     ProductId = 45,
@@ -162,7 +178,8 @@ namespace DeepDive.Data
                     Model = "Tech",
                     Size = "XS,S,M,L,XL",
                     Price = 75.0,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/FourthElementTech.jpg"
                 },
                 new Fin{
                     ProductId = 46,
@@ -170,7 +187,8 @@ namespace DeepDive.Data
                     Model = "Rec Fin",
                     Size = "XS,S,M,L,XL",
                     Price = 80.0,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/FourthElementRecFin.jpg"
                 },
                 new DivingSuit
                 {
@@ -182,7 +200,8 @@ namespace DeepDive.Data
                     Gender = "Herre/Dame",
                     Thickness = "3 mm",
                     Price = 100,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/ScubaproDefinition3mm.jpg"
                 },
                 new DivingSuit
                 {
@@ -194,7 +213,8 @@ namespace DeepDive.Data
                     Gender = "Herre/Dame",
                     Thickness = "5 mm",
                     Price = 100,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/ScubaproDefinition5mm.jpg"
                 },
                 new DivingSuit
                 {
@@ -206,7 +226,8 @@ namespace DeepDive.Data
                     Gender = "Herre/Dame",
                     Thickness = "7 mm",
                     Price = 100,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/ScubaproDefinition7mm.jpg"
                 },
                 new DivingSuit
                 {
@@ -218,7 +239,8 @@ namespace DeepDive.Data
                     Gender = "Herre/Dame",
                     Thickness = "3.5 mm",
                     Price = 100,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/WaterproofW5.jpg"
                 },
                 new DivingSuit
                 {
@@ -230,7 +252,8 @@ namespace DeepDive.Data
                     Gender = "Herre/Dame",
                     Thickness = "5 mm",
                     Price = 120,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/FourthElementProteus.jpg"
                 },
                 new DivingSuit
                 {
@@ -242,7 +265,8 @@ namespace DeepDive.Data
                     Gender = "Herre/Dame",
                     Thickness = " ",
                     Price = 300,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/ScubaproExodry4-0.jpg"
                 },
                 new DivingSuit
                 {
@@ -254,7 +278,8 @@ namespace DeepDive.Data
                     Gender = "Herre/Dame",
                     Thickness = " ",
                     Price = 320,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/WaterproofD7Evo.jpg"
                 },
                 new DivingSuit
                 {
@@ -266,56 +291,64 @@ namespace DeepDive.Data
                     Gender = "Herre/Dame",
                     Thickness = " ",
                     Price = 350,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/SantiE-LitePlus.jpg"
                 },
                 new Snorkel{
                     ProductId = 60,
                     Brand = "Scubapro",
                     Model = "Ghost",
                     Price = 50,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/ScubaproGhost.jpg"
                 },
                 new Snorkel{
                     ProductId = 61,
                     Brand = "Scubapro",
                     Model = "D-Mask",
                     Price = 60,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/ScubaproD-Mask.jpg"
                 },
                 new Snorkel{
                     ProductId = 62,
                     Brand = "Scubapro",
                     Model = "Spectra Mini",
                     Price = 50,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/ScubaproSpectraMini.jpg"
                 },
                 new Snorkel{
                     ProductId = 63,
                     Brand = "Scubapro",
                     Model = "Crystal VU",
                     Price = 75,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/ScubaproCrystalVU.jpg"
                 },
                 new Snorkel{
                     ProductId = 64,
                     Brand = "Fourth Element",
                     Model = "Scout Kontrast",
                     Price = 75,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/FourthElementScoutKontrast.jpg"
                 },
                 new Snorkel{
                     ProductId = 65,
                     Brand = "Fourth Element",
                     Model = "Scout Enhance",
                     Price = 75.0,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/FourthElementScoutEnhance.jpg"
                 },
                 new Snorkel{
                     ProductId = 66,
                     Brand = "Tusa",
                     Model = "Element",
                     Price = 75.0,
-                    Amount = 5
+                    Amount = 5,
+                    ImgPath = "~/images/TusaElement.jpg"
                 },
             };
 

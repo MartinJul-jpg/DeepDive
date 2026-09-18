@@ -11,7 +11,7 @@
                 <div id="packageImageContainer" class="card d-flex flex-wrap justify-content-evenly align-content-center">
                     @foreach (Package_Product pp in Model.Package_Products)
                     {
-                        <img src="~/lib/custom/resource/product-placeholder.png" class="packageImg">
+                        <img src="@Url.Content(pp.Product.ImgPath)" class="packageImg">
                         _price += pp.Product.Price;
                     }
                 </div>

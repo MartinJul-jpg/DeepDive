@@ -9,6 +9,7 @@ namespace DeepDive.Models
         public string Brand { get; set; } = string.Empty;
         [Range(0, int.MaxValue)]
         public int Amount { get; set; } = 0;
+        public string ImgPath { get; set; } = "~/lib/custom/resource/product-placeholder.png";
         public List<Package_Product> Package_Products { get; set; } = new List<Package_Product>();
         public List<Product_Booking> Product_Bookings { get; set; } = new List<Product_Booking>();
 
