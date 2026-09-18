@@ -12,7 +12,7 @@ namespace DeepDive.Models
         }
         public override string GetUniqueInfoPage()
         {
-            return $"Volume: {Volume}{"\n"}";
+            return $"{Volume}";
         }
     }
 }

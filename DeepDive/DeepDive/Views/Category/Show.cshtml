@@ -7,8 +7,8 @@
     {
         <a id="productText" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")" class="card m-3" style="width: 15vw; height: 18vw;">
             <img src="@Url.Content(product.ImgPath)" class="categoryImg card-img-top h-auto" alt="...">
-            <div class="card-body p-0 productCardText" style="height: 4vw;">
-                <p class="card-text m-0" style="font-size: 2vh;">@product.Brand</p>
+            <div class="card-body p-0 productCardText" style="height: 6vw;">
+                <p class="card-text m-0" style="font-size: 2vh;">@product.Brand @product.GetUniqueInfoPage()</p>
                 <h6>Kr. @product.Price per. dag</h6>
             </div>
         </a>
