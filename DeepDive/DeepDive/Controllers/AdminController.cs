@@ -34,9 +34,9 @@ namespace DeepDive.Controllers
             return View();
         } 
 
-        public IActionResult EditProduct(int productid)
+        public IActionResult EditProduct(int id)
         {
-            Product foundproduct = _productRepository.GetProductById(productid);
+            Product foundproduct = _productRepository.GetProductById(id);
             ViewBag.Action = "EditProduct";
             return View(foundproduct);
         }
@@ -51,9 +51,9 @@ namespace DeepDive.Controllers
         } 
 
         [HttpPost]
-        public IActionResult CreateNewProduct(BCD? bcd, DivingSuit? divingSuit, Fin? fin, RegulatorSet? regulatorSet, Snorkel? snorkel, Tank? tank, string productTypeSelector)
+        public IActionResult CreateNewProduct(BCD? bcd, DivingSuit? divingSuit, Fin? fin, RegulatorSet? regulatorSet, Snorkel? snorkel, Tank? tank, string Brand)
         {
-            Product? product = productTypeSelector switch
+            Product? product = Brand switch
             {
                 "BCD" => bcd,
                 "DivingSuit" => divingSuit,
@@ -74,9 +74,11 @@ namespace DeepDive.Controllers
             return View();
         }
 
-        public IActionResult DeleteProduct(int productid)
+        public IActionResult DeleteProduct(int id)
         {
-            _productRepository.DeleteProduct(productid);
+           
+
+            _productRepository.DeleteProduct(id);
             return RedirectToAction("Index");
         } 
 

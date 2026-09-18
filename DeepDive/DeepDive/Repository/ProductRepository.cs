@@ -75,15 +75,20 @@ namespace DeepDive.Repository
 
         public void AddNewProduct(Product product)
         {
-            _deepDiveContext.Add(product);
+            _deepDiveContext.Products.Add(product);
+
             _deepDiveContext.SaveChanges();
         } 
 
 
         public void DeleteProduct(int productid)
         {
-            _deepDiveContext.Remove(productid);
-            _deepDiveContext.SaveChanges();
+            var product = _deepDiveContext.Products.Find(productid);
+            if (product != null)
+            {
+                _deepDiveContext.Products.Remove(product);
+                _deepDiveContext.SaveChanges();
+            }
         }
     }
 }
