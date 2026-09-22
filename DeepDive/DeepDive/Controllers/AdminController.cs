@@ -19,10 +19,7 @@ namespace DeepDive.Controllers
             List<Product> products = new List<Product>(_productRepository.GetAllProducts());
             return View(products); 
 
-
-
         } 
-
 
         public IActionResult DeleteBooking()
         {
@@ -100,8 +97,6 @@ namespace DeepDive.Controllers
 
         public IActionResult DeleteProduct(int id)
         {
-           
-
             _productRepository.DeleteProduct(id);
             return RedirectToAction("Index");
         } 
