@@ -12,8 +12,7 @@ namespace DeepDive
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddSingleton<BasketRepository>();
-            builder.Services.AddScoped<BookingRepository>();
+            builder.Services.AddScoped<BasketRepository>();
             builder.Services.AddScoped<ProductRepository>();
 
             builder.Services.AddDbContext<DeepDiveContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("default")));

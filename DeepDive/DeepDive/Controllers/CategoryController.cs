@@ -6,12 +6,10 @@ namespace DeepDive.Controllers
 {
     public class CategoryController : Controller
     {
-        private BookingRepository _bookingRepository;
         private ProductRepository _productRepository;
 
-        public CategoryController(BookingRepository bookingRepository, ProductRepository productRepository)
+        public CategoryController(BasketRepository basketRepository, ProductRepository productRepository)
         {
-            _bookingRepository = bookingRepository;
             _productRepository = productRepository;
         }
         public IActionResult Index()
