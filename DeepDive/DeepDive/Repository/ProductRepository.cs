@@ -34,7 +34,7 @@ namespace DeepDive.Repository
 
         public List<Package> GetAllPackages()
         {
-            List<Package> packages = _deepDiveContext.Packages
+           List<Package> packages = _deepDiveContext.Packages
                 .Include(p => p.Package_Products)
                 .ThenInclude(pp => pp.Product).ToList();
 
@@ -51,6 +51,33 @@ namespace DeepDive.Repository
                  .First();
 
             return package;
+        } 
+
+        public void AddNewProduct(Product product)
+        {
+            _deepDiveContext.Products.Add(product);
+
+            _deepDiveContext.SaveChanges();
+        } 
+
+
+        public void DeleteProduct(int productid)
+        {
+            var product = _deepDiveContext.Products.Find(productid);
+            if (product != null)
+            {
+                _deepDiveContext.Products.Remove(product);
+                _deepDiveContext.SaveChanges();
+            }
+        } 
+
+        public void UpdateProduct(Product product)
+        {
+
+
+            _deepDiveContext.Products.Update(product);
+            _deepDiveContext.SaveChanges();
+
         }
     }
 }

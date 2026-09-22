@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeepDive.Migrations
 {
     [DbContext(typeof(DeepDiveContext))]
-    [Migration("20260918081358_Pictures")]
-    partial class Pictures
+    [Migration("20260922124740_imgpath")]
+    partial class imgpath
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -135,6 +135,9 @@ namespace DeepDive.Migrations
                     b.Property<DateOnly>("End")
                         .HasColumnType("date");
 
+                    b.Property<bool>("Finalized")
+                        .HasColumnType("bit");
+
                     b.Property<DateOnly>("Start")
                         .HasColumnType("date");
 
@@ -151,15 +154,17 @@ namespace DeepDive.Migrations
                         new
                         {
                             BookingId = 1,
-                            End = new DateOnly(2026, 9, 20),
-                            Start = new DateOnly(2026, 9, 18),
+                            End = new DateOnly(2026, 9, 24),
+                            Finalized = true,
+                            Start = new DateOnly(2026, 9, 22),
                             UserId = "84cd148c-e055-4d01-8a32-d06e7489e2a3"
                         },
                         new
                         {
                             BookingId = 2,
-                            End = new DateOnly(2026, 9, 20),
-                            Start = new DateOnly(2026, 9, 18),
+                            End = new DateOnly(2026, 9, 24),
+                            Finalized = true,
+                            Start = new DateOnly(2026, 9, 22),
                             UserId = "84cd148c-e055-4d01-8a32-d06e7489e2a3"
                         });
                 });
@@ -540,7 +545,7 @@ namespace DeepDive.Migrations
                             ProductId = 10,
                             Amount = 5,
                             Brand = "Scubapro",
-                            ImgPath = "~/lib/custom/resource/ScubaproNavigatorLiteBCD.jpg",
+                            ImgPath = "~/images/ScubaproNavigatorLiteBCD.jpg",
                             Price = 125.0,
                             Model = "Navigator Lite BCD",
                             Size = "S,M,L"
@@ -550,7 +555,7 @@ namespace DeepDive.Migrations
                             ProductId = 11,
                             Amount = 5,
                             Brand = "Scubapro",
-                            ImgPath = "~/lib/custom/resource/ScubaproBCDGlide.jpg",
+                            ImgPath = "~/images/ScubaproBCDGlide.jpg",
                             Price = 140.0,
                             Model = "BCD Glide",
                             Size = "S,M,L"
@@ -560,7 +565,7 @@ namespace DeepDive.Migrations
                             ProductId = 12,
                             Amount = 5,
                             Brand = "Scubapro",
-                            ImgPath = "~/lib/custom/resource/ScubaproBCDHydrosPro.jpg",
+                            ImgPath = "~/images/ScubaproBCDHydrosPro.jpg",
                             Price = 200.0,
                             Model = "BCD Hydros Pro",
                             Size = "S,M,L"
@@ -570,7 +575,7 @@ namespace DeepDive.Migrations
                             ProductId = 13,
                             Amount = 5,
                             Brand = "Seac",
-                            ImgPath = "~/lib/custom/resource/SeacBCDModular.jpg",
+                            ImgPath = "~/images/SeacBCDModular.jpg",
                             Price = 125.0,
                             Model = "BCD Modular",
                             Size = "S,M,L"
@@ -618,7 +623,7 @@ namespace DeepDive.Migrations
                             ProductId = 50,
                             Amount = 5,
                             Brand = "Scubapro",
-                            ImgPath = "~/lib/custom/resource/ScubaproDefinition3mm.jpg",
+                            ImgPath = "~/images/ScubaproDefinition3mm.jpg",
                             Price = 100.0,
                             Gender = "Herre/Dame",
                             Model = "Definition",
@@ -631,7 +636,7 @@ namespace DeepDive.Migrations
                             ProductId = 51,
                             Amount = 5,
                             Brand = "Scubapro",
-                            ImgPath = "~/lib/custom/resource/ScubaproDefinition5mm.jpg",
+                            ImgPath = "~/images/ScubaproDefinition5mm.jpg",
                             Price = 100.0,
                             Gender = "Herre/Dame",
                             Model = "Definition",
@@ -644,7 +649,7 @@ namespace DeepDive.Migrations
                             ProductId = 52,
                             Amount = 5,
                             Brand = "Scubapro",
-                            ImgPath = "~/lib/custom/resource/ScubaproDefinition7mm.jpg",
+                            ImgPath = "~/images/ScubaproDefinition7mm.jpg",
                             Price = 100.0,
                             Gender = "Herre/Dame",
                             Model = "Definition",
@@ -657,7 +662,7 @@ namespace DeepDive.Migrations
                             ProductId = 53,
                             Amount = 5,
                             Brand = "Waterproof",
-                            ImgPath = "~/lib/custom/resource/WaterproofW5.jpg",
+                            ImgPath = "~/images/WaterproofW5.jpg",
                             Price = 100.0,
                             Gender = "Herre/Dame",
                             Model = "W5",
@@ -670,7 +675,7 @@ namespace DeepDive.Migrations
                             ProductId = 54,
                             Amount = 5,
                             Brand = "Fourth Element",
-                            ImgPath = "~/lib/custom/resource/FourthElementProteus.jpg",
+                            ImgPath = "~/images/FourthElementProteus.jpg",
                             Price = 120.0,
                             Gender = "Herre/Dame",
                             Model = "Proteus",
@@ -683,7 +688,7 @@ namespace DeepDive.Migrations
                             ProductId = 55,
                             Amount = 5,
                             Brand = "Scubapro",
-                            ImgPath = "~/lib/custom/resource/ScubaproExodry4-0.jpg",
+                            ImgPath = "~/images/ScubaproExodry4-0.jpg",
                             Price = 300.0,
                             Gender = "Herre/Dame",
                             Model = "Exodry 4.0",
@@ -696,7 +701,7 @@ namespace DeepDive.Migrations
                             ProductId = 56,
                             Amount = 5,
                             Brand = "Waterproof",
-                            ImgPath = "~/lib/custom/resource/WaterproofD7Evo.jpg",
+                            ImgPath = "~/images/WaterproofD7Evo.jpg",
                             Price = 320.0,
                             Gender = "Herre/Dame",
                             Model = "D7 Evo",
@@ -709,7 +714,7 @@ namespace DeepDive.Migrations
                             ProductId = 57,
                             Amount = 5,
                             Brand = "Santi",
-                            ImgPath = "~/lib/custom/resource/SantiE-LitePlus.jpg",
+                            ImgPath = "~/images/SantiE-LitePlus.jpg",
                             Price = 350.0,
                             Gender = "Herre/Dame",
                             Model = "E.Lite plus",
@@ -739,7 +744,7 @@ namespace DeepDive.Migrations
                             ProductId = 40,
                             Amount = 5,
                             Brand = "ScubaPro",
-                            ImgPath = "~/lib/custom/resource/ScubaproJetFin.jpg",
+                            ImgPath = "~/images/ScubaproJetFin.jpg",
                             Price = 50.0,
                             Model = "Jet Fin",
                             Size = "XS,S,M,L,XL"
@@ -749,7 +754,7 @@ namespace DeepDive.Migrations
                             ProductId = 41,
                             Amount = 5,
                             Brand = "ScubaPro",
-                            ImgPath = "~/lib/custom/resource/ScubaproGoTravel.jpg",
+                            ImgPath = "~/images/ScubaproGoTravel.jpg",
                             Price = 50.0,
                             Model = "GO Travel",
                             Size = "XS,S,M,L,XL"
@@ -759,7 +764,7 @@ namespace DeepDive.Migrations
                             ProductId = 42,
                             Amount = 5,
                             Brand = "ScubaPro",
-                            ImgPath = "~/lib/custom/resource/ScubaproSeawingSupernova.jpg",
+                            ImgPath = "~/images/ScubaproSeawingSupernova.jpg",
                             Price = 60.0,
                             Model = "Seawing Supernova",
                             Size = "XS,S,M,L,XL"
@@ -769,7 +774,7 @@ namespace DeepDive.Migrations
                             ProductId = 43,
                             Amount = 5,
                             Brand = "Seac",
-                            ImgPath = "~/lib/custom/resource/SeacPropulsion.jpg",
+                            ImgPath = "~/images/SeacPropulsion.jpg",
                             Price = 50.0,
                             Model = "Propulsion",
                             Size = "XS,S,M,L,XL"
@@ -779,7 +784,7 @@ namespace DeepDive.Migrations
                             ProductId = 44,
                             Amount = 5,
                             Brand = "Seac",
-                            ImgPath = "~/lib/custom/resource/SeacALA.jpg",
+                            ImgPath = "~/images/SeacALA.jpg",
                             Price = 50.0,
                             Model = "ALA",
                             Size = "XS,S,M,L,XL"
@@ -789,7 +794,7 @@ namespace DeepDive.Migrations
                             ProductId = 45,
                             Amount = 5,
                             Brand = "Fourth Element",
-                            ImgPath = "~/lib/custom/resource/FourthElementTech.jpg",
+                            ImgPath = "~/images/FourthElementTech.jpg",
                             Price = 75.0,
                             Model = "Tech",
                             Size = "XS,S,M,L,XL"
@@ -799,7 +804,7 @@ namespace DeepDive.Migrations
                             ProductId = 46,
                             Amount = 5,
                             Brand = "Fourth Element",
-                            ImgPath = "~/lib/custom/resource/FourthElementRecFin.jpg",
+                            ImgPath = "~/images/FourthElementRecFin.jpg",
                             Price = 80.0,
                             Model = "Rec Fin",
                             Size = "XS,S,M,L,XL"
@@ -830,7 +835,7 @@ namespace DeepDive.Migrations
                             ProductId = 30,
                             Amount = 5,
                             Brand = "ScubaPro",
-                            ImgPath = "~/lib/custom/resource/scubapro_mk25_s600_regulator_2_98f86760b6.jpg",
+                            ImgPath = "~/images/scubapro_mk25_s600_regulator_2_98f86760b6.jpg",
                             Price = 125.0,
                             FirstStage = "MK25EVO",
                             Octopus = "R105",
@@ -841,7 +846,7 @@ namespace DeepDive.Migrations
                             ProductId = 31,
                             Amount = 5,
                             Brand = "ScubaPro",
-                            ImgPath = "~/lib/custom/resource/scubapro_mk25_s600_regulator_2_98f86760b6.jpg",
+                            ImgPath = "~/images/scubapro_mk25_s600_regulator_2_98f86760b6.jpg",
                             Price = 100.0,
                             FirstStage = "MK17EVO",
                             Octopus = "R095",
@@ -852,7 +857,7 @@ namespace DeepDive.Migrations
                             ProductId = 32,
                             Amount = 5,
                             Brand = "ScubaPro",
-                            ImgPath = "~/lib/custom/resource/mk25-bt-a700carbon-s270.w1200.jpg",
+                            ImgPath = "~/images/mk25-bt-a700carbon-s270.w1200.jpg",
                             Price = 150.0,
                             FirstStage = "MK25EVO BT",
                             Octopus = "S270",
@@ -882,7 +887,7 @@ namespace DeepDive.Migrations
                             ProductId = 60,
                             Amount = 5,
                             Brand = "Scubapro",
-                            ImgPath = "~/lib/custom/resource/ScubaproGhost.jpg",
+                            ImgPath = "~/images/ScubaproGhost.jpg",
                             Price = 50.0,
                             Model = "Ghost"
                         },
@@ -891,7 +896,7 @@ namespace DeepDive.Migrations
                             ProductId = 61,
                             Amount = 5,
                             Brand = "Scubapro",
-                            ImgPath = "~/lib/custom/resource/ScubaproD-Mask.jpg",
+                            ImgPath = "~/images/ScubaproD-Mask.jpg",
                             Price = 60.0,
                             Model = "D-Mask"
                         },
@@ -900,7 +905,7 @@ namespace DeepDive.Migrations
                             ProductId = 62,
                             Amount = 5,
                             Brand = "Scubapro",
-                            ImgPath = "~/lib/custom/resource/ScubaproSpectraMini.jpg",
+                            ImgPath = "~/images/ScubaproSpectraMini.jpg",
                             Price = 50.0,
                             Model = "Spectra Mini"
                         },
@@ -909,7 +914,7 @@ namespace DeepDive.Migrations
                             ProductId = 63,
                             Amount = 5,
                             Brand = "Scubapro",
-                            ImgPath = "~/lib/custom/resource/ScubaproCrystalVU.jpg",
+                            ImgPath = "~/images/ScubaproCrystalVU.jpg",
                             Price = 75.0,
                             Model = "Crystal VU"
                         },
@@ -918,7 +923,7 @@ namespace DeepDive.Migrations
                             ProductId = 64,
                             Amount = 5,
                             Brand = "Fourth Element",
-                            ImgPath = "~/lib/custom/resource/FourthElementScoutKontrast.jpg",
+                            ImgPath = "~/images/FourthElementScoutKontrast.jpg",
                             Price = 75.0,
                             Model = "Scout Kontrast"
                         },
@@ -927,7 +932,7 @@ namespace DeepDive.Migrations
                             ProductId = 65,
                             Amount = 5,
                             Brand = "Fourth Element",
-                            ImgPath = "~/lib/custom/resource/FourthElementScoutEnhance.jpg",
+                            ImgPath = "~/images/FourthElementScoutEnhance.jpg",
                             Price = 75.0,
                             Model = "Scout Enhance"
                         },
@@ -936,7 +941,7 @@ namespace DeepDive.Migrations
                             ProductId = 66,
                             Amount = 5,
                             Brand = "Tusa",
-                            ImgPath = "~/lib/custom/resource/TusaElement.jpg",
+                            ImgPath = "~/images/TusaElement.jpg",
                             Price = 75.0,
                             Model = "Element"
                         });
@@ -958,7 +963,7 @@ namespace DeepDive.Migrations
                             ProductId = 20,
                             Amount = 5,
                             Brand = "ScubaPro",
-                            ImgPath = "~/lib/custom/resource/ScubaproDykkerflaske5liter.jpg",
+                            ImgPath = "~/images/ScubaproDykkerflaske5liter.jpg",
                             Price = 150.0,
                             Volume = "5 liter"
                         },
@@ -967,7 +972,7 @@ namespace DeepDive.Migrations
                             ProductId = 21,
                             Amount = 5,
                             Brand = "ScubaPro",
-                            ImgPath = "~/lib/custom/resource/ScubaproDykkerflaske10liter.jpg",
+                            ImgPath = "~/images/ScubaproDykkerflaske10liter.jpg",
                             Price = 160.0,
                             Volume = "10 liter"
                         },
@@ -976,7 +981,7 @@ namespace DeepDive.Migrations
                             ProductId = 22,
                             Amount = 5,
                             Brand = "ScubaPro",
-                            ImgPath = "~/lib/custom/resource/ScubaproDykkerflaske12liter.jpg",
+                            ImgPath = "~/images/ScubaproDykkerflaske12liter.jpg",
                             Price = 170.0,
                             Volume = "12 liter"
                         },
@@ -985,7 +990,7 @@ namespace DeepDive.Migrations
                             ProductId = 23,
                             Amount = 5,
                             Brand = "ScubaPro",
-                            ImgPath = "~/lib/custom/resource/ScubaproDykkerflaske15liter.jpg",
+                            ImgPath = "~/images/ScubaproDykkerflaske15liter.jpg",
                             Price = 180.0,
                             Volume = "15 liter"
                         });

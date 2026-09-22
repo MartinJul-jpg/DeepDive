@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DeepDive.Migrations
 {
     /// <inheritdoc />
-    public partial class Pictures : Migration
+    public partial class imgpath : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -208,6 +208,7 @@ namespace DeepDive.Migrations
                     BookingId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Finalized = table.Column<bool>(type: "bit", nullable: false),
                     Start = table.Column<DateOnly>(type: "date", nullable: false),
                     End = table.Column<DateOnly>(type: "date", nullable: false)
                 },
@@ -303,10 +304,10 @@ namespace DeepDive.Migrations
                 columns: new[] { "ProductId", "Amount", "Brand", "ImgPath", "BCD_Model", "Price", "BCD_Size", "product_type" },
                 values: new object[,]
                 {
-                    { 10, 5, "Scubapro", "~/lib/custom/resource/ScubaproNavigatorLiteBCD.jpg", "Navigator Lite BCD", 125.0, "S,M,L", "product_BCD" },
-                    { 11, 5, "Scubapro", "~/lib/custom/resource/ScubaproBCDGlide.jpg", "BCD Glide", 140.0, "S,M,L", "product_BCD" },
-                    { 12, 5, "Scubapro", "~/lib/custom/resource/ScubaproBCDHydrosPro.jpg", "BCD Hydros Pro", 200.0, "S,M,L", "product_BCD" },
-                    { 13, 5, "Seac", "~/lib/custom/resource/SeacBCDModular.jpg", "BCD Modular", 125.0, "S,M,L", "product_BCD" }
+                    { 10, 5, "Scubapro", "~/images/ScubaproNavigatorLiteBCD.jpg", "Navigator Lite BCD", 125.0, "S,M,L", "product_BCD" },
+                    { 11, 5, "Scubapro", "~/images/ScubaproBCDGlide.jpg", "BCD Glide", 140.0, "S,M,L", "product_BCD" },
+                    { 12, 5, "Scubapro", "~/images/ScubaproBCDHydrosPro.jpg", "BCD Hydros Pro", 200.0, "S,M,L", "product_BCD" },
+                    { 13, 5, "Seac", "~/images/SeacBCDModular.jpg", "BCD Modular", 125.0, "S,M,L", "product_BCD" }
                 });
 
             migrationBuilder.InsertData(
@@ -314,10 +315,10 @@ namespace DeepDive.Migrations
                 columns: new[] { "ProductId", "Amount", "Brand", "ImgPath", "Price", "Volume", "product_type" },
                 values: new object[,]
                 {
-                    { 20, 5, "ScubaPro", "~/lib/custom/resource/ScubaproDykkerflaske5liter.jpg", 150.0, "5 liter", "product_Tank" },
-                    { 21, 5, "ScubaPro", "~/lib/custom/resource/ScubaproDykkerflaske10liter.jpg", 160.0, "10 liter", "product_Tank" },
-                    { 22, 5, "ScubaPro", "~/lib/custom/resource/ScubaproDykkerflaske12liter.jpg", 170.0, "12 liter", "product_Tank" },
-                    { 23, 5, "ScubaPro", "~/lib/custom/resource/ScubaproDykkerflaske15liter.jpg", 180.0, "15 liter", "product_Tank" }
+                    { 20, 5, "ScubaPro", "~/images/ScubaproDykkerflaske5liter.jpg", 150.0, "5 liter", "product_Tank" },
+                    { 21, 5, "ScubaPro", "~/images/ScubaproDykkerflaske10liter.jpg", 160.0, "10 liter", "product_Tank" },
+                    { 22, 5, "ScubaPro", "~/images/ScubaproDykkerflaske12liter.jpg", 170.0, "12 liter", "product_Tank" },
+                    { 23, 5, "ScubaPro", "~/images/ScubaproDykkerflaske15liter.jpg", 180.0, "15 liter", "product_Tank" }
                 });
 
             migrationBuilder.InsertData(
@@ -325,9 +326,9 @@ namespace DeepDive.Migrations
                 columns: new[] { "ProductId", "Amount", "Brand", "FirstStage", "ImgPath", "Octopus", "Price", "SecondStage", "product_type" },
                 values: new object[,]
                 {
-                    { 30, 5, "ScubaPro", "MK25EVO", "~/lib/custom/resource/scubapro_mk25_s600_regulator_2_98f86760b6.jpg", "R105", 125.0, "S600", "product_RegulatorSet" },
-                    { 31, 5, "ScubaPro", "MK17EVO", "~/lib/custom/resource/scubapro_mk25_s600_regulator_2_98f86760b6.jpg", "R095", 100.0, "C370", "product_RegulatorSet" },
-                    { 32, 5, "ScubaPro", "MK25EVO BT", "~/lib/custom/resource/mk25-bt-a700carbon-s270.w1200.jpg", "S270", 150.0, "A700 Carbon BT", "product_RegulatorSet" }
+                    { 30, 5, "ScubaPro", "MK25EVO", "~/images/scubapro_mk25_s600_regulator_2_98f86760b6.jpg", "R105", 125.0, "S600", "product_RegulatorSet" },
+                    { 31, 5, "ScubaPro", "MK17EVO", "~/images/scubapro_mk25_s600_regulator_2_98f86760b6.jpg", "R095", 100.0, "C370", "product_RegulatorSet" },
+                    { 32, 5, "ScubaPro", "MK25EVO BT", "~/images/mk25-bt-a700carbon-s270.w1200.jpg", "S270", 150.0, "A700 Carbon BT", "product_RegulatorSet" }
                 });
 
             migrationBuilder.InsertData(
@@ -335,13 +336,13 @@ namespace DeepDive.Migrations
                 columns: new[] { "ProductId", "Amount", "Brand", "ImgPath", "Model", "Price", "Size", "product_type" },
                 values: new object[,]
                 {
-                    { 40, 5, "ScubaPro", "~/lib/custom/resource/ScubaproJetFin.jpg", "Jet Fin", 50.0, "XS,S,M,L,XL", "product_Fin" },
-                    { 41, 5, "ScubaPro", "~/lib/custom/resource/ScubaproGoTravel.jpg", "GO Travel", 50.0, "XS,S,M,L,XL", "product_Fin" },
-                    { 42, 5, "ScubaPro", "~/lib/custom/resource/ScubaproSeawingSupernova.jpg", "Seawing Supernova", 60.0, "XS,S,M,L,XL", "product_Fin" },
-                    { 43, 5, "Seac", "~/lib/custom/resource/SeacPropulsion.jpg", "Propulsion", 50.0, "XS,S,M,L,XL", "product_Fin" },
-                    { 44, 5, "Seac", "~/lib/custom/resource/SeacALA.jpg", "ALA", 50.0, "XS,S,M,L,XL", "product_Fin" },
-                    { 45, 5, "Fourth Element", "~/lib/custom/resource/FourthElementTech.jpg", "Tech", 75.0, "XS,S,M,L,XL", "product_Fin" },
-                    { 46, 5, "Fourth Element", "~/lib/custom/resource/FourthElementRecFin.jpg", "Rec Fin", 80.0, "XS,S,M,L,XL", "product_Fin" }
+                    { 40, 5, "ScubaPro", "~/images/ScubaproJetFin.jpg", "Jet Fin", 50.0, "XS,S,M,L,XL", "product_Fin" },
+                    { 41, 5, "ScubaPro", "~/images/ScubaproGoTravel.jpg", "GO Travel", 50.0, "XS,S,M,L,XL", "product_Fin" },
+                    { 42, 5, "ScubaPro", "~/images/ScubaproSeawingSupernova.jpg", "Seawing Supernova", 60.0, "XS,S,M,L,XL", "product_Fin" },
+                    { 43, 5, "Seac", "~/images/SeacPropulsion.jpg", "Propulsion", 50.0, "XS,S,M,L,XL", "product_Fin" },
+                    { 44, 5, "Seac", "~/images/SeacALA.jpg", "ALA", 50.0, "XS,S,M,L,XL", "product_Fin" },
+                    { 45, 5, "Fourth Element", "~/images/FourthElementTech.jpg", "Tech", 75.0, "XS,S,M,L,XL", "product_Fin" },
+                    { 46, 5, "Fourth Element", "~/images/FourthElementRecFin.jpg", "Rec Fin", 80.0, "XS,S,M,L,XL", "product_Fin" }
                 });
 
             migrationBuilder.InsertData(
@@ -349,14 +350,14 @@ namespace DeepDive.Migrations
                 columns: new[] { "ProductId", "Amount", "Brand", "Gender", "ImgPath", "DivingSuit_Model", "Price", "DivingSuit_Size", "Thickness", "Type", "product_type" },
                 values: new object[,]
                 {
-                    { 50, 5, "Scubapro", "Herre/Dame", "~/lib/custom/resource/ScubaproDefinition3mm.jpg", "Definition", 100.0, "XS,S,N,L,XL", "3 mm", "Våddragt", "product_DivingSuit" },
-                    { 51, 5, "Scubapro", "Herre/Dame", "~/lib/custom/resource/ScubaproDefinition5mm.jpg", "Definition", 100.0, "XS,S,N,L,XL", "5 mm", "Våddragt", "product_DivingSuit" },
-                    { 52, 5, "Scubapro", "Herre/Dame", "~/lib/custom/resource/ScubaproDefinition7mm.jpg", "Definition", 100.0, "XS,S,N,L,XL", "7 mm", "Våddragt", "product_DivingSuit" },
-                    { 53, 5, "Waterproof", "Herre/Dame", "~/lib/custom/resource/WaterproofW5.jpg", "W5", 100.0, "XS,S,N,L,XL", "3.5 mm", "Våddragt", "product_DivingSuit" },
-                    { 54, 5, "Fourth Element", "Herre/Dame", "~/lib/custom/resource/FourthElementProteus.jpg", "Proteus", 120.0, "XS,S,N,L,XL", "5 mm", "Våddragt", "product_DivingSuit" },
-                    { 55, 5, "Scubapro", "Herre/Dame", "~/lib/custom/resource/ScubaproExodry4-0.jpg", "Exodry 4.0", 300.0, "XS,S,N,L,XL", " ", "Tørdragt", "product_DivingSuit" },
-                    { 56, 5, "Waterproof", "Herre/Dame", "~/lib/custom/resource/WaterproofD7Evo.jpg", "D7 Evo", 320.0, "XS,S,N,L,XL", " ", "Tørdragt", "product_DivingSuit" },
-                    { 57, 5, "Santi", "Herre/Dame", "~/lib/custom/resource/SantiE-LitePlus.jpg", "E.Lite plus", 350.0, "XS,S,N,L,XL", " ", "Tørdragt", "product_DivingSuit" }
+                    { 50, 5, "Scubapro", "Herre/Dame", "~/images/ScubaproDefinition3mm.jpg", "Definition", 100.0, "XS,S,N,L,XL", "3 mm", "Våddragt", "product_DivingSuit" },
+                    { 51, 5, "Scubapro", "Herre/Dame", "~/images/ScubaproDefinition5mm.jpg", "Definition", 100.0, "XS,S,N,L,XL", "5 mm", "Våddragt", "product_DivingSuit" },
+                    { 52, 5, "Scubapro", "Herre/Dame", "~/images/ScubaproDefinition7mm.jpg", "Definition", 100.0, "XS,S,N,L,XL", "7 mm", "Våddragt", "product_DivingSuit" },
+                    { 53, 5, "Waterproof", "Herre/Dame", "~/images/WaterproofW5.jpg", "W5", 100.0, "XS,S,N,L,XL", "3.5 mm", "Våddragt", "product_DivingSuit" },
+                    { 54, 5, "Fourth Element", "Herre/Dame", "~/images/FourthElementProteus.jpg", "Proteus", 120.0, "XS,S,N,L,XL", "5 mm", "Våddragt", "product_DivingSuit" },
+                    { 55, 5, "Scubapro", "Herre/Dame", "~/images/ScubaproExodry4-0.jpg", "Exodry 4.0", 300.0, "XS,S,N,L,XL", " ", "Tørdragt", "product_DivingSuit" },
+                    { 56, 5, "Waterproof", "Herre/Dame", "~/images/WaterproofD7Evo.jpg", "D7 Evo", 320.0, "XS,S,N,L,XL", " ", "Tørdragt", "product_DivingSuit" },
+                    { 57, 5, "Santi", "Herre/Dame", "~/images/SantiE-LitePlus.jpg", "E.Lite plus", 350.0, "XS,S,N,L,XL", " ", "Tørdragt", "product_DivingSuit" }
                 });
 
             migrationBuilder.InsertData(
@@ -364,13 +365,13 @@ namespace DeepDive.Migrations
                 columns: new[] { "ProductId", "Amount", "Brand", "ImgPath", "Snorkel_Model", "Price", "product_type" },
                 values: new object[,]
                 {
-                    { 60, 5, "Scubapro", "~/lib/custom/resource/ScubaproGhost.jpg", "Ghost", 50.0, "product_Snorkel" },
-                    { 61, 5, "Scubapro", "~/lib/custom/resource/ScubaproD-Mask.jpg", "D-Mask", 60.0, "product_Snorkel" },
-                    { 62, 5, "Scubapro", "~/lib/custom/resource/ScubaproSpectraMini.jpg", "Spectra Mini", 50.0, "product_Snorkel" },
-                    { 63, 5, "Scubapro", "~/lib/custom/resource/ScubaproCrystalVU.jpg", "Crystal VU", 75.0, "product_Snorkel" },
-                    { 64, 5, "Fourth Element", "~/lib/custom/resource/FourthElementScoutKontrast.jpg", "Scout Kontrast", 75.0, "product_Snorkel" },
-                    { 65, 5, "Fourth Element", "~/lib/custom/resource/FourthElementScoutEnhance.jpg", "Scout Enhance", 75.0, "product_Snorkel" },
-                    { 66, 5, "Tusa", "~/lib/custom/resource/TusaElement.jpg", "Element", 75.0, "product_Snorkel" }
+                    { 60, 5, "Scubapro", "~/images/ScubaproGhost.jpg", "Ghost", 50.0, "product_Snorkel" },
+                    { 61, 5, "Scubapro", "~/images/ScubaproD-Mask.jpg", "D-Mask", 60.0, "product_Snorkel" },
+                    { 62, 5, "Scubapro", "~/images/ScubaproSpectraMini.jpg", "Spectra Mini", 50.0, "product_Snorkel" },
+                    { 63, 5, "Scubapro", "~/images/ScubaproCrystalVU.jpg", "Crystal VU", 75.0, "product_Snorkel" },
+                    { 64, 5, "Fourth Element", "~/images/FourthElementScoutKontrast.jpg", "Scout Kontrast", 75.0, "product_Snorkel" },
+                    { 65, 5, "Fourth Element", "~/images/FourthElementScoutEnhance.jpg", "Scout Enhance", 75.0, "product_Snorkel" },
+                    { 66, 5, "Tusa", "~/images/TusaElement.jpg", "Element", 75.0, "product_Snorkel" }
                 });
 
             migrationBuilder.InsertData(
@@ -385,11 +386,11 @@ namespace DeepDive.Migrations
 
             migrationBuilder.InsertData(
                 table: "Bookings",
-                columns: new[] { "BookingId", "End", "Start", "UserId" },
+                columns: new[] { "BookingId", "End", "Finalized", "Start", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateOnly(2026, 9, 20), new DateOnly(2026, 9, 18), "84cd148c-e055-4d01-8a32-d06e7489e2a3" },
-                    { 2, new DateOnly(2026, 9, 20), new DateOnly(2026, 9, 18), "84cd148c-e055-4d01-8a32-d06e7489e2a3" }
+                    { 1, new DateOnly(2026, 9, 24), true, new DateOnly(2026, 9, 22), "84cd148c-e055-4d01-8a32-d06e7489e2a3" },
+                    { 2, new DateOnly(2026, 9, 24), true, new DateOnly(2026, 9, 22), "84cd148c-e055-4d01-8a32-d06e7489e2a3" }
                 });
 
             migrationBuilder.InsertData(
