@@ -1,4 +1,5 @@
-﻿using DeepDive.Repository;
+﻿using DeepDive.Data;
+using DeepDive.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
@@ -10,12 +11,16 @@ namespace DeepDive.Models
         public int BookingId { get; set; }
         [ValidateNever]
         public List<Product_Booking> Product_Bookings { get; set; } = new List<Product_Booking>();
+        public string? UserId { get; set; }
+        public ApplicationUser? User { get; set; }
+        public bool Finalized { get; set; }
 
         private DateOnly _start;
         public DateOnly Start
         {
             get
             {
+                DurationInDays = _end.DayNumber - _start.DayNumber;
                 return _start;
             }
             set
@@ -30,6 +35,7 @@ namespace DeepDive.Models
         {
             get
             {
+                DurationInDays = _end.DayNumber - _start.DayNumber;
                 return _end;
             }
             set

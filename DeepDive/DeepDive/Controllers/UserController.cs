@@ -6,11 +6,11 @@ namespace DeepDive.Controllers
 {
     public class UserController : Controller
     {
-        private BookingRepository _bookingRepository;
+        private BasketRepository _basketRepository;
 
-        public UserController(BookingRepository bookingRepository)
+        public UserController(BasketRepository basketRepository)
         {
-            _bookingRepository = bookingRepository;
+            _basketRepository = basketRepository;
         }
 
         public IActionResult Index()
@@ -19,7 +19,7 @@ namespace DeepDive.Controllers
         }
         public IActionResult ConfirmedBookings()
         {
-            List<Booking> bookings = _bookingRepository.GetAllBookings();
+            List<Booking> bookings = _basketRepository.GetAllBookings();
             return View(bookings);
         }
 

@@ -24,10 +24,15 @@ figure {
     margin: auto;
     margin-bottom: -10%;
     flex: 1 0 21%;
-} 
-img {
-    height: 40%;
 }
+
+.categoryImg {
+    height: 14vw;
+    max-height: 14vw;
+    object-fit: contain;
+    overflow: hidden;
+}
+
 .categoryBtn {
     width: 20%;
     height: 10%;
