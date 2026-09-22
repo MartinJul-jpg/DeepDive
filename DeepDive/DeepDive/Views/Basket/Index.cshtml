@@ -31,7 +31,7 @@
                         <hr id="infoSeperator">
                         <div class="d-flex justify-content-between">
                             <a class="d-flex" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")">
-                                <img src="~/lib/custom/resource/product-placeholder.png" class="m-0" style="height: 40px; width: 40px;">
+                                <img src="@Url.Content(product.ImgPath)" class="m-0" style="height: 40px; width: 40px;">
                                 <h5 class="m-2">@product.GetProductBrand() - Pris pr. dag: Kr. @product.GetProductPrice().ToString(),-</h5>
                             </a> <br />
                             <div class="d-flex justify-content-center" style="height: 40px;">
