@@ -27,10 +27,10 @@ namespace DeepDive.Controllers
             if (!searchQuery.Query.IsNullOrEmpty())
             {
                 searchQuery.Packages = _productRepository.GetAllPackages()
-                    .Where(package => Regex.Match(package.GetSearchBlob(), $"{searchQuery.Query}+").Length > 0)
+                    .Where(package => Regex.Match(package.GetSearchBlob().ToLower(), $"{searchQuery.Query.ToLower()}+").Length > 0)
                     .ToList();
                 searchQuery.Products = _productRepository.GetAllProducts()
-                    .Where(product => Regex.Match(product.GetSearchBlob(), $"{searchQuery.Query}+").Length > 0)
+                    .Where(product => Regex.Match(product.GetSearchBlob().ToLower(), $"{searchQuery.Query.ToLower()}+").Length > 0)
                     .ToList();
             }
             else
