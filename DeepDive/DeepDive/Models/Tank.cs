@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Reflection;
 
 namespace DeepDive.Models
 {
@@ -11,6 +12,11 @@ namespace DeepDive.Models
             return $"{this.GetProductInfo()} Volume: {Volume}{"\n"}";
         }
         public override string GetUniqueInfoPage()
+        {
+            return $"{Volume}";
+        }
+
+        public override string GetSearchBlob()
         {
             return $"{Volume}";
         }

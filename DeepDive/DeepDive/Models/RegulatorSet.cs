@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
+using System.Reflection;
 
 namespace DeepDive.Models
 {
@@ -14,6 +15,11 @@ namespace DeepDive.Models
             return $"{this.GetProductInfo()} FirstStage: {FirstStage}{"\n"} SecondStage: {SecondStage}{"\n"} Octopus: {Octopus}{"\n"}";
         }
         public override string GetUniqueInfoPage()
+        {
+            return $"{FirstStage} {SecondStage} {Octopus}";
+        }
+
+        public override string GetSearchBlob()
         {
             return $"{FirstStage} {SecondStage} {Octopus}";
         }
