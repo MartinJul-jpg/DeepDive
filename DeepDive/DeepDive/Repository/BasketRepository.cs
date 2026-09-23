@@ -64,6 +64,12 @@ namespace DeepDive.Repository
             _basket.ExceedsStock = exceedsStock;
 
             _deepDiveContext.SaveChanges();
+        } 
+
+        public void UpdateBasketAdminPage(Booking booking)
+        {
+            _deepDiveContext.Bookings.Update(booking);
+            _deepDiveContext.SaveChanges();
         }
 
         public void clearBasket(string userId)

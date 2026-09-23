@@ -26,10 +26,33 @@ namespace DeepDive.Controllers
             return View();
         } 
 
-        public IActionResult UpdateBooking()
+        public IActionResult ViewBooking()
         {
+            var bookings = _basketRepository.GetAllBookings();
+            return View(bookings);
+        }
+
+        public IActionResult UpdateBooking(int id)
+        {
+            var booking = _basketRepository.GetBookingById(id);
+            ViewBag.Action = "UpdateBooking";
+            return View(booking);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateBooking(Booking booking)
+        {
+
+            
+
+            if (booking != null)
+            {
+                _basketRepository.UpdateBasketAdminPage(booking);
+                RedirectToAction("Index");
+            }
+
             return View();
-        } 
+        }
 
         public IActionResult EditProduct(int id)
         {

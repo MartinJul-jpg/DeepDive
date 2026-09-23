@@ -1,0 +1,37 @@
+﻿@model Booking
+
+@{
+    string action = ViewBag.Action ?? string.Empty;
+}
+
+<form method="post" asp-controller="Admin" asp-action="@action">
+    @if (action == "UpdateBooking")
+    {
+        <input type="hidden" asp-for="BookingId" />
+
+    } 
+
+    <div class="form-floating mb-3">
+        <input asp-for="UserId" id="floatingPrice" class="form-control" placeholder="1" />
+        <label for="floatingPrice">UserId</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input asp-for="User" id="floatingAmount" class="form-control" placeholder="1" />
+        <label for="floatingAmount">User</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input asp-for="Product_Bookings" id="floatingBrand" class="form-control" placeholder="1" />
+        <label for="floatingBrand">Brand</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input asp-for="Start" id="floatingPrice" class="form-control" placeholder="1" />
+        <label for="floatingPrice">BookingStart</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input asp-for="End" id="floatingAmount" class="form-control" placeholder="1" />
+        <label for="floatingAmount">BookingEnd</label>
+    </div>
+  
+
+
+</form>

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeepDive.Migrations
 {
     [DbContext(typeof(DeepDiveContext))]
-    [Migration("20260922124740_imgpath")]
+    [Migration("20260923092146_imgpath")]
     partial class imgpath
     {
         /// <inheritdoc />
@@ -154,17 +154,17 @@ namespace DeepDive.Migrations
                         new
                         {
                             BookingId = 1,
-                            End = new DateOnly(2026, 9, 24),
+                            End = new DateOnly(2026, 9, 25),
                             Finalized = true,
-                            Start = new DateOnly(2026, 9, 22),
+                            Start = new DateOnly(2026, 9, 23),
                             UserId = "84cd148c-e055-4d01-8a32-d06e7489e2a3"
                         },
                         new
                         {
                             BookingId = 2,
-                            End = new DateOnly(2026, 9, 24),
+                            End = new DateOnly(2026, 9, 25),
                             Finalized = true,
-                            Start = new DateOnly(2026, 9, 22),
+                            Start = new DateOnly(2026, 9, 23),
                             UserId = "84cd148c-e055-4d01-8a32-d06e7489e2a3"
                         });
                 });
