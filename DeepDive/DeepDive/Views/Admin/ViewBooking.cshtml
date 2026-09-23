@@ -16,6 +16,8 @@
                 <th scope="col">User</th>
                 <th scope="col">UserId</th>
                 <th scope="col">BookedProducts</th>
+                <th scope="col">BookingStart</th> 
+                <th scope="col">BookingEnd</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -27,6 +29,8 @@
                     <td>@booking.User</td>
                     <td>@booking.UserId</td>
                     <td>@booking.Product_Bookings.Count</td>
+                    <td>@booking.Start</td>
+                    <td>@booking.End</td>
                     <td>
                         <a asp-controller="Admin" asp-action="UpdateBooking" asp-route-id="@booking.BookingId" class="btn btn-link">Edit</a>
                         <a asp-controller="Admin" asp-action="DeleteBooking" asp-route-id="@booking.BookingId" class="btn btn-link">Delete</a>

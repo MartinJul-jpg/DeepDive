@@ -328,7 +328,9 @@ namespace DeepDive.Repository
             List<Booking> bookings = _deepDiveContext.Bookings
                 .Where(b => b.Finalized == true)
                 .Include(b => b.Product_Bookings)
-                .ThenInclude(pb => pb.Product).ToList();
+                .ThenInclude(pb => pb.Product)
+                .Include(u => u.User)
+                .ToList();
             return bookings;
         }
 
@@ -337,11 +339,14 @@ namespace DeepDive.Repository
             Booking booking = _deepDiveContext.Bookings
                 .Include(b => b.Product_Bookings)
                 .ThenInclude(pb => pb.Product)
+                .Include(ui => ui.User)
                 .Where(booking => booking.BookingId == id)
                 .ToList()
                 .First();
 
             return booking;
-        }
+        } 
+
+       
     }
 }

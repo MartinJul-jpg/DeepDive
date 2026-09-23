@@ -8,6 +8,8 @@
     @if (action == "UpdateBooking")
     {
         <input type="hidden" asp-for="BookingId" />
+        <input type="hidden" asp-for="Finalized" />
+        <input type="hidden" asp-for="Product_Bookings" />
 
     } 
 
@@ -23,7 +25,7 @@
         <select class="form-select">
             @foreach (var product in Model.Product_Bookings)
             {
-                <option value="Product">BookedProduct: @product.Product.GetType().Name & BookingId: @product.BookingId</option> 
+                <option>BookedProduct: @product.Product.GetType().Name & BookingId: @product.BookingId</option> 
             }
             </select>
     </div>

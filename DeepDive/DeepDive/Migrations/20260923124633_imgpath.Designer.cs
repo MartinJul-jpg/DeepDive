@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeepDive.Migrations
 {
     [DbContext(typeof(DeepDiveContext))]
-    [Migration("20260923092146_imgpath")]
+    [Migration("20260923124633_imgpath")]
     partial class imgpath
     {
         /// <inheritdoc />

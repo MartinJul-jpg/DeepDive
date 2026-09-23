@@ -48,8 +48,9 @@ namespace DeepDive.Controllers
             if (booking != null)
             {
                 _basketRepository.UpdateBasketAdminPage(booking);
-                RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
+
 
             return View();
         }
