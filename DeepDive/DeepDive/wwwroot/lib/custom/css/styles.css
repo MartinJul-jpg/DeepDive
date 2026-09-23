@@ -106,6 +106,11 @@ figure {
     max-height: 40vw;
 }
 
+.ProductShowButton{
+    width: 50%;
+    height: 10vh;
+}
+
 #removeCartBtn {
     border: 5px;
     margin: 0 5px 0 5px;
@@ -153,7 +158,6 @@ figure {
 #pageContent div.itemDiv {
     display: flex;
     flex-direction: column;
-    justify-content: top;
 }
 #pageContent div.itemDiv1 {
     grid-area: itemDiv1;
