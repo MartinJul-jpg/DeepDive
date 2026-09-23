@@ -15,14 +15,9 @@
             <a asp-controller="Home" asp-action="Index">
                 <img src="~/lib/custom/resource/logo.png" id="logoImg">
             </a>
-            <h1 id="head">
-                DIVE DEEP
-            </h1>
-            <input id="searchInput">
-            <button id="searchBtn">
-                SØG
-            </button>
-            <partial name="_LoginPartial"/>
+            <h1 id="head"> DIVE DEEP </h1>
+            <partial name="_LoginPartial" />
+            <a asp-controller="Search" asp-action="Index" id="shoppingCartBtn" class="btn btn-primary"> SØG </a>
             <a asp-controller="Basket" asp-action="Index" id="shoppingCartBtn" class="btn btn-primary">
                 <img id="shoppingCart"
                      src="~/lib/custom/resource/whiteshoppingCart.png"
