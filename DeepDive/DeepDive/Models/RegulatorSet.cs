@@ -15,7 +15,7 @@ namespace DeepDive.Models
         }
         public override string GetUniqueInfoPage()
         {
-            return $"FirstStage: {FirstStage}{"\n"} SecondStage: {SecondStage}{"\n"} Octopus: {Octopus}{"\n"}";
+            return $"{FirstStage} {SecondStage} {Octopus}";
         }
     }
 }
