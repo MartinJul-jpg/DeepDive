@@ -11,7 +11,7 @@
         }
         public override string GetUniqueInfoPage()
         {
-            return $"Model: {Model}{"\n"} Size: {Size}{"\n"}";
+            return $"{Model}";
         }
     }
 }
