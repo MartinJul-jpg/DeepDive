@@ -24,13 +24,24 @@ namespace DeepDive.Controllers
 
         public IActionResult Show(SearchQuery searchQuery)
         {
+            string[] queryWords = searchQuery.Query.ToLower().Split(" ");
             if (!searchQuery.Query.IsNullOrEmpty())
             {
                 searchQuery.Packages = _productRepository.GetAllPackages()
-                    .Where(package => Regex.Match(package.GetSearchBlob().ToLower(), $"{searchQuery.Query.ToLower()}+").Length > 0)
+                    //.Where(package => Regex.Match(package.GetSearchBlob().ToLower(), $"{searchQuery.Query.ToLower()}+").Length > 0)
+                    .Where(package => 
+                    {
+                        string blob = package.GetSearchBlob().ToLower();
+                        return queryWords.All(queryWord => blob.Contains(queryWord));
+                    })
                     .ToList();
                 searchQuery.Products = _productRepository.GetAllProducts()
-                    .Where(product => Regex.Match(product.GetSearchBlob().ToLower(), $"{searchQuery.Query.ToLower()}+").Length > 0)
+                    //.Where(product => Regex.Match(product.GetSearchBlob().ToLower(), $"{searchQuery.Query.ToLower()}+").Length > 0)
+                    .Where(product =>
+                    {
+                        string blob = product.GetSearchBlob().ToLower();
+                        return queryWords.All(queryWord => blob.Contains(queryWord));
+                    })
                     .ToList();
             }
             else
