@@ -29,20 +29,18 @@ namespace DeepDive.Controllers
             {
                 searchQuery.Packages = _productRepository.GetAllPackages()
                     //.Where(package => Regex.Match(package.GetSearchBlob().ToLower(), $"{searchQuery.Query.ToLower()}+").Length > 0)
-                    .Where(package => 
-                    {
-                        string blob = package.GetSearchBlob().ToLower();
-                        return queryWords.All(queryWord => blob.Contains(queryWord));
-                    })
+                    .Where(package => HasQueryWords(package.GetSearchBlob(), queryWords))
                     .ToList();
                 searchQuery.Products = _productRepository.GetAllProducts()
                     //.Where(product => Regex.Match(product.GetSearchBlob().ToLower(), $"{searchQuery.Query.ToLower()}+").Length > 0)
-                    .Where(product =>
-                    {
-                        string blob = product.GetSearchBlob().ToLower();
-                        return queryWords.All(queryWord => blob.Contains(queryWord));
-                    })
+                    .Where(product => HasQueryWords(product.GetSearchBlob(), queryWords))
                     .ToList();
+
+                bool HasQueryWords(string blob, string[] queryWords)
+                {
+                    string properBlob = blob.ToLower();
+                    return queryWords.All(queryWord => properBlob.Contains(queryWord));
+                }
             }
             else
             {
