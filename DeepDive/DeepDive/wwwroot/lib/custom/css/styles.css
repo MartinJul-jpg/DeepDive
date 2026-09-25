@@ -100,6 +100,17 @@ figure {
     overflow: hidden;
 }
 
+.productImgContainer {
+    max-width: 60vw;
+    width: 60vw;
+    max-height: 40vw;
+}
+
+.ProductShowButton{
+    width: 50%;
+    height: 10vh;
+}
+
 #removeCartBtn {
     border: 5px;
     margin: 0 5px 0 5px;
@@ -108,8 +119,8 @@ figure {
 }
 
 #productImg {
-    height: 40vh;
-    width: 25vw;
+    object-fit: cover;
+    overflow: hidden;
     margin: 0;
 }
 
@@ -147,7 +158,6 @@ figure {
 #pageContent div.itemDiv {
     display: flex;
     flex-direction: column;
-    justify-content: top;
 }
 #pageContent div.itemDiv1 {
     grid-area: itemDiv1;

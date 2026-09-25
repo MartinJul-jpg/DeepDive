@@ -1,26 +1,37 @@
-﻿using DeepDive.Models;
+﻿using DeepDive.Data;
+using DeepDive.Filters;
+using DeepDive.Models;
 using DeepDive.Repository;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeepDive.Controllers
 {
+    [AdminAuthorize("Admin")]
     public class AdminController : Controller
     {
         private BasketRepository _basketRepository;
         private ProductRepository _productRepository;
 
-        public AdminController(BasketRepository basketRepository, ProductRepository productrepo)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+
+
+        public AdminController(BasketRepository basketRepository, ProductRepository productrepo, UserManager<ApplicationUser> userManager)
         {
+            _userManager = userManager;
             _basketRepository = basketRepository;
             _productRepository = productrepo;
         }
+
         public IActionResult Index()
         {
             List<Product> products = new List<Product>(_productRepository.GetAllProducts());
             return View(products); 
 
-        } 
-
+        }
+  
         public IActionResult DeleteBooking()
         {
             return View();
@@ -86,8 +97,6 @@ namespace DeepDive.Controllers
             return View();
         }
 
-        
-
         public IActionResult CreateNewProduct()
         {
             
@@ -118,7 +127,6 @@ namespace DeepDive.Controllers
 
             return View();
         }
-
         public IActionResult DeleteProduct(int id)
         {
             _productRepository.DeleteProduct(id);

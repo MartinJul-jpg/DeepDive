@@ -7,30 +7,27 @@
     int amount = 1;
     <div class="container text-center m-5">
         <div class="row">
-            <div class="col">
-                <img id="productImg" src="@Url.Content(Model.ImgPath)" class="card" style="object-fit: contain">
+            <div class="col-2 card productImgContainer" style="width: 50%;">
+                <img id="productImg" src="@Url.Content(Model.ImgPath)" style="object-fit: contain">
             </div>
-            <div class="col productText">
-                <h3>@($"{Model.Brand}")</h3>
+            <div class="col justify-content-center" style="width: 50%;">
                 <br />
-                <h5>@($"{Model.GetUniqueInfoPage()}")</h5>
+                <h5 style="text-align: left;">@($"{Model.Brand}")</h5>
+                <h3 style="text-align: left;">@($"{Model.GetUniqueInfoPage()}")</h3>
                 <br />
-                <h5>@($"Pris: {Model.Price} kr. per dage")</h5>
-                <br />
-            </div>
-            <div class="col justify-content-center">
                 <div class="d-flex justify-content-center" style="height: 40px;">
                     <button id="minusBtn" name="minusBtn" class="amountSelector btn btn-primary">-</button>
-                    <input class="amountSelector m-0" type="number" value="@amount"/>
+                    <input class="amountSelector m-0" type="number" value="@amount" />
                     <button id="plusBtn" name="addBtn" class="amountSelector btn btn-primary">+</button>
                 </div>
-                <br/>
+                <br />
+                <h2 class="text-primary">@($"Kr. {Model.Price},- pr. dag")</h2>
                 <div class="justify-content-center">
                     <form asp-controller="Product" asp-action="AddToBasket" method="get">
                         <input type="hidden" name="id" value="@Model.ProductId" />
                         <input type="hidden" name="amount" id="amountInput" value="@amount" />
 
-                        <button type="submit" class="btn btn-success" style="margin: 10px;">Book</button>
+                        <button type="submit" class="ProductShowButton btn btn-success" style="margin: 10px;">Læg i kurv</button>
                     </form>
                 </div>
                 <p class="text-info-emphasis">@($"På lager: {Model.Amount}")</p>
@@ -59,11 +56,11 @@
         // Update amount when typed or clicked
         const quantityInput = document.querySelector('input[type="number"]');
         const amountInput = document.getElementById('amountInput');
+        const amountPrice = documentgetElementsByName('amountPrice')
 
         quantityInput.addEventListener('input', () => {
             amountInput.value = quantityInput.value;
         });
-
 
         // Prevent booking if amount is 0 or less
         const link = document.getElementById('BookBtn');

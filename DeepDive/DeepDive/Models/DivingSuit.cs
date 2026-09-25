@@ -14,7 +14,7 @@
         }
         public override string GetUniqueInfoPage()
         {
-            return $"Model: {Model}{"\n"} Size: {Size}{"\n"} Type: {Type}{"\n"} Gender: {Gender}{"\n"} Thickness: {Thickness}{"\n"}";
+            return $"{Model} {Type} {Thickness}";
         }
     }
 }
