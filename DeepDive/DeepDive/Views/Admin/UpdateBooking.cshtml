@@ -1,0 +1,45 @@
+﻿@model Booking
+
+@{
+    string action = ViewBag.Action ?? string.Empty;
+}
+
+<form method="post" asp-controller="Admin" asp-action="@action">
+    @if (action == "UpdateBooking")
+    {
+        <input type="hidden" asp-for="BookingId" />
+        <input type="hidden" asp-for="Finalized" />
+        <input type="hidden" asp-for="Product_Bookings" />
+
+    } 
+
+    <div class="form-floating mb-3">
+        <input asp-for="UserId" id="floatingPrice" class="form-control" placeholder="1" />
+        <label for="floatingPrice">UserId</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input asp-for="User" id="floatingAmount" class="form-control" placeholder="1" />
+        <label for="floatingAmount">User</label>
+    </div>
+    <div class="form-floating mb-3">
+        <select class="form-select">
+            @foreach (var product in Model.Product_Bookings)
+            {
+                <option>BookedProduct: @product.Product.GetType().Name & BookingId: @product.BookingId</option> 
+            }
+            </select>
+    </div>
+    <div class="form-floating mb-3">
+        <input asp-for="Start" id="floatingPrice" class="form-control" placeholder="1" />
+        <label for="floatingPrice">BookingStart</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input asp-for="End" id="floatingAmount" class="form-control" placeholder="1" />
+        <label for="floatingAmount">BookingEnd</label>
+    </div>
+  
+    <div class="mb-3">
+        <input type="submit" class="btn-success" value="Save"/>
+    </div>
+
+</form>

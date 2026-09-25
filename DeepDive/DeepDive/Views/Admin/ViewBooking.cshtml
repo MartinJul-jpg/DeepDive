@@ -1,0 +1,43 @@
+﻿@model List<Booking>
+
+
+
+
+<div class="d-flex justify-content-between align-items-center mt-4 mb-4">
+    <h1 class="mb-0">Bookings:</h1>
+</div>
+
+<div class="d-flex flex-wrap gap-3">
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">BookingId</th>
+                <th scope="col">User</th>
+                <th scope="col">UserId</th>
+                <th scope="col">BookedProducts</th>
+                <th scope="col">BookingStart</th> 
+                <th scope="col">BookingEnd</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>@booking.BookingId</td>
+                    <td>@booking.User</td>
+                    <td>@booking.UserId</td>
+                    <td>@booking.Product_Bookings.Count</td>
+                    <td>@booking.Start</td>
+                    <td>@booking.End</td>
+                    <td>
+                        <a asp-controller="Admin" asp-action="UpdateBooking" asp-route-id="@booking.BookingId" class="btn btn-link">Edit</a>
+                        <a asp-controller="Admin" asp-action="DeleteBooking" asp-route-id="@booking.BookingId" class="btn btn-link">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
