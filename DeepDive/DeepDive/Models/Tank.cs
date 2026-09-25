@@ -16,7 +16,7 @@ namespace DeepDive.Models
             return $"{Volume}";
         }
 
-        public override string GetSearchBlob()
+        public override string GetUniqueSearchBlob()
         {
             return $"{Volume}";
         }

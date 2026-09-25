@@ -17,7 +17,7 @@
             return $"{Model} {Type} {Thickness}";
         }
 
-        public override string GetSearchBlob()
+        public override string GetUniqueSearchBlob()
         {
             return $"{Model} {Size} {Type} {Gender} {Thickness}";
         }

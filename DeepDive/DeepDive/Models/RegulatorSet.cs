@@ -19,7 +19,7 @@ namespace DeepDive.Models
             return $"{FirstStage} {SecondStage} {Octopus}";
         }
 
-        public override string GetSearchBlob()
+        public override string GetUniqueSearchBlob()
         {
             return $"{FirstStage} {SecondStage} {Octopus}";
         }
