@@ -5,6 +5,7 @@ using DeepDive.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DeepDive.Controllers
 {
@@ -53,17 +54,24 @@ namespace DeepDive.Controllers
         [HttpPost]
         public IActionResult UpdateBooking(Booking booking)
         {
-
-            
-
-            if (booking != null)
+            try
             {
-                _basketRepository.UpdateBasketAdminPage(booking);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    _basketRepository.UpdateBasketFromAdminPage(booking);
+                }
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                ModelState.AddModelError("Booking.RowVersion", "The booking has changed since you requested the resource");
             }
 
+            if (!ModelState.IsValid)
+            {
+                return View(booking);
+            }
 
-            return View();
+            return RedirectToAction("Index");
         }
 
         public IActionResult EditProduct(int id)

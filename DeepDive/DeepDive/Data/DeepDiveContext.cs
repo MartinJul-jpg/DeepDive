@@ -572,6 +572,9 @@ namespace DeepDive.Data
                 .Ignore(booking => booking.TotalPrice);
             modelBuilder.Entity<Booking>()
                 .Ignore(booking => booking.ExceedsStock);
+            modelBuilder.Entity<Booking>()
+                .Property(booking => booking.RowVersion)
+                .IsRowVersion();
 
             // Packages x Products linking table
             modelBuilder.Entity<Package_Product>()

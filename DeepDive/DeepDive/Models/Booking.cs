@@ -51,6 +51,8 @@ namespace DeepDive.Models
         [Range(typeof(bool), "false", "false", ErrorMessage = $"Mængden af en vare overskrider lager på en af de pågældende datoer")]
         public bool ExceedsStock { get; set; }
 
+        public byte[]? RowVersion { get; set; }
+
         public void CalculatePriceOfBooking()
         {
             double totalPrice = 0;
