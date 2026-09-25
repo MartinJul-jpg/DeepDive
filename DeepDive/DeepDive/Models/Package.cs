@@ -17,5 +17,16 @@
 
             return result;
         }
+
+        public string GetSearchBlob()
+        {
+            string result = "";
+            foreach (Package_Product pp in Package_Products)
+            {
+                result += $"{pp.Product.GetSearchBlob()} ";
+            }
+
+            return result;
+        }
     }
 }

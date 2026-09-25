@@ -1,4 +1,6 @@
-﻿namespace DeepDive.Models
+﻿using System.Reflection;
+
+namespace DeepDive.Models
 {
     public class Fin : Product
     {
@@ -12,6 +14,11 @@
         public override string GetUniqueInfoPage()
         {
             return $"{Model}";
+        }
+
+        public override string GetSearchBlob()
+        {
+            return $"{Model} {Size}";
         }
     }
 }

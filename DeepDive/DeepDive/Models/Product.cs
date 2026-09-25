@@ -21,6 +21,8 @@ namespace DeepDive.Models
             return $"Price: {Price}{"\n"} Brand: {Brand}{"\n"}";
         }
 
+        public abstract string GetSearchBlob();
+
         public string GetProductBrand()
         {
             return $"{Brand}";

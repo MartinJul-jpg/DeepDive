@@ -16,5 +16,10 @@
         {
             return $"{Model} {Type} {Thickness}";
         }
+
+        public override string GetSearchBlob()
+        {
+            return $"{Model} {Size} {Type} {Gender} {Thickness}";
+        }
     }
 }

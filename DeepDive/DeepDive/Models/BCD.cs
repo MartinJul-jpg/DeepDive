@@ -13,5 +13,10 @@
         {
             return $"{Model}";
         }
+
+        public override string GetSearchBlob()
+        {
+            return $"{Model} {Size}";
+        }
     }
 }
