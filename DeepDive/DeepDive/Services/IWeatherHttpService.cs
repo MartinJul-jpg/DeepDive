@@ -4,10 +4,10 @@ namespace DeepDive.Services
 {
     public interface IWeatherHttpService
     {
-        Task<City> GetCityByName(string name);
+        Task<City> GetCityByNameAsync(string name);
 
-        Task<WeatherForecast> GetWeatherForecast(double latitude, double longitude);
+        Task<WeatherForecast> GetMeanWeatherForecastAsync(double latitude, double longitude);
 
-        Task<MarineForecast> GetMarinaForecast(double latitude, double longitude);
+        Task<MarineForecast> GetMarinaForecastAsync(double latitude, double longitude);
     }
 }

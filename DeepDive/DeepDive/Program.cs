@@ -2,6 +2,7 @@ using DeepDive.Data;
 using DeepDive.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using DeepDive.Services;
 
 namespace DeepDive
 {
@@ -14,6 +15,21 @@ namespace DeepDive
 
             builder.Services.AddScoped<BasketRepository>();
             builder.Services.AddScoped<ProductRepository>();
+
+            // Weather API
+            builder.Services.AddScoped<IWeatherHttpService, WeatherHttpService>();
+            builder.Services.AddHttpClient("GeolocateClient", client =>
+            {
+                client.BaseAddress = new Uri("https://geocoding-api.open-meteo.com/v1/");
+            });
+            builder.Services.AddHttpClient("WeatherClient", client =>
+            {
+                client.BaseAddress = new Uri("https://api.open-meteo.com/v1/");
+            });
+            builder.Services.AddHttpClient("MarineClient", client =>
+            {
+                client.BaseAddress = new Uri("https://marine-api.open-meteo.com/v1/");
+            });
 
             builder.Services.AddDbContext<DeepDiveContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("default")));
 
