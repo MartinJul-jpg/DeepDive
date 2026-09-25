@@ -6,10 +6,10 @@
     @foreach (Product product in Model)
     {
         <a id="productText" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")" class="card m-3" style="width: 15vw; height: 18vw;">
-            <img src="@Url.Content(product.ImgPath)" class="categoryImg card-img-top h-auto" alt="...">
-            <div class="card-body p-0 productCardText" style="height: 4vw;">
-                <p class="card-text m-0" style="font-size: 2vh;">@product.Brand</p>
-                <h6>Kr. @product.Price per. dag</h6>
+            <img src="@Url.Content(product.ImgPath)" class="categoryImg card-img-top m-1 h-auto" alt="..." style="height: 75%; max-height: 75%;">
+            <div class="card-body p-0 productCardText m-1" style="height: 25%; min-height: 25%;">
+                <p class="card-text m-0" style="font-size: 2vh; height: 60%; max-height: 60%; min-height: 60%;">@product.Brand @product.GetUniqueInfoPage()</p>
+                <h5 style="height: 40%; max-height: 40%; min-height: 40%; font-size: 3.5vh;">Kr. @product.Price per. dag</h5>
             </div>
         </a>
     }
