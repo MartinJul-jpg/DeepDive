@@ -93,16 +93,26 @@ namespace DeepDive.Controllers
                 "Snorkel" => snorkel,
                 "Tank" => tank,
                 _ => null
+            };
 
-            }; 
-
-            if (product != null)
+            try
             {
-                _productRepository.UpdateProduct(product);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    _productRepository.UpdateProduct(product);
+                }
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                ModelState.AddModelError("Booking.RowVersion", "The booking has changed since you requested the resource");
             }
 
-            return View();
+            if (!ModelState.IsValid)
+            {
+                return View(product);
+            }
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult CreateNewProduct()

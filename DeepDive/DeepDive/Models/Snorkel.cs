@@ -5,7 +5,7 @@ namespace DeepDive.Models
 {
     public class Snorkel : Product
     {
-        public string Model { get; set; } = string.Empty;
+        public string? Model { get; set; } = string.Empty;
 
         public override string GetUniqueInfo()
         {

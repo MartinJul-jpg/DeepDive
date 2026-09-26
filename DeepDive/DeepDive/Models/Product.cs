@@ -13,6 +13,8 @@ namespace DeepDive.Models
         public List<Package_Product> Package_Products { get; set; } = new List<Package_Product>();
         public List<Product_Booking> Product_Bookings { get; set; } = new List<Product_Booking>();
 
+        public byte[]? RowVersion { get; set; }
+
         public abstract string GetUniqueInfo();
         public abstract string GetUniqueInfoPage();
 

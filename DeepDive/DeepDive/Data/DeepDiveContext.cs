@@ -557,6 +557,10 @@ namespace DeepDive.Data
             modelBuilder.Entity<Fin>();
             modelBuilder.Entity<RegulatorSet>();
 
+            modelBuilder.Entity<Product>()
+                .Property(product => product.RowVersion)
+                .IsRowVersion();
+
             base.OnModelCreating(modelBuilder);
 
             // ApplicationUser relations
