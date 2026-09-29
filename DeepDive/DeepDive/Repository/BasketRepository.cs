@@ -345,7 +345,17 @@ namespace DeepDive.Repository
                 .First();
 
             return booking;
-        } 
+        }  
+
+        public void DeleteBookingAdmin(int id)
+        {
+            var foundbooking = _deepDiveContext.Bookings.Find(id);
+            if (foundbooking != null)
+            {
+                _deepDiveContext.Bookings.Remove(foundbooking);
+                _deepDiveContext.SaveChanges();
+            }
+        }
 
        
     }
