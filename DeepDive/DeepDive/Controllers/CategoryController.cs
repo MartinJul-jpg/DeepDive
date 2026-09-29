@@ -8,7 +8,7 @@ namespace DeepDive.Controllers
     {
         private ProductRepository _productRepository;
 
-        public CategoryController(BasketRepository basketRepository, ProductRepository productRepository)
+        public CategoryController(CartRepository cartRepository, ProductRepository productRepository)
         {
             _productRepository = productRepository;
         }
