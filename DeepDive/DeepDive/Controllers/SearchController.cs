@@ -8,12 +8,12 @@ namespace DeepDive.Controllers
 {
     public class SearchController : Controller
     {
-        private BasketRepository _basketRepository;
+        private CartRepository _cartRepository;
         private ProductRepository _productRepository;
 
-        public SearchController(BasketRepository basketRepository, ProductRepository productRepository)
+        public SearchController(CartRepository cartRepository, ProductRepository productRepository)
         {
-            _basketRepository = basketRepository;
+            _cartRepository = cartRepository;
             _productRepository = productRepository;
         }
 

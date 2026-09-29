@@ -12,17 +12,17 @@ namespace DeepDive.Controllers
     [AdminAuthorize("Admin")]
     public class AdminController : Controller
     {
-        private BasketRepository _basketRepository;
+        private CartRepository _cartRepository;
         private ProductRepository _productRepository;
 
         private readonly UserManager<ApplicationUser> _userManager;
 
 
 
-        public AdminController(BasketRepository basketRepository, ProductRepository productrepo, UserManager<ApplicationUser> userManager)
+        public AdminController(CartRepository cartRepository, ProductRepository productrepo, UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
-            _basketRepository = basketRepository;
+            _cartRepository = cartRepository;
             _productRepository = productrepo;
         }
 
@@ -40,13 +40,13 @@ namespace DeepDive.Controllers
 
         public IActionResult ViewBooking()
         {
-            var bookings = _basketRepository.GetAllBookings();
+            var bookings = _cartRepository.GetAllBookings();
             return View(bookings);
         }
 
         public IActionResult UpdateBooking(int id)
         {
-            var booking = _basketRepository.GetBookingById(id);
+            var booking = _cartRepository.GetBookingById(id);
             ViewBag.Action = "UpdateBooking";
             return View(booking);
         }
@@ -58,7 +58,7 @@ namespace DeepDive.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _basketRepository.UpdateBasketFromAdminPage(booking);
+                    _cartRepository.UpdateCartFromAdminPage(booking);
                 }
             }
             catch (DbUpdateConcurrencyException)
