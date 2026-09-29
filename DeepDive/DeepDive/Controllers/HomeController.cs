@@ -29,7 +29,7 @@ namespace DeepDive.Controllers
 
             var weatherRespone = await _weatherHttpService.GetMeanWeatherForecastAsync(cityRespone.Latitude, cityRespone.Longitude);
 
-            var marineRespone = await _weatherHttpService.GetMarinaForecastAsync(cityRespone.Latitude, cityRespone.Longitude);
+            var marineRespone = await _weatherHttpService.GetMarineForecastAsync(cityRespone.Latitude, cityRespone.Longitude);
 
             HomeViewModel homeViewModel = new HomeViewModel
             {

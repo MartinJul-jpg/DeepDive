@@ -29,7 +29,7 @@ namespace DeepDive.Services
             }
         }
 
-        public async Task<MarineForecast?> GetMarinaForecastAsync(double latitude, double longitude)
+        public async Task<MarineForecast?> GetMarineForecastAsync(double latitude, double longitude)
         {
             // API call expample: https://marine-api.open-meteo.com/v1/marine?latitude=55.375008&longitude=9.7083435&hourly=sea_surface_temperature,wave_height&current=sea_surface_temperature&timezone=Europe%2FCopenhagen
             HttpClient httpClient = _httpClientFactory.CreateClient("MarineClient");
