@@ -63,7 +63,7 @@ namespace DeepDive.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                ModelState.AddModelError("Booking.RowVersion", "The booking has changed since you requested the resource");
+                ModelState.AddModelError("Booking.RowVersion", "Bookingen er ændret siden du efterspurgte resourcen");
             }
 
             if (!ModelState.IsValid)
@@ -104,7 +104,7 @@ namespace DeepDive.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                ModelState.AddModelError("Booking.RowVersion", "The booking has changed since you requested the resource");
+                ModelState.AddModelError("Booking.RowVersion", "Produktet er ændret siden du efterspurgte resourcen");
             }
 
             if (!ModelState.IsValid)
