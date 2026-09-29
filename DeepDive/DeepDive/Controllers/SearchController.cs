@@ -24,9 +24,10 @@ namespace DeepDive.Controllers
 
         public IActionResult Show(SearchQuery searchQuery)
         {
-            string[] queryWords = searchQuery.Query.ToLower().Split(" ");
             if (!searchQuery.Query.IsNullOrEmpty())
             {
+                string[] queryWords = searchQuery.Query.ToLower().Split(" ");
+
                 searchQuery.Packages = _productRepository.GetAllPackages()
                     //.Where(package => Regex.Match(package.GetSearchBlob().ToLower(), $"{searchQuery.Query.ToLower()}+").Length > 0)
                     .Where(package => HasQueryWords(package.GetSearchBlob(), queryWords))

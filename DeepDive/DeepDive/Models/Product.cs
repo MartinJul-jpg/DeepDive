@@ -23,7 +23,12 @@ namespace DeepDive.Models
             return $"Price: {Price}{"\n"} Brand: {Brand}{"\n"}";
         }
 
-        public abstract string GetSearchBlob();
+        public abstract string GetUniqueSearchBlob();
+
+        public string GetSearchBlob()
+        {
+            return $"{Brand} {GetUniqueSearchBlob()}";
+        }
 
         public string GetProductBrand()
         {
