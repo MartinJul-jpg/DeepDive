@@ -1,5 +1,7 @@
 ﻿using DeepDive.Models;
 using DeepDive.Repository;
+using DeepDive.Services;
+using DeepDive.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeepDive.Controllers
@@ -7,16 +9,40 @@ namespace DeepDive.Controllers
     public class HomeController : Controller
     {
         private ProductRepository _productRepository;
+        private IWeatherHttpService _weatherHttpService;
 
-        public HomeController(ProductRepository productRepository)
+        public HomeController(ProductRepository productRepository, IWeatherHttpService weatherHttpService)
         {
             _productRepository = productRepository;
+            _weatherHttpService = weatherHttpService;
         }
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index(string searchTerm)
         {
+            if (searchTerm == null)
+            {
+                searchTerm = "Middelfart";
+            }
             List<Package> packages =  new List<Package>(_productRepository.GetAllPackages());
 
-            return View(packages);
+            var cityRespone = await _weatherHttpService.GetCityByNameAsync(searchTerm);
+
+            var weatherRespone = await _weatherHttpService.GetMeanWeatherForecastAsync(cityRespone.Latitude, cityRespone.Longitude);
+
+            var marineRespone = await _weatherHttpService.GetMarinaForecastAsync(cityRespone.Latitude, cityRespone.Longitude);
+
+            HomeViewModel homeViewModel = new HomeViewModel
+            {
+                Packages = packages,
+                ForecastViewModel = new ForecastViewModel
+                {
+                    City = cityRespone,
+                    WeatherForecast = weatherRespone,
+                    MarineForecast = marineRespone
+                }
+            };
+
+            return View(homeViewModel);
         }
     }
 }

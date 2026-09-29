@@ -111,6 +111,34 @@ figure {
     height: 10vh;
 }
 
+.forecastDayCard {
+    width: 12%;
+    max-width: 14%;
+    background: rgb(249, 246, 238);
+}
+
+.forecastImg {
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;  
+}
+
+.forecastDayText{
+    font-size: 100%;
+}
+
+#forecastCard {
+    background: white;
+    height: 50vh;
+    width: 100%;
+    object-fit: cover;
+}
+
+#todaysForecastDayCard {
+    background: rgb(240, 234, 214);
+}
+
 #removeCartBtn {
     border: 5px;
     margin: 0 5px 0 5px;

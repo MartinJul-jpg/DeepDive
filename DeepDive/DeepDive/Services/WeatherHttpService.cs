@@ -1,0 +1,78 @@
+﻿using DeepDive.Models;
+using System.Globalization;
+
+namespace DeepDive.Services
+{
+    public class WeatherHttpService : IWeatherHttpService
+    {
+        private readonly IHttpClientFactory _httpClientFactory;
+
+        public WeatherHttpService(IHttpClientFactory httpClientFactory)
+        {
+            _httpClientFactory = httpClientFactory;
+        }
+
+        public async Task<City?> GetCityByNameAsync(string cityName)
+        {
+            // https://geocoding-api.open-meteo.com/v1/search?name=Odense&count=1 
+            HttpClient httpClient = _httpClientFactory.CreateClient("GeolocateClient");
+
+            try
+            {
+                var response = await httpClient.GetFromJsonAsync<GeocodingResponse>($"search?name={cityName}&count=1");
+
+                return response?.Results?.FirstOrDefault();
+            }
+            catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return null; // City not found
+            }
+        }
+
+        public async Task<MarineForecast?> GetMarinaForecastAsync(double latitude, double longitude)
+        {
+            // API call expample: https://marine-api.open-meteo.com/v1/marine?latitude=55.375008&longitude=9.7083435&hourly=sea_surface_temperature,wave_height&current=sea_surface_temperature&timezone=Europe%2FCopenhagen
+            HttpClient httpClient = _httpClientFactory.CreateClient("MarineClient");
+
+            // Convert comma in double to dot to avoid issues with the API call
+            string url = $"marine?latitude={latitude.ToString(CultureInfo.InvariantCulture)}"
+                + $"&longitude={longitude.ToString(CultureInfo.InvariantCulture)}"
+                + $"&hourly=sea_surface_temperature,wave_height"
+                + $"&current=sea_surface_temperature"
+                + $"&timezone=Europe%2FCopenhagen";
+
+            try
+            {
+                var respone = await httpClient.GetFromJsonAsync<MarineRespone>(url);
+                return respone?.HourlyRespone;
+            }
+            catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return null; // Latitude and longtitude wrong, forecast not found
+            }
+        }
+
+        public async Task<WeatherForecast?> GetMeanWeatherForecastAsync(double latitude, double longitude)
+        {
+            // API call expample: https://api.open-meteo.com/v1/forecast?latitude=55.375008&longitude=9.7083435&daily=precipitation_sum,wind_speed_10m_max,weather_code&timezone=Europe%2FCopenhagen
+            HttpClient httpClient = _httpClientFactory.CreateClient("WeatherClient");
+
+            // Convert comma in double to dot to avoid issues with the API call
+            string url = $"forecast?latitude={latitude.ToString(CultureInfo.InvariantCulture)}" 
+                + $"&longitude={longitude.ToString(CultureInfo.InvariantCulture)}" 
+                + $"&daily=precipitation_sum,wind_speed_10m_max,weather_code" 
+                + $"&timezone=Europe%2FCopenhagen";
+
+            try
+            {
+                var response = await httpClient.GetFromJsonAsync<WeatherResponse>(url);
+
+                return response?.Daily;
+            }
+            catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return null; // Latitude and longtitude wrong, forecast not found
+            }
+        }
+    }
+}
