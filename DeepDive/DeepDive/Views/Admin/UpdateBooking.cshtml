@@ -11,12 +11,20 @@
         <input type="hidden" asp-for="Finalized" />
         <input type="hidden" asp-for="Product_Bookings" />
 
+        <input type="hidden" asp-for="RowVersion" />
     } 
 
     <div class="form-floating mb-3">
         <input asp-for="UserId" id="floatingPrice" class="form-control" placeholder="1" />
         <label for="floatingPrice">UserId</label>
     </div>
+
+    @{
+        // the two following divs containing the fields for the user class instance and the list of products cannot be returned via form because of framework limitations. 
+        // fear not, leaving the fields empty when the forms output instance is used to update wont cause the booking on the database to lose these informations. 
+        // the real point might be that if you want to update user, userId should be updated instead, the database handles the rest. 
+        // in regards to updating the product contents of the booking, one could get some numbers from here to the controller representing the products to be added or removed etc. 
+    }
     <div class="form-floating mb-3">
         <input asp-for="User" id="floatingAmount" class="form-control" placeholder="1" />
         <label for="floatingAmount">User</label>
@@ -29,6 +37,7 @@
             }
             </select>
     </div>
+
     <div class="form-floating mb-3">
         <input asp-for="Start" id="floatingPrice" class="form-control" placeholder="1" />
         <label for="floatingPrice">BookingStart</label>
@@ -41,5 +50,7 @@
     <div class="mb-3">
         <input type="submit" class="btn-success" value="Save"/>
     </div>
+    
+    <div class="text-danger" asp-validation-summary="All"></div>
 
 </form>

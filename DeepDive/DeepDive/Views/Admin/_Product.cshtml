@@ -8,7 +8,10 @@
     @if (action == "EditProduct")
     {
         <input type="hidden" asp-for="ProductId" />
-
+        <input type="hidden" asp-for="RowVersion" />
+        
+        // adding hidden field for imgpath until the proper solution for changing pictures is added
+        <input type="hidden" asp-for="ImgPath" />
     }
 
     <div class="mb-3">
@@ -27,6 +30,16 @@
 
         @if (action == "EditProduct")
         {
+            // comment1: fix for comment2, determine Model specialisation type for use in comment3
+            string productTypeValue = 
+                  Model is BCD ? "BCD"
+                : Model is DivingSuit ? "DivingSuit"
+                : Model is RegulatorSet ? "RegulatorSet"
+                : Model is Snorkel ? "Snorkel"
+                : Model is Tank ? "Tank"
+                : string.Empty;
+
+            // comment2: disabled form controls are not submitted, the more you know
             <select disabled id="productTypeSelector" class="form-select">
                 <option value="BCD" selected="@(Model is DeepDive.Models.BCD ? "selected" : null)">BCD</option>
                 <option value="DivingSuit" selected="@(Model is DeepDive.Models.DivingSuit ? "selected" : null)">DivingSuit</option>
@@ -35,6 +48,9 @@
                 <option value="Snorkel" selected="@(Model is DeepDive.Models.Snorkel ? "selected" : null)">Snorkel</option>
                 <option value="Tank" selected="@(Model is DeepDive.Models.Tank ? "selected" : null)">Tank</option>
             </select>
+            
+            // comment3: fix for comment2, add hidden field for the value which will be posted
+            <input type="hidden" name="productTypeSelector" value="@productTypeValue" />
         }
         <div class="form-floating mb-3">
             <input asp-for="Price" id="floatingPrice" class="form-control" placeholder="1" />
@@ -145,6 +161,7 @@
             <input type="submit" class="btn-success" value="Save" />
         </div>
     </div>
+    <div class="text-danger" asp-validation-summary="All"></div>
 </form>
 
 <script>

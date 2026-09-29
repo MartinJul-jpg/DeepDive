@@ -5,6 +5,7 @@ using DeepDive.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DeepDive.Controllers
 {
@@ -53,17 +54,24 @@ namespace DeepDive.Controllers
         [HttpPost]
         public IActionResult UpdateBooking(Booking booking)
         {
-
-            
-
-            if (booking != null)
+            try
             {
-                _basketRepository.UpdateBasketAdminPage(booking);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    _basketRepository.UpdateBasketFromAdminPage(booking);
+                }
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                ModelState.AddModelError("Booking.RowVersion", "Bookingen er ændret siden du efterspurgte resourcen");
             }
 
+            if (!ModelState.IsValid)
+            {
+                return View(booking);
+            }
 
-            return View();
+            return RedirectToAction("Index");
         }
 
         public IActionResult EditProduct(int id)
@@ -85,16 +93,26 @@ namespace DeepDive.Controllers
                 "Snorkel" => snorkel,
                 "Tank" => tank,
                 _ => null
+            };
 
-            }; 
-
-            if (product != null)
+            try
             {
-                _productRepository.UpdateProduct(product);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    _productRepository.UpdateProduct(product);
+                }
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                ModelState.AddModelError("Booking.RowVersion", "Produktet er ændret siden du efterspurgte resourcen");
             }
 
-            return View();
+            if (!ModelState.IsValid)
+            {
+                return View(product);
+            }
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult CreateNewProduct()

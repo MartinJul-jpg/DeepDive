@@ -66,7 +66,7 @@ namespace DeepDive.Repository
             _deepDiveContext.SaveChanges();
         } 
 
-        public void UpdateBasketAdminPage(Booking booking)
+        public void UpdateBasketFromAdminPage(Booking booking)
         {
             _deepDiveContext.Bookings.Update(booking);
             _deepDiveContext.SaveChanges();

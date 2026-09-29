@@ -73,11 +73,8 @@ namespace DeepDive.Repository
 
         public void UpdateProduct(Product product)
         {
-
-
             _deepDiveContext.Products.Update(product);
             _deepDiveContext.SaveChanges();
-
         }
     }
 }

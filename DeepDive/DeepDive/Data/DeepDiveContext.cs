@@ -557,6 +557,10 @@ namespace DeepDive.Data
             modelBuilder.Entity<Fin>();
             modelBuilder.Entity<RegulatorSet>();
 
+            modelBuilder.Entity<Product>()
+                .Property(product => product.RowVersion)
+                .IsRowVersion();
+
             base.OnModelCreating(modelBuilder);
 
             // ApplicationUser relations
@@ -572,6 +576,9 @@ namespace DeepDive.Data
                 .Ignore(booking => booking.TotalPrice);
             modelBuilder.Entity<Booking>()
                 .Ignore(booking => booking.ExceedsStock);
+            modelBuilder.Entity<Booking>()
+                .Property(booking => booking.RowVersion)
+                .IsRowVersion();
 
             // Packages x Products linking table
             modelBuilder.Entity<Package_Product>()
