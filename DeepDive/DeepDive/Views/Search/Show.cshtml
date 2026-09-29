@@ -1,12 +1,5 @@
 ﻿@model SearchQuery;
 
-<form id="searchForm" asp-controller="Search" asp-action="Show" method="post">
-    <div class="d-flex flex-wrap justify-content-center align-content-center">
-        <input type="text" asp-for="Query" value="@Model.Query" />
-        <button id="searchBtn" onclick="document.getElementById('searchForm').submit()"> SØG </button>
-    </div>
-</form>
-
 <p>
     <div class="d-flex justify-content-center flex-wrap">
         @if (Model.Packages != null)

@@ -17,7 +17,12 @@
             </a>
             <h1 id="head"> DIVE DEEP </h1>
             <partial name="_LoginPartial" />
-            <a asp-controller="Search" asp-action="Index" id="shoppingCartBtn" class="btn btn-primary"> SØG </a>
+            <form id="searchForm" asp-controller="Search" asp-action="Show" method="post">
+                <div class="d-flex flex-wrap justify-content-center align-content-center">
+                    <input style="width: 15vw;" type="text" name="searchQuery" />
+                    <button id="searchBtn" onclick="document.getElementById('searchForm').submit()"> SØG </button>
+                </div>
+            </form>
             <a asp-controller="Basket" asp-action="Index" id="shoppingCartBtn" class="btn btn-primary">
                 <img id="shoppingCart"
                      src="~/lib/custom/resource/whiteshoppingCart.png"
