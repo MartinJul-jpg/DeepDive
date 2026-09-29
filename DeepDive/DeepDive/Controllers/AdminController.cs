@@ -35,7 +35,7 @@ namespace DeepDive.Controllers
   
         public IActionResult DeleteBooking(int id)
         {
-            _basketRepository.DeleteBookingAdmin(id);
+            _cartRepository.DeleteBookingAdmin(id);
             return RedirectToAction("Index");
         } 
 
