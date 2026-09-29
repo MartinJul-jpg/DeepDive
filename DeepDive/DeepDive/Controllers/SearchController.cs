@@ -17,22 +17,20 @@ namespace DeepDive.Controllers
             _productRepository = productRepository;
         }
 
-        public IActionResult Index()
+        [HttpPost]
+        public IActionResult Show(string searchQuery)
         {
-            return View();
-        }
-
-        public IActionResult Show(SearchQuery searchQuery)
-        {
-            if (!searchQuery.Query.IsNullOrEmpty())
+            List<Package> packages;
+            List<Product> products;
+            if (!searchQuery.IsNullOrEmpty())
             {
-                string[] queryWords = searchQuery.Query.ToLower().Split(" ");
+                string[] queryWords = searchQuery.ToLower().Split(" ");
 
-                searchQuery.Packages = _productRepository.GetAllPackages()
+                packages = _productRepository.GetAllPackages()
                     //.Where(package => Regex.Match(package.GetSearchBlob().ToLower(), $"{searchQuery.Query.ToLower()}+").Length > 0)
                     .Where(package => HasQueryWords(package.GetSearchBlob(), queryWords))
                     .ToList();
-                searchQuery.Products = _productRepository.GetAllProducts()
+                products = _productRepository.GetAllProducts()
                     //.Where(product => Regex.Match(product.GetSearchBlob().ToLower(), $"{searchQuery.Query.ToLower()}+").Length > 0)
                     .Where(product => HasQueryWords(product.GetSearchBlob(), queryWords))
                     .ToList();
@@ -45,11 +43,13 @@ namespace DeepDive.Controllers
             }
             else
             {
-                searchQuery.Packages = new List<Package>();
-                searchQuery.Products = new List<Product>();
+                packages = new List<Package>();
+                products = new List<Product>();
             }
 
-            return View(searchQuery);
+            SearchQuery result = new SearchQuery { Packages = packages, Products = products };
+
+            return View(result);
         }
     }
 }
