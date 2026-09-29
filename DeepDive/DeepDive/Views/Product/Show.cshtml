@@ -23,7 +23,7 @@
                 <br />
                 <h2 class="text-primary">@($"Kr. {Model.Price},- pr. dag")</h2>
                 <div class="justify-content-center">
-                    <form asp-controller="Product" asp-action="AddToBasket" method="get">
+                    <form asp-controller="Product" asp-action="AddTocart" method="get">
                         <input type="hidden" name="id" value="@Model.ProductId" />
                         <input type="hidden" name="amount" id="amountInput" value="@amount" />
 

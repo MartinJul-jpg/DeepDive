@@ -9,13 +9,13 @@ namespace DeepDive.Controllers
 {
     public class PackageController : Controller
     {
-        private BasketRepository _basketRepository;
+        private CartRepository _cartRepository;
         private ProductRepository _productRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public PackageController(BasketRepository basketRepository, ProductRepository productRepository, UserManager<ApplicationUser> userManager)
+        public PackageController(CartRepository cartRepository, ProductRepository productRepository, UserManager<ApplicationUser> userManager)
         {
-            _basketRepository = basketRepository;
+            _cartRepository = cartRepository;
             _productRepository = productRepository;
             _userManager = userManager;
         }
@@ -32,17 +32,17 @@ namespace DeepDive.Controllers
         }
 
         [Authorize(Roles = "User")]
-        public IActionResult AddPackageToBasket(int id, int amount)
+        public IActionResult AddPackageTocart(int id, int amount)
         {
             for (int i = 0; i < amount; i++)
             {
                 Package package = _productRepository.GetPackageById(id);
                 foreach (Package_Product pp in package.Package_Products)
                 {
-                    _basketRepository.AddProductToBasket(pp.ProductId, _userManager.GetUserId(this.User));
+                    _cartRepository.AddProductToCart(pp.ProductId, _userManager.GetUserId(this.User));
                 }
             }
-            return RedirectToAction("Index", "Basket");
+            return RedirectToAction("Index", "cart");
         }
     }
 }

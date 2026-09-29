@@ -9,34 +9,34 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 namespace DeepDive.Controllers
 {
     [Authorize(Roles = "User")]
-    public class BasketController : Controller
+    public class CartController : Controller
     {
         public string _userId
         {
             get { return _userManager.GetUserId(this.User); }
         }
 
-        private BasketRepository _basketRepository;
+        private CartRepository _cartRepository;
         private ProductRepository _productRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public BasketController(BasketRepository basketRepository, ProductRepository productRepository, UserManager<ApplicationUser> userManager)
+        public CartController(CartRepository cartRepository, ProductRepository productRepository, UserManager<ApplicationUser> userManager)
         {
-            _basketRepository = basketRepository;
+            _cartRepository = cartRepository;
             _productRepository = productRepository;
             _userManager = userManager;
         }
         [HttpGet]
         public IActionResult Index()
         {
-            if (_basketRepository.GetBasket(_userId) != null && _basketRepository.GetBasket(_userId).Product_Bookings.Count > 0)
+            if (_cartRepository.GetCart(_userId) != null && _cartRepository.GetCart(_userId).Product_Bookings.Count > 0)
             {
-                _basketRepository.ValidateBookingOverlap(_basketRepository.GetBasket(_userId), _userId);
-                TryValidateModel(_basketRepository.GetBasket(_userId), nameof(Booking));
+                _cartRepository.ValidateBookingOverlap(_cartRepository.GetCart(_userId), _userId);
+                TryValidateModel(_cartRepository.GetCart(_userId), nameof(Booking));
 
-                _basketRepository.GetBasket(_userId).CalculatePriceOfBooking();
+                _cartRepository.GetCart(_userId).CalculatePriceOfBooking();
 
-                return View(_basketRepository.GetBasket(_userId));
+                return View(_cartRepository.GetCart(_userId));
             }
 
             return View();
@@ -58,9 +58,9 @@ namespace DeepDive.Controllers
                     Booking = cart,
                 };
 
-                Booking currentCart = _basketRepository.GetBasket(_userId);
+                Booking currentCart = _cartRepository.GetCart(_userId);
 
-                // Count how many of this product are in the basket
+                // Count how many of this product are in the cart
                 List<Product_Booking> ofSameProduct = new List<Product_Booking>();
                 foreach (Product_Booking productBooking in currentCart.Product_Bookings)
                 {
@@ -72,7 +72,7 @@ namespace DeepDive.Controllers
 
                 if (ofSameProduct.Count > quantity)
                 {
-                    // Remove products from basket
+                    // Remove products from cart
                     int amountToRemove = ofSameProduct.Count - quantity.Value;
                     for (int i = 0; i < amountToRemove; i++)
                     {
@@ -81,7 +81,7 @@ namespace DeepDive.Controllers
                 }
                 else if (ofSameProduct.Count < quantity)
                 {
-                    // Add products to basket
+                    // Add products to cart
                     int amountToAdd = quantity.Value - ofSameProduct.Count;
                     for (int i = 0; i < amountToAdd; i++)
                     {
@@ -89,34 +89,34 @@ namespace DeepDive.Controllers
                     }
                 }
 
-                _basketRepository.UpdateBasketProducts(currentCart, _userId);
+                _cartRepository.UpdateCartProducts(currentCart, _userId);
             }
 
-            _basketRepository.UpdateBasketDates(cart, _userId);
+            _cartRepository.UpdateCartDates(cart, _userId);
 
             ModelState.Clear();
-            _basketRepository.ValidateBookingOverlap(_basketRepository.GetBasket(_userId), _userId);
-            TryValidateModel(_basketRepository.GetBasket(_userId), nameof(Booking));
+            _cartRepository.ValidateBookingOverlap(_cartRepository.GetCart(_userId), _userId);
+            TryValidateModel(_cartRepository.GetCart(_userId), nameof(Booking));
 
-            // If the basket is empty, return empty view
-            if (_basketRepository.GetBasket(_userId).Product_Bookings.Count <= 0)
+            // If the cart is empty, return empty view
+            if (_cartRepository.GetCart(_userId).Product_Bookings.Count <= 0)
             {
                 return View();
             }
 
-            return View(_basketRepository.GetBasket(_userId));
+            return View(_cartRepository.GetCart(_userId));
         }
 
         [HttpPost]
-        public IActionResult Add(Booking basket)
+        public IActionResult Add(Booking cart)
         {
-            _basketRepository.ValidateBookingOverlap(_basketRepository.GetBasket(_userId), _userId);
-            TryValidateModel(_basketRepository.GetBasket(_userId), nameof(Booking));
+            _cartRepository.ValidateBookingOverlap(_cartRepository.GetCart(_userId), _userId);
+            TryValidateModel(_cartRepository.GetCart(_userId), nameof(Booking));
 
             if (ModelState.IsValid)
             {
-                _basketRepository.AddBooking(_basketRepository.GetBasket(_userId));
-                _basketRepository.clearBasket(_userId);
+                _cartRepository.AddBooking(_cartRepository.GetCart(_userId));
+                _cartRepository.ClearCart(_userId);
 
                 return RedirectToAction("Index", "Home");
             }

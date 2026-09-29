@@ -5,147 +5,146 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace DeepDive.Repository
 {
-    public class BasketRepository
+    public class CartRepository
     {
         private string _userId { get; set; }
-        private Booking _basket
+        private Booking _cart
         {
             get 
             {
-                Booking basket = NonFinalizedBasket();
+                Booking cart = NonFinalizedcart();
 
-                return basket;
+                return cart;
             }
             set 
             {
-                Booking basket = NonFinalizedBasket();
+                Booking cart = NonFinalizedcart();
 
-                basket = value; 
+                cart = value; 
             }
         }
 
         private readonly ProductRepository _productRepository;
         private readonly DeepDiveContext _deepDiveContext;
 
-        public BasketRepository(DeepDiveContext deepDiveContext, ProductRepository productRepository)
+        public CartRepository(DeepDiveContext deepDiveContext, ProductRepository productRepository)
         {
             _productRepository = productRepository;
             _deepDiveContext = deepDiveContext;
         }
-
-        public Booking GetBasket(string userId)
+        public Booking GetCart(string userId)
         {
             _userId = userId;
 
-            return _basket;
+            return _cart;
         }
 
-        public void UpdateBasketDates(Booking basket, string userId)
+        public void UpdateCartDates(Booking cart, string userId)
         {
             _userId = userId;
 
-            _basket.Start = basket.Start;
-            _basket.End = basket.End;
-            _basket.ExceedsStock = basket.ExceedsStock;
+            _cart.Start = cart.Start;
+            _cart.End = cart.End;
+            _cart.ExceedsStock = cart.ExceedsStock;
 
             _deepDiveContext.SaveChanges();
         }
 
-        public void UpdateBasketProducts(Booking basket, string userId)
+        public void UpdateCartProducts(Booking cart, string userId)
         {
             _userId = userId;
 
         }
 
-        public void UpdateBasketOverlap(bool exceedsStock, string userId)
+        public void UpdateCartOverlap(bool exceedsStock, string userId)
         {
             _userId = userId;
 
-            _basket.ExceedsStock = exceedsStock;
+            _cart.ExceedsStock = exceedsStock;
 
             _deepDiveContext.SaveChanges();
         } 
 
-        public void UpdateBasketFromAdminPage(Booking booking)
+        public void UpdateCartFromAdminPage(Booking booking)
         {
             _deepDiveContext.Bookings.Update(booking);
             _deepDiveContext.SaveChanges();
         }
 
-        public void clearBasket(string userId)
+        public void ClearCart(string userId)
         {
             _userId = userId;
 
-            _deepDiveContext.Bookings.Remove(_basket);
+            _deepDiveContext.Bookings.Remove(_cart);
             _deepDiveContext.SaveChanges();
         }
        
 
-        public void ResetBasket(string userId)
+        public void ResetCart(string userId)
         {
             _userId = userId;
 
             _deepDiveContext.Bookings.Add(new Booking() { Finalized = false, UserId = userId });
 
-            _basket.Start = DateOnly.FromDateTime(DateTime.Today);
-            _basket.End = DateOnly.FromDateTime(DateTime.Today.AddDays(1));
+            _cart.Start = DateOnly.FromDateTime(DateTime.Today);
+            _cart.End = DateOnly.FromDateTime(DateTime.Today.AddDays(1));
 
             _deepDiveContext.SaveChanges();
         }
 
-        public void AddProductToBasket(int id, string userId)
+        public void AddProductToCart(int id, string userId)
         {
             _userId = userId;
 
             //this if needed anymore? 
-            if (_basket == null)
+            if (_cart == null)
             {
-                ResetBasket(userId);
+                ResetCart(userId);
             }
 
 
-            _basket.Product_Bookings.Add(new Product_Booking()
+            _cart.Product_Bookings.Add(new Product_Booking()
             {
                 ProductId = id,
                 Product = _productRepository.GetProductById(id),
-                Booking = _basket
+                Booking = _cart
             });
 
-            _basket.CalculatePriceOfBooking();
+            _cart.CalculatePriceOfBooking();
 
             _deepDiveContext.SaveChanges();
         }
 
-        public void ValidateBookingOverlap(Booking basket, string userId)
+        public void ValidateBookingOverlap(Booking cart, string userId)
         {
             _userId = userId;
             
-            //getting basketDates<DateOnly>
-            //is filled with the dates that exist within baskets timespan
-            List<DateOnly> basketDates = new List<DateOnly>();
-            for (int days = 0; days < basket.DurationInDays + 1; days++)
+            //getting cartDates<DateOnly>
+            //is filled with the dates that exist within carts timespan
+            List<DateOnly> cartDates = new List<DateOnly>();
+            for (int days = 0; days < cart.DurationInDays + 1; days++)
             {
-                basketDates.Add(basket.Start.AddDays(days));
+                cartDates.Add(cart.Start.AddDays(days));
             }
 
-            //getting basketProductIds<int>
-            //is filled with the productId's that exist within the basket
-            List<int> basketProductIds = new List<int>();
-            foreach (Product_Booking pb in basket.Product_Bookings)
+            //getting cartProductIds<int>
+            //is filled with the productId's that exist within the cart
+            List<int> cartProductIds = new List<int>();
+            foreach (Product_Booking pb in cart.Product_Bookings)
             {
-                if (!basketProductIds.Contains(pb.ProductId))
+                if (!cartProductIds.Contains(pb.ProductId))
                 {
-                    basketProductIds.Add(pb.ProductId);
+                    cartProductIds.Add(pb.ProductId);
                 }
             }
 
-            //getting basketProductIdsTuple<(int, int)>
-            //is filled with tuple pairs that represent the productId's and the amounts that are within the basket
-            List<(int, int)> basketProductIdsTuple = new List<(int, int)>();
-            foreach (int productId in basketProductIds)
+            //getting cartProductIdsTuple<(int, int)>
+            //is filled with tuple pairs that represent the productId's and the amounts that are within the cart
+            List<(int, int)> cartProductIdsTuple = new List<(int, int)>();
+            foreach (int productId in cartProductIds)
             {
-                int basketAmount = basket.Product_Bookings.Where(pb => pb.ProductId == productId).ToList().Count();
-                basketProductIdsTuple.Add((productId, basketAmount));
+                int cartAmount = cart.Product_Bookings.Where(pb => pb.ProductId == productId).ToList().Count();
+                cartProductIdsTuple.Add((productId, cartAmount));
             }
 
             //getting Bookings<Booking>
@@ -156,14 +155,14 @@ namespace DeepDive.Repository
                 .ToList();
 
             //getting overlapsId<Booking>
-            //is filled with the Bookings that have any productId that exists in the basket
+            //is filled with the Bookings that have any productId that exists in the cart
             List<Booking> overlapsId = new List<Booking>();
             foreach (Booking booking in bookings)
             {
                 bool foundInBooking = false;
                 foreach (Product_Booking pb in booking.Product_Bookings)
                 {
-                    if (basketProductIds.Contains(pb.ProductId))
+                    if (cartProductIds.Contains(pb.ProductId))
                     {
                         foundInBooking = true;
                     }
@@ -190,62 +189,62 @@ namespace DeepDive.Repository
                 overlapsIdTuples.Add((booking, new List<DateOnly>(bookingDates)));
             }
 
-            //getting overlapsBasketDate_List<List<Booking>>
-            List<List<Booking>> overlapsBasketDate_List = new List<List<Booking>>();
-            foreach (DateOnly basketDate in basketDates)
+            //getting overlapscartDate_List<List<Booking>>
+            List<List<Booking>> overlapscartDate_List = new List<List<Booking>>();
+            foreach (DateOnly cartDate in cartDates)
             {
-                List<Booking> overlapsBasketDate = new List<Booking>();
+                List<Booking> overlapscartDate = new List<Booking>();
                 foreach ((Booking, List<DateOnly>) bookingTuple in overlapsIdTuples)
                 {
                     bool foundInBookingTuple = false;
                     foreach (DateOnly bookingDate in bookingTuple.Item2)
                     {
-                        if (bookingDate == basketDate)
+                        if (bookingDate == cartDate)
                         {
                             foundInBookingTuple = true;
                         }
                     }
                     if (foundInBookingTuple)
                     {
-                        overlapsBasketDate.Add(bookingTuple.Item1);
+                        overlapscartDate.Add(bookingTuple.Item1);
                     }
                 }
 
-                overlapsBasketDate_List.Add(overlapsBasketDate);
+                overlapscartDate_List.Add(overlapscartDate);
             }
 
-            //getting overlapsBasketDate_pbs_List<List<Product_Booking>>
-            List<List<Product_Booking>> overlapsBasketDate_pbs_List = new List<List<Product_Booking>>();
-            foreach (List<Booking> booking_List in overlapsBasketDate_List)
+            //getting overlapscartDate_pbs_List<List<Product_Booking>>
+            List<List<Product_Booking>> overlapscartDate_pbs_List = new List<List<Product_Booking>>();
+            foreach (List<Booking> booking_List in overlapscartDate_List)
             {
-                List<Product_Booking> overlapsBasketDate_pbs = new List<Product_Booking>();
+                List<Product_Booking> overlapscartDate_pbs = new List<Product_Booking>();
                 foreach (Booking booking in booking_List)
                 {
                     foreach (Product_Booking pb in booking.Product_Bookings)
                     {
-                        overlapsBasketDate_pbs.Add(pb);
+                        overlapscartDate_pbs.Add(pb);
                     }
                 }
-                overlapsBasketDate_pbs_List.Add(overlapsBasketDate_pbs);
+                overlapscartDate_pbs_List.Add(overlapscartDate_pbs);
             }
 
             //check that store capacity isnt exceeded by cart + booking, per date
-            foreach (List<Product_Booking> pbs in overlapsBasketDate_pbs_List)
+            foreach (List<Product_Booking> pbs in overlapscartDate_pbs_List)
             {
-                foreach ((int, int) basketProductIdTuple in basketProductIdsTuple)
+                foreach ((int, int) cartProductIdTuple in cartProductIdsTuple)
                 {
-                    int basketProductId = basketProductIdTuple.Item1;
-                    int basketProductIdAmount = basketProductIdTuple.Item2;
+                    int cartProductId = cartProductIdTuple.Item1;
+                    int cartProductIdAmount = cartProductIdTuple.Item2;
 
-                    int amount = _productRepository.GetProductById(basketProductId).Amount;
-                    foreach (var item in pbs.Where(pb => pb.ProductId == basketProductId))
+                    int amount = _productRepository.GetProductById(cartProductId).Amount;
+                    foreach (var item in pbs.Where(pb => pb.ProductId == cartProductId))
                     {
                         //in here only pbs with the correct productId are present
                         amount -= 1;
 
-                        if (amount < basketProductIdAmount)
+                        if (amount < cartProductIdAmount)
                         {
-                            UpdateBasketOverlap(true, _userId);
+                            UpdateCartOverlap(true, _userId);
                             return;
                         }
                     }
@@ -254,28 +253,28 @@ namespace DeepDive.Repository
 
             //in case no overlapping Bookings are detected, a check is required anyway,
             //checks that store capacity isnt exceeded by cart, in general
-            foreach ((int, int) basketProductIdTuple in basketProductIdsTuple)
+            foreach ((int, int) cartProductIdTuple in cartProductIdsTuple)
             {
-                int basketProductId = basketProductIdTuple.Item1;
-                int basketProductIdAmount = basketProductIdTuple.Item2;
+                int cartProductId = cartProductIdTuple.Item1;
+                int cartProductIdAmount = cartProductIdTuple.Item2;
 
-                int amount = _productRepository.GetProductById(basketProductId).Amount;
+                int amount = _productRepository.GetProductById(cartProductId).Amount;
 
-                if (amount < basketProductIdAmount)
+                if (amount < cartProductIdAmount)
                 {
-                    UpdateBasketOverlap(true, _userId);
+                    UpdateCartOverlap(true, _userId);
                     return;
                 }
             }
 
             //cart items did not exceed remaining stock, at any point
-            UpdateBasketOverlap(false, _userId);
+            UpdateCartOverlap(false, _userId);
             return;
         }
 
-        private Booking NonFinalizedBasket()
+        private Booking NonFinalizedcart()
         {
-            Booking basket;
+            Booking cart;
 
             if (_deepDiveContext.Bookings
                     .Where(b => b.UserId == _userId)
@@ -293,7 +292,7 @@ namespace DeepDive.Repository
                 _deepDiveContext.SaveChanges();
             }
 
-            basket = _deepDiveContext.Bookings
+            cart = _deepDiveContext.Bookings
                     .Where(b => b.UserId == _userId)
                     .Where(b => b.Finalized == false)
                     .Include(b => b.Product_Bookings)
@@ -301,19 +300,19 @@ namespace DeepDive.Repository
                     .ToList()
                     .First();
 
-            return basket;
+            return cart;
         }
 
         //Lived in BookingRepository before
-        public void AddBooking(Booking basket)
+        public void AddBooking(Booking cart)
         {
-            Booking booking = _basket;
-            booking.Start = basket.Start;
-            booking.End = basket.End;
+            Booking booking = _cart;
+            booking.Start = cart.Start;
+            booking.End = cart.End;
             booking.Finalized = true;
             _deepDiveContext.SaveChanges();
 
-            foreach (Product_Booking pb in basket.Product_Bookings)
+            foreach (Product_Booking pb in cart.Product_Bookings)
             {
                 pb.Product = null;
                 pb.Booking = null;
