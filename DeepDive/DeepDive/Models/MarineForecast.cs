@@ -19,6 +19,66 @@ namespace DeepDive.Models
         [JsonPropertyName("wave_height")]
         [JsonConverter(typeof(DoubleListConverter))]
         public List<double> WaveHeight { get; set; } = new List<double>();
+
+        public MarineForecast GetMeanMarineForecat()
+        {
+            List<Double> meanSeaSurfaceTemperature = new List<Double>();
+            List<Double> meanWaveHeight = new List<Double>();
+
+            List<Double> tempList = new List<Double>();
+            int count = 0;
+
+
+            foreach (double temp in SeaSurfaceTempearture)
+            {
+                if (count < 23)
+                {
+                    tempList.Add(temp);
+                    count++;
+                }
+                else
+                {
+                    double meanTempForDay = tempList.Sum() / 24;
+                    meanSeaSurfaceTemperature.Add(meanTempForDay);
+                    tempList.Clear();
+                    count = 0;
+
+                    // Add the data missed by the if else
+                    tempList.Add(temp);
+                    count++;
+                }
+            }
+
+            tempList.Clear();
+            count = 0;
+
+            foreach (double wave in WaveHeight)
+            {
+                if (count < 23)
+                {
+                    tempList.Add(wave);
+                    count++;
+                }
+                else
+                {
+                    double meanWaveForDay = tempList.Sum() / 24;
+                    meanWaveHeight.Add(meanWaveForDay);
+                    tempList.Clear();
+                    count = 0;
+
+                    // Add the data missed by the if else
+                    tempList.Add(wave);
+                    count++;
+                }
+            }
+
+            return new MarineForecast
+            {
+                TimeStamps = TimeStamps,
+                SeaSurfaceTempearture = meanSeaSurfaceTemperature,
+                WaveHeight = meanWaveHeight
+            };
+        }
     }
 
     /// <summary>

@@ -54,20 +54,30 @@ namespace DeepDive.Services
 
         public async Task<WeatherForecast?> GetMeanWeatherForecastAsync(double latitude, double longitude)
         {
-            // API call expample: https://api.open-meteo.com/v1/forecast?latitude=55.375008&longitude=9.7083435&daily=precipitation_sum,wind_speed_10m_max,weather_code&timezone=Europe%2FCopenhagen
+            // API call expample: https://api.open-meteo.com/v1/forecast?latitude=55.5059&longitude=9.7305&daily=weather_code,precipitation_sum&hourly=wind_speed_10m&timezone=Europe%2FCopenhagen
             HttpClient httpClient = _httpClientFactory.CreateClient("WeatherClient");
 
             // Convert comma in double to dot to avoid issues with the API call
             string url = $"forecast?latitude={latitude.ToString(CultureInfo.InvariantCulture)}" 
                 + $"&longitude={longitude.ToString(CultureInfo.InvariantCulture)}" 
-                + $"&daily=precipitation_sum,wind_speed_10m_max,weather_code" 
+                + $"&daily=precipitation_sum,weather_code" 
+                + $"&hourly=wind_speed_10m"
+                + $"&wind_speed_unit=ms"
                 + $"&timezone=Europe%2FCopenhagen";
 
             try
             {
                 var response = await httpClient.GetFromJsonAsync<WeatherResponse>(url);
 
-                return response?.Daily;
+                var dailyForecast = response?.Daily;
+                var hourlyForecast = response?.Hourly;
+
+                if (dailyForecast != null && hourlyForecast != null)
+                {
+                    dailyForecast.WindSpeed = hourlyForecast.WindSpeed ?? new List<double>();
+                }
+
+                return dailyForecast;
             }
             catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
