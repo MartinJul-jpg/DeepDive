@@ -1,76 +1,77 @@
-﻿namespace DiveDeepAPI.Repository
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using DiveDeepAPI.Models;
+using DiveDeepAPI.Data;
+namespace DiveDeepAPI.Repository
 {
-    public class ProductRepository
+    public class ProductRepository : IProductRepository
     {
-        private readonly DeepDiveContext _deepDiveContext;
+        private readonly DiveDeepContext _diveDeepContext;
 
-        public ProductRepository(DeepDiveContext deepDiveContext)
+        public ProductRepository(DiveDeepContext deepDiveContext)
         {
-            _deepDiveContext = deepDiveContext;
+            _diveDeepContext = deepDiveContext;
         }
-        public List<Product> GetAllProducts()
+        public async Task<List<Product>> GetAllProducts()
         {
-            List<Product> products = _deepDiveContext.Products
-                .Include(p => p.Product_Bookings)
-                .ThenInclude(pb => pb.Booking).ToList();
+
+            List<Product> products = await _diveDeepContext.Products
+                 .Include(p => p.Product_Bookings)
+                 .ThenInclude(pb => pb.Booking).ToListAsync();
             return products;
+
         }
 
-        public Product? GetProductById(int id)
+        public async Task<Product?> GetProductById(int id)
         {
-            Product product = _deepDiveContext.Products
+            //Var for Null values 
+            var product = await _diveDeepContext.Products
                 .Include(p => p.Product_Bookings)
                 .ThenInclude(pb => pb.Booking)
-                .Where(product => product.ProductId == id)
-                .ToList()
-                .First();
-
+                .SingleOrDefaultAsync(product => product.ProductId == id);
             return product;
         }
 
-        public List<Package> GetAllPackages()
+        public async Task<List<Package>> GetAllPackages()
         {
-           List<Package> packages = _deepDiveContext.Packages
-                .Include(p => p.Package_Products)
-                .ThenInclude(pp => pp.Product).ToList();
-
+            List<Package> packages = await _diveDeepContext.Packages
+                 .Include(p => p.Package_Products)
+                 .ThenInclude(pp => pp.Product).ToListAsync();
             return packages;
         }
 
-        public Package? GetPackageById(int id)
+        public async Task<Package?> GetPackageById(int id)
         {
-            Package package = _deepDiveContext.Packages
+            //Var for Null values 
+            var package = await _diveDeepContext.Packages
                  .Include(p => p.Package_Products)
                  .ThenInclude(pp => pp.Product)
-                 .Where(package => package.PackageId == id)
-                 .ToList()
-                 .First();
+                 .SingleOrDefaultAsync(package => package.PackageId == id);
 
             return package;
-        } 
+        }
 
-        public void AddNewProduct(Product product)
+        public async Task AddNewProduct(Product product)
         {
-            _deepDiveContext.Products.Add(product);
+            await _diveDeepContext.Products.AddAsync(product);
+            await _diveDeepContext.SaveChangesAsync();
+        }
 
-            _deepDiveContext.SaveChanges();
-        } 
 
-
-        public void DeleteProduct(int productid)
+        public async Task DeleteProduct(int productid)
         {
-            var product = _deepDiveContext.Products.Find(productid);
+            var product = _diveDeepContext.Products.Find(productid);
             if (product != null)
             {
-                _deepDiveContext.Products.Remove(product);
-                _deepDiveContext.SaveChanges();
+                _diveDeepContext.Products.Remove(product);
+                await _diveDeepContext.SaveChangesAsync();
             }
-        } 
+        }
 
-        public void UpdateProduct(Product product)
+        public async Task UpdateProduct(Product product)
         {
-            _deepDiveContext.Products.Update(product);
-            _deepDiveContext.SaveChanges();
+            _diveDeepContext.Products.Update(product);
+            await _diveDeepContext.SaveChangesAsync();
         }
     }
 }

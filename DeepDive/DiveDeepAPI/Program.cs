@@ -1,4 +1,8 @@
 
+using DiveDeepAPI.Data;
+using DiveDeepAPI.Repository;
+using Microsoft.EntityFrameworkCore;
+
 namespace DiveDeepAPI
 {
     public class Program
@@ -10,8 +14,13 @@ namespace DiveDeepAPI
             // Add services to the container.
 
             builder.Services.AddControllers();
+
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+            builder.Services.AddDbContext<DiveDeepContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("default")));
+
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
+
 
             var app = builder.Build();
 
@@ -19,8 +28,9 @@ namespace DiveDeepAPI
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseAuthentication();
 
+            app.UseAuthorization();
 
             app.MapControllers();
 

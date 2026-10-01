@@ -1,10 +1,10 @@
-﻿using DeepDive.Data;
-using DeepDive.Repository;
+﻿using DiveDeepAPI.Data;
+using DiveDeepAPI.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
-namespace DeepDive.Models
+namespace DiveDeepAPI.Models
 {
     public class Booking
     {

@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Reflection;
 
-namespace DeepDive.Models
+namespace DiveDeepAPI.Models
 {
     public class Snorkel : Product
     {

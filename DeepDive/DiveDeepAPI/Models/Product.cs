@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DeepDive.Models
+namespace DiveDeepAPI.Models
 {
     public abstract class Product
     {

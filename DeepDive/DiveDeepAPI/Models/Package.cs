@@ -1,4 +1,4 @@
-﻿namespace DeepDive.Models
+﻿namespace DiveDeepAPI.Models
 {
     public class Package
     {

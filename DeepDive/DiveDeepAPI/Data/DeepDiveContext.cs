@@ -1,9 +1,13 @@
-﻿using DeepDive.Models;
+﻿using DiveDeepAPI.Data;
+using DiveDeepAPI.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client.NativeInterop;
 
 namespace DiveDeepAPI.Data
 {
-    public class DiveDeepContext : DbContext
+    public class DiveDeepContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Package>Packages { get; set; }
         public DbSet<Package_Product> Package_Products { get; set; }
