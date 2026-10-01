@@ -10,46 +10,59 @@
     <link rel="stylesheet" href="~/lib/custom/css/styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <div id="headDiv">
-            <a asp-controller="Home" asp-action="Index">
-                <img src="~/lib/custom/resource/logo.png" id="logoImg">
-            </a>
-            <h1 id="head"> DIVE DEEP </h1>
-            <partial name="_LoginPartial" />
-            <form id="searchForm" asp-controller="Search" asp-action="Show" method="post">
-                <div class="d-flex flex-wrap justify-content-center align-content-center">
-                    <input style="width: 15vw;" type="text" name="searchQuery" />
-                    <input type="submit" value="SØG" id="searchBtn" />
+    <header id="mainHeader">
+        <div id="headDiv" class="justify-content-between">
+            <div class="header-left">
+                <a asp-controller="Home" asp-action="Index">
+                    <img src="~/lib/custom/resource/logo.png" id="logoImg">
+                    <h5 id="head"> DIVE DEEP </h5>
+                </a>
+                <div id="categoryDiv">
+                    <a asp-controller="Category" asp-action="Show" asp-route-id="BCD" class="btn categoryBtn btn-secondary">
+                        BCD
+                    </a>
+                    <a asp-controller="Category" asp-action="Show" asp-route-id="DivingSuit" class="btn categoryBtn btn-secondary">
+                        Dragter
+                    </a>
+                    <a asp-controller="Category" asp-action="Show" asp-route-id="Fin" class="btn categoryBtn btn-secondary">
+                        Finner
+                    </a>
+                    <a asp-controller="Category" asp-action="Show" asp-route-id="RegulatorSet" class="btn categoryBtn btn-secondary">
+                        Regulatorsæt
+                    </a>
+                    <a asp-controller="Category" asp-action="Show" asp-route-id="Snorkel" class="btn categoryBtn btn-secondary">
+                        Snorkler
+                    </a>
+                    <a asp-controller="Category" asp-action="Show" asp-route-id="Tank" class="btn categoryBtn btn-secondary">
+                        Tanke
+                    </a>
                 </div>
-            </form>
-            <a asp-controller="Cart" asp-action="Index" id="shoppingCartBtn" class="btn btn-primary">
-                <img id="shoppingCart"
-                     src="~/lib/custom/resource/whiteshoppingCart.png"
-                     alt="Shopping cart">
-            </a>
-        </div>
-        <div id="categoryDiv">
-            <a asp-controller="Category" asp-action="Show" asp-route-id="BCD" class="btn categoryBtn btn-secondary">
-                BCD
-            </a>
-            <a asp-controller="Category" asp-action="Show" asp-route-id="DivingSuit" class="btn categoryBtn btn-secondary">
-                Dragter
-            </a>
-            <a asp-controller="Category" asp-action="Show" asp-route-id="Fin" class="btn categoryBtn btn-secondary">
-                Finner
-            </a>
-            <a asp-controller="Category" asp-action="Show" asp-route-id="RegulatorSet" class="btn categoryBtn btn-secondary">
-                Regulatorsæt
-            </a>
-            <a asp-controller="Category" asp-action="Show" asp-route-id="Snorkel" class="btn categoryBtn btn-secondary">
-                Snorkler
-            </a>
-            <a asp-controller="Category" asp-action="Show" asp-route-id="Tank" class="btn categoryBtn btn-secondary">
-                Tanke
-            </a>
+            </div>
+            <div class="header-right">
+                <form id="searchForm" asp-controller="Search" asp-action="Show" method="post">
+                    <div class="searchBar d-flex m-3 p-0">
+                        <input type="text"
+                               name="searchQuery"
+                               id="searchQuery"
+                               placeholder="Søg..." />
+
+                        <input type="submit"
+                               value="SØG"
+                               id="searchBtn"
+                               class="m-0" />
+                    </div>
+                </form>
+
+                <partial name="_LoginPartial" />
+                <a asp-controller="Cart" asp-action="Index" id="shoppingCartBtn" class="btn btn-primary">
+                    <img id="shoppingCart"
+                         src="~/lib/custom/resource/whiteshoppingCart.png"
+                         alt="Shopping cart">
+                </a>
+            </div>
         </div>
 
+        
     </header>
     <div>
         @RenderSection("categorySector", false)
@@ -96,3 +109,23 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<script>
+    let lastScrollY = window.scrollY;
+    const header = document.getElementById("mainHeader");
+
+    window.addEventListener("scroll", () => {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+            // Scrolling down
+            header.classList.add("small");
+        }
+        else if (currentScrollY < lastScrollY) {
+            // Scrolling up
+            header.classList.remove("small");
+        }
+
+        lastScrollY = currentScrollY;
+    });
+</script>
