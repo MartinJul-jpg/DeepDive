@@ -1,5 +1,10 @@
 ﻿namespace DeepDive.Models
 {
+    public class GeocodingResponse
+    {
+        public List<City> Results { get; set; }
+    }
+
     public class City
     {
         public string Name { get; set; }
