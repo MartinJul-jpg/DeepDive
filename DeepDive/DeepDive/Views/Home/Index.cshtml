@@ -4,8 +4,39 @@
 
 @model HomeViewModel;
 
-<br />
-<div id="forecastCard" class="">
+<section class="hero-section">
+    @* <img src="~/lib/custom/resource/frontpage-diver.jpg"
+         alt="Diver"
+         class="hero-image"> *@
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-overlay">
+        <div>
+            <div>
+
+                <div>
+                    <h1 class="hero-title" style="color: #DFF0F7; font-size: clamp(64px, 12vw, 140px); font-weight: 900;">
+                        DYBT
+                        <br>
+                        <span style="color: #00B4D8;">UNDER</span>
+                        <br>
+                        VANDET
+                    </h1>
+
+                    <p class="hero-text" style="color: #9DC8DB;">
+                        Lej komplet dykkerudstyr af høj kvalitet.
+                        Alt fra BCD og dragter til tanke og regulatorsæt.
+                        Serviceret og klar til dit næste dyk.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+@* <div id="forecastCard" class="">
     <h2>Vejrudsigt</h2>
     <form asp-action="Index" asp-controller="Home">
         <input id="forecastInput" type="search" name="searchTerm" placeholder="Søg eller vælg et dykningssted" list="diveSites" />
@@ -119,4 +150,4 @@
             <h4 id="packageText" class="card-text">Pakkeløsning @package.PackageId - @_price kr. per dag</h4>
         </a>
     }
-</div>
+</div>*@
