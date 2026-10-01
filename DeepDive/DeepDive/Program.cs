@@ -18,6 +18,12 @@ namespace DeepDive
 
             // Weather API
             builder.Services.AddScoped<IWeatherHttpService, WeatherHttpService>();
+
+
+            //builder.Services.AddHttpClient("DeepDiveApi", client => {
+            //    client.BaseAddress = new Uri("localhostUrigoeshere");
+            //});
+
             builder.Services.AddHttpClient("GeolocateClient", client =>
             {
                 client.BaseAddress = new Uri("https://geocoding-api.open-meteo.com/v1/");
