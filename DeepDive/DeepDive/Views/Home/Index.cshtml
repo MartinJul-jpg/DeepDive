@@ -4,7 +4,9 @@
 
 @model HomeViewModel;
 
-<div id="forecastCard" class="justify-content-evenly">
+<br />
+<div id="forecastCard" class="">
+    <h2>Vejrudsigt</h2>
     <form asp-action="Index" asp-controller="Home">
         <input id="forecastInput" type="search" name="searchTerm" placeholder="Søg eller vælg et dykningssted" list="diveSites" />
         <datalist id="diveSites">
@@ -37,55 +39,65 @@
         </datalist>
         <input class="btn btn-success" type="submit" />
     </form>
+
+    <h4>@(Model.ForecastViewModel.City.Name), @(Model.ForecastViewModel.City.Country)</h4>
     <div class="row d-flex justify-content-evenly">
         @for (int i = 0; i < 7; i++)
         {
-            <div class="col justify-content-evenly forecastDayCard">
-                <h4 class="forecastDayText">@(Model.ForecastViewModel.WeatherForecast.TimeStamps[i].ToShortDateString())</h4>
+            <div class="forecastDayCard">
+                <h3 class="forecastDayText">@(Model.ForecastViewModel.WeatherForecast.TimeStamps[i].ToShortDateString())</h3>
                 <img class="forecastImg" src="~/images/WeatherCodeImages/WeatherCode@(Model.ForecastViewModel.WeatherForecast.WeatherCode[i]).png" alt="TodayForecast" />
-                <p style="font-size: 0.7vw">
-                    Vandtemperatur: @(Model.ForecastViewModel.MarineForecast.SeaSurfaceTempearture[i].ToString("0"))°C <br />
-                    Bølgehøjde: @(Model.ForecastViewModel.MarineForecast.WaveHeight[i].ToString("0.##")) m <br />
-                    Vindhastighed: @(Model.ForecastViewModel.WeatherForecast.WindSpeed[i].ToString("0")) m/s <br />
-                    Nedbør: @(Model.ForecastViewModel.WeatherForecast.PrecipitationSum[i].ToString("0.##")) mm <br />
-                </p>
-                @if (Model.ForecastViewModel.WeatherForecast.WeatherCode[i] >= 95)
+                @if (Model.ForecastViewModel.MarineForecast.HasMarineWeatherStation)
                 {
-                    <p>ALT DYKNING FRARÅDES GRUNDET TORDENVEJR</p>
-                }
-                else
-                {
-                    @if (Model.ForecastViewModel.MarineForecast.WaveHeight[i] < 1.5
-                    && Model.ForecastViewModel.WeatherForecast.PrecipitationSum[i] < 2
-                    && Model.ForecastViewModel.WeatherForecast.WeatherCode[i] < 95
-                    && Model.ForecastViewModel.WeatherForecast.WindSpeed[i] < 8)
+                    <p style="font-size: 0.7vw">
+                        Vandtemperatur: @(Model.ForecastViewModel.MarineForecast.SeaSurfaceTempearture[i].ToString("0"))°C <br />
+                        Bølgehøjde: @(Model.ForecastViewModel.MarineForecast.WaveHeight[i].ToString("0.##")) m <br />
+                        Vindhastighed: @(Model.ForecastViewModel.WeatherForecast.WindSpeed[i].ToString("0")) m/s <br />
+                        Nedbør: @(Model.ForecastViewModel.WeatherForecast.PrecipitationSum[i].ToString("0.##")) mm <br />
+                    </p>
+                    @if (Model.ForecastViewModel.WeatherForecast.WeatherCode[i] >= 95)
                     {
-                        <p>
-                            Dykkeforhold: Gode
-                        </p>
+                        <p>ALT DYKNING FRARÅDES GRUNDET TORDENVEJR</p>
                     }
                     else
                     {
-                        <p>
-                            Dykkeforhold: Dårlige
-                        </p>
-                    }
-                    var temp = Model.ForecastViewModel.MarineForecast.SeaSurfaceTempearture[0];
-                    var tempCategory = temp switch
-                    {
-                        < 10 => "Tørdragt",
-                        >= 10 and < 18 => "Våddragt (7mm)",
-                        >= 18 and < 24 => "Våddragt (5mm)",
-                        _ => "Våddragt (3mm)"
-                    };
-                    <p>Forslået dragttype: @tempCategory</p>
-                    <div style="height: 1vh; width: 100%;">
-                        @if (Model.ForecastViewModel.WeatherForecast.WeatherCode[i] >= 95)
+                        @if (Model.ForecastViewModel.MarineForecast.WaveHeight[i] < 1.5
+                        && Model.ForecastViewModel.WeatherForecast.PrecipitationSum[i] < 2
+                        && Model.ForecastViewModel.WeatherForecast.WeatherCode[i] < 95
+                        && Model.ForecastViewModel.WeatherForecast.WindSpeed[i] < 8)
                         {
-
+                            <p>
+                                Dykkeforhold: Gode
+                            </p>
                         }
-                    </div>
+                        else
+                        {
+                            <p>
+                                Dykkeforhold: Dårlige
+                            </p>
+                        }
+                        var temp = Model.ForecastViewModel.MarineForecast.SeaSurfaceTempearture[0];
+                        var tempCategory = temp switch
+                        {
+                            < 10 => "Tørdragt",
+                            >= 10 and < 18 => "Våddragt (7mm)",
+                            >= 18 and < 24 => "Våddragt (5mm)",
+                            _ => "Våddragt (3mm)"
+                        };
+                        <p>Forslået dragttype: @tempCategory</p>
+                        <div style="height: 1vh; width: 100%;">
+                            @if (Model.ForecastViewModel.WeatherForecast.WeatherCode[i] >= 95)
+                            {
+
+                            }
+                        </div>
+                    }
                 }
+                else
+                {
+                    <p>Ingen vejrstation fundet</p>
+                }
+
             </div>
         }
     </div>

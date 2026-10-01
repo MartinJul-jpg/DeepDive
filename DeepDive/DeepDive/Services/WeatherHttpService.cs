@@ -41,15 +41,41 @@ namespace DeepDive.Services
                 + $"&current=sea_surface_temperature"
                 + $"&timezone=Europe%2FCopenhagen";
 
+            MarineRespone marine = null;
             try
             {
-                var respone = await httpClient.GetFromJsonAsync<MarineRespone>(url);
-                return respone?.HourlyRespone;
+                marine = await httpClient.GetFromJsonAsync<MarineRespone>(url);
             }
-            catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            catch (Exception ex)
             {
-                return null; // Latitude and longtitude wrong, forecast not found
+                ex.Message.ToString();
             }
+            if (marine == null)
+            {
+                marine = new MarineRespone()
+                {
+                    HourlyRespone = new MarineForecast()
+                    {
+                        SeaSurfaceTempearture = new List<double>(),
+                        WaveHeight = new List<double>(),
+                        HasMarineWeatherStation = false
+                    }
+                };
+
+                // Add 168 hours of zero data (7 days * 24 hours)
+                for (int i = 0; i < 168; i++)
+                {
+                    marine.HourlyRespone.SeaSurfaceTempearture.Add(0.0);
+                    marine.HourlyRespone.WaveHeight.Add(0.0);
+                }
+            }
+            else
+            {
+                marine.HourlyRespone.HasMarineWeatherStation = true;
+            }
+
+            //var respone = await httpClient.GetFromJsonAsync<MarineRespone>(url);
+            return marine?.HourlyRespone;
         }
 
         public async Task<WeatherForecast?> GetMeanWeatherForecastAsync(double latitude, double longitude)
@@ -58,9 +84,9 @@ namespace DeepDive.Services
             HttpClient httpClient = _httpClientFactory.CreateClient("WeatherClient");
 
             // Convert comma in double to dot to avoid issues with the API call
-            string url = $"forecast?latitude={latitude.ToString(CultureInfo.InvariantCulture)}" 
-                + $"&longitude={longitude.ToString(CultureInfo.InvariantCulture)}" 
-                + $"&daily=precipitation_sum,weather_code" 
+            string url = $"forecast?latitude={latitude.ToString(CultureInfo.InvariantCulture)}"
+                + $"&longitude={longitude.ToString(CultureInfo.InvariantCulture)}"
+                + $"&daily=precipitation_sum,weather_code"
                 + $"&hourly=wind_speed_10m"
                 + $"&wind_speed_unit=ms"
                 + $"&timezone=Europe%2FCopenhagen";
