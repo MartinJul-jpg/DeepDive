@@ -4,39 +4,80 @@
 
 @model HomeViewModel;
 
+
 <section class="hero-section">
-    @* <img src="~/lib/custom/resource/frontpage-diver.jpg"
-         alt="Diver"
-         class="hero-image"> *@
-
-    <div class="hero-overlay"></div>
-
-    <div class="hero-overlay">
+    <div class="">
+        <img class="hero-img" src="~/lib/custom/resource/frontpage-diver.jpg" />
+        <div class="hero-img-div"></div>
+        <div class="hero-img-secoundary-div"></div>
+    </div>
+    <div class="hero-div-over">
+        <div class="d-flex mb-2 align-items-center gap-2">
+            <div class="hero-line"></div>
+            <span class="hero-title-over">PROFESSIONELT DYKKERUDSTYR</span>
+        </div>
         <div>
-            <div>
-
-                <div>
-                    <h1 class="hero-title" style="color: #DFF0F7; font-size: clamp(64px, 12vw, 140px); font-weight: 900;">
-                        DYBT
-                        <br>
-                        <span style="color: #00B4D8;">UNDER</span>
-                        <br>
-                        VANDET
-                    </h1>
-
-                    <p class="hero-text" style="color: #9DC8DB;">
-                        Lej komplet dykkerudstyr af høj kvalitet.
-                        Alt fra BCD og dragter til tanke og regulatorsæt.
-                        Serviceret og klar til dit næste dyk.
-                    </p>
-                </div>
-
-            </div>
+            <h1 class="hero-title">
+                DIVE
+                <br>
+                <span style="color: #00B4D8;">DEEP</span>
+            </h1>
+        </div>
+        <p class="hero-text">
+            Lej komplet dykkerudstyr af høj kvalitet.
+            Alt fra BCD og dragter til tanke og regulatorsæt.
+            Serviceret og klar til dit næste dyk.
+        </p>
+        <div class="d-flex gap-4">
+            <a href="#packages" class="hero-btn-primary btn btn-primary">Se udstyr</a>
+            <a href="#weatherforecast" class="hero-btn-secoundary btn btn-secondary">Se vejrudsigt</a>
         </div>
     </div>
 </section>
 
-@* <div id="forecastCard" class="">
+<section id="packages">
+
+    @* Package title/text *@
+    <div class="d-flex flex-column align-items-md-end flex-md-row justify-content-between gap-5">
+        <div>
+            <div class="d-flex mb-2 align-items-center gap-2">
+                <div class="hero-line"></div>
+                <span class="hero-title-over">PAKKELØSNINGER</span>
+            </div>
+            <h2 class="package-title">
+                MERE DYK. <br />
+                <span style="color: #00B4D8;">MINDRE BESVÆR.</span>
+            </h2>
+        </div>
+        <p class="packages-text-small">Vores pakker samler det rigtige udstyr til dit dyk og giver dig en bedre dagspris end ved enkeltleje.</p>
+    </div>
+
+    @* Packages shown *@
+    <div class="d-flex justify-content-center flex-wrap">
+        @foreach (Package package in Model.Packages)
+        {
+            double _price = 0;
+            <a id="productText" class="card m-1" asp-controller="Package" asp-action="Show" asp-route-id="@($"{package.PackageId}")">
+                <div class="d-flex justify-content-evenly  flex-wrap" style="width: 32rem; height: 80%; padding: 24px">
+                    @foreach (Package_Product pp in package.Package_Products)
+                    {
+                        _price += pp.Product.Price;
+                        <img src="@Url.Content(pp.Product.ImgPath)" class="packageImg" style="width: 8rem; height: 8rem" alt="...">
+                    }
+                </div>
+                <h4 id="packageText" class="card-text">Pakkeløsning @package.PackageId - @_price kr. per dag</h4>
+            </a>
+        }
+    </div>
+</section>
+
+@* 
+<div class="d-flex mb-2 align-items-center gap-2">
+                        <div style="width: 40px; height: 2px; background: rgb(6, 214, 160);"></div>
+                        <span style="font-family: Barlow Condensed, sans-serif; letter-spacing: 0.2em; color: rgb(6, 214, 160); font-size: 13px; font-weight: 600;">PROFESSIONELT DYKKERUDSTYR</span>
+                    </div>    
+
+<div id="forecastCard" class="">
     <h2>Vejrudsigt</h2>
     <form asp-action="Index" asp-controller="Home">
         <input id="forecastInput" type="search" name="searchTerm" placeholder="Søg eller vælg et dykningssted" list="diveSites" />
@@ -135,19 +176,4 @@
 </div>
 <br />
 <h1 class="text-decoration-underline">Pakke tilbud</h1>
-<div class="d-flex justify-content-center flex-wrap">
-    @foreach (Package package in Model.Packages)
-    {
-        double _price = 0;
-        <a id="productText" class="card m-1" asp-controller="Package" asp-action="Show" asp-route-id="@($"{package.PackageId}")">
-            <div class="d-flex justify-content-evenly  flex-wrap" style="width: 32rem; height: 80%; padding: 24px">
-                @foreach (Package_Product pp in package.Package_Products)
-                {
-                    _price += pp.Product.Price;
-                    <img src="@Url.Content(pp.Product.ImgPath)" class="packageImg" style="width: 8rem; height: 8rem" alt="...">
-                }
-            </div>
-            <h4 id="packageText" class="card-text">Pakkeløsning @package.PackageId - @_price kr. per dag</h4>
-        </a>
-    }
-</div>*@
+*@
