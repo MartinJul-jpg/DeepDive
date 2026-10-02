@@ -111,6 +111,12 @@ figure {
     height: 10vh;
 }
 
+.FormWidth{
+    margin: 0 auto;
+    padding: 30px;
+    width: 250px;
+}
+
 #removeCartBtn {
     border: 5px;
     margin: 0 5px 0 5px;
@@ -279,4 +285,10 @@ figure {
     height: 25vw;
     width: 25vw;
     padding: 20px;
+}
+
+#bookButton{
+    margin-top: 20px;
+    width: 70%;
+    height: 20%;
 }

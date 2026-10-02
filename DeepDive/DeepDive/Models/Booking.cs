@@ -50,6 +50,8 @@ namespace DeepDive.Models
         public double TotalPrice { get; set; }
         [Range(typeof(bool), "false", "false", ErrorMessage = $"Mængden af en vare overskrider lager på en af de pågældende datoer")]
         public bool ExceedsStock { get; set; }
+        public Confirmation? ConfirmationSlip { get; set; }
+        public int ConfirmationId { get; set; }
 
         public void CalculatePriceOfBooking()
         {

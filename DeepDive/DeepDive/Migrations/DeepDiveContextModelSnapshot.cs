@@ -129,6 +129,9 @@ namespace DeepDive.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingId"));
 
+                    b.Property<int>("ConfirmationId")
+                        .HasColumnType("int");
+
                     b.Property<DateOnly>("End")
                         .HasColumnType("date");
 
@@ -151,19 +154,42 @@ namespace DeepDive.Migrations
                         new
                         {
                             BookingId = 1,
-                            End = new DateOnly(2026, 9, 25),
+                            ConfirmationId = 0,
+                            End = new DateOnly(2026, 9, 30),
                             Finalized = true,
-                            Start = new DateOnly(2026, 9, 23),
+                            Start = new DateOnly(2026, 9, 28),
                             UserId = "84cd148c-e055-4d01-8a32-d06e7489e2a3"
                         },
                         new
                         {
                             BookingId = 2,
-                            End = new DateOnly(2026, 9, 25),
+                            ConfirmationId = 0,
+                            End = new DateOnly(2026, 9, 30),
                             Finalized = true,
-                            Start = new DateOnly(2026, 9, 23),
+                            Start = new DateOnly(2026, 9, 28),
                             UserId = "84cd148c-e055-4d01-8a32-d06e7489e2a3"
                         });
+                });
+
+            modelBuilder.Entity("DeepDive.Models.Confirmation", b =>
+                {
+                    b.Property<int>("ConfirmationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Tlf")
+                        .HasColumnType("int");
+
+                    b.HasKey("ConfirmationId");
+
+                    b.ToTable("Confirmations");
                 });
 
             modelBuilder.Entity("DeepDive.Models.Package", b =>
@@ -1002,6 +1028,17 @@ namespace DeepDive.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("DeepDive.Models.Confirmation", b =>
+                {
+                    b.HasOne("DeepDive.Models.Booking", "Booking")
+                        .WithOne("ConfirmationSlip")
+                        .HasForeignKey("DeepDive.Models.Confirmation", "ConfirmationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Booking");
+                });
+
             modelBuilder.Entity("DeepDive.Models.Package_Product", b =>
                 {
                     b.HasOne("DeepDive.Models.Package", "Package")
@@ -1098,6 +1135,9 @@ namespace DeepDive.Migrations
 
             modelBuilder.Entity("DeepDive.Models.Booking", b =>
                 {
+                    b.Navigation("ConfirmationSlip")
+                        .IsRequired();
+
                     b.Navigation("Product_Bookings");
                 });
 

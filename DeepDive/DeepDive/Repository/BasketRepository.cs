@@ -51,6 +51,15 @@ namespace DeepDive.Repository
             _deepDiveContext.SaveChanges();
         }
 
+        public void UpdateBasketConfirmation(Confirmation confirmation, string userId)
+        {
+            _userId = userId;
+
+            _basket.ConfirmationSlip = confirmation;
+
+            _deepDiveContext.SaveChanges();
+        }
+
         public void UpdateBasketProducts(Booking basket, string userId)
         {
             _userId = userId;
@@ -310,6 +319,7 @@ namespace DeepDive.Repository
             Booking booking = _basket;
             booking.Start = basket.Start;
             booking.End = basket.End;
+            booking.ConfirmationSlip = basket.ConfirmationSlip;
             booking.Finalized = true;
             _deepDiveContext.SaveChanges();
 

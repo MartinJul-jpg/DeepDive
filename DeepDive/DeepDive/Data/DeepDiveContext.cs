@@ -21,6 +21,7 @@ namespace DeepDive.Data
         public DbSet<BCD> BCDs { get; set; }
         public DbSet<DivingSuit> DivingSuits { get; set; }
         public DbSet<Fin> Fins { get; set; }
+        public DbSet<Confirmation> Confirmations { get; set; }
 
         public DeepDiveContext(DbContextOptions dbcontextOptions) :base(dbcontextOptions) { }
 
@@ -564,6 +565,12 @@ namespace DeepDive.Data
                 .HasOne<ApplicationUser>(b => b.User)
                 .WithMany(a => a.Bookings)
                 .HasForeignKey(b => b.UserId);
+
+            // ApplicationUser relations
+            modelBuilder.Entity<Booking>()
+                .HasOne<Confirmation>(booking => booking.ConfirmationSlip)
+                .WithOne(confirmation => confirmation.Booking)
+                .HasForeignKey<Confirmation>(confirmation => confirmation.ConfirmationId);
 
             // Booking table
             modelBuilder.Entity<Booking>()

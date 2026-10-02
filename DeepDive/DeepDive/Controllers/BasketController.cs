@@ -115,13 +115,30 @@ namespace DeepDive.Controllers
 
             if (ModelState.IsValid)
             {
+                return RedirectToAction("Confirmation", "Basket");
+            }
+
+            return RedirectToAction("Index", "Basket");
+        }
+
+        public IActionResult Confirmation()
+        {
+            return View(new Confirmation());
+        }
+
+        [HttpPost]
+        public IActionResult Confirmation(Confirmation confirmation)
+        {
+            if (ModelState.IsValid)
+            {
+                _basketRepository.UpdateBasketConfirmation(confirmation, _userId);
                 _basketRepository.AddBooking(_basketRepository.GetBasket(_userId));
                 _basketRepository.clearBasket(_userId);
 
                 return RedirectToAction("Index", "Home");
             }
 
-            return RedirectToAction("Index", "Basket");
+            return RedirectToAction("Confirmation", "Basket");
         }
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DeepDive.Migrations
 {
     /// <inheritdoc />
-    public partial class imgpath : Migration
+    public partial class Confirmationpage : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -389,8 +389,8 @@ namespace DeepDive.Migrations
                 columns: new[] { "BookingId", "End", "Finalized", "Start", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateOnly(2026, 9, 25), true, new DateOnly(2026, 9, 23), "84cd148c-e055-4d01-8a32-d06e7489e2a3" },
-                    { 2, new DateOnly(2026, 9, 25), true, new DateOnly(2026, 9, 23), "84cd148c-e055-4d01-8a32-d06e7489e2a3" }
+                    { 1, new DateOnly(2026, 9, 30), true, new DateOnly(2026, 9, 28), "84cd148c-e055-4d01-8a32-d06e7489e2a3" },
+                    { 2, new DateOnly(2026, 9, 30), true, new DateOnly(2026, 9, 28), "84cd148c-e055-4d01-8a32-d06e7489e2a3" }
                 });
 
             migrationBuilder.InsertData(
