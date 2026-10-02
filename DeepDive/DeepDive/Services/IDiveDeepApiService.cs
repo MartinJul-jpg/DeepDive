@@ -25,7 +25,7 @@ namespace DeepDive.Services
 
         Task UpdateProductAsync(Product product);
 
-        Task<Booking> GetBasketByUserAsync(string userid);
+        Task<Booking> GetCartByUserAsync(string userid);
 
         Task<Booking> GetNonFinalizedBookingAsync(string userid);
 
