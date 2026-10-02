@@ -12,7 +12,7 @@ namespace DiveDeepAPI.Models
 
         public override string GetUniqueInfo()
         {
-            return $"{this.GetProductInfo()} FirstStage: {FirstStage}{"\n"} SecondStage: {SecondStage}{"\n"} Octopus: {Octopus}{"\n"}";
+            return $"FirstStage: {FirstStage}{"\n"} SecondStage: {SecondStage}{"\n"} Octopus: {Octopus}{"\n"}";
         }
         public override string GetUniqueInfoPage()
         {

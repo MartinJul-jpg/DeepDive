@@ -68,9 +68,12 @@ namespace DiveDeepAPI.Repository
             }
         }
 
-        public async Task UpdateProduct(Product product)
+        public async Task UpdateProduct(Product oldProduct, Product updateProduct)
         {
-            _diveDeepContext.Products.Update(product);
+
+            // looks at the old product entry and remaps it with the new one...
+            _diveDeepContext.Entry(oldProduct).CurrentValues.SetValues(updateProduct);
+
             await _diveDeepContext.SaveChangesAsync();
         }
     }

@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using DiveDeepAPI.Repository;
+﻿using DiveDeepAPI.DTO;
 using DiveDeepAPI.Models;
+using DiveDeepAPI.Repository;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+
 
 namespace DiveDeepAPI.Controllers
 {
@@ -16,7 +20,7 @@ namespace DiveDeepAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProduct()
+        public async Task<IActionResult> GetProducts()
         {
             var products = await _productRepository.GetAllProducts();
             // select to stop it from grabing the product again 
@@ -40,6 +44,129 @@ namespace DiveDeepAPI.Controllers
                 .ToList()
             });
             return Ok(productDTOs);
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductById(int id)
+        {
+            if (id <= 0) return BadRequest();
+
+            var product = await _productRepository.GetProductById(id);
+
+            if (product == null) return NotFound();
+
+            var productDTO = new ProductDTO
+            {
+                ProductId = product.ProductId,
+                Price = product.Price,
+                Brand = product.Brand,
+                Amount = product.Amount,
+                ImgPath = product.ImgPath,
+
+                UniqueInfo = product.GetUniqueInfo(),
+                ProductType = product.GetType().Name,
+
+                PackageIds = product.Package_Products?.Select(pp => pp.PackageId).ToList() ?? new List<int>(),
+                BookingIds = product.Product_Bookings?.Select(pb => pb.BookingId).ToList() ?? new List<int>()
+            };
+            return Ok(productDTO);
+        }
+        [HttpGet("Package")]
+        public async Task<IActionResult> GetPackages()
+        {
+            var packages = await _productRepository.GetAllPackages();
+            var packageDTOs = packages.Select(p => new PackageDTO
+            {
+                PackageId = p.PackageId,
+                PackageIds = p.Package_Products
+            .Select(pp => pp.ProductId)
+            .ToList(),
+            });
+            return Ok(packageDTOs);
+        }
+
+        [HttpGet("Package/{id}")]
+        public async Task<IActionResult> GetPackageById(int id)
+        {
+            if (id <= 0) return BadRequest();
+            var package = await _productRepository.GetPackageById(id);
+            if (package == null) return NotFound();
+            var packageDTOs = new PackageDTO
+            {
+                PackageId = package.PackageId,
+                PackageIds = package.Package_Products?.Select(pp => pp.PackageId).ToList() ?? new List<int>()
+            };
+            return Ok(packageDTOs);
+        }
+
+        [HttpPost("Add/{type}")]
+        public async Task<IActionResult> AddProduct([FromBody] JsonElement body, [FromRoute] string type)
+        {
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            Product? product = type switch
+            {
+                "BCD" => JsonSerializer.Deserialize<BCD>(body.GetRawText(), options),
+                "DivingSuit" => JsonSerializer.Deserialize<DivingSuit>(body.GetRawText(), options),
+                "Fin" => JsonSerializer.Deserialize<Fin>(body.GetRawText(), options),
+                "RegulatorSet" => JsonSerializer.Deserialize<RegulatorSet>(body.GetRawText(), options),
+                "Snorkel" => JsonSerializer.Deserialize<Snorkel>(body.GetRawText(), options),
+                "Tank" => JsonSerializer.Deserialize<Tank>(body.GetRawText(), options),
+                _ => null
+            };
+            if (product != null)
+            {
+                await _productRepository.AddNewProduct(product);
+                return Ok();
+            }
+            return BadRequest();
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct([FromRoute] int id)
+        {
+            var product = await _productRepository.GetProductById(id);
+
+            if (id <= 0) return BadRequest();
+            else if (product == null) return NotFound();
+
+            await _productRepository.DeleteProduct(id);
+            return Ok();
+        }
+
+       [HttpPut("Update/{id}")]
+       public async Task<IActionResult> UpdateProduct([FromBody] JsonElement body, int id)
+        {
+            if (id <= 0) return BadRequest();
+            var productReplace = await _productRepository.GetProductById(id);
+            if (productReplace == null) return NotFound();
+            else
+            {
+                string type = productReplace.GetType().Name;
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                Product? product = type switch
+                {
+                    "BCD" => JsonSerializer.Deserialize<BCD>(body.GetRawText(), options),
+                    "DivingSuit" => JsonSerializer.Deserialize<DivingSuit>(body.GetRawText(), options),
+                    "Fin" => JsonSerializer.Deserialize<Fin>(body.GetRawText(), options),
+                    "RegulatorSet" => JsonSerializer.Deserialize<RegulatorSet>(body.GetRawText(), options),
+                    "Snorkel" => JsonSerializer.Deserialize<Snorkel>(body.GetRawText(), options),
+                    "Tank" => JsonSerializer.Deserialize<Tank>(body.GetRawText(), options),
+                    _ => null
+                };
+                
+                if (product == null) return BadRequest();
+
+                product.ProductId = id;
+
+                await _productRepository.UpdateProduct(productReplace, product);
+            }
+
+            return Ok();
         }
 
     }

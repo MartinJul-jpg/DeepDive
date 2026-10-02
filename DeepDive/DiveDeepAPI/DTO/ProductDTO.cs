@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DiveDeepAPI.Models
+namespace DiveDeepAPI.DTO
 {
     public class ProductDTO
     {

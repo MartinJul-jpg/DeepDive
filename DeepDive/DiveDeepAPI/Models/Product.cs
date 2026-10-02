@@ -5,6 +5,7 @@ namespace DiveDeepAPI.Models
     public abstract class Product
     {
         public int ProductId { get; set; }
+        [Required]
         public double Price { get; set; }
         public string Brand { get; set; } = string.Empty;
         [Range(0, int.MaxValue)]

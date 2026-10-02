@@ -9,7 +9,7 @@ namespace DiveDeepAPI.Models
 
         public override string GetUniqueInfo()
         {
-            return $"{this.GetProductInfo()} Model: {Model}{"\n"}";
+            return $"Model: {Model}{"\n"}";
         }
         public override string GetUniqueInfoPage()
         {

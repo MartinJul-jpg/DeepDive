@@ -10,7 +10,7 @@
 
         public override string GetUniqueInfo()
         {
-            return $"{this.GetProductInfo()} Model: {Model}{"\n"} Size: {Size}{"\n"} Type: {Type}{"\n"} Gender: {Gender}{"\n"} Thickness: {Thickness}{"\n"}";
+            return $"Model: {Model}{"\n"} Size: {Size}{"\n"} Type: {Type}{"\n"} Gender: {Gender}{"\n"} Thickness: {Thickness}{"\n"}";
         }
         public override string GetUniqueInfoPage()
         {
