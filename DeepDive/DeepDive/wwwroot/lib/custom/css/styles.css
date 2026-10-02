@@ -213,6 +213,7 @@ figure {
 .userBtn {
     color: #9DC8DB;
     font-size: 110%;
+    min-width: 60px;
     background-color: #050F1B !important;
     border: none;
     margin: 0;
