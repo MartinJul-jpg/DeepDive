@@ -115,7 +115,7 @@ namespace DeepDive.Repository
             _deepDiveContext.SaveChanges();
         }
 
-        public void ValidateBookingOverlap(Booking cart, string userId)
+        public void ValidateBookingOverlap(Booking cart,string userId)
         {
             _userId = userId;
             

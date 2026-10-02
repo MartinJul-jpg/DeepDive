@@ -1,4 +1,5 @@
 ﻿using Azure;
+using Azure.Core;
 using DeepDive.Models;
 using System.Text;
 using System.Text.Json;
@@ -20,84 +21,144 @@ namespace DeepDive.Services
                 {
                    Finalized = true
                 }),
-                Encoding.UTF8);
+                Encoding.UTF8, "application/json");
             var responsemessage = await HttpClientValidate("/Booking/Add", "Post", jsonContent);
         }
-
-        public Task AddProductAsync(Product product)
+        
+        public async Task AddProductAsync(Product product)
         {
-            throw new NotImplementedException();
+            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
+            var productjson = JsonSerializer.Serialize(product);
+            using var request = new HttpRequestMessage(HttpMethod.Post, $"https://localhost:7000/DeepDiveApi/AddProduct/{product.GetType()}");
+            request.Content = new StringContent(
+               productjson, System.Text.Encoding.UTF8, "application/json"
+                );
+
+            using var response = await httpClient.SendAsync(request); 
+                
         }
 
-        public Task AddProductToCartAsync(int productid, string userid)
+        public async Task AddProductToCartAsync(int productid, string userid)
         {
-            throw new NotImplementedException();
+            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
+            using var request = new HttpRequestMessage(HttpMethod.Post, $"https://localhost:7000/DeepDiveApi/Basket/AddProduct/{userid}/{productid}");
+            using var response = await httpClient.SendAsync(request);
         }
 
-        public Task ClearCart(string userId)
+        public async Task ClearCart(string userid)
         {
-            throw new NotImplementedException();
+            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7000/DeepDiveApi/Basket/Clear/{userid}");
+            using var response = await httpClient.SendAsync(request);
         }
 
-        public Task DeleteBookingAsync(int bookingid)
+        public async Task DeleteBookingAsync(int bookingid)
         {
-            throw new NotImplementedException();
+            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
+            using var request = new HttpRequestMessage(HttpMethod.Delete, $"https://localhost:7000/DeepDiveApi/Booking/Delete/{bookingid}");
+            using var response = await httpClient.SendAsync(request);
         }
 
-        public Task DeleteProductAsync(int productid)
+        public async Task DeleteProductAsync(int productid)
         {
-            throw new NotImplementedException();
+            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
+            using var request = new HttpRequestMessage(HttpMethod.Delete, $"https://localhost:7000/DeepDiveApi/Product/Delete/{productid}");
+            using var response = await httpClient.SendAsync(request);
         }
 
-        public Task<List<Booking>> GetAllBookingsAsync()
+        public async Task<List<Booking>> GetAllBookingsAsync()
         {
-            throw new NotImplementedException();
+            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7000/DeepDiveApi/Bookings");
+            using var response = await httpClient.SendAsync(request);
+            List<Booking> bookings = JsonSerializer.Deserialize<List<Booking>>(response.Content.ReadAsStream());
+            return bookings;
         }
 
-        public Task<List<Booking>> GetAllProductAsync()
+        public async Task<List<Product>> GetAllProductAsync()
         {
-            throw new NotImplementedException();
+            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7000/DeepDiveApi/Products");
+            using var response = await httpClient.SendAsync(request);
+            List<Product> products = JsonSerializer.Deserialize<List<Product>>(response.Content.ReadAsStream());
+            return products;
         }
 
-        public Task<Booking> GetBasketByUserAsync(int userid)
+        public async Task<Booking> GetBasketByUserAsync(string userid)
         {
-            throw new NotImplementedException();
+            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7000/DeepDiveApi/Basket/GetBasket/{userid}");
+            using var response = await httpClient.SendAsync(request);
+            Booking cart = JsonSerializer.Deserialize<Booking>(response.Content.ReadAsStream());
+            return cart;
         }
 
-        public Task<Booking> GetBookingByIdAsync(int bookingid)
+        public async Task<Booking> GetBookingByIdAsync(int bookingid)
         {
-            throw new NotImplementedException();
+            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7000/DeepDiveApi/Booking/GetBooking/{bookingid}");
+            using var response = await httpClient.SendAsync(request);
+            Booking booking = JsonSerializer.Deserialize<Booking>(response.Content.ReadAsStream());
+            return booking;
         }
 
-        public Task<Booking> GetNonFinalizedBookingAsync(string userid)
+        public async Task<Booking> GetNonFinalizedBookingAsync(string userid)
         {
-            throw new NotImplementedException();
+            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7000/DeepDiveApi/Booking/GetNonFinalizedBooking/{userid}");
+            using var response = await httpClient.SendAsync(request);
+            Booking booking = JsonSerializer.Deserialize<Booking>(response.Content.ReadAsStream());
+            return booking;
         }
 
-        public Task<Booking> GetProductByIdAsync(int productid)
+        public async Task<Product> GetProductByIdAsync(int productid)
         {
-            throw new NotImplementedException();
+            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7000/DeepDiveApi/Product/{productid}");
+            using var response = await httpClient.SendAsync(request);
+            Product product = JsonSerializer.Deserialize<Product>(response.Content.ReadAsStream());
+            return product;
         }
 
 
-        public Task ResetCart(string userId)
+        public async Task ResetCart(string userid)
         {
-            throw new NotImplementedException();
+            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
+            using var request = new HttpRequestMessage(HttpMethod.Post, $"https://localhost:7000/DeepDiveApi/Cart/ResetCart/{userid}");
+            using var response = await httpClient.SendAsync(request);
+            
         }
 
-        public Task UpdateBookingAsync(Booking booking)
+        public async Task UpdateBookingAsync(Booking booking)
         {
-            throw new NotImplementedException();
+            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
+            var productjson = JsonSerializer.Serialize(booking);
+            using var request = new HttpRequestMessage(HttpMethod.Put, $"https://localhost:7000/DeepDiveApi/Booking/UpdateBooking");
+            request.Content = new StringContent(
+               productjson, System.Text.Encoding.UTF8, "application/json"
+                );
+
+            using var response = await httpClient.SendAsync(request);
         }
 
-        public Task UpdateProductAsync(Product product)
+        public async Task UpdateProductAsync(Product product)
         {
-            throw new NotImplementedException();
+            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
+            var productjson = JsonSerializer.Serialize(product);
+            using var request = new HttpRequestMessage(HttpMethod.Put, $"https://localhost:7000/DeepDiveApi/Product/UpdateProduct");
+            request.Content = new StringContent(
+               productjson, System.Text.Encoding.UTF8, "application/json"
+                );
+
+            using var response = await httpClient.SendAsync(request);
         }
 
-        public Task<bool> ValidateBookingAsync(Booking booking, string userid)
+        public async Task<bool> ValidateBookingAsync(string userid)
         {
-            throw new NotImplementedException();
+            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7000/DeepDiveApi/Booking/ValidateBooking/{userid}");
+            bool response = JsonSerializer.Deserialize<bool>(request.Content.ReadAsStream());
+            return response;
         }
 
         public async Task<HttpResponseMessage> HttpGetClient(HttpClient httpClient, string uri)
