@@ -8,6 +8,6 @@ namespace DeepDive.Services
 
         Task<WeatherForecast> GetMeanWeatherForecastAsync(double latitude, double longitude);
 
-        Task<MarineForecast> GetMarinaForecastAsync(double latitude, double longitude);
+        Task<MarineForecast> GetMarineForecastAsync(double latitude, double longitude);
     }
 }

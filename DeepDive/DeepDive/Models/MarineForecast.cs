@@ -14,54 +14,71 @@ namespace DeepDive.Models
         [JsonPropertyName("time")]
         public List<DateTime> TimeStamps { get; set; } = new List<DateTime>();
         [JsonPropertyName("sea_surface_temperature")]
-        [JsonConverter(typeof(DoubleListConverter))]
         public List<double> SeaSurfaceTempearture { get; set; } = new List<double>();
         [JsonPropertyName("wave_height")]
-        [JsonConverter(typeof(DoubleListConverter))]
         public List<double> WaveHeight { get; set; } = new List<double>();
-    }
 
-    /// <summary>
-    /// Custom converter to handle null values in double lists by converting them to 0.0
-    /// </summary>
-    public class DoubleListConverter : JsonConverter<List<double>>
-    {
-        public override List<double> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public bool HasMarineWeatherStation { get; set; }
+
+        public MarineForecast GetMeanMarineForecat()
         {
-            var list = new List<double>();
+            List<Double> meanSeaSurfaceTemperature = new List<Double>();
+            List<Double> meanWaveHeight = new List<Double>();
 
-            if (reader.TokenType != JsonTokenType.StartArray)
-            {
-                throw new JsonException("Expected start of array");
-            }
+            List<Double> tempList = new List<Double>();
+            int count = 0;
 
-            while (reader.Read() && reader.TokenType != JsonTokenType.EndArray)
+
+            foreach (double temp in SeaSurfaceTempearture)
             {
-                if (reader.TokenType == JsonTokenType.Null)
+                if (count < 23)
                 {
-                    list.Add(0.0); // Convert null to 0.0
-                }
-                else if (reader.TokenType == JsonTokenType.Number)
-                {
-                    list.Add(reader.GetDouble());
+                    tempList.Add(temp);
+                    count++;
                 }
                 else
                 {
-                    throw new JsonException($"Unexpected token type: {reader.TokenType}");
+                    double meanTempForDay = tempList.Sum() / 24;
+                    meanSeaSurfaceTemperature.Add(meanTempForDay);
+                    tempList.Clear();
+                    count = 0;
+
+                    // Add the data missed by the if else
+                    tempList.Add(temp);
+                    count++;
                 }
             }
 
-            return list;
-        }
+            tempList.Clear();
+            count = 0;
 
-        public override void Write(Utf8JsonWriter writer, List<double> value, JsonSerializerOptions options)
-        {
-            writer.WriteStartArray();
-            foreach (var item in value)
+            foreach (double wave in WaveHeight)
             {
-                writer.WriteNumberValue(item);
+                if (count < 23)
+                {
+                    tempList.Add(wave);
+                    count++;
+                }
+                else
+                {
+                    double meanWaveForDay = tempList.Sum() / 24;
+                    meanWaveHeight.Add(meanWaveForDay);
+                    tempList.Clear();
+                    count = 0;
+
+                    // Add the data missed by the if else
+                    tempList.Add(wave);
+                    count++;
+                }
             }
-            writer.WriteEndArray();
+
+            return new MarineForecast
+            {
+                TimeStamps = TimeStamps,
+                SeaSurfaceTempearture = meanSeaSurfaceTemperature,
+                WaveHeight = meanWaveHeight,
+                HasMarineWeatherStation = this.HasMarineWeatherStation
+            };
         }
     }
 }

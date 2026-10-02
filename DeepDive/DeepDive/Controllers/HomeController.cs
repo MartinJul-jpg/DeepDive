@@ -26,10 +26,15 @@ namespace DeepDive.Controllers
             List<Package> packages =  new List<Package>(_productRepository.GetAllPackages());
 
             var cityRespone = await _weatherHttpService.GetCityByNameAsync(searchTerm);
-
+            if (cityRespone == null)
+            {
+                cityRespone = await _weatherHttpService.GetCityByNameAsync("Middelfart");
+            }
             var weatherRespone = await _weatherHttpService.GetMeanWeatherForecastAsync(cityRespone.Latitude, cityRespone.Longitude);
 
-            var marineRespone = await _weatherHttpService.GetMarinaForecastAsync(cityRespone.Latitude, cityRespone.Longitude);
+            var marineRespone = await _weatherHttpService.GetMarineForecastAsync(cityRespone.Latitude, cityRespone.Longitude);
+
+            marineRespone = marineRespone.GetMeanMarineForecat();
 
             HomeViewModel homeViewModel = new HomeViewModel
             {
