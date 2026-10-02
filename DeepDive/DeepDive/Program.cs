@@ -13,8 +13,7 @@ namespace DeepDive
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddScoped<CartRepository>();
-            builder.Services.AddScoped<ProductRepository>();
+            builder.Services.AddScoped<IDiveDeepApiService, DiveDeepApiService>();
 
             // Weather API
             builder.Services.AddScoped<IWeatherHttpService, WeatherHttpService>();

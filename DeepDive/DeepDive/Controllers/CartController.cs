@@ -1,6 +1,6 @@
 ﻿using DeepDive.Data;
 using DeepDive.Models;
-using DeepDive.Repository;
+using DeepDive.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,27 +16,28 @@ namespace DeepDive.Controllers
             get { return _userManager.GetUserId(this.User); }
         }
 
-        private CartRepository _cartRepository;
-        private ProductRepository _productRepository;
+        private IDiveDeepApiService _diveDeepApiService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public CartController(CartRepository cartRepository, ProductRepository productRepository, UserManager<ApplicationUser> userManager)
+        public CartController(IDiveDeepApiService diveDeepApiService, UserManager<ApplicationUser> userManager)
         {
-            _cartRepository = cartRepository;
-            _productRepository = productRepository;
+            _diveDeepApiService = diveDeepApiService;
             _userManager = userManager;
         }
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            if (_cartRepository.GetCart(_userId) != null && _cartRepository.GetCart(_userId).Product_Bookings.Count > 0)
+            Booking cart = await _diveDeepApiService.GetCartByUserAsync(_userId);
+
+            if (_diveDeepApiService.GetCartByUserAsync(_userId) != null && cart.Product_Bookings.Count > 0)
             {
-                _cartRepository.ValidateBookingOverlap(_cartRepository.GetCart(_userId), _userId);
-                TryValidateModel(_cartRepository.GetCart(_userId), nameof(Booking));
+                await _diveDeepApiService.ValidateBookingAsync(_userId);
+                TryValidateModel(await _diveDeepApiService.GetCartByUserAsync(_userId), nameof(Booking));
 
-                _cartRepository.GetCart(_userId).CalculatePriceOfBooking();
+                Booking cartPrice = await _diveDeepApiService.GetCartByUserAsync(_userId);
+                cartPrice.CalculatePriceOfBooking();
 
-                return View(_cartRepository.GetCart(_userId));
+                return View(await _diveDeepApiService.GetCartByUserAsync(_userId));
             }
 
             return View();
