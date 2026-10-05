@@ -1,14 +1,9 @@
-﻿namespace DiveDeepAPI.Repository
+﻿using DiveDeepAPI.Models;
+
+namespace DiveDeepAPI.Repository
 {
     public interface ICartRepository
     {
-        Task Add();
-
-
-
-
-
-
-
+        Task<Booking?> GetCart(string UserId);
     }
 }

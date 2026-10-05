@@ -2,6 +2,7 @@
 using DiveDeepAPI.Data;
 using DiveDeepAPI.Repository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DiveDeepAPI
 {
@@ -16,6 +17,7 @@ namespace DiveDeepAPI
             builder.Services.AddControllers();
 
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<ICartRepository, CartRepository>();
 
             builder.Services.AddDbContext<DiveDeepContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("default")));
 

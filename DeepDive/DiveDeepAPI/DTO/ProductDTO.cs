@@ -7,6 +7,7 @@ namespace DiveDeepAPI.DTO
         public int ProductId { get; set; }
         public double Price { get; set; }
         // can also just set it to required but only do so if it is actually required
+
         public string Brand { get; set; } = string.Empty;
         public int Amount { get; set; } 
         public string ImgPath { get; set; } = string.Empty;

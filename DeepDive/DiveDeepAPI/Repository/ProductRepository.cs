@@ -8,9 +8,9 @@ namespace DiveDeepAPI.Repository
     {
         private readonly DiveDeepContext _diveDeepContext;
 
-        public ProductRepository(DiveDeepContext deepDiveContext)
+        public ProductRepository(DiveDeepContext diveDeepContext)
         {
-            _diveDeepContext = deepDiveContext;
+            _diveDeepContext = diveDeepContext;
         }
         public async Task<List<Product>> GetAllProducts()
         {
@@ -72,6 +72,7 @@ namespace DiveDeepAPI.Repository
         {
 
             // looks at the old product entry and remaps it with the new one...
+            //Reason cause otherwise we need to detach the oldproduct tracking 
             _diveDeepContext.Entry(oldProduct).CurrentValues.SetValues(updateProduct);
 
             await _diveDeepContext.SaveChangesAsync();
