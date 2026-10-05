@@ -31,6 +31,7 @@ namespace DiveDeepAPI.Controllers
                 Brand = p.Brand,
                 Amount = p.Amount,
                 ImgPath = p.ImgPath,
+                RowVersion = p.RowVersion,
 
                 UniqueInfo = p.GetUniqueInfo(),
                 ProductType = p.GetType().Name,
@@ -61,6 +62,7 @@ namespace DiveDeepAPI.Controllers
                 Brand = product.Brand,
                 Amount = product.Amount,
                 ImgPath = product.ImgPath,
+                RowVersion = product.RowVersion,
 
                 UniqueInfo = product.GetUniqueInfo(),
                 ProductType = product.GetType().Name,

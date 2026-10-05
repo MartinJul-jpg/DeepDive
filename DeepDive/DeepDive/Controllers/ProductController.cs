@@ -31,7 +31,7 @@ namespace DeepDive.Controllers
             return View(product);
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize]
         public IActionResult AddTocart(int id, int amount)
         {
             for (int i = 0; i < amount; i++)

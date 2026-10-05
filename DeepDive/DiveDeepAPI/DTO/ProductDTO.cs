@@ -13,6 +13,7 @@ namespace DiveDeepAPI.DTO
         public string ImgPath { get; set; } = string.Empty;
         public string UniqueInfo { get; set; } = string.Empty;
         public string ProductType { get; set; } = string.Empty;
+        public byte[]? RowVersion { get; set; }
         public List<int> PackageIds { get; set; } = new List<int>();
         public List<int> BookingIds { get; set; } = new List<int>();
     }
