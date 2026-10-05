@@ -27,7 +27,7 @@ namespace DiveDeepAPI.Models
             {
                 _start = value;
                 DurationInDays = _end.DayNumber - _start.DayNumber;
-                CalculatePriceOfBooking();
+               // CalculatePriceOfBooking();
             }
         }
         private DateOnly _end;
@@ -42,30 +42,29 @@ namespace DiveDeepAPI.Models
             {
                 _end = value;
                 DurationInDays = _end.DayNumber - _start.DayNumber;
-                CalculatePriceOfBooking();
+                //CalculatePriceOfBooking();
             }
         }
         [Range(1, int.MaxValue, ErrorMessage = "Dage må ikke ligge i fortiden.")]
         public int DurationInDays { get; set; }
         public double TotalPrice { get; set; }
-        [Range(typeof(bool), "false", "false", ErrorMessage = $"Mængden af en vare overskrider lager på en af de pågældende datoer")]
         public bool ExceedsStock { get; set; }
 
         public byte[]? RowVersion { get; set; }
-
-        public void CalculatePriceOfBooking()
-        {
-            double totalPrice = 0;
-            foreach (Product_Booking product_Booking in Product_Bookings)
-            {
-                Product product = product_Booking.Product;
-
-                int daysBooked = DurationInDays;
-
-                totalPrice += daysBooked * product.Price;
-            }
-
-            TotalPrice = totalPrice;
-        }
+       // The API Doesn't use it so idk if it is needed, cause it's just causing problems right now 
+       //public void CalculatePriceOfBooking()
+       //{
+       //    double totalPrice = 0;
+       //    foreach (Product_Booking product_Booking in Product_Bookings)
+       //    {
+       //        Product product = product_Booking.Product;
+       //
+       //        int daysBooked = DurationInDays;
+       //
+       //        totalPrice += daysBooked * product.Price;
+       //    }
+       //
+       //    TotalPrice = totalPrice;
+       //}
     }
 }

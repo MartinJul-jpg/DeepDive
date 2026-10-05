@@ -12,8 +12,12 @@ namespace DiveDeepAPI.Repository
 
         Task AddNewCart(Booking booking);
 
-        Task FinalizedBooking(Booking booking);
+        Task<bool> FinalizedCart(string UserId);
 
         Task<bool> ValidateBookingOverlap(Booking cart, string userId);
+
+        Task<bool> DeleteBooking(int bookingId);
+
+        Task UpdateCartBooking(Booking oldBooking, Booking updateBooking);
     }
 }

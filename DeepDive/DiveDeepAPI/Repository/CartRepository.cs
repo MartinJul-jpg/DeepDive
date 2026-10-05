@@ -1,24 +1,24 @@
-﻿using DeepDive.Repository;
-using DiveDeepAPI.Data;
+﻿using DiveDeepAPI.Data;
 using DiveDeepAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 
 namespace DiveDeepAPI.Repository
 {
-    public class CartRepository : ICartRepository 
+    public class CartRepository : ICartRepository
     {
 
         private readonly DiveDeepContext _diveDeepContext;
         private readonly IProductRepository _productRepository;
 
-        public CartRepository(DiveDeepContext diveDeepContext,IProductRepository productRepository)
+        public CartRepository(DiveDeepContext diveDeepContext, IProductRepository productRepository)
         {
             _diveDeepContext = diveDeepContext;
             _productRepository = productRepository;
         }
-        
+
         // Can not be called alone
         public async Task<Booking?> GetCart(string UserId)
         {
@@ -51,10 +51,19 @@ namespace DiveDeepAPI.Repository
             await _diveDeepContext.SaveChangesAsync();
         }
 
-        public async Task FinalizedBooking(Booking booking)
+        public async Task<bool> FinalizedCart(string UserId)
         {
+            var booking = await _diveDeepContext.Bookings
+               .Include(p => p.Product_Bookings)
+               .ThenInclude(p => p.Product).
+               SingleOrDefaultAsync(u => u.UserId == UserId && u.Finalized == false);
+
+            if (booking.ExceedsStock == true) return false;
+
+            booking.Finalized = true;
             _diveDeepContext.Update(booking);
             await _diveDeepContext.SaveChangesAsync();
+            return true;
         }
         public async Task<bool> ValidateBookingOverlap(Booking cart, string userId)
         {
@@ -206,5 +215,26 @@ namespace DiveDeepAPI.Repository
             //cart items did not exceed remaining stock, at any point
             return false;
         }
+
+        public async Task<bool> DeleteBooking(int bookingId)
+        {
+            var booking = _diveDeepContext.Bookings.Find(bookingId);
+            if (booking != null && booking.Finalized == true)
+            {
+                _diveDeepContext.Bookings.Remove(booking);
+                await _diveDeepContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
+
+        }
+
+        public async Task UpdateCartBooking(Booking oldBooking,Booking updateBooking)
+        {
+            _diveDeepContext.Entry(oldBooking).CurrentValues.SetValues(updateBooking);
+
+            await _diveDeepContext.SaveChangesAsync();
+        }
+
     }
 }

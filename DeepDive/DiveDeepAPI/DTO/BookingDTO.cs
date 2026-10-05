@@ -17,6 +17,7 @@ namespace DiveDeepAPI.Models
         public bool Finalized { get; set; }
 
         public byte[]? RowVersion { get; set; }
+        public bool ExceedsStock { get; set; }
 
         public DateOnly Start { get; set; }
         public DateOnly End { get; set; }

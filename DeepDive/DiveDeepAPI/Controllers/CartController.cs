@@ -1,6 +1,8 @@
-﻿using DiveDeepAPI.Models;
+﻿using Azure.Core;
+using DiveDeepAPI.Models;
 using DiveDeepAPI.Repository;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
 
 namespace DiveDeepAPI.Controllers
 {
@@ -31,18 +33,18 @@ namespace DiveDeepAPI.Controllers
                 RowVersion = cart.RowVersion,
                 Start = cart.Start,
                 End = cart.End,
+                ExceedsStock = _cartRepository.ValidateBookingOverlap(cart, userId).Result,
 
                 ProductId = cart.Product_Bookings?.Select(pp => pp.ProductId).ToList() ?? new List<int>(),
             };
             return Ok(cartDTO);
         }
         [HttpGet("Booking/{userId}")]
-        public async Task<IActionResult> GetUserBookings(String userId)
+        public async Task<IActionResult> GetUserBookings(string userId)
         {
             var bookings = await _cartRepository.GetConfirmedBookigns(userId);
 
             if (bookings == null) return NotFound();
-
 
             var bookingDTO = bookings.Select(b => new BookingDTO
             {
@@ -59,7 +61,7 @@ namespace DiveDeepAPI.Controllers
             return Ok(bookingDTO);
         }
         [HttpGet("Bookings/{userId}")]
-        public async Task<IActionResult> GetAllBookings(String userId)
+        public async Task<IActionResult> GetAllBookings(string userId)
         {
             var bookings = await _cartRepository.GetConfirmedBookigns(userId);
 
@@ -102,20 +104,63 @@ namespace DiveDeepAPI.Controllers
             });
             return Ok(bookingDTO);
         }
-        [HttpPost("{UserId}")]
-        public async Task<IActionResult> NewCart([FromBody]Booking Booking, string UserId)
+        [HttpPost]
+        public async Task<IActionResult> NewCart([FromBody] Booking booking)
         {
-            if (Booking == null) return BadRequest();
-            else if (Booking.Finalized == true) return BadRequest();
+            if (booking == null) return BadRequest();
+            else if (booking.Finalized == true) return BadRequest();
 
-            await _cartRepository.AddNewCart(Booking);
-            return Ok();
+            //so user doesn't magically get 2 carts by refreshing the api call
+            if (await _cartRepository.GetCart(booking.UserId) == null)
+            {
+                await _cartRepository.AddNewCart(booking);
+                return Ok();
+            }
+            return BadRequest();
         }
 
         [HttpPut("{UserId}")]
-        public async Task<IActionResult> CartToBooking(string UserId, int CartId)
+        public async Task<IActionResult> CartToBooking(string UserId)
         {
-            return NotFound();
+            var cart = await _cartRepository.GetCart(UserId);
+            if (cart == null) return BadRequest();
+            else if (await _cartRepository.FinalizedCart(UserId) == true)
+            {
+                return Ok();
+            }
+            return Conflict();
+            
+        }
+        [HttpPut("UpdateCart")]
+        public async Task<IActionResult> UpdateCart([FromBody]Booking booking)
+        {
+            if (booking == null) return BadRequest();
+            if (booking.Finalized == true) return BadRequest();
+
+            var cart = await _cartRepository.GetCart(booking.UserId!);
+            if (cart == null) BadRequest();
+
+            await _cartRepository.UpdateCartBooking(cart!, booking);
+            return Ok();
+        }
+
+
+        //Add Authorize here later 
+        [HttpPut("UpdateBooking")]
+        public async Task<IActionResult> UpdateBooking([FromBody]Booking booking, string UserId)
+        {
+            return Ok();
+        }
+        // Same here
+        [HttpDelete("{bookingId}")]
+        public async Task<IActionResult> DeleteBooking(int bookingId)
+        {
+            if (bookingId < 0) return BadRequest();
+            else if (true == await _cartRepository.DeleteBooking(bookingId))
+            {
+                return Ok();
+            }
+            return Conflict();
         }
     }
 }
