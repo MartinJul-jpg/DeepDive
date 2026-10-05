@@ -1,25 +1,25 @@
 ﻿using DeepDive.Models;
-using DeepDive.Repository;
+using DeepDive.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeepDive.Controllers
 {
     public class UserController : Controller
     {
-        private CartRepository _cartRepository;
+        private readonly IDiveDeepApiService _diveDeepApiService;
 
-        public UserController(CartRepository cartRepository)
+        public UserController(IDiveDeepApiService diveDeepApiService)
         {
-            _cartRepository = cartRepository;
+            _diveDeepApiService = diveDeepApiService;
         }
 
         public IActionResult Index()
         {
             return View();
         }
-        public IActionResult ConfirmedBookings()
+        public async Task<IActionResult> ConfirmedBookings()
         {
-            List<Booking> bookings = _cartRepository.GetAllBookings();
+            List<Booking> bookings = await _diveDeepApiService.GetAllBookingsAsync();
             return View(bookings);
         }
 

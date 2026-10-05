@@ -29,10 +29,12 @@ namespace DeepDive.Controllers
         {
             Booking cart = await _diveDeepApiService.GetCartByUserAsync(_userId);
 
-            if (_diveDeepApiService.GetCartByUserAsync(_userId) != null && cart.Product_Bookings.Count > 0)
+            if (await _diveDeepApiService.GetCartByUserAsync(_userId) != null && cart.Product_Bookings.Count > 0)
             {
-                await _diveDeepApiService.ValidateBookingAsync(_userId);
-                TryValidateModel(await _diveDeepApiService.GetCartByUserAsync(_userId), nameof(Booking));
+                Booking foundCart = await _diveDeepApiService.GetCartByUserAsync(_userId);
+
+                foundCart.ExceedsStock = await _diveDeepApiService.ValidateBookingAsync(_userId);
+                TryValidateModel(foundCart, nameof(Booking));
 
                 Booking cartPrice = await _diveDeepApiService.GetCartByUserAsync(_userId);
                 cartPrice.CalculatePriceOfBooking();
@@ -43,14 +45,14 @@ namespace DeepDive.Controllers
             return View();
         }
 
-        public IActionResult Index(int? bookingId, int? productId, int? quantity, Booking cart)
+        public async Task<IActionResult> Index(int? bookingId, int? productId, int? quantity, Booking cart)
         {
 
             // Handle quantity update for specific product
             if (productId.HasValue && quantity.HasValue && bookingId.HasValue)
             {
                 // Get info for new Product_Booking
-                Product? product = _productRepository.GetProductById(productId.Value);
+                Product? product = await _diveDeepApiService.GetProductByIdAsync(productId.Value);
                 Product_Booking newProductBooking = new Product_Booking
                 {
                     ProductId = productId.Value,
@@ -59,7 +61,7 @@ namespace DeepDive.Controllers
                     Booking = cart,
                 };
 
-                Booking currentCart = _cartRepository.GetCart(_userId);
+                Booking currentCart = await _diveDeepApiService.GetCartByUserAsync(_userId);
 
                 // Count how many of this product are in the cart
                 List<Product_Booking> ofSameProduct = new List<Product_Booking>();
@@ -89,40 +91,44 @@ namespace DeepDive.Controllers
                         currentCart.Product_Bookings.Add(newProductBooking);
                     }
                 }
-
-                _cartRepository.UpdateCartProducts(currentCart, _userId);
             }
 
-            _cartRepository.UpdateCartDates(cart, _userId);
+            await _diveDeepApiService.UpdateCartDatesAsync(cart, _userId);
 
             ModelState.Clear();
-            _cartRepository.ValidateBookingOverlap(_cartRepository.GetCart(_userId), _userId);
-            TryValidateModel(_cartRepository.GetCart(_userId), nameof(Booking));
 
-            // If the cart is empty, return empty view
-            if (_cartRepository.GetCart(_userId).Product_Bookings.Count <= 0)
+            Booking foundCart = await _diveDeepApiService.GetCartByUserAsync(_userId);
+
+            foundCart.ExceedsStock = await _diveDeepApiService.ValidateBookingAsync(_userId);
+            TryValidateModel(foundCart, nameof(Booking));
+
+            if (foundCart.Product_Bookings.Count <= 0)
             {
                 return View();
             }
 
-            return View(_cartRepository.GetCart(_userId));
+            return View(foundCart);
         }
 
         [HttpPost]
-        public IActionResult Add(Booking cart)
+        public async Task<IActionResult> Add(Booking cart)
         {
-            _cartRepository.ValidateBookingOverlap(_cartRepository.GetCart(_userId), _userId);
-            TryValidateModel(_cartRepository.GetCart(_userId), nameof(Booking));
+            Booking foundCart = await _diveDeepApiService.GetCartByUserAsync(_userId);
+
+            foundCart.ExceedsStock = await _diveDeepApiService.ValidateBookingAsync(_userId);
+            TryValidateModel(foundCart, nameof(Booking));
 
             if (ModelState.IsValid)
             {
-                _cartRepository.AddBooking(_cartRepository.GetCart(_userId));
-                _cartRepository.ClearCart(_userId);
+                await _diveDeepApiService.AddBookingAsync(_userId);
+                await _diveDeepApiService.ClearCartAsync(_userId);
 
                 return RedirectToAction("Index", "Home");
             }
 
             return RedirectToAction("Index", "Basket");
         }
+
+
     }
 }

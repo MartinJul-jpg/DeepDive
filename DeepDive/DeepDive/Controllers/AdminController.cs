@@ -43,21 +43,21 @@ namespace DeepDive.Controllers
             return View(bookings);
         }
 
-        public IActionResult UpdateBooking(int id)
+        public async Task<IActionResult> UpdateBooking(int id)
         {
-            var booking = _diveDeepApiService.GetBookingByIdAsync(id);
+            var booking = await _diveDeepApiService.GetBookingByIdAsync(id);
             ViewBag.Action = "UpdateBooking";
             return View(booking);
         }
 
         [HttpPost]
-        public IActionResult UpdateBooking(Booking booking)
+        public async Task<IActionResult> UpdateBooking(Booking booking)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _diveDeepApiService.UpdateBookingAsync(booking);
+                    await _diveDeepApiService.UpdateBookingAsync(booking);
                 }
             }
             catch (DbUpdateConcurrencyException)

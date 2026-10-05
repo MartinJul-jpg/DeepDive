@@ -11,7 +11,7 @@ namespace DeepDive.Services
 
         Task DeleteBookingAsync(int bookingid);
 
-        Task AddBookingAsync(Booking booking);
+        Task AddBookingAsync(string userid);
 
         Task UpdateBookingAsync(Booking booking);
 
@@ -25,7 +25,13 @@ namespace DeepDive.Services
 
         Task UpdateProductAsync(Product product);
 
+        Task<List<Package>> GetAllPackagesAsync();
+
+        Task<Package> GetPackageByIdAsync(int packageid);
+
         Task<Booking> GetCartByUserAsync(string userid);
+
+        Task UpdateCartDatesAsync(Booking cart, string userid);
 
         Task<Booking> GetNonFinalizedBookingAsync(string userid);
 
@@ -33,10 +39,10 @@ namespace DeepDive.Services
 
         Task AddProductToCartAsync(int productid, string userid);
 
-        Task ClearCart(string userId);
+        Task ClearCartAsync(string userId);
 
 
-        Task ResetCart(string userId);
+        Task ResetCartAsync(string userId);
 
         Task<HttpResponseMessage> HttpClientValidate(string uri, string httpMethod, HttpContent httpContent);
 
