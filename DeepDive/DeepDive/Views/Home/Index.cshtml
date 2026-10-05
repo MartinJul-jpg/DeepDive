@@ -1,12 +1,13 @@
-﻿@using DeepDive.Models
+﻿@using System.Globalization
+@using DeepDive.Models
 @using DeepDive.ViewModels
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @model HomeViewModel;
 
 
-<section class="hero-section">
-    <div class="">
+<section class="hero-section align-content-center">
+    <div style="height: 50vh;">
         <img class="hero-img" src="~/lib/custom/resource/frontpage-diver.jpg" />
         <div class="hero-img-div"></div>
         <div class="hero-img-secoundary-div"></div>
@@ -96,143 +97,137 @@
 </section>
 
 <section id="weatherforecast">
-
-</section>
-
-@*
-<div style="max-width: 800px; margin: 0px auto; text-align: center;">
-    <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;">
-        <div style="width: 24px; height: 2px; background: rgb(6, 214, 160);">
+    <div id="forecast-input-card" class="d-flex flex-column align-items-center justify-content-center">
+        <div>
+            <div class="d-flex justify-content-center align-items-md-center gap-3">
+                <div class="hero-line"></div>
+                <span class="hero-title-over">DYKKER-VEJRUDSIGT</span>
+                <div class="hero-line"></div>
+            </div>
+            <h1 id="forecast-input-title">
+                7-DAGES<br />
+                <span style="color: #00B4D8">VEJRUDSIGT</span>
+            </h1>
+            <p id="forecast-input-description">Tjek om vejret er optimalt til dit næste dyk. Vi vurderer vejret for dig, og giver dig en vudering.</p>
         </div>
-        <span style="font-family: Barlow Condensed, sans-serif; letter-spacing: 0.2em; color: rgb(6, 214, 160); font-size: 12px; font-weight: 600;">DYKKER-VEJRUDSIGT</span>
-        <div style="width: 24px; height: 2px; background: rgb(6, 214, 160);">
-        </div>
-    </div>
-    <h1 style="font-family: Barlow Condensed, sans-serif; font-weight: 800; font-size: clamp(40px, 7vw, 80px); line-height: 0.95; color: rgb(223, 240, 247); margin-bottom: 12px;">
-        7-DAGES<br>
-        <span style="color: rgb(0, 180, 216);">VEJRUDSIGT</span>
-    </h1>
-    <p style="color: rgb(157, 200, 219); font-size: 15px; margin-bottom: 32px;">Tjek om vejret er optimalt til dit næste dyk. Vi vurderer vind, nedbør og sigtbarhed for dig.</p>
-    <div style="position: relative; max-width: 480px; margin: 0px auto;">
-        <div style="display: flex; gap: 0px;">
-            <input placeholder="Søg efter by... f.eks. København" style="flex: 1 1 0%; padding: 14px 18px; background: rgb(11, 30, 51); border-width: 1px medium 1px 1px; border-style: solid none solid solid; border-color: rgba(0, 180, 216, 0.3) currentcolor rgba(0, 180, 216, 0.3) rgba(0, 180, 216, 0.3); border-image: none; border-radius: 4px 0px 0px 4px; color: rgb(223, 240, 247); outline: none; font-family: Outfit, sans-serif; font-size: 15px;" type="text" value="Odense, Danmark">
-            <button style="padding: 14px 20px; background: rgb(0, 180, 216); color: rgb(5, 14, 26); border: medium; border-radius: 0px 4px 4px 0px; font-family: Barlow Condensed, sans-serif; font-size: 14px; letter-spacing: 0.08em; font-weight: 700; cursor: pointer;">SØG</button>
-        </div>
-    </div>
-    <div style="margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;">
-        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">København</button>
-        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Aarhus</button>
-        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Odense</button>
-        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Aalborg</button>
-        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Esbjerg</button>
-        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Helsingør</button>
-        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Skagen</button>
-        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Bornholm</button>
-        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Oslo</button>
-        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Stockholm</button>
-        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Göteborg</button>
-        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Málaga</button>
-        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Hurghada</button>
-        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Sharm el-Sheikh</button>
-        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Dubrovnik</button>
-    </div>
-</div>
-
-<div id="forecastCard" class="">
-    <h2>Vejrudsigt</h2>
-    <form asp-action="Index" asp-controller="Home">
-        <input id="forecastInput" type="search" name="searchTerm" placeholder="Søg eller vælg et dykningssted" list="diveSites" />
-        <datalist id="diveSites">
-            <!-- Fyn -->
-            <option value="Middelfart" />
-            <option value="Strib" />
-            <option value="Kerteminde" />
-            <option value="Svendborg" />
-            <option value="Faaborg" />
-            <option value="Nyborg" />
-            <option value="Assens" />
-            <option value="Rudkøbing" />
-
-            <!-- Sjælland -->
-            <option value="Helsingør" />
-            <option value="Rørvig" />
-            <option value="Kalundborg" />
-            <option value="Korsør" />
-
-            <!-- Jylland -->
-            <option value="Kollerup" />
-            <option value="Aarhus" />
-            <option value="Ebeltoft" />
-            <option value="Grenaa" />
-            <option value="Vejle" />
-
-            <!-- Bornholm -->
-            <option value="Rønne" />
-            <option value="Gudhjem" />
-        </datalist>
-        <input class="btn btn-success" type="submit" />
-    </form>
-
-    <h4>@(Model.ForecastViewModel.City.Name)</h4>
-    <div class="row d-flex justify-content-evenly">
-        @for (int i = 0; i < 7; i++)
-        {
-            <div class="forecastDayCard">
-                <h3 class="forecastDayText">@(Model.ForecastViewModel.WeatherForecast.TimeStamps[i].ToShortDateString())</h3>
-                <img class="forecastImg" src="~/images/WeatherCodeImages/WeatherCode@(Model.ForecastViewModel.WeatherForecast.WeatherCode[i]).png" alt="TodayForecast" />
-                @if (Model.ForecastViewModel.MarineForecast.HasMarineWeatherStation)
-                {
-                    <p style="font-size: 0.7vw">
-                        Vandtemperatur: @(Model.ForecastViewModel.MarineForecast.SeaSurfaceTempearture[i].ToString("0"))°C <br />
-                        Bølgehøjde: @(Model.ForecastViewModel.MarineForecast.WaveHeight[i].ToString("0.##")) m <br />
-                        Vindhastighed: @(Model.ForecastViewModel.WeatherForecast.WindSpeed[i].ToString("0")) m/s <br />
-                        Nedbør: @(Model.ForecastViewModel.WeatherForecast.PrecipitationSum[i].ToString("0.##")) mm <br />
-                    </p>
-                    @if (Model.ForecastViewModel.WeatherForecast.WeatherCode[i] >= 95)
+        <div style="width: 60%; margin-top: 24px;">
+            <form class="gap-0 d-flex" asp-action="Index" asp-controller="Home">
+                <input placeholder="Søg efter by... f.eks. Middelfart" name="searchTerm" id="forecast-input" type="text" value="">
+                <input type="submit" class="forecast-input-search" value="SØG" />
+            </form>
+            <div style="margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;">
+                @{
+                    var cities = new List<string> { "Middelfart", "Strib", "Kerteminde", "Svendborg", "Faaborg", "Nyborg", "Assens", "Rudkøbing", "Helsingør", "Rørvig", "Kalundborg", "Korsør", "Kollerup", "Aarhus", "Ebeltoft", "Grenaa", "Vejle", "Rønne", "Gudhjem" };
+                    foreach (var city in cities)
                     {
-                        <p>ALT DYKNING FRARÅDES GRUNDET TORDENVEJR</p>
+                        <form asp-action="Index" asp-controller="Home">
+                            <button name="searchTerm" value="@city" class="forecast-input-button">@city</button>
+                        </form>
                     }
-                    else
-                    {
-                        @if (Model.ForecastViewModel.MarineForecast.WaveHeight[i] < 1.5
-                        && Model.ForecastViewModel.WeatherForecast.PrecipitationSum[i] < 2
-                        && Model.ForecastViewModel.WeatherForecast.WeatherCode[i] < 95
-                        && Model.ForecastViewModel.WeatherForecast.WindSpeed[i] < 8)
-                        {
-                            <p>
-                                Dykkeforhold: Gode
-                            </p>
-                        }
-                        else
-                        {
-                            <p>
-                                Dykkeforhold: Dårlige
-                            </p>
-                        }
-                        var temp = Model.ForecastViewModel.MarineForecast.SeaSurfaceTempearture[0];
-                        var tempCategory = temp switch
-                        {
-                            < 10 => "Tørdragt",
-                            >= 10 and < 18 => "Våddragt (7mm)",
-                            >= 18 and < 24 => "Våddragt (5mm)",
-                            _ => "Våddragt (3mm)"
-                        };
-                        <p>Forslået dragttype: @tempCategory</p>
-                        <div style="height: 1vh; width: 100%;">
-                            @if (Model.ForecastViewModel.WeatherForecast.WeatherCode[i] >= 95)
-                            {
+                }
+            </div>
+        </div>
+    </div>
 
-                            }
+    <div id="forecast-result-card" class="d-flex flex-column align-items-center justify-content-center">
+        <div style="width: 75%;">
+            <h2 style="font-family: Barlow Condensed, sans-serif; font-weight: 800; font-size: 36px; color: rgb(223, 240, 247); margin-bottom: 8px; margin-top: 48px;">@(Model.ForecastViewModel.City.Name)</h2>
+            <p style="font-size: 14px; color: rgb(157, 200, 219); margin-bottom: 16px;">0 ud af 7 dage har gode dykkerbetingelser</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <div style="width: 10px; height: 10px; border-radius: 50%; background: rgb(6, 214, 160);"></div>
+                    <span class="forecast-card-text-small">Optimalt</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <div style="width: 10px; height: 10px; border-radius: 50%; background: rgb(0, 180, 216);"></div>
+                    <span class="forecast-card-text-small">Godt</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <div style="width: 10px; height: 10px; border-radius: 50%; background: rgb(224, 176, 96);"></div>
+                    <span class="forecast-card-text-small">Muligt</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <div style="width: 10px; height: 10px; border-radius: 50%; background: rgb(224, 112, 112);"></div>
+                    <span class="forecast-card-text-small">Ikke egnet</span>
+                </div>
+            </div>
+            <br />
+            @{
+                var divingLevels = new List<string> { "Ikke egnet", "Muligt", "Godt", "Optimalt" };
+                var divingColors = new List<string> { "#ff6b6b", "#ffd32a", "#06d6a0", "#00B4D8" };
+
+                string state = "Ikke vuderet";
+                bool isFirst = true;
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    @for (int i = 0; i < 7; i++)
+                    {
+                        double windSpeed = Model.ForecastViewModel.WeatherForecast.WindSpeed[i];
+                        double waveHeight = Model.ForecastViewModel.MarineForecast.WaveHeight[i];
+                        double precipitation = Model.ForecastViewModel.WeatherForecast.PrecipitationSum[i];
+                        int weatherCode = Model.ForecastViewModel.WeatherForecast.WeatherCode[i];
+
+                        // Evaluate each criterion independently
+                        int windLevel = windSpeed < 4 ? 3 : windSpeed <= 8 ? 2 : windSpeed <= 11 ? 1 : 0;
+                        int waveLevel = waveHeight < 0.5 ? 3 : waveHeight <= 1.5 ? 2 : waveHeight <= 2.0 ? 1 : 0;
+                        int precipLevel = precipitation == 0 ? 3 : precipitation < 2 ? 2 : precipitation <= 5 ? 1 : 0;
+                        int stormLevel = weatherCode >= 95 ? 0 : weatherCode >= 93 ? 1 : 3;
+
+                        // Take the minimum (most restrictive) level
+                        int levelIndex = new[] { windLevel, waveLevel, precipLevel, stormLevel }.Min();
+                        state = divingLevels[levelIndex];
+
+                        var levels = new[]
+                        {
+                            (Rgb: "224, 112, 112", Label: "❌ IKKE EGNET", Text: "Ikke egnet til dykning"),
+                            (Rgb: "224, 176, 96",  Label: "⚠️ MULIGT",    Text: "Dykning mulig, men vejret er dårligt"),
+                            (Rgb: "0, 180, 216",   Label: "👍 GODT",      Text: "Godt til dykning"),
+                            (Rgb: "6, 214, 160",   Label: "🤿 OPTIMALT",  Text: "Optimale dykkerbetingelser!")
+                        };
+                        var level = levels[divingLevels.IndexOf(state)];
+
+                        
+                        <div class="forecast-card" style="--c: @level.Rgb">
+                            <div class="forecast-card-accent"></div>
+                            <div style="padding-left: 8px;">
+                                @if (isFirst)
+                                {
+                                    isFirst = false;
+                                    <div class="today-badge"><span>I DAG</span></div>
+                                }
+                                <p class="forecast-card-text-day">@Model.ForecastViewModel.WeatherForecast.TimeStamps[i].ToString("ddd", new CultureInfo("da-DK"))</p>
+                                <p class="forecast-card-text-date">@Model.ForecastViewModel.WeatherForecast.TimeStamps[i].ToString("d. MMM.", new CultureInfo("da-DK"))</p>
+                            </div>
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                                    <img class="forecastImg" src="~/images/WeatherCodeImages/WeatherCode@(Model.ForecastViewModel.WeatherForecast.WeatherCode[i]).png" alt="TodayForecast" />
+                                    <div>
+                                        <p class="forecast-card-text-small">@state</p>
+                                        <p class="forecast-card-text-small">🌊 @Model.ForecastViewModel.MarineForecast.WaveHeight[i].ToString("0.##") m</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                                    <span class="forecast-card-text-small">💨 @Model.ForecastViewModel.WeatherForecast.WindSpeed[i].ToString("0") m/s</span>
+                                    <span class="forecast-card-text-small">🌧 @Model.ForecastViewModel.WeatherForecast.PrecipitationSum[i].ToString("0.#") mm</span>
+                                </div>
+                            </div>
+                            <div style="text-align: right; min-width: 130px;">
+                                <div class="forecast-card-square">
+                                    <p class="forecast-card-label flex-column align-items-center">@level.Label</p>
+                                </div>
+                                <p class="forecast-card-text-assesment">@level.Text</p>
+                            </div>
                         </div>
                     }
-                }
-                else
-                {
-                    <p>Ingen vejrstation fundet</p>
-                }
-
-            </div>
-        }
+                    <br />
+                </div>
+            }
+        </div>
     </div>
-</div>
-*@
+</section>
+
+@if (ViewBag.ScrollToForecast == true)
+{
+    <script>
+        document.location.hash = "#weatherforecast";
+    </script>
+}
