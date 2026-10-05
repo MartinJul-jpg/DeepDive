@@ -57,25 +57,86 @@
         @foreach (Package package in Model.Packages)
         {
             double _price = 0;
-            <a id="productText" class="card m-1" asp-controller="Package" asp-action="Show" asp-route-id="@($"{package.PackageId}")">
-                <div class="d-flex justify-content-evenly  flex-wrap" style="width: 32rem; height: 80%; padding: 24px">
-                    @foreach (Package_Product pp in package.Package_Products)
-                    {
-                        _price += pp.Product.Price;
-                        <img src="@Url.Content(pp.Product.ImgPath)" class="packageImg" style="width: 8rem; height: 8rem" alt="...">
+            <div class="package-card m-1">
+                <div class="package-images-container">
+                    @{
+                        int count = package.Package_Products.Count();
+                        int index = 0;
+
+                        foreach (Package_Product pp in package.Package_Products)
+                        {
+                            double offset = (index - (count - 1) / 2.0) * 40;
+                            _price += pp.Product.Price;
+
+                            <img src="@Url.Content(pp.Product.ImgPath)" class="packageImg"
+                                 style="left: calc(50% + @(offset)px); z-index: @(index);"
+                                 alt="..." />
+
+                            index++;
+                        }
                     }
                 </div>
-                <h4 id="packageText" class="card-text">Pakkeløsning @package.PackageId - @_price kr. per dag</h4>
-            </a>
+                <p class="package-text-over">Test tekst</p>
+                <h3 class="package-text">Pakkeløsning @package.PackageId</h3>
+                <p class="package-text-desciption">Den nemme løsning til en dag ved kysten for voksne og begyndere.</p>
+                <div class="package-div-price justify-content-between d-flex m-1">
+                    <div class="package-div-price d-flex">
+                        <h3 class="package-text-price">@_price kr</h3>
+                        <p class="package-text-price-small-secoundary">/ dag</p>
+                    </div>
+                    <p class="package-text-price-small">Spar 0 kr/dag</p>
+                </div>
+                <div style="margin: 20px 0px 0px 0px;" class="d-flex justify-content-evenly">
+                    <a class="btn btn-primary package-btn-secoundary" asp-controller="Package" asp-action="Show" asp-route-id="@($"{package.PackageId}")">Se pakke</a>
+                    <a class="btn btn-primary package-btn-primary" asp-controller="Package" asp-action="AddPackageTocart" asp-route-id="@($"{package.PackageId}")" asp-route-amount="1">Tilføj til kurv</a>
+                </div>
+            </div>
         }
     </div>
 </section>
 
-@* 
-<div class="d-flex mb-2 align-items-center gap-2">
-                        <div style="width: 40px; height: 2px; background: rgb(6, 214, 160);"></div>
-                        <span style="font-family: Barlow Condensed, sans-serif; letter-spacing: 0.2em; color: rgb(6, 214, 160); font-size: 13px; font-weight: 600;">PROFESSIONELT DYKKERUDSTYR</span>
-                    </div>    
+<section id="weatherforecast">
+
+</section>
+
+@*
+<div style="max-width: 800px; margin: 0px auto; text-align: center;">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;">
+        <div style="width: 24px; height: 2px; background: rgb(6, 214, 160);">
+        </div>
+        <span style="font-family: Barlow Condensed, sans-serif; letter-spacing: 0.2em; color: rgb(6, 214, 160); font-size: 12px; font-weight: 600;">DYKKER-VEJRUDSIGT</span>
+        <div style="width: 24px; height: 2px; background: rgb(6, 214, 160);">
+        </div>
+    </div>
+    <h1 style="font-family: Barlow Condensed, sans-serif; font-weight: 800; font-size: clamp(40px, 7vw, 80px); line-height: 0.95; color: rgb(223, 240, 247); margin-bottom: 12px;">
+        7-DAGES<br>
+        <span style="color: rgb(0, 180, 216);">VEJRUDSIGT</span>
+    </h1>
+    <p style="color: rgb(157, 200, 219); font-size: 15px; margin-bottom: 32px;">Tjek om vejret er optimalt til dit næste dyk. Vi vurderer vind, nedbør og sigtbarhed for dig.</p>
+    <div style="position: relative; max-width: 480px; margin: 0px auto;">
+        <div style="display: flex; gap: 0px;">
+            <input placeholder="Søg efter by... f.eks. København" style="flex: 1 1 0%; padding: 14px 18px; background: rgb(11, 30, 51); border-width: 1px medium 1px 1px; border-style: solid none solid solid; border-color: rgba(0, 180, 216, 0.3) currentcolor rgba(0, 180, 216, 0.3) rgba(0, 180, 216, 0.3); border-image: none; border-radius: 4px 0px 0px 4px; color: rgb(223, 240, 247); outline: none; font-family: Outfit, sans-serif; font-size: 15px;" type="text" value="Odense, Danmark">
+            <button style="padding: 14px 20px; background: rgb(0, 180, 216); color: rgb(5, 14, 26); border: medium; border-radius: 0px 4px 4px 0px; font-family: Barlow Condensed, sans-serif; font-size: 14px; letter-spacing: 0.08em; font-weight: 700; cursor: pointer;">SØG</button>
+        </div>
+    </div>
+    <div style="margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;">
+        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">København</button>
+        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Aarhus</button>
+        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Odense</button>
+        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Aalborg</button>
+        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Esbjerg</button>
+        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Helsingør</button>
+        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Skagen</button>
+        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Bornholm</button>
+        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Oslo</button>
+        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Stockholm</button>
+        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Göteborg</button>
+        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Málaga</button>
+        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Hurghada</button>
+        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Sharm el-Sheikh</button>
+        <button style="padding: 6px 14px; background: rgba(0, 180, 216, 0.07); border: 1px solid rgba(0, 180, 216, 0.2); border-radius: 20px; color: rgb(157, 200, 219); font-size: 13px; cursor: pointer; font-family: Outfit, sans-serif; transition: 0.15s;">Dubrovnik</button>
+    </div>
+</div>
 
 <div id="forecastCard" class="">
     <h2>Vejrudsigt</h2>
@@ -174,6 +235,4 @@
         }
     </div>
 </div>
-<br />
-<h1 class="text-decoration-underline">Pakke tilbud</h1>
 *@

@@ -282,6 +282,119 @@ figure {
         padding: 0;
     }
 
+.package-images-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+.packageImg {
+    position: absolute;
+    width: 8rem;
+    height: 8rem;
+    transform: translate(-50%, -50%);
+    top: 50%;
+}
+
+.package-card {
+    background: #0B1E33;
+    background: linear-gradient(0deg,rgba(11, 30, 51, 1) 0%, rgba(11, 30, 51, 1) 25%, rgba(10, 41, 80, 1) 100%);
+    border-radius: 10px;
+    min-width: 400px;
+    min-height: 400px;
+    padding: 20px;
+    border: 1px solid rgba(0, 180, 216, 0.15);
+}
+
+.package-text-over {
+    color: #00B4D8;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    font-weight: 600;
+}
+
+.package-text {
+    color: #DFF0F7;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 30px;
+    line-height: 1;
+    font-weight: 800;
+    margin-top: 5px;
+}
+
+.package-text-desciption {
+    color: rgb(157, 200, 219);
+    font-size: 13px;
+    line-height: 1.6;
+    margin-top: 10px;
+}
+
+.package-div-price {
+    display: flex;
+    align-items: flex-end;
+}
+
+.package-text-price {
+    color: rgb(6, 214, 160);
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    margin: 0px;
+}
+
+.package-text-price-small {
+    color: rgb(6, 214, 160);
+    font-family: Barlow Condensed, sans-serif;
+    font-weight: 400;
+    margin: 0px;
+}
+
+.package-text-price-small-secoundary {
+    color: #74A5B7;
+    font-family: Barlow Condensed, sans-serif;
+    font-weight: 400;
+    margin: 0px;
+}
+
+.package-btn-primary {
+    width: 45%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 20px;
+    background: rgb(0, 180, 216);
+    color: rgb(5, 14, 26);
+    border-radius: 4px;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.package-btn-secoundary {
+    width: 45%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 20px;
+    border: 1px solid rgba(0, 180, 216, 0.4);
+    color: rgb(0, 180, 216);
+    border-radius: 4px;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    text-decoration: none;
+    background: rgba(0, 180, 216, 0.06);
+}
+
 #packages {
     padding: 88px 24px;
     max-width: 1200px;
@@ -490,7 +603,7 @@ figure {
 }
 
 #searchQuery {
-    width: 285px;
+    width: 200px;
     height: 40px;
     margin: 0;
     padding: 5px 10px;

@@ -11,32 +11,38 @@
 </head>
 <body>
     <header id="mainHeader">
+
         <div id="headDiv" class="justify-content-between">
             <div class="header-left">
-                <a asp-controller="Home" asp-action="Index">
-                    <img src="~/lib/custom/resource/logo.png" id="logoImg">
-                    <h5 id="head"> DIVE DEEP </h5>
+                <a style="display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0;" href="/" data-discover="true">
+                    <img alt="DiveDeep" style="width: 44px; height: 34px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(0, 180, 216, 0.25);" src="~/lib/custom/resource/logo.png">
+                    <span style="font-family: Barlow Condensed, sans-serif; font-weight: 800; font-size: 21px; letter-spacing: 0.08em; color: rgb(223, 240, 247);">
+                        DIVE
+                        <span style="color: rgb(0, 180, 216);">DEEP</span>
+                    </span>
                 </a>
-                <div id="categoryDiv">
-                    <a asp-controller="Category" asp-action="Show" asp-route-id="BCD" class="btn categoryBtn btn-secondary">
-                        BCD
-                    </a>
-                    <a asp-controller="Category" asp-action="Show" asp-route-id="DivingSuit" class="btn categoryBtn btn-secondary">
-                        Dragter
-                    </a>
-                    <a asp-controller="Category" asp-action="Show" asp-route-id="Fin" class="btn categoryBtn btn-secondary">
-                        Finner
-                    </a>
-                    <a asp-controller="Category" asp-action="Show" asp-route-id="RegulatorSet" class="btn categoryBtn btn-secondary">
-                        Regulatorsæt
-                    </a>
-                    <a asp-controller="Category" asp-action="Show" asp-route-id="Snorkel" class="btn categoryBtn btn-secondary">
-                        Snorkler
-                    </a>
-                    <a asp-controller="Category" asp-action="Show" asp-route-id="Tank" class="btn categoryBtn btn-secondary">
-                        Tanke
-                    </a>
-                </div>
+
+            </div>
+
+            <div id="categoryDiv" class="gap-3">
+                <a asp-controller="Category" asp-action="Show" asp-route-id="BCD" class="btn categoryBtn btn-secondary">
+                    BCD
+                </a>
+                <a asp-controller="Category" asp-action="Show" asp-route-id="DivingSuit" class="btn categoryBtn btn-secondary">
+                    Dragter
+                </a>
+                <a asp-controller="Category" asp-action="Show" asp-route-id="Fin" class="btn categoryBtn btn-secondary">
+                    Finner
+                </a>
+                <a asp-controller="Category" asp-action="Show" asp-route-id="RegulatorSet" class="btn categoryBtn btn-secondary">
+                    Regulatorsæt
+                </a>
+                <a asp-controller="Category" asp-action="Show" asp-route-id="Snorkel" class="btn categoryBtn btn-secondary">
+                    Snorkler
+                </a>
+                <a asp-controller="Category" asp-action="Show" asp-route-id="Tank" class="btn categoryBtn btn-secondary">
+                    Tanke
+                </a>
             </div>
             <div class="header-right">
                 <form id="searchForm" asp-controller="Search" asp-action="Show" method="post">
