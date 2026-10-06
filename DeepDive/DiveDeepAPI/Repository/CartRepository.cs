@@ -27,7 +27,7 @@ namespace DiveDeepAPI.Repository
             return cart;
         }
 
-        public async Task<List<Booking>> GetConfirmedBookigns(string UserId)
+        public async Task<List<Booking>> GetConfirmedBookings(string UserId)
         {
             var bookings = await _diveDeepContext.Bookings.Include(p => p.Product_Bookings)
                 .ThenInclude(p => p.Product).Where(u => u.UserId == UserId && u.Finalized == true).
@@ -63,8 +63,9 @@ namespace DiveDeepAPI.Repository
             await _diveDeepContext.SaveChangesAsync();
             return true;
         }
-        public async Task<bool> ValidateBookingOverlap(Booking cart, string userId)
+        public async Task<bool> ValidateBookingOverlap(string userId)
         {
+            Booking cart = await GetCart(userId);
 
             //getting cartDates<DateOnly>
             //is filled with the dates that exist within carts timespan

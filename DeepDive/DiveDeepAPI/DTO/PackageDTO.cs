@@ -3,6 +3,6 @@
     public class PackageDTO
     {
             public int PackageId { get; set; }
-            public List<int> PackageIds { get; set; } = new List<int>();
+            public List<ProductDTO> Products { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Azure;
 using Azure.Core;
 using DeepDive.Models;
+using DeepDive.ReceivedDTO;
 using System.Text;
 using System.Text.Json;
 
@@ -9,229 +10,185 @@ namespace DeepDive.Services
     public class DiveDeepApiService : IDiveDeepApiService
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IDTO_Service _DTO_Service;
 
-        public DiveDeepApiService(IHttpClientFactory httpClientFactory)
+        public DiveDeepApiService(IHttpClientFactory httpClientFactory, IDTO_Service DTO_Service)
         {
             _httpClientFactory = httpClientFactory;
+            _DTO_Service = DTO_Service;
         }
-        public async Task AddBookingAsync(string userid)
+
+        //done
+        public async Task FinalizeBookingAsync(string userid)
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
-            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7000/DeepDiveApi/Cart/Finalize/{userid}");
+            using var request = new HttpRequestMessage(HttpMethod.Put, $"api/Cart/{userid}");
             using var response = await httpClient.SendAsync(request);
         }
         
+        //done
         public async Task AddProductAsync(Product product)
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
-            var productjson = JsonSerializer.Serialize(product);
-            using var request = new HttpRequestMessage(HttpMethod.Post, $"https://localhost:7000/DeepDiveApi/AddProduct/{product.GetType()}");
+            var productjson = JsonSerializer.Serialize(_DTO_Service.ProductToDTO(product));
+            using var request = new HttpRequestMessage(HttpMethod.Post, $"api/Product");
             request.Content = new StringContent(
-               productjson, System.Text.Encoding.UTF8, "application/json"
-                );
+                productjson, 
+                System.Text.Encoding.UTF8, 
+                "application/json");
 
-            using var response = await httpClient.SendAsync(request); 
-                
+            using var response = await httpClient.SendAsync(request);
         }
 
+        //mangler en metode i api til at tilføje enkelte produkter til usercart
         public async Task AddProductToCartAsync(int productid, string userid)
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
-            using var request = new HttpRequestMessage(HttpMethod.Post, $"https://localhost:7000/DeepDiveApi/Cart/AddProduct/{userid}/{productid}");
+            using var request = new HttpRequestMessage(HttpMethod.Put, $"api/Cart/AddProduct/{userid}/{productid}");
             using var response = await httpClient.SendAsync(request);
         }
 
-        public async Task ClearCartAsync(string userid)
-        {
-            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
-            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7000/DeepDiveApi/Cart/Clear/{userid}");
-            using var response = await httpClient.SendAsync(request);
-        }
-
+        //done
         public async Task DeleteBookingAsync(int bookingid)
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
-            using var request = new HttpRequestMessage(HttpMethod.Delete, $"https://localhost:7000/DeepDiveApi/Booking/Delete/{bookingid}");
+            using var request = new HttpRequestMessage(HttpMethod.Delete, $"api/Cart/{bookingid}");
             using var response = await httpClient.SendAsync(request);
         }
 
+        //done
         public async Task DeleteProductAsync(int productid)
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
-            using var request = new HttpRequestMessage(HttpMethod.Delete, $"https://localhost:7000/DeepDiveApi/Product/Delete/{productid}");
+            using var request = new HttpRequestMessage(HttpMethod.Delete, $"api/Product/{productid}");
             using var response = await httpClient.SendAsync(request);
         }
 
+        //done
         public async Task<List<Booking>> GetAllBookingsAsync()
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
-            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7000/DeepDiveApi/Bookings");
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Cart/Bookings");
             using var response = await httpClient.SendAsync(request);
-            List<Booking> bookings = JsonSerializer.Deserialize<List<Booking>>(response.Content.ReadAsStream());
+            List<BookingDTO> bookingDTOs = JsonSerializer.Deserialize<List<BookingDTO>>(response.Content.ReadAsStream());
+            List<Booking> bookings = bookingDTOs.Select(DTO => _DTO_Service.DTO_ToBooking(DTO)).ToList();
             return bookings;
         }
 
+        //done
         public async Task<List<Product>> GetAllProductAsync()
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
-            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7000/DeepDiveApi/Products");
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Product");
             using var response = await httpClient.SendAsync(request);
-            List<Product> products = JsonSerializer.Deserialize<List<Product>>(response.Content.ReadAsStream());
+            List<ProductDTO> productDTOs = JsonSerializer.Deserialize<List<ProductDTO>>(response.Content.ReadAsStream());
+            List<Product> products = productDTOs.Select(DTO => _DTO_Service.DTO_ToProduct(DTO)).ToList();
             return products;
         }
 
+        //done
         public async Task<Booking> GetCartByUserAsync(string userid)
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
-            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7000/DeepDiveApi/Cart/GetCart/{userid}");
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Cart/{userid}");
             using var response = await httpClient.SendAsync(request);
-            Booking cart = JsonSerializer.Deserialize<Booking>(response.Content.ReadAsStream());
+            BookingDTO DTO = JsonSerializer.Deserialize<BookingDTO>(response.Content.ReadAsStream());
+            Booking cart = _DTO_Service.DTO_ToBooking(DTO);
             return cart;
         }
 
+        //mangler en metode i api til at få en booking ud fra et bookingid
         public async Task<Booking> GetBookingByIdAsync(int bookingid)
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
-            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7000/DeepDiveApi/Booking/GetBooking/{bookingid}");
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Booking/GetBooking/{bookingid}");
             using var response = await httpClient.SendAsync(request);
-            Booking booking = JsonSerializer.Deserialize<Booking>(response.Content.ReadAsStream());
+            BookingDTO DTO = JsonSerializer.Deserialize<BookingDTO>(response.Content.ReadAsStream());
+            Booking booking = _DTO_Service.DTO_ToBooking(DTO);
             return booking;
         }
 
-        public async Task<Booking> GetNonFinalizedBookingAsync(string userid)
-        {
-            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
-            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7000/DeepDiveApi/Booking/GetNonFinalizedBooking/{userid}");
-            using var response = await httpClient.SendAsync(request);
-            Booking booking = JsonSerializer.Deserialize<Booking>(response.Content.ReadAsStream());
-            return booking;
-        }
-
+        //done
         public async Task<Product> GetProductByIdAsync(int productid)
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
-            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7000/DeepDiveApi/Product/{productid}");
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Product/{productid}");
             using var response = await httpClient.SendAsync(request);
-            Product product = JsonSerializer.Deserialize<Product>(response.Content.ReadAsStream());
+            ProductDTO DTO = JsonSerializer.Deserialize<ProductDTO>(response.Content.ReadAsStream());
+            Product product = _DTO_Service.DTO_ToProduct(DTO);
             return product;
         }
 
-
-        public async Task ResetCartAsync(string userid)
-        {
-            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
-            using var request = new HttpRequestMessage(HttpMethod.Post, $"https://localhost:7000/DeepDiveApi/Cart/ResetCart/{userid}");
-            using var response = await httpClient.SendAsync(request);
-            
-        }
-
+        //done
         public async Task UpdateBookingAsync(Booking booking)
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
-            var productjson = JsonSerializer.Serialize(booking);
-            using var request = new HttpRequestMessage(HttpMethod.Put, $"https://localhost:7000/DeepDiveApi/Booking/UpdateBooking");
+            var productjson = JsonSerializer.Serialize(_DTO_Service.BookingToDTO(booking));
+            using var request = new HttpRequestMessage(HttpMethod.Put, $"api/Cart/UpdateBooking");
             request.Content = new StringContent(
-               productjson, System.Text.Encoding.UTF8, "application/json"
-                );
+                productjson, 
+                System.Text.Encoding.UTF8, 
+                "application/json");
 
             using var response = await httpClient.SendAsync(request);
         }
 
+        //done
         public async Task UpdateProductAsync(Product product)
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
-            var productjson = JsonSerializer.Serialize(product);
-            using var request = new HttpRequestMessage(HttpMethod.Put, $"api/Product/Update/{product.ProductId}");
+            var productjson = JsonSerializer.Serialize(_DTO_Service.ProductToDTO(product));
+            using var request = new HttpRequestMessage(HttpMethod.Put, $"api/Product");
             request.Content = new StringContent(
-               productjson, System.Text.Encoding.UTF8, "application/json"
-                );
+                productjson, 
+                System.Text.Encoding.UTF8, 
+                "application/json");
 
             using var response = await httpClient.SendAsync(request);
         }
 
+        //done
         public async Task<bool> ValidateBookingAsync(string userid)
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
-            using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Cart/{userid}");
-            bool response = JsonSerializer.Deserialize<bool>(request.Content.ReadAsStream());
-            return response;
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Cart/Validate/{userid}");
+            using var response = await httpClient.SendAsync(request);
+
+            return response.IsSuccessStatusCode;
         }
 
-        public async Task<HttpResponseMessage> HttpGetClient(HttpClient httpClient, string uri)
-        {
-
-
-            var response = await httpClient.GetAsync(uri);
-
-
-
-            return response;
-        }
-
-        public async Task<HttpResponseMessage> HttpPostClient(HttpClient httpClient, string uri, HttpContent httpContent)
-        {
-
-            var response = await httpClient.PostAsync(uri, httpContent);
-
-
-
-            return response;
-        }
-
-        public async Task<HttpResponseMessage> HttpClientValidate(string uri, string httpMethod, HttpContent httpContent)
-        {
-            using HttpClient httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
-
-            HttpResponseMessage response = null;
-            switch (httpMethod)
-            {
-
-                case "Get":
-                    response = await HttpGetClient(httpClient, uri);
-                    break;
-                case "Post":
-                    response = await HttpPostClient(httpClient, uri, httpContent);
-                    break;
-                default:
-                    return null;
-
-            }
-            if (response == null)
-            {
-                return null;
-            }
-
-            response.EnsureSuccessStatusCode();
-
-            return response;
-        }
-
+        //done
         public async Task<List<Package>> GetAllPackagesAsync()
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
             using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Product/Package");
             using var response = await httpClient.SendAsync(request);
-            List<Package> packages = JsonSerializer.Deserialize<List<Package>>(response.Content.ReadAsStream());
+            List<PackageDTO> packageDTOs = JsonSerializer.Deserialize<List<PackageDTO>>(response.Content.ReadAsStream());
+            List<Package> packages = packageDTOs.Select(DTO => _DTO_Service.DTO_ToPackage(DTO)).ToList();
             return packages;
         }
 
+        //done
         public async Task<Package> GetPackageByIdAsync(int packageid)
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
             using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Product/Package/{packageid}");
             using var response = await httpClient.SendAsync(request);
-            Package package = JsonSerializer.Deserialize<Package>(response.Content.ReadAsStream());
+            PackageDTO DTO = JsonSerializer.Deserialize<PackageDTO>(response.Content.ReadAsStream());
+            Package package = _DTO_Service.DTO_ToPackage(DTO);
             return package;
         }
 
+        //done
         public async Task UpdateCartDatesAsync(Booking cart)
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
-            var productjson = JsonSerializer.Serialize(cart);
+            var productjson = JsonSerializer.Serialize(_DTO_Service.BookingToDTO(cart));
             using var request = new HttpRequestMessage(HttpMethod.Put, $"api/Cart/UpdateCart");
             request.Content = new StringContent(
-               productjson, System.Text.Encoding.UTF8, "application/json"
-                );
+                productjson, 
+                System.Text.Encoding.UTF8, 
+                "application/json");
 
             using var response = await httpClient.SendAsync(request);
         }

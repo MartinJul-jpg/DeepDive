@@ -1,5 +1,6 @@
 
 using DiveDeepAPI.Data;
+using DiveDeepAPI.Services;
 using DiveDeepAPI.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +19,7 @@ namespace DiveDeepAPI
 
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
+            builder.Services.AddScoped<IDTO_Service, DTO_Service>();
 
             builder.Services.AddDbContext<DiveDeepContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("default")));
 

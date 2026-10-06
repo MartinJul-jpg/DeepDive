@@ -13,6 +13,7 @@ namespace DeepDive
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddScoped<IDiveDeepApiService, DiveDeepApiService>();
+            builder.Services.AddScoped<IDTO_Service, DTO_Service>();
 
             // Weather API
             builder.Services.AddScoped<IWeatherHttpService, WeatherHttpService>();

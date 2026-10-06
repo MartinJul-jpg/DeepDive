@@ -120,8 +120,7 @@ namespace DeepDive.Controllers
 
             if (ModelState.IsValid)
             {
-                await _diveDeepApiService.AddBookingAsync(_userId);
-                await _diveDeepApiService.ClearCartAsync(_userId);
+                await _diveDeepApiService.FinalizeBookingAsync(_userId);
 
                 return RedirectToAction("Index", "Home");
             }

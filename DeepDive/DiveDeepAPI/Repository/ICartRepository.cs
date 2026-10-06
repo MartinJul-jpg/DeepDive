@@ -6,7 +6,7 @@ namespace DiveDeepAPI.Repository
     {
         Task<Booking?> GetCart(string UserId);
 
-        Task<List<Booking>> GetConfirmedBookigns(string UserId);
+        Task<List<Booking>> GetConfirmedBookings(string UserId);
 
         Task<List<Booking>> GetAllConfirmedBookigns();
 
@@ -14,7 +14,7 @@ namespace DiveDeepAPI.Repository
 
         Task<bool> FinalizedCart(string UserId);
 
-        Task<bool> ValidateBookingOverlap(Booking cart, string userId);
+        Task<bool> ValidateBookingOverlap(string userId);
 
         Task<bool> DeleteBooking(int bookingId);
 
