@@ -1,5 +1,5 @@
 ﻿using DeepDive.Models;
-using DeepDive.Repository;
+using DeepDive.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.RegularExpressions;
@@ -8,17 +8,15 @@ namespace DeepDive.Controllers
 {
     public class SearchController : Controller
     {
-        private CartRepository _cartRepository;
-        private ProductRepository _productRepository;
+        private readonly IDiveDeepApiService _diveDeepApiService;
 
-        public SearchController(CartRepository cartRepository, ProductRepository productRepository)
+        public SearchController(IDiveDeepApiService diveDeepApiService)
         {
-            _cartRepository = cartRepository;
-            _productRepository = productRepository;
+            _diveDeepApiService = diveDeepApiService;
         }
 
         [HttpPost]
-        public IActionResult Show(string searchQuery)
+        public async Task<IActionResult> Show(string searchQuery)
         {
             List<Package> packages;
             List<Product> products;
@@ -26,12 +24,14 @@ namespace DeepDive.Controllers
             {
                 string[] queryWords = searchQuery.ToLower().Split(" ");
 
-                packages = _productRepository.GetAllPackages()
+                packages = await _diveDeepApiService.GetAllPackagesAsync();
                     //.Where(package => Regex.Match(package.GetSearchBlob().ToLower(), $"{searchQuery.Query.ToLower()}+").Length > 0)
+                packages
                     .Where(package => HasQueryWords(package.GetSearchBlob(), queryWords))
                     .ToList();
-                products = _productRepository.GetAllProducts()
+                products = await _diveDeepApiService.GetAllProductAsync();
                     //.Where(product => Regex.Match(product.GetSearchBlob().ToLower(), $"{searchQuery.Query.ToLower()}+").Length > 0)
+                products
                     .Where(product => HasQueryWords(product.GetSearchBlob(), queryWords))
                     .ToList();
 

@@ -1,6 +1,6 @@
 ﻿using DeepDive.Data;
 using DeepDive.Models;
-using DeepDive.Repository;
+using DeepDive.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,14 +9,12 @@ namespace DeepDive.Controllers
 {
     public class ProductController : Controller
     {
-        private CartRepository _cartRepository;
-        private ProductRepository _productRepository;
+        private readonly IDiveDeepApiService _diveDeepApiService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ProductController(CartRepository cartRepository, ProductRepository productRepository, UserManager<ApplicationUser> userManager)
+        public ProductController(IDiveDeepApiService diveDeepApiService, UserManager<ApplicationUser> userManager)
         {
-            _cartRepository = cartRepository;
-            _productRepository = productRepository;
+            _diveDeepApiService = diveDeepApiService;
             _userManager = userManager;
         }
         public IActionResult Index()
@@ -24,19 +22,19 @@ namespace DeepDive.Controllers
             return View();
         }
 
-        public IActionResult Show(int id)
+        public async Task<IActionResult> Show(int id)
         {
-            Product product = _productRepository.GetProductById(id);
+            Product product = await _diveDeepApiService.GetProductByIdAsync(id);
 
             return View(product);
         }
 
-        [Authorize]
-        public IActionResult AddTocart(int id, int amount)
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> AddTocart(int id, int amount)
         {
             for (int i = 0; i < amount; i++)
             {
-                _cartRepository.AddProductToCart(id, _userManager.GetUserId(this.User));
+                await _diveDeepApiService.AddProductToCartAsync(id, _userManager.GetUserId(this.User));
             }
             return RedirectToAction("Index", "cart");
         }

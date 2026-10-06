@@ -1,7 +1,7 @@
 ﻿using DeepDive.Data;
 using DeepDive.Filters;
 using DeepDive.Models;
-using DeepDive.Repository;
+using DeepDive.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,54 +12,52 @@ namespace DeepDive.Controllers
     [AdminAuthorize("Admin")]
     public class AdminController : Controller
     {
-        private CartRepository _cartRepository;
-        private ProductRepository _productRepository;
+        private readonly IDiveDeepApiService _diveDeepApiService; 
 
         private readonly UserManager<ApplicationUser> _userManager;
 
 
 
-        public AdminController(CartRepository cartRepository, ProductRepository productrepo, UserManager<ApplicationUser> userManager)
+        public AdminController(IDiveDeepApiService diveDeepApiService, UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
-            _cartRepository = cartRepository;
-            _productRepository = productrepo;
+            _diveDeepApiService = diveDeepApiService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Product> products = new List<Product>(_productRepository.GetAllProducts());
+            List<Product> products = await _diveDeepApiService.GetAllProductAsync();
             return View(products); 
 
         }
   
-        public IActionResult DeleteBooking(int id)
+        public async Task<IActionResult> DeleteBooking(int id)
         {
-            _cartRepository.DeleteBookingAdmin(id);
+            await _diveDeepApiService.DeleteBookingAsync(id);
             return RedirectToAction("Index");
         } 
 
-        public IActionResult ViewBooking()
+        public async Task<IActionResult> ViewBooking()
         {
-            var bookings = _cartRepository.GetAllBookings();
+            var bookings = await _diveDeepApiService.GetAllBookingsAsync();
             return View(bookings);
         }
 
-        public IActionResult UpdateBooking(int id)
+        public async Task<IActionResult> UpdateBooking(int id)
         {
-            var booking = _cartRepository.GetBookingById(id);
+            var booking = await _diveDeepApiService.GetBookingByIdAsync(id);
             ViewBag.Action = "UpdateBooking";
             return View(booking);
         }
 
         [HttpPost]
-        public IActionResult UpdateBooking(Booking booking)
+        public async Task<IActionResult> UpdateBooking(Booking booking)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _cartRepository.UpdateCartFromAdminPage(booking);
+                    await _diveDeepApiService.UpdateBookingAsync(booking);
                 }
             }
             catch (DbUpdateConcurrencyException)
@@ -75,15 +73,15 @@ namespace DeepDive.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult EditProduct(int id)
+        public async Task<IActionResult> EditProduct(int id)
         {
-            Product foundproduct = _productRepository.GetProductById(id);
+            Product foundproduct = await _diveDeepApiService.GetProductByIdAsync(id);
             ViewBag.Action = "EditProduct";
             return View(foundproduct);
         }
 
         [HttpPost]
-        public IActionResult EditProduct(BCD? bcd, DivingSuit? divingSuit, Fin? fin, RegulatorSet? regulatorSet, Snorkel? snorkel, Tank? tank, string productTypeSelector)
+        public async Task<IActionResult> EditProduct(BCD? bcd, DivingSuit? divingSuit, Fin? fin, RegulatorSet? regulatorSet, Snorkel? snorkel, Tank? tank, string productTypeSelector)
         {
             Product? product = productTypeSelector switch
             {
@@ -100,7 +98,7 @@ namespace DeepDive.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _productRepository.UpdateProduct(product);
+                    await _diveDeepApiService.UpdateProductAsync(product);
                 }
             }
             catch (DbUpdateConcurrencyException)
@@ -124,7 +122,7 @@ namespace DeepDive.Controllers
         } 
 
         [HttpPost]
-        public IActionResult CreateNewProduct(BCD? bcd, DivingSuit? divingSuit, Fin? fin, RegulatorSet? regulatorSet, Snorkel? snorkel, Tank? tank, string productTypeSelector)
+        public async Task<IActionResult> CreateNewProduct(BCD? bcd, DivingSuit? divingSuit, Fin? fin, RegulatorSet? regulatorSet, Snorkel? snorkel, Tank? tank, string productTypeSelector)
         {
             Product? product = productTypeSelector switch
             {
@@ -140,15 +138,15 @@ namespace DeepDive.Controllers
 
             if (product != null)
             {
-                _productRepository.AddNewProduct(product);
+                await _diveDeepApiService.AddProductAsync(product);
                 return RedirectToAction("Index");
             }
 
             return View();
         }
-        public IActionResult DeleteProduct(int id)
+        public async Task<IActionResult> DeleteProduct(int id)
         {
-            _productRepository.DeleteProduct(id);
+            await _diveDeepApiService.DeleteProductAsync(id);
             return RedirectToAction("Index");
         } 
 
