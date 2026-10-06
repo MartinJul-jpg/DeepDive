@@ -18,8 +18,6 @@ namespace DiveDeepAPI.Repository
             _diveDeepContext = diveDeepContext;
             _productRepository = productRepository;
         }
-
-        // Can not be called alone
         public async Task<Booking?> GetCart(string UserId)
         {
             var cart = await _diveDeepContext.Bookings

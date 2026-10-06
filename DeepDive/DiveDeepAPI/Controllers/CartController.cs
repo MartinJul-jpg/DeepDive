@@ -147,8 +147,16 @@ namespace DiveDeepAPI.Controllers
 
         //Add Authorize here later 
         [HttpPut("UpdateBooking")]
-        public async Task<IActionResult> UpdateBooking([FromBody]Booking booking, string UserId)
+        public async Task<IActionResult> UpdateBooking([FromBody]Booking booking)
         {
+            if (booking == null) return BadRequest();
+            if (booking.Finalized == false) return BadRequest();
+
+            var confirmedBookings = await _cartRepository.GetConfirmedBookigns(booking.UserId!);
+            var oldBooking = confirmedBookings.FirstOrDefault(b => b.BookingId == booking.BookingId);
+            if (oldBooking == null) return BadRequest();
+
+            await _cartRepository.UpdateCartBooking(oldBooking, booking);
             return Ok();
         }
         // Same here
