@@ -19,6 +19,8 @@ namespace DiveDeepAPI.Controllers
             _productRepository = productRepository;
         }
 
+        // GET localhost:8080/api/Product
+        // json med listen af alle produkter
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
@@ -46,6 +48,9 @@ namespace DiveDeepAPI.Controllers
             });
             return Ok(productDTOs);
         }
+
+        // GET localhost:8080/api/Product/[id]
+        // json af et product
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductById(int id)
         {
@@ -72,6 +77,9 @@ namespace DiveDeepAPI.Controllers
             };
             return Ok(productDTO);
         }
+
+        // GET Product/Package
+        // json med listen af alle pakker
         [HttpGet("Package")]
         public async Task<IActionResult> GetPackages()
         {
@@ -86,6 +94,8 @@ namespace DiveDeepAPI.Controllers
             return Ok(packageDTOs);
         }
 
+        // GET localhost:8080/api/Product/Package/[id]
+        // json af pakke
         [HttpGet("Package/{id}")]
         public async Task<IActionResult> GetPackageById(int id)
         {
@@ -100,6 +110,8 @@ namespace DiveDeepAPI.Controllers
             return Ok(packageDTOs);
         }
 
+        // POST localhost:8080/api/Product/Add/[type]
+        // returnerer OK eller bad request hvis sendte produkt er null
         [HttpPost("Add/{type}")]
         public async Task<IActionResult> AddProduct([FromBody] JsonElement body, [FromRoute] string type)
         {
@@ -125,6 +137,9 @@ namespace DiveDeepAPI.Controllers
             }
             return BadRequest();
         }
+
+        // DELETE localhost:8080/api/Product/[id]
+        // returnerer OK, bad request hvis id er under 1, not found hvis produktet ikke findes. 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct([FromRoute] int id)
         {
@@ -137,8 +152,10 @@ namespace DiveDeepAPI.Controllers
             return Ok();
         }
 
-       [HttpPut("Update/{id}")]
-       public async Task<IActionResult> UpdateProduct([FromBody] JsonElement body, int id)
+        // PUT localhost:8080/api/Product/[id]
+        // returnerer OK, badrequest hvis id er under 1, notfound hvis id'et ikke findes. 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProduct([FromBody] JsonElement body, int id)
         {
             if (id <= 0) return BadRequest();
             var productReplace = await _productRepository.GetProductById(id);

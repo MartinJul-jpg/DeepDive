@@ -16,6 +16,9 @@ namespace DiveDeepAPI.Controllers
         {
             _cartRepository = cartRepository;
         }
+
+        // GET localhost:8080/api/Cart/[userId]
+        // returns users basket, is the only place validatebookingoverlap is called, hence it must be called after date or products have been changed
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetUserCart(string userId)
         {
@@ -23,7 +26,7 @@ namespace DiveDeepAPI.Controllers
 
             if (cart == null) return NotFound();
 
-
+            bool exceedsStock = await _cartRepository.ValidateBookingOverlap(cart, userId);
             var cartDTO = new BookingDTO()
             {
                 BookingId = cart.BookingId,
@@ -33,12 +36,15 @@ namespace DiveDeepAPI.Controllers
                 RowVersion = cart.RowVersion,
                 Start = cart.Start,
                 End = cart.End,
-                ExceedsStock = _cartRepository.ValidateBookingOverlap(cart, userId).Result,
+                ExceedsStock = exceedsStock,
 
                 ProductId = cart.Product_Bookings?.Select(pp => pp.ProductId).ToList() ?? new List<int>(),
             };
             return Ok(cartDTO);
         }
+
+        // GET localhost:8080/api/Cart/Booking/[userId]
+        // returns users basket
         [HttpGet("Booking/{userId}")]
         public async Task<IActionResult> GetUserBookings(string userId)
         {
@@ -60,6 +66,9 @@ namespace DiveDeepAPI.Controllers
             });
             return Ok(bookingDTO);
         }
+
+        // GET localhost:8080/api/Cart/Bookings/[userId]
+        // returns users finalized bookings
         [HttpGet("Bookings/{userId}")]
         public async Task<IActionResult> GetAllBookings(string userId)
         {
@@ -82,6 +91,9 @@ namespace DiveDeepAPI.Controllers
             });
             return Ok(bookingDTO);
         }
+
+        // GET localhost:8080/api/Cart/Bookings
+        // returns finalized bookings
         [HttpGet("Bookings")]
         public async Task<IActionResult> GetAllConfirmedBookings()
         {
@@ -104,6 +116,9 @@ namespace DiveDeepAPI.Controllers
             });
             return Ok(bookingDTO);
         }
+
+        // POST localhost:8080/api/Cart
+        // makes new usercart if none are present, returns OK
         [HttpPost]
         public async Task<IActionResult> NewCart([FromBody] Booking booking)
         {
@@ -119,6 +134,8 @@ namespace DiveDeepAPI.Controllers
             return BadRequest();
         }
 
+        // PUT localhost:8080/api/Cart/[UserId]
+        // finalizes usercart, returns OK
         [HttpPut("{UserId}")]
         public async Task<IActionResult> CartToBooking(string UserId)
         {
@@ -131,6 +148,9 @@ namespace DiveDeepAPI.Controllers
             return Conflict();
             
         }
+
+        // PUT localhost:8080/api/Cart/UpdateCart
+        // sent booking updates database usercart, returns OK
         [HttpPut("UpdateCart")]
         public async Task<IActionResult> UpdateCart([FromBody]Booking booking)
         {
@@ -146,6 +166,9 @@ namespace DiveDeepAPI.Controllers
 
 
         //Add Authorize here later 
+
+        // PUT localhost:8080/api/Cart/UpdateBooking
+        // sent booking updates database booking, returns OK
         [HttpPut("UpdateBooking")]
         public async Task<IActionResult> UpdateBooking([FromBody]Booking booking)
         {
@@ -159,7 +182,11 @@ namespace DiveDeepAPI.Controllers
             await _cartRepository.UpdateCartBooking(oldBooking, booking);
             return Ok();
         }
+
         // Same here
+
+        // DELETE localhost:8080/api/Cart/[bookingId]
+        // deletes database booking, returns OK
         [HttpDelete("{bookingId}")]
         public async Task<IActionResult> DeleteBooking(int bookingId)
         {

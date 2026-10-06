@@ -9,6 +9,7 @@ namespace DeepDive.Data
 {
     public class DeepDiveContext : IdentityDbContext<ApplicationUser>
     {
+        /*
         public DbSet<Package>Packages { get; set; }
         public DbSet<Package_Product> Package_Products { get; set; }
         public DbSet<Booking> Bookings { get; set; }
@@ -20,11 +21,13 @@ namespace DeepDive.Data
         public DbSet<BCD> BCDs { get; set; }
         public DbSet<DivingSuit> DivingSuits { get; set; }
         public DbSet<Fin> Fins { get; set; }
+        */
 
         public DeepDiveContext(DbContextOptions dbcontextOptions) :base(dbcontextOptions) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            /*
             List<Product> products = new List<Product> 
             {
                 new BCD
@@ -395,6 +398,7 @@ namespace DeepDive.Data
                 )
             };
 
+            */
             List<IdentityRole> roles = new List<IdentityRole>()
             {
                 new IdentityRole()
@@ -474,12 +478,13 @@ namespace DeepDive.Data
 
             //pre-seed users
             modelBuilder.Entity<ApplicationUser>().HasData(users);
-
+            
             // Pre-seed roles
             modelBuilder.Entity<IdentityRole>().HasData(roles);
 
             //pre-seed userRoles
             modelBuilder.Entity<IdentityUserRole<string>>().HasData(userRoles);
+            /*
 
             //pre-seed different product-type tables
             foreach (var product in products)
@@ -560,7 +565,9 @@ namespace DeepDive.Data
                 .Property(product => product.RowVersion)
                 .IsRowVersion();
 
+            */
             base.OnModelCreating(modelBuilder);
+            /*
 
             // ApplicationUser relations
             modelBuilder.Entity<Booking>()
@@ -606,6 +613,7 @@ namespace DeepDive.Data
                 .HasOne<Product>(p => p.Product)
                 .WithMany(p => p.Product_Bookings)
                 .HasForeignKey(fk => fk.ProductId);
+            */
         }
     }
 }
