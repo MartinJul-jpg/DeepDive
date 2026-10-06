@@ -19,7 +19,7 @@ figure {
     position: relative;
     min-height: 800px;
     width: 100vw;
-    margin-left: calc(50% - 50vw); /* bryder ud af containeren */
+    margin-left: calc(50% - 50vw);
 }
 
 .hero-title {
@@ -39,6 +39,87 @@ figure {
 .hero-div-over {
     position: absolute;
     inset: 100px;
+}
+
+.product-category-btn {
+    display: block;
+    width: 100%;
+    padding: 13px;
+    background: #00B4D8;
+    border: 1px solid rgba(0, 180, 216, 0.25);
+    color: black;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+}
+
+.product-category-btn-secoundary {
+    display: block;
+    width: 100%;
+    padding: 13px;
+    background: rgba(0, 180, 216, 0.08);
+    border: 1px solid rgba(0, 180, 216, 0.25);
+    color: rgb(0, 180, 216);
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+}
+
+.product-text-price {
+    color: rgb(6, 214, 160);
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    margin: 0px;
+}
+
+.product-text-price-small-secoundary {
+    color: #74A5B7;
+    font-family: Barlow Condensed, sans-serif;
+    font-weight: 400;
+    margin: 0px;
+}
+
+.product-card {
+    background: #0B1E33;
+    background: linear-gradient(0deg,rgba(11, 30, 51, 1) 0%, rgba(11, 30, 51, 1) 25%, rgba(10, 41, 80, 1) 100%);
+    border-radius: 10px;
+    min-width: 400px;
+    min-height: 500px;
+    padding: 20px;
+    border: 1px solid rgba(0, 180, 216, 0.15);
+}
+
+.product-text-brand {
+    color: #00B4D8;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.16em;
+    font-weight: 600;
+}
+
+.product-text-model {
+    color: #DFF0F7;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.16em;
+    font-weight: 900;
+}
+
+.product-text-description {
+    color: #84ACBF;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    font-weight: 500;
 }
 
 .hero-line {
@@ -262,10 +343,6 @@ figure {
     align-self: end;
 }
 
-.productText {
-    text-align: left;
-}
-
 .packageImg {
     border: none;
     border-radius: 10px;
@@ -406,6 +483,7 @@ figure {
     min-height: 400px;
     padding: 20px;
     border: 1px solid rgba(0, 180, 216, 0.15);
+    align-content: center;
 }
 
 .package-text-over {
