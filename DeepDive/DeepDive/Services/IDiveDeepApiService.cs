@@ -31,7 +31,7 @@ namespace DeepDive.Services
 
         Task<Booking> GetCartByUserAsync(string userid);
 
-        Task UpdateCartDatesAsync(Booking cart, string userid);
+        Task UpdateCartDatesAsync(Booking cart);
 
         Task<Booking> GetNonFinalizedBookingAsync(string userid);
 

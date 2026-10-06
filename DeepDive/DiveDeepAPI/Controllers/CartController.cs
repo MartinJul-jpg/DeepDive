@@ -39,6 +39,7 @@ namespace DiveDeepAPI.Controllers
             };
             return Ok(cartDTO);
         }
+        
         [HttpGet("Booking/{userId}")]
         public async Task<IActionResult> GetUserBookings(string userId)
         {
