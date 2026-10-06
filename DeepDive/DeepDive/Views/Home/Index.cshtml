@@ -1,22 +1,121 @@
 ﻿@using DeepDive.Models
+@using DeepDive.ViewModels
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
+@model HomeViewModel;
 
-<p>
-    <div class="d-flex justify-content-center flex-wrap">
-        @foreach (Package package in Model)
+<br />
+<div id="forecastCard" class="">
+    <h2>Vejrudsigt</h2>
+    <form asp-action="Index" asp-controller="Home">
+        <input id="forecastInput" type="search" name="searchTerm" placeholder="Søg eller vælg et dykningssted" list="diveSites" />
+        <datalist id="diveSites">
+            <!-- Fyn -->
+            <option value="Middelfart" />
+            <option value="Strib" />
+            <option value="Kerteminde" />
+            <option value="Svendborg" />
+            <option value="Faaborg" />
+            <option value="Nyborg" />
+            <option value="Assens" />
+            <option value="Rudkøbing" />
+
+            <!-- Sjælland -->
+            <option value="Helsingør" />
+            <option value="Rørvig" />
+            <option value="Kalundborg" />
+            <option value="Korsør" />
+
+            <!-- Jylland -->
+            <option value="Kollerup" />
+            <option value="Aarhus" />
+            <option value="Ebeltoft" />
+            <option value="Grenaa" />
+
+            <!-- Bornholm -->
+            <option value="Rønne" />
+            <option value="Gudhjem" />
+        </datalist>
+        <input class="btn btn-success" type="submit" />
+    </form>
+
+    <h4>@(Model.ForecastViewModel.City.Name)</h4>
+    <div class="row d-flex justify-content-evenly">
+        @for (int i = 0; i < 7; i++)
         {
-            double _price = 0;
-            <a id="productText" class="card m-1" asp-controller="Package" asp-action="Show" asp-route-id="@($"{package.PackageId}")">
-                <div class="d-flex justify-content-evenly  flex-wrap" style="width: 32rem; height: 80%; padding: 24px">
-                    @foreach (Package_Product pp in package.Package_Products)
+            <div class="forecastDayCard">
+                <h3 class="forecastDayText">@(Model.ForecastViewModel.WeatherForecast.TimeStamps[i].ToShortDateString())</h3>
+                <img class="forecastImg" src="~/images/WeatherCodeImages/WeatherCode@(Model.ForecastViewModel.WeatherForecast.WeatherCode[i]).png" alt="TodayForecast" />
+                @if (Model.ForecastViewModel.MarineForecast.HasMarineWeatherStation)
+                {
+                    <p style="font-size: 0.7vw">
+                        Vandtemperatur: @(Model.ForecastViewModel.MarineForecast.SeaSurfaceTempearture[i].ToString("0"))°C <br />
+                        Bølgehøjde: @(Model.ForecastViewModel.MarineForecast.WaveHeight[i].ToString("0.##")) m <br />
+                        Vindhastighed: @(Model.ForecastViewModel.WeatherForecast.WindSpeed[i].ToString("0")) m/s <br />
+                        Nedbør: @(Model.ForecastViewModel.WeatherForecast.PrecipitationSum[i].ToString("0.##")) mm <br />
+                    </p>
+                    @if (Model.ForecastViewModel.WeatherForecast.WeatherCode[i] >= 95)
                     {
-                        _price += pp.Product.Price;
-                        <img src="@Url.Content(pp.Product.ImgPath)" class="packageImg" style="width: 8rem; height: 8rem" alt="...">
+                        <p>ALT DYKNING FRARÅDES GRUNDET TORDENVEJR</p>
                     }
-                </div>
-                <h4 id="packageText" class="card-text">Pakkeløsning @package.PackageId - @_price kr. per dag</h4>
-            </a>
+                    else
+                    {
+                        @if (Model.ForecastViewModel.MarineForecast.WaveHeight[i] < 1.5
+                        && Model.ForecastViewModel.WeatherForecast.PrecipitationSum[i] < 2
+                        && Model.ForecastViewModel.WeatherForecast.WeatherCode[i] < 95
+                        && Model.ForecastViewModel.WeatherForecast.WindSpeed[i] < 8)
+                        {
+                            <p>
+                                Dykkeforhold: Gode
+                            </p>
+                        }
+                        else
+                        {
+                            <p>
+                                Dykkeforhold: Dårlige
+                            </p>
+                        }
+                        var temp = Model.ForecastViewModel.MarineForecast.SeaSurfaceTempearture[0];
+                        var tempCategory = temp switch
+                        {
+                            < 10 => "Tørdragt",
+                            >= 10 and < 18 => "Våddragt (7mm)",
+                            >= 18 and < 24 => "Våddragt (5mm)",
+                            _ => "Våddragt (3mm)"
+                        };
+                        <p>Forslået dragttype: @tempCategory</p>
+                        <div style="height: 1vh; width: 100%;">
+                            @if (Model.ForecastViewModel.WeatherForecast.WeatherCode[i] >= 95)
+                            {
+
+                            }
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p>Ingen vejrstation fundet</p>
+                }
+
+            </div>
         }
     </div>
-</p>
+</div>
+<br />
+<h1 class="text-decoration-underline">Pakke tilbud</h1>
+<div class="d-flex justify-content-center flex-wrap">
+    @foreach (Package package in Model.Packages)
+    {
+        double _price = 0;
+        <a id="productText" class="card m-1" asp-controller="Package" asp-action="Show" asp-route-id="@($"{package.PackageId}")">
+            <div class="d-flex justify-content-evenly  flex-wrap" style="width: 32rem; height: 80%; padding: 24px">
+                @foreach (Package_Product pp in package.Package_Products)
+                {
+                    _price += pp.Product.Price;
+                    <img src="@Url.Content(pp.Product.ImgPath)" class="packageImg" style="width: 8rem; height: 8rem" alt="...">
+                }
+            </div>
+            <h4 id="packageText" class="card-text">Pakkeløsning @package.PackageId - @_price kr. per dag</h4>
+        </a>
+    }
+</div>

@@ -111,6 +111,46 @@ figure {
     height: 10vh;
 }
 
+.forecastDayCard {
+    width: 13%;
+    max-width: 14%;
+    background: white;
+    border-color: black;
+    border-width: 2px;
+    border-radius: 5px;
+    border: double;
+    padding: 0;
+}
+
+.forecastImg {
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;  
+}
+
+.forecastDayText{
+    font-size: 2vh;
+}
+
+#forecastInput {
+    width: 25%;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid #ccc;
+}
+
+#forecastCard {
+    background: white;
+    border: medium;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#todaysForecastDayCard {
+    background: rgb(240, 234, 214);
+}
+
 #removeCartBtn {
     border: 5px;
     margin: 0 5px 0 5px;
