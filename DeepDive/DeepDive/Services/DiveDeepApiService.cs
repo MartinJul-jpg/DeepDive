@@ -141,7 +141,7 @@ namespace DeepDive.Services
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
             var productjson = JsonSerializer.Serialize(product);
-            using var request = new HttpRequestMessage(HttpMethod.Put, $"https://localhost:7000/DeepDiveApi/Product/UpdateProduct");
+            using var request = new HttpRequestMessage(HttpMethod.Put, $"api/Product/Update/{product.ProductId}");
             request.Content = new StringContent(
                productjson, System.Text.Encoding.UTF8, "application/json"
                 );
@@ -152,7 +152,7 @@ namespace DeepDive.Services
         public async Task<bool> ValidateBookingAsync(string userid)
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
-            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7000/DeepDiveApi/Booking/ValidateBooking/{userid}");
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Cart/{userid}");
             bool response = JsonSerializer.Deserialize<bool>(request.Content.ReadAsStream());
             return response;
         }
@@ -209,7 +209,7 @@ namespace DeepDive.Services
         public async Task<List<Package>> GetAllPackagesAsync()
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
-            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7000/DeepDiveApi/Packages");
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Product/Package");
             using var response = await httpClient.SendAsync(request);
             List<Package> packages = JsonSerializer.Deserialize<List<Package>>(response.Content.ReadAsStream());
             return packages;
@@ -218,17 +218,17 @@ namespace DeepDive.Services
         public async Task<Package> GetPackageByIdAsync(int packageid)
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
-            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7000/DeepDiveApi/Booking/GetPackage/{packageid}");
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Product/Package/{packageid}");
             using var response = await httpClient.SendAsync(request);
             Package package = JsonSerializer.Deserialize<Package>(response.Content.ReadAsStream());
             return package;
         }
 
-        public async Task UpdateCartDatesAsync(Booking cart, string userid)
+        public async Task UpdateCartDatesAsync(Booking cart)
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
             var productjson = JsonSerializer.Serialize(cart);
-            using var request = new HttpRequestMessage(HttpMethod.Put, $"https://localhost:7000/DeepDiveApi/Cart/UpdateDates/{userid}");
+            using var request = new HttpRequestMessage(HttpMethod.Put, $"api/Cart/UpdateCart");
             request.Content = new StringContent(
                productjson, System.Text.Encoding.UTF8, "application/json"
                 );

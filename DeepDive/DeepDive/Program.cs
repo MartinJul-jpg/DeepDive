@@ -18,9 +18,9 @@ namespace DeepDive
             builder.Services.AddScoped<IWeatherHttpService, WeatherHttpService>();
 
 
-            //builder.Services.AddHttpClient("DeepDiveApi", client => {
-            //    client.BaseAddress = new Uri("localhostUrigoeshere");
-            //});
+            builder.Services.AddHttpClient("DeepDiveApi", client => {
+                client.BaseAddress = new Uri("https://localhost:7126/");
+            });
 
             builder.Services.AddHttpClient("GeolocateClient", client =>
             {

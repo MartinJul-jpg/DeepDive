@@ -93,7 +93,7 @@ namespace DeepDive.Controllers
                 }
             }
 
-            await _diveDeepApiService.UpdateCartDatesAsync(cart, _userId);
+            await _diveDeepApiService.UpdateCartDatesAsync(cart);
 
             ModelState.Clear();
 
