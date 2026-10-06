@@ -70,48 +70,46 @@
 
         
     </header>
-    <div>
-        @RenderSection("categorySector", false)
-    </div>
     <div class="justify-content-center align-items-center">
         @RenderBody()
     </div>
-    <hr id="infoSeperator">
-    <div id="footerDiv">
-        <div class="footerBox">
-            <h5 class="footerTitle">Information</h5>
-            <ul class="footerList">
-                <li>Åbningstider:</li>
-                <ul id="openTimeList">
-                    <li>Mandag-fredag: 10:00 - 17:30 </li>
-                    <li>Lørdag: 10:00 - 14:00</li>
-                    <li>Søndag: Lukket</li>
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3 class="footer-title">INFORMATION</h3>
+                <div class="footer-title-line"></div>
+                <p class="footer-label">Åbningstider</p>
+                <ul class="footer-list">
+                    <li><span>Mandag–fredag</span><span>10:00 – 17:30</span></li>
+                    <li><span>Lørdag</span><span>10:00 – 14:00</span></li>
+                    <li><span>Søndag</span><span>Lukket</span></li>
                 </ul>
-            </ul>
-        </div>
-        <div class="footerBox">
-            <h5 class="footerTitle">Kundeservice </h5>
-            <ul class="footerList">
-                <li>
-                    +45 60 70 80 90
-                </li>
-                <li>
-                    info@divedeep.dk
-                </li>
-            </ul>
-        </div>
-        <div class="footerBox">
-            <h5 class="footerTitle">Dive Deep A/S</h5>
-            <ul class="footerList">
-                <li>Adresse:</li>
-                <li> Dykkervej 10</li>
-                <li>5000 Odense C</li>
-                <br />
+            </div>
 
-                <li>CVR: 81828384</li>
-            </ul>
+            <div class="footer-col">
+                <h3 class="footer-title">KUNDESERVICE</h3>
+                <div class="footer-title-line"></div>
+                <ul class="footer-list">
+                    <li><span>Telefon</span><a href="tel:+4560708090">+45 60 70 80 90</a></li>
+                    <li><span>E-mail</span><a href="mailto:info@divedeep.dk">info@divedeep.dk</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3 class="footer-title">DIVE DEEP A/S</h3>
+                <div class="footer-title-line"></div>
+                <p class="footer-label">Adresse</p>
+                <ul class="footer-list">
+                    <li><span>Dykkervej 10</span></li>
+                    <li><span>5000 Odense C</span></li>
+                </ul>
+                <p class="footer-label">CVR</p>
+                <ul class="footer-list">
+                    <li><span>81828384</span></li>
+                </ul>
+            </div>
         </div>
-    </div>
+    </footer>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

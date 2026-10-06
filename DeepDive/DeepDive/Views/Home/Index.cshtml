@@ -5,9 +5,16 @@
 
 @model HomeViewModel;
 
+<div class="depth-gauge" id="depthGauge">
+    <div class="depth-mark active"><span>0M</span><div class="depth-line"></div></div>
+    <div class="depth-mark"><span>10M</span><div class="depth-line"></div></div>
+    <div class="depth-mark"><span>20M</span><div class="depth-line"></div></div>
+    <div class="depth-mark"><span>30M</span><div class="depth-line"></div></div>
+    <div class="depth-mark"><span>40M</span><div class="depth-line"></div></div>
+</div>
 
 <section class="hero-section align-content-center">
-    <div style="height: 50vh;">
+    <div class="hero-img-wrapper">
         <img class="hero-img" src="~/lib/custom/resource/frontpage-diver.jpg" />
         <div class="hero-img-div"></div>
         <div class="hero-img-secoundary-div"></div>
@@ -224,6 +231,21 @@
         </div>
     </div>
 </section>
+
+<script>
+    const marks = document.querySelectorAll('#depthGauge .depth-mark');
+
+    function updateDepthGauge() {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = max > 0 ? window.scrollY / max : 0;           // 0 to 1
+        const active = Math.round(progress * (marks.length - 1));      // 0 to 4
+        marks.forEach((m, i) => m.classList.toggle('active', i === active));
+    }
+
+    window.addEventListener('scroll', updateDepthGauge, { passive: true });
+    window.addEventListener('resize', updateDepthGauge);
+    updateDepthGauge();
+</script>
 
 @if (ViewBag.ScrollToForecast == true)
 {
