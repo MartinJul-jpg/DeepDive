@@ -70,7 +70,7 @@ namespace DeepDive.Services
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
             using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Cart/Bookings");
             using var response = await httpClient.SendAsync(request);
-            List<BookingDTO> bookingDTOs = JsonSerializer.Deserialize<List<BookingDTO>>(response.Content.ReadAsStream());
+            List<BookingDTO> bookingDTOs = await response.Content.ReadFromJsonAsync<List<BookingDTO>>();
             List<Booking> bookings = bookingDTOs.Select(DTO => _DTO_Service.DTO_ToBooking(DTO)).ToList();
             return bookings;
         }
@@ -81,7 +81,7 @@ namespace DeepDive.Services
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
             using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Product");
             using var response = await httpClient.SendAsync(request);
-            List<ProductDTO> productDTOs = JsonSerializer.Deserialize<List<ProductDTO>>(response.Content.ReadAsStream());
+            List<ProductDTO> productDTOs = await response.Content.ReadFromJsonAsync<List<ProductDTO>>();
             List<Product> products = productDTOs.Select(DTO => _DTO_Service.DTO_ToProduct(DTO)).ToList();
             return products;
         }
@@ -92,7 +92,7 @@ namespace DeepDive.Services
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
             using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Cart/{userid}");
             using var response = await httpClient.SendAsync(request);
-            BookingDTO DTO = JsonSerializer.Deserialize<BookingDTO>(response.Content.ReadAsStream());
+            BookingDTO DTO = await response.Content.ReadFromJsonAsync<BookingDTO>();
             Booking cart = _DTO_Service.DTO_ToBooking(DTO);
             return cart;
         }
@@ -103,7 +103,7 @@ namespace DeepDive.Services
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
             using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Booking/GetBooking/{bookingid}");
             using var response = await httpClient.SendAsync(request);
-            BookingDTO DTO = JsonSerializer.Deserialize<BookingDTO>(response.Content.ReadAsStream());
+            BookingDTO DTO = await response.Content.ReadFromJsonAsync<BookingDTO>();
             Booking booking = _DTO_Service.DTO_ToBooking(DTO);
             return booking;
         }
@@ -114,7 +114,7 @@ namespace DeepDive.Services
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
             using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Product/{productid}");
             using var response = await httpClient.SendAsync(request);
-            ProductDTO DTO = JsonSerializer.Deserialize<ProductDTO>(response.Content.ReadAsStream());
+            ProductDTO DTO = await response.Content.ReadFromJsonAsync<ProductDTO>();
             Product product = _DTO_Service.DTO_ToProduct(DTO);
             return product;
         }
@@ -163,8 +163,10 @@ namespace DeepDive.Services
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
             using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Product/Package");
             using var response = await httpClient.SendAsync(request);
-            List<PackageDTO> packageDTOs = JsonSerializer.Deserialize<List<PackageDTO>>(response.Content.ReadAsStream());
+            List<PackageDTO> packageDTOs = await response.Content.ReadFromJsonAsync<List<PackageDTO>>(); 
             List<Package> packages = packageDTOs.Select(DTO => _DTO_Service.DTO_ToPackage(DTO)).ToList();
+
+          
             return packages;
         }
 
@@ -174,7 +176,7 @@ namespace DeepDive.Services
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
             using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Product/Package/{packageid}");
             using var response = await httpClient.SendAsync(request);
-            PackageDTO DTO = JsonSerializer.Deserialize<PackageDTO>(response.Content.ReadAsStream());
+            PackageDTO DTO = await response.Content.ReadFromJsonAsync<PackageDTO>(); ;
             Package package = _DTO_Service.DTO_ToPackage(DTO);
             return package;
         }
