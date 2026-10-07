@@ -122,6 +122,49 @@ figure {
     font-weight: 500;
 }
 
+.product-show-text-brand {
+    color: #00B4D8;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.16em;
+    font-weight: 700;
+    text-align: left;
+}
+
+.product-show-text-model {
+    color: #DFF0F7;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 55px;
+    letter-spacing: 0.16em;
+    font-weight: 900;
+    text-align: left;
+}
+
+.product-show-text-description {
+    color: #84ACBF;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.16em;
+    font-weight: 500;
+    text-align: left;
+}
+
+.product-show-text-price {
+    color: rgb(6, 214, 160);
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 35px;
+    font-weight: 800;
+    margin: 0px;
+}
+
+.product-show-text-price-small-secoundary {
+    color: #74A5B7;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    margin: 0px;
+}
+
 .hero-line {
     width: 40px;
     height: 2px;
@@ -160,7 +203,7 @@ figure {
 
 .hero-text {
     color: #9DC8DB;
-    max-width: 80%;
+    max-width: 50%;
 }
 
 .hero-btn-primary {
@@ -351,15 +394,6 @@ figure {
     width: 30%;
 }
 
-.amountSelector {
-    height: 40px;
-    width: 40px;
-    margin: 0;
-    border-radius: 0;
-    border: none;
-    text-align: center;
-}
-
 .productCardText {
     overflow: hidden;
 }
@@ -368,11 +402,89 @@ figure {
     max-width: 60vw;
     width: 60vw;
     max-height: 40vw;
+    padding: 24px;
+    background: linear-gradient(0deg,rgba(11, 30, 51, 1) 0%, rgba(11, 30, 51, 1) 25%, rgba(10, 41, 80, 1) 80%);
 }
 
-.ProductShowButton {
-    width: 50%;
-    height: 10vh;
+.size-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.size-option {
+    position: relative;
+    cursor: pointer;
+}
+
+    .size-option input {
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    .size-option span {
+        display: inline-block;
+        padding: 7px 14px;
+        border-radius: 3px;
+        border: 1px solid rgba(0, 180, 216, 0.2);
+        background: transparent;
+        color: rgb(157, 200, 219);
+        transition: 0.15s;
+    }
+
+    .size-option:hover span {
+        border-color: rgba(0, 180, 216, 0.5);
+    }
+
+    .size-option input:checked + span {
+        background: rgba(0, 180, 216, 0.15);
+        border-color: rgb(0, 180, 216);
+        color: rgb(223, 240, 247);
+    }
+
+    .size-option input:focus-visible + span {
+        outline: 2px solid rgb(6, 214, 160);
+        outline-offset: 2px;
+    }
+
+.product-show-btn {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 20px;
+    background: rgb(0, 180, 216);
+    color: rgb(5, 14, 26);
+    border-radius: 4px;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.product-show-attribute-card {
+    padding: 12px 14px;
+    background: rgb(11, 30, 51);
+    border: 1px solid rgba(0, 180, 216, 0.1);
+    border-radius: 4px;
+    margin-top: 8px;
+}
+
+.product-show-attribute-title {
+    color: rgb(122, 172, 190);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+}
+
+.product-show-attribute-text {
+    color: rgb(223, 240, 247);
+    font-size: 14px;
+    margin-top: 3px;
 }
 
 .forecastDayCard {
@@ -712,6 +824,66 @@ figure {
     }
 }
 
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+    .user-menu form {
+        margin: 0;
+    }
+
+.user-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: rgb(157, 200, 219);
+    text-decoration: none;
+    transition: color 0.15s;
+}
+
+    .user-link:hover {
+        color: rgb(6, 214, 160);
+    }
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 180, 216, 0.12);
+    border: 1px solid rgba(0, 180, 216, 0.4);
+    color: rgb(0, 180, 216);
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.logout-btn {
+    padding: 6px 14px;
+    background: rgba(0, 180, 216, 0.06);
+    border: 1px solid rgba(0, 180, 216, 0.4);
+    border-radius: 4px;
+    color: rgb(0, 180, 216);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+    .logout-btn:hover {
+        background: rgba(0, 180, 216, 0.15);
+        border-color: rgb(0, 180, 216);
+    }
+
 #packages {
     padding: 88px 24px;
     max-width: 1200px;
@@ -779,12 +951,51 @@ figure {
     margin: 0;
 }
 
+.amountSelector {
+    height: 40px;
+    width: 40px;
+    margin: 0;
+    border-radius: 0;
+    border: none;
+    text-align: center;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 17px;
+    color: rgb(223, 240, 247);
+    min-width: 20px;
+    background: rgb(11, 30, 51);
+    /* Firefox */
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+    /* Chrome, Edge, Safari */
+    .amountSelector::-webkit-outer-spin-button,
+    .amountSelector::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+
 #plusBtn {
-    border-radius: 0 5px 5px 0;
+    border: 1px solid rgba(0, 180, 216, 0.3);
+    border-radius: 3px;
+    color: rgb(157, 200, 219);
+    background: rgba(0, 180, 216, 0.1);
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
 }
 
 #minusBtn {
-    border-radius: 5px 0 0 5px;
+    border: 1px solid rgba(0, 180, 216, 0.3);
+    border-radius: 3px;
+    color: rgb(157, 200, 219);
+    background: rgba(0, 180, 216, 0.1);
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
 }
 
 #cartItem {
