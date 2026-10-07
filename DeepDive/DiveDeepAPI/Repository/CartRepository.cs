@@ -53,8 +53,8 @@ namespace DiveDeepAPI.Repository
         {
             var booking = await _diveDeepContext.Bookings
                .Include(p => p.Product_Bookings)
-               .ThenInclude(p => p.Product).
-               SingleOrDefaultAsync(u => u.UserId == UserId && u.Finalized == false);
+               .ThenInclude(p => p.Product)
+               .SingleOrDefaultAsync(u => u.UserId == UserId && u.Finalized == false);
 
             if (booking.ExceedsStock == true) return false;
 

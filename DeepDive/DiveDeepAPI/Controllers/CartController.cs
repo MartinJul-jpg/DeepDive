@@ -104,7 +104,7 @@ namespace DiveDeepAPI.Controllers
         {
             var cart = await _cartRepository.GetCart(UserId);
             if (cart == null) return BadRequest();
-            else if (await _cartRepository.FinalizedCart(UserId) == true)
+            else if (await _cartRepository.FinalizedCart(UserId))
             {
                 return Ok();
             }
@@ -157,7 +157,7 @@ namespace DiveDeepAPI.Controllers
         public async Task<IActionResult> DeleteBooking(int bookingId)
         {
             if (bookingId < 0) return BadRequest();
-            else if (true == await _cartRepository.DeleteBooking(bookingId))
+            else if (await _cartRepository.DeleteBooking(bookingId))
             {
                 return Ok();
             }

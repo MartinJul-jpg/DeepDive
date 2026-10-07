@@ -91,10 +91,10 @@ namespace DiveDeepAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct([FromRoute] int id)
         {
+            if (id <= 0) return BadRequest();
             var product = await _productRepository.GetProductById(id);
 
-            if (id <= 0) return BadRequest();
-            else if (product == null) return NotFound();
+            if (product == null) return NotFound();
 
             await _productRepository.DeleteProduct(id);
             return Ok();
