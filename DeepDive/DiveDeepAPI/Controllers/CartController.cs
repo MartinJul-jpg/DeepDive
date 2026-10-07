@@ -193,9 +193,11 @@ namespace DiveDeepAPI.Controllers
 
             Booking updatedBooking = _DTO_Service.DTO_ToBooking(DTO);
 
-            var confirmedBookings = await _cartRepository.GetConfirmedBookings(updatedBooking.UserId!);
-            var oldBooking = confirmedBookings.FirstOrDefault(b => b.BookingId == updatedBooking.BookingId);
+            Booking oldBooking = await _cartRepository.GetBookingById(DTO.BookingId);
+
             if (oldBooking == null) return BadRequest();
+
+            updatedBooking.Finalized = true;
 
             await _cartRepository.UpdateCartBooking(updatedBooking);
             return Ok();

@@ -26,12 +26,12 @@ namespace DeepDive.Controllers
 
                 packages = await _diveDeepApiService.GetAllPackagesAsync();
                     //.Where(package => Regex.Match(package.GetSearchBlob().ToLower(), $"{searchQuery.Query.ToLower()}+").Length > 0)
-                packages
+                packages = packages
                     .Where(package => HasQueryWords(package.GetSearchBlob(), queryWords))
                     .ToList();
                 products = await _diveDeepApiService.GetAllProductAsync();
                     //.Where(product => Regex.Match(product.GetSearchBlob().ToLower(), $"{searchQuery.Query.ToLower()}+").Length > 0)
-                products
+                products = products
                     .Where(product => HasQueryWords(product.GetSearchBlob(), queryWords))
                     .ToList();
 

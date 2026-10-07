@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DeepDive.Controllers
 {
-    [AdminAuthorize("Admin")]
+    //[AdminAuthorize("Admin")]
     public class AdminController : Controller
     {
         private readonly IDiveDeepApiService _diveDeepApiService; 

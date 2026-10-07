@@ -29,7 +29,7 @@ namespace DeepDive.Controllers
             return View(package);
         }
 
-        [Authorize(Roles = "User")]
+        //[Authorize(Roles = "User")]
         public async Task<IActionResult> AddPackageTocart(int id, int amount)
         {
             for (int i = 0; i < amount; i++)

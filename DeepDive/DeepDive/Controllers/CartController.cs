@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace DeepDive.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class CartController : Controller
     {
         public string _userId
