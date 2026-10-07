@@ -5,12 +5,19 @@
 @inject UserManager<ApplicationUser> UserManager
 
 <ul class="navbar-nav">
+
     @if (SignInManager.IsSignedIn(User))
     {
         var email = UserManager.GetUserName(User) ?? "";
-        var name = email.Split('@')[0];   // "admin" i stedet for hele e-mailen
+        var name = email.Split('@')[0];
 
         <li class="nav-item user-menu">
+            @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+            {
+                <a class="user-link" href="/Admin">
+                    <span>ADMIN</span>
+                </a>
+            }
             <a class="user-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="@email">
                 <span>@name</span>
             </a>

@@ -22,33 +22,38 @@
             <h3 class="product-show-text-model">@($"{Model.GetUniqueInfoPage()}")</h3>
             <p class="product-show-text-description">Det her er en kort beskrivelse af et produkt, som er en test tekst</p>
 
-            <div class="grid gap-2" style="margin-top: 26px;">
-                <div class="product-show-attribute-card">
-                    <p class="product-show-attribute-title">TYKKELSE</p>
-                    <p class="product-show-attribute-text">3mm</p>
-                </div>
-                <div class="product-show-attribute-card">
-                    <p class="product-show-attribute-title">TYPE</p>
-                    <p class="product-show-attribute-text">Våddragt</p>
-                </div>
-            </div>
-
             <div style="margin-top: 24px;">
-                <p style="color: rgb(122, 172, 190); font-size: 11px; letter-spacing: 0.1em; margin-bottom: 9px;">VÆLG STØRRELSE</p>
-                <div class="size-options">
-                    <label class="size-option">
-                        <input type="radio" name="size" value="38-40">
-                        <span>38–40</span>
-                    </label>
-                    <label class="size-option">
-                        <input type="radio" name="size" value="41-43">
-                        <span>41–43</span>
-                    </label>
-                    <label class="size-option">
-                        <input type="radio" name="size" value="44-46">
-                        <span>44–46</span>
-                    </label>
-                </div>
+                @{
+                    (string? type, string? sizeString) = Model switch
+                    {
+                        BCD bcd => ("BCD", bcd.Size),
+                        DivingSuit suit => ("DivingSuit", suit.Size),
+                        Fin fin => ("Fin", fin.Size),
+                        _ => (null, null)
+                    };
+
+                    var sizes = (sizeString ?? string.Empty)
+                        .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+                        .Distinct(StringComparer.OrdinalIgnoreCase)
+                        .ToList();
+                }
+
+                @if (sizes.Count > 0)
+                {
+                    <p style="color: rgb(122, 172, 190); font-size: 11px; letter-spacing: 0.1em; margin-bottom: 9px;">VÆLG STØRRELSE</p>
+                    <div class="size-options">
+                        @foreach (var sizeOption in sizes)
+                        {
+                            <label class="size-option">
+                                <input type="radio"
+                                       name="size_@type"
+                                       value="@sizeOption"
+                                       required />
+                                <span>@sizeOption</span>
+                            </label>
+                        }
+                    </div>
+                }
             </div>
 
             <div style="margin-top: 50px;" class="d-flex justify-content-between">
