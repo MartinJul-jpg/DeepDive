@@ -2,6 +2,7 @@
 using Azure.Core;
 using DeepDive.Models;
 using DeepDive.ReceivedDTO;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text;
 using System.Text.Json;
 
@@ -114,6 +115,7 @@ namespace DeepDive.Services
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
             using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Product/{productid}");
             using var response = await httpClient.SendAsync(request);
+            //ProductDTO DTO = JsonSerializer.Deserialize<ProductDTO>(response.Content.ReadAsStream());
             ProductDTO DTO = await response.Content.ReadFromJsonAsync<ProductDTO>();
             Product product = _DTO_Service.DTO_ToProduct(DTO);
             return product;
@@ -163,10 +165,18 @@ namespace DeepDive.Services
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
             using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Product/Package");
             using var response = await httpClient.SendAsync(request);
-            List<PackageDTO> packageDTOs = await response.Content.ReadFromJsonAsync<List<PackageDTO>>(); 
-            List<Package> packages = packageDTOs.Select(DTO => _DTO_Service.DTO_ToPackage(DTO)).ToList();
+            //List<PackageDTO> packageDTOs = JsonSerializer.Deserialize<List<PackageDTO>>(response.Content.ReadAsStream());
+            List<PackageDTO> packageDTOs = await response.Content.ReadFromJsonAsync<List<PackageDTO>>();
+            List <Package> packages = packageDTOs.Select(DTO => _DTO_Service.DTO_ToPackage(DTO)).ToList();
 
-          
+            foreach (Package package in packages)
+            {
+                foreach (Package_Product pp in package.Package_Products)
+                {
+                    pp.Product = await GetProductByIdAsync(pp.ProductId);
+                }
+            }
+
             return packages;
         }
 
