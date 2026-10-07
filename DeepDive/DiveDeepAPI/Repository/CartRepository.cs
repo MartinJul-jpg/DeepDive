@@ -28,6 +28,16 @@ namespace DiveDeepAPI.Repository
             return cart;
         }
 
+        public async Task<Booking> GetBookingById(int bookingId)
+        {
+            var booking = await _diveDeepContext.Bookings
+             .Include(p => p.Product_Bookings)
+             .ThenInclude(p => p.Product)
+             .AsNoTracking()
+             .SingleOrDefaultAsync(u => u.BookingId == bookingId && u.Finalized == true);
+            return booking;
+        } 
+
         public async Task<List<Booking>> GetConfirmedBookings(string UserId)
         {
             var bookings = await _diveDeepContext.Bookings.Include(p => p.Product_Bookings)

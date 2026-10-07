@@ -5,6 +5,7 @@ namespace DiveDeepAPI.Repository
     public interface ICartRepository
     {
         Task<Booking?> GetCart(string UserId);
+        Task<Booking?> GetBookingById(int bookingId);
 
         Task<List<Booking>> GetConfirmedBookings(string UserId);
 
