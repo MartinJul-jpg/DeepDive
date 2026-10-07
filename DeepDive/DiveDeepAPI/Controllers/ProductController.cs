@@ -114,7 +114,7 @@ namespace DiveDeepAPI.Controllers
                 
                 if (product == null) return BadRequest();
 
-                await _productRepository.UpdateProduct(productReplace, product);
+                await _productRepository.UpdateProduct(product);
             }
 
             return Ok();

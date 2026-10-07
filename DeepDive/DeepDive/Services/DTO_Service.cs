@@ -15,7 +15,7 @@ namespace DeepDive.Services
             DTO.Amount = product.Amount;
             DTO.ImgPath = product.ImgPath;
             DTO.RowVersion = product.RowVersion;
-            DTO.ProductType = product.GetType().ToString();
+            DTO.ProductType = product.GetType().Name;
 
             switch (DTO.ProductType)
             {

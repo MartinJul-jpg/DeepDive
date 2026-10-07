@@ -17,6 +17,6 @@ namespace DiveDeepAPI.Repository
 
         Task DeleteProduct(int id);
 
-        Task UpdateProduct(Product OldProduct, Product UpdateProduct);
+        Task UpdateProduct(Product UpdateProduct);
     }
 }

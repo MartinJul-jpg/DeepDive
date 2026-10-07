@@ -28,6 +28,7 @@ namespace DiveDeepAPI.Repository
             var product = await _diveDeepContext.Products
                 .Include(p => p.Product_Bookings)
                 .ThenInclude(pb => pb.Booking)
+                .AsNoTracking()
                 .SingleOrDefaultAsync(product => product.ProductId == id);
             return product;
         }
@@ -68,12 +69,9 @@ namespace DiveDeepAPI.Repository
             }
         }
 
-        public async Task UpdateProduct(Product oldProduct, Product updateProduct)
+        public async Task UpdateProduct(Product updateProduct)
         {
-
-            // looks at the old product entry and remaps it with the new one...
-            //Reason cause otherwise we need to detach the oldproduct tracking 
-            _diveDeepContext.Entry(oldProduct).CurrentValues.SetValues(updateProduct);
+            _diveDeepContext.Products.Update(updateProduct);
 
             await _diveDeepContext.SaveChangesAsync();
         }

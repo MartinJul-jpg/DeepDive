@@ -22,8 +22,9 @@ namespace DiveDeepAPI.Repository
         {
             var cart = await _diveDeepContext.Bookings
                 .Include(p => p.Product_Bookings)
-                .ThenInclude(p => p.Product).
-                SingleOrDefaultAsync(u => u.UserId == UserId && u.Finalized == false);
+                .ThenInclude(p => p.Product)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(u => u.UserId == UserId && u.Finalized == false);
             return cart;
         }
 
@@ -228,9 +229,11 @@ namespace DiveDeepAPI.Repository
 
         }
 
-        public async Task UpdateCartBooking(Booking oldBooking,Booking updateBooking)
+        public async Task UpdateCartBooking(Booking updateBooking)
         {
-            _diveDeepContext.Entry(oldBooking).CurrentValues.SetValues(updateBooking);
+            
+
+            _diveDeepContext.Bookings.Update(updateBooking);
 
             await _diveDeepContext.SaveChangesAsync();
         }

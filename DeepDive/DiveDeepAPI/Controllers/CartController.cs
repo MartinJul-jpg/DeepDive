@@ -125,7 +125,7 @@ namespace DiveDeepAPI.Controllers
             var cart = await _cartRepository.GetCart(updatedCart.UserId!);
             if (cart == null) BadRequest();
 
-            await _cartRepository.UpdateCartBooking(cart!, updatedCart);
+            await _cartRepository.UpdateCartBooking(updatedCart);
             return Ok();
         }
 
@@ -145,7 +145,7 @@ namespace DiveDeepAPI.Controllers
             var oldBooking = confirmedBookings.FirstOrDefault(b => b.BookingId == updatedBooking.BookingId);
             if (oldBooking == null) return BadRequest();
 
-            await _cartRepository.UpdateCartBooking(oldBooking, updatedBooking);
+            await _cartRepository.UpdateCartBooking(updatedBooking);
             return Ok();
         }
 

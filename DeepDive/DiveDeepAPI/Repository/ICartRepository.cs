@@ -18,6 +18,6 @@ namespace DiveDeepAPI.Repository
 
         Task<bool> DeleteBooking(int bookingId);
 
-        Task UpdateCartBooking(Booking oldBooking, Booking updateBooking);
+        Task UpdateCartBooking(Booking updateBooking);
     }
 }
