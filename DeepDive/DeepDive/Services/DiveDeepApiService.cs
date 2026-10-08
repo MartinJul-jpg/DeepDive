@@ -1,9 +1,6 @@
-﻿using Azure;
-using Azure.Core;
-using DeepDive.Models;
-using DeepDive.ReceivedDTO;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Text;
+﻿using Shared.DTOs;
+using Shared.Models;
+using Shared.Services;
 using System.Text.Json;
 
 namespace DeepDive.Services

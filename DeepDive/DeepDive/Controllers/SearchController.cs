@@ -1,8 +1,8 @@
-﻿using DeepDive.Models;
-using DeepDive.Services;
+﻿using DeepDive.Services;
+using DeepDive.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using System.Text.RegularExpressions;
+using Shared.Models;
 
 namespace DeepDive.Controllers
 {

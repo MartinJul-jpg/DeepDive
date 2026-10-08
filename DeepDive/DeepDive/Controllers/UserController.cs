@@ -1,6 +1,7 @@
 ﻿using DeepDive.Models;
 using DeepDive.Services;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Models;
 
 namespace DeepDive.Controllers
 {

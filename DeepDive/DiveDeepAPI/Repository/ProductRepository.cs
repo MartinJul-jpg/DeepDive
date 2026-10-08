@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using DiveDeepAPI.Models;
+using Shared.Models;
 using DiveDeepAPI.Data;
 namespace DiveDeepAPI.Repository
 {

@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="DeepDive/DeepDive.csproj" />
   <Project Path="DiveDeepAPI/DiveDeepAPI.csproj" />
+  <Project Path="Shared/Shared.csproj" Id="c34b9fbd-2ddf-4e5c-a4d5-e03f0535352b" />
 </Solution>

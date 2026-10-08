@@ -1,5 +1,5 @@
-﻿using DeepDive.Data;
-using DeepDive.Models;
+﻿
+using Shared.Models;
 
 namespace DeepDive.Services
 {

@@ -1,10 +1,9 @@
-﻿using DeepDive.Data;
-using DeepDive.Models;
+﻿using Shared.Data;
 using DeepDive.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Shared.Models;
 
 namespace DeepDive.Controllers
 {

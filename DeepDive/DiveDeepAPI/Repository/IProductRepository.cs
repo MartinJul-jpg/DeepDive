@@ -1,4 +1,4 @@
-﻿using DiveDeepAPI.Models;
+﻿using Shared.Models;
 
 namespace DiveDeepAPI.Repository
 {

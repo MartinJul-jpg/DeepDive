@@ -1,9 +1,8 @@
-﻿using DiveDeepAPI.Data;
-using DiveDeepAPI.Models;
+﻿using Shared.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client.NativeInterop;
+using Shared.Models;
 
 namespace DiveDeepAPI.Data
 {

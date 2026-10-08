@@ -1,10 +1,8 @@
-﻿using Azure.Core;
-using DiveDeepAPI.Services;
-using DiveDeepAPI.DTO;
-using DiveDeepAPI.Models;
-using DiveDeepAPI.Repository;
+﻿using DiveDeepAPI.Repository;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq.Expressions;
+using Shared.DTOs;
+using Shared.Models;
+using Shared.Services;
 
 namespace DiveDeepAPI.Controllers
 {
@@ -30,7 +28,7 @@ namespace DiveDeepAPI.Controllers
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetUserCart(string userId)
         {
-            var cart = await _cartRepository.GetCart(userId);
+            Booking cart = await _cartRepository.GetCart(userId);
 
             if (cart == null) return NotFound();
 
@@ -57,7 +55,7 @@ namespace DiveDeepAPI.Controllers
         [HttpGet("Booking/{bookingId}")]
         public async Task<IActionResult> GetBookingById(int bookingId)
         {
-            var bookings = await _cartRepository.GetBookingById(bookingId);
+            Booking bookings = await _cartRepository.GetBookingById(bookingId);
 
             if (bookings == null) return NotFound();
 
@@ -126,7 +124,7 @@ namespace DiveDeepAPI.Controllers
         [HttpPut("{UserId}")]
         public async Task<IActionResult> CartToBooking(string UserId)
         {
-            var cart = await _cartRepository.GetCart(UserId);
+            Booking cart = await _cartRepository.GetCart(UserId);
             if (cart == null) return BadRequest();
             else if (await _cartRepository.FinalizedCart(UserId))
             {
@@ -146,7 +144,7 @@ namespace DiveDeepAPI.Controllers
 
             if (updatedCart.Finalized == true) return BadRequest();
 
-            var cart = await _cartRepository.GetCart(updatedCart.UserId!);
+            Booking cart = await _cartRepository.GetCart(updatedCart.UserId!);
             if (cart == null) BadRequest();
 
             await _cartRepository.UpdateCartBooking(updatedCart);

@@ -1,11 +1,12 @@
-﻿using DeepDive.Data;
-using DeepDive.Filters;
+﻿using DeepDive.Filters;
 using DeepDive.Models;
 using DeepDive.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Shared.Data;
+using Shared.Models;
 
 namespace DeepDive.Controllers
 {

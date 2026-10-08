@@ -1,11 +1,8 @@
-﻿using DiveDeepAPI.DTO;
-using DiveDeepAPI.Models;
+﻿using Shared.DTOs;
+using Shared.Models;
 using DiveDeepAPI.Repository;
-using DiveDeepAPI.Services;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Shared.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
-
 
 namespace DiveDeepAPI.Controllers
 {

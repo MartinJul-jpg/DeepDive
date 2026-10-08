@@ -1,9 +1,11 @@
 
 using DiveDeepAPI.Data;
-using DiveDeepAPI.Services;
 using DiveDeepAPI.Repository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using Scalar.AspNetCore;
+using Shared.Data;
+using Shared.Services;
 
 namespace DiveDeepAPI
 {
@@ -14,8 +16,22 @@ namespace DiveDeepAPI
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowDeepDiveClient", policy =>
+                    policy.WithOrigins("https://localhost:")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
 
             builder.Services.AddControllers();
+
+            builder.Services.AddIdentityCore<IdentityUser>()
+                .AddEntityFrameworkStores<DiveDeepContext>()
+                .AddApiEndpoints();
+
+            builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
+            builder.Services.AddAuthorization();
 
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
@@ -24,17 +40,34 @@ namespace DiveDeepAPI
             builder.Services.AddDbContext<DiveDeepContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("default")));
 
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-
+            builder.Services.AddOpenApi();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.       
+            // Configure the HTTP request pipeline. 
+            if (app.Environment.IsDevelopment())
+            {
+                app.MapOpenApi();
+                app.MapScalarApiReference();
+            }
 
             app.UseHttpsRedirection();
 
-            app.UseAuthentication();
+            app.UseCors("AllowDeepDiveClient");
 
+            app.UseAuthentication();
             app.UseAuthorization();
+            app.MapIdentityApi<ApplicationUser>();
+
+            app.MapGet("/claims", (HttpContext context) =>
+            {
+                var claims = context.User.Claims.Select(c => new
+                {
+                    c.Type,
+                    c.Value
+                });
+                return Results.Ok(claims);
+            }).RequireAuthorization();
 
             app.MapControllers();
 
