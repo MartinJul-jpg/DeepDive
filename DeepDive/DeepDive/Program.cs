@@ -36,9 +36,11 @@ namespace DeepDive
                 client.BaseAddress = new Uri("https://marine-api.open-meteo.com/v1/");
             });
 
+            /*
             builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<DeepDiveContext>();
+                //.AddEntityFrameworkStores<DeepDiveContext>();
+            */    
 
             var app = builder.Build();
 

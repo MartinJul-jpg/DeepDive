@@ -19,7 +19,7 @@ namespace DiveDeepAPI
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowDeepDiveClient", policy =>
-                    policy.WithOrigins("https://localhost:")
+                    policy.WithOrigins("https://localhost:7294")
                         .AllowAnyMethod()
                         .AllowAnyHeader());
             });
@@ -58,16 +58,6 @@ namespace DiveDeepAPI
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapIdentityApi<ApplicationUser>();
-
-            app.MapGet("/claims", (HttpContext context) =>
-            {
-                var claims = context.User.Claims.Select(c => new
-                {
-                    c.Type,
-                    c.Value
-                });
-                return Results.Ok(claims);
-            }).RequireAuthorization();
 
             app.MapControllers();
 
