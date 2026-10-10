@@ -1,10 +1,9 @@
-﻿using Shared.Data;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Shared.Models;
 
-namespace DiveDeepAPI.Data
+namespace Shared.Data
 {
     public class DiveDeepContext : IdentityDbContext<ApplicationUser>
     {

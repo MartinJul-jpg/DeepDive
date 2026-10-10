@@ -1,5 +1,5 @@
 
-using DiveDeepAPI.Data;
+using Shared.Data;
 using DiveDeepAPI.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -37,7 +37,11 @@ namespace DiveDeepAPI
             builder.Services.AddScoped<ICartRepository, CartRepository>();
             builder.Services.AddScoped<IDTO_Service, DTO_Service>();
 
-            builder.Services.AddDbContext<DiveDeepContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("default")));
+            builder.Services.AddDbContext<DiveDeepContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("default"));
+                options.UseSqlServer(builder => builder.MigrationsAssembly("DiveDeepAPI"));
+            });
 
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();

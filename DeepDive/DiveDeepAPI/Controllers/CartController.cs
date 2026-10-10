@@ -16,11 +16,10 @@ namespace DiveDeepAPI.Controllers
 
         private readonly IDTO_Service _DTO_Service;
 
-        public CartController(ICartRepository cartRepository, IDTO_Service DTO_Service, IProductRepository productRepository)
+        public CartController(ICartRepository cartRepository, IDTO_Service DTO_Service)
         {
             _cartRepository = cartRepository;
             _DTO_Service = DTO_Service;
-            _productRepository = productRepository;
         }
 
         // GET localhost:8080/api/Cart/[userId]
@@ -136,49 +135,39 @@ namespace DiveDeepAPI.Controllers
         // PUT localhost:8080/api/Cart/UpdateCart
         // sent booking updates database usercart, returns OK
         [HttpPut("UpdateCart")]
-        public async Task<IActionResult> UpdateCart([FromBody]BookingDTO DTO)
+        public async Task<IActionResult> UpdateCart([FromBody] BookingDTO DTO)
         {
             if (DTO == null) return BadRequest();
 
             Booking updatedCart = _DTO_Service.DTO_ToBooking(DTO);
 
-            if (updatedCart.Finalized == true) return BadRequest();
+            Booking oldCart = await _cartRepository.GetBookingById(DTO.BookingId);
 
-            Booking cart = await _cartRepository.GetCart(updatedCart.UserId!);
-            if (cart == null) BadRequest();
+            if (oldCart == null) return BadRequest();
 
             await _cartRepository.UpdateCartBooking(updatedCart);
             return Ok();
         }
 
         [HttpPut("{ProductId}/{UserId}")]
-        public async Task<IActionResult> AddProductCart(int ProductId, string UserId)
+        public async Task<IActionResult> AddProductCart(int productId, string userId)
         {
-            if (ProductId == null && ProductId <= 0) return BadRequest();
-            if (string.IsNullOrEmpty(UserId)) return BadRequest();
+            if (productId < 1) return BadRequest();
+            if (string.IsNullOrEmpty(userId)) return BadRequest();
 
-            var updateCart = await _cartRepository.GetCart(UserId);
-            if (updateCart == null) return NotFound();
-
-            var productAdd = await _productRepository.GetProductById(ProductId);
-            if (productAdd == null) return NotFound();
+            var updateCart = await _cartRepository.GetCart(userId);
 
             var productBooking = new Product_Booking
             {
-                Product = productAdd,
-                ProductId = productAdd.ProductId,
-                Booking = updateCart,
+                ProductId = productId,
                 BookingId = updateCart.BookingId
             };
 
-            updateCart.Product_Bookings ??= new List<Product_Booking>();
             updateCart.Product_Bookings.Add(productBooking);
 
             await _cartRepository.UpdateCartBooking(updateCart);
             return Ok();
         }
-
-
 
         //Add Authorize here later 
 

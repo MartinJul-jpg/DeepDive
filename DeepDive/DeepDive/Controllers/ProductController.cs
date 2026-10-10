@@ -1,4 +1,5 @@
 ﻿using DeepDive.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Data;
@@ -28,7 +29,7 @@ namespace DeepDive.Controllers
             return View(product);
         }
 
-        //[Authorize(Roles = "User")]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> AddTocart(int id, int amount)
         {
             for (int i = 0; i < amount; i++)

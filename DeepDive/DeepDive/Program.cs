@@ -1,5 +1,6 @@
 using DeepDive.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Shared.Data;
 using Shared.Services;
 
@@ -36,11 +37,14 @@ namespace DeepDive
                 client.BaseAddress = new Uri("https://marine-api.open-meteo.com/v1/");
             });
 
-            /*
+            builder.Services.AddDbContext<DiveDeepContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("default"));
+            });
+
             builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
-                //.AddEntityFrameworkStores<DeepDiveContext>();
-            */    
+                .AddEntityFrameworkStores<DiveDeepContext>();
 
             var app = builder.Build();
 

@@ -1,4 +1,4 @@
-﻿using DiveDeepAPI.Data;
+﻿using Shared.Data;
 using Microsoft.EntityFrameworkCore;
 using Shared.Models;
 

@@ -2,12 +2,12 @@
 using DeepDive.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Shared.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DeepDive.Controllers
 {
-    //[Authorize]
+    [Authorize(Roles = "User")]
     public class CartController : Controller
     {
         public string _userId
@@ -90,9 +90,11 @@ namespace DeepDive.Controllers
                         currentCart.Product_Bookings.Add(newProductBooking);
                     }
                 }
+
+                cart = currentCart;
             }
 
-            await _diveDeepApiService.UpdateCartDatesAsync(cart);
+            await _diveDeepApiService.UpdateCartAsync(cart);
 
             ModelState.Clear();
 

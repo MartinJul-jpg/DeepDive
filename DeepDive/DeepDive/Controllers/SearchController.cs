@@ -1,7 +1,6 @@
 ﻿using DeepDive.Services;
 using DeepDive.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using Shared.Models;
 
 namespace DeepDive.Controllers
@@ -20,7 +19,7 @@ namespace DeepDive.Controllers
         {
             List<Package> packages;
             List<Product> products;
-            if (!searchQuery.IsNullOrEmpty())
+            if (!string.IsNullOrEmpty(searchQuery))
             {
                 string[] queryWords = searchQuery.ToLower().Split(" ");
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shared.Models;
-using DiveDeepAPI.Data;
+using Shared.Data;
 namespace DiveDeepAPI.Repository
 {
     public class ProductRepository : IProductRepository

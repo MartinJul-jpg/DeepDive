@@ -7,6 +7,8 @@ namespace DeepDive.Services
     {
         Task<List<Booking>>GetAllBookingsAsync();
 
+        Task<List<Booking>> GetAllUserBookingsAsync(string userId);
+
         Task<Booking> GetBookingByIdAsync(int bookingid);
 
         Task DeleteBookingAsync(int bookingid);
@@ -29,9 +31,9 @@ namespace DeepDive.Services
 
         Task<Package> GetPackageByIdAsync(int packageid);
 
-        Task<Booking> GetCartByUserAsync(string userid);
+        Task UpdateCartAsync(Booking cart);
 
-        Task UpdateCartDatesAsync(Booking cart);
+        Task<Booking> GetCartByUserAsync(string userid);
 
         Task<bool> ValidateBookingAsync(string userid);
 
