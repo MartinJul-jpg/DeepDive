@@ -23,25 +23,6 @@ namespace DiveDeepAPI.Repository
                 .AsNoTracking()
                 .SingleOrDefaultAsync(u => u.UserId == UserId && u.Finalized == false);
 
-            //new stuff
-            if (cart == null)
-            {
-                Booking newCart = new Booking() { 
-                    UserId = UserId, 
-                    Finalized = false,
-                    Start = DateOnly.FromDateTime(DateTime.Now),
-                    End = DateOnly.FromDateTime(DateTime.Now.AddDays(1))
-                };
-
-                await AddNewCartAsync(newCart);
-
-                cart = await _diveDeepContext.Bookings
-                .Include(p => p.Product_Bookings)
-                .ThenInclude(p => p.Product)
-                .AsNoTracking()
-                .SingleOrDefaultAsync(u => u.UserId == UserId && u.Finalized == false);
-            }
-
             return cart;
         }
 

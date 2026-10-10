@@ -10,7 +10,7 @@ namespace DeepDive.Controllers
     [Authorize(Roles = "User")]
     public class CartController : Controller
     {
-        public string _userId
+        private string _userId
         {
             get { return _userManager.GetUserId(this.User); }
         }
@@ -26,6 +26,8 @@ namespace DeepDive.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            await _diveDeepApiService.CreateCartAsync(_userId);
+
             Booking cart = await _diveDeepApiService.GetCartByUserAsync(_userId);
 
             if (await _diveDeepApiService.GetCartByUserAsync(_userId) != null && cart.Product_Bookings.Count > 0)

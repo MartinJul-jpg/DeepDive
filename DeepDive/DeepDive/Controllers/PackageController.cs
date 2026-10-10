@@ -9,6 +9,11 @@ namespace DeepDive.Controllers
 {
     public class PackageController : Controller
     {
+        private string _userId
+        {
+            get { return _userManager.GetUserId(this.User); }
+        }
+
         private readonly IDiveDeepApiService _diveDeepApiService;
         private readonly UserManager<ApplicationUser> _userManager;
 
@@ -32,6 +37,8 @@ namespace DeepDive.Controllers
         [Authorize(Roles = "User")]
         public async Task<IActionResult> AddPackageTocart(int id, int amount)
         {
+            await _diveDeepApiService.CreateCartAsync(_userId);
+
             for (int i = 0; i < amount; i++)
             {
                 Package package = await _diveDeepApiService.GetPackageByIdAsync(id);

@@ -1,5 +1,6 @@
 ﻿using DiveDeepAPI.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Shared.DTOs;
 using Shared.Models;
 using Shared.Services;
@@ -116,6 +117,34 @@ namespace DiveDeepAPI.Controllers
                 ProductsDTOs = b.Product_Bookings?.Select(pb => _DTO_Service.ProductToDTO(pb.Product)).ToList() ?? new List<ProductDTO>()
             });
             return Ok(bookingDTO);
+        }
+
+        [HttpPost("{userId}")]
+        public async Task<IActionResult> CreateCartAsync(string userId)
+        {
+            if (userId.IsNullOrEmpty())
+            {
+                return BadRequest();
+            }
+
+            Booking cart = await _cartRepository.GetCart(userId);
+
+            if (cart != null)
+            {
+                return Ok();
+            }
+
+            Booking newCart = new Booking()
+            {
+                UserId = userId,
+                Finalized = false,
+                Start = DateOnly.FromDateTime(DateTime.Now),
+                End = DateOnly.FromDateTime(DateTime.Now.AddDays(1))
+            };
+
+            await _cartRepository.AddNewCartAsync(newCart);
+
+            return Ok();
         }
 
         // PUT localhost:8080/api/Cart/[UserId]

@@ -33,6 +33,8 @@ namespace DeepDive.Services
 
         Task UpdateCartAsync(Booking cart);
 
+        Task CreateCartAsync(string userId);
+
         Task<Booking> GetCartByUserAsync(string userid);
 
         Task<bool> HasBookingOverlap(string userid);

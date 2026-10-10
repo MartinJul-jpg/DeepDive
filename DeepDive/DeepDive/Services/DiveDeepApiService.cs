@@ -236,6 +236,13 @@ namespace DeepDive.Services
             using var response = await httpClient.SendAsync(request);
         }
 
+        public async Task CreateCartAsync(string userId)
+        {
+            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
+            using var request = new HttpRequestMessage(HttpMethod.Post, $"api/Cart/{userId}");
+            using var response = await httpClient.SendAsync(request);
+        }
+
         private async Task<Package> FillPackageWithProductsAsync(Package package)
         {
             foreach (Package_Product pp in package.Package_Products)
