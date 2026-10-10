@@ -33,7 +33,7 @@ namespace DiveDeepAPI.Repository
                     End = DateOnly.FromDateTime(DateTime.Now.AddDays(1))
                 };
 
-                AddNewCart(newCart);
+                await AddNewCartAsync(newCart);
 
                 cart = await _diveDeepContext.Bookings
                 .Include(p => p.Product_Bookings)
@@ -51,7 +51,7 @@ namespace DiveDeepAPI.Repository
              .Include(p => p.Product_Bookings)
              .ThenInclude(p => p.Product)
              .AsNoTracking()
-             .SingleOrDefaultAsync(u => u.BookingId == bookingId && u.Finalized == true);
+             .SingleOrDefaultAsync(u => u.BookingId == bookingId);
             return booking;
         } 
 
@@ -71,7 +71,7 @@ namespace DiveDeepAPI.Repository
             return bookings;
         }
 
-        public async Task AddNewCart(Booking booking)
+        public async Task AddNewCartAsync(Booking booking)
         {
             await _diveDeepContext.Bookings.AddAsync(booking);
             await _diveDeepContext.SaveChangesAsync();
@@ -91,7 +91,7 @@ namespace DiveDeepAPI.Repository
             await _diveDeepContext.SaveChangesAsync();
             return true;
         }
-        public async Task<bool> ValidateBookingOverlap(string userId)
+        public async Task<bool> HasBookingOverlap(string userId)
         {
             Booking cart = await GetCart(userId);
 
@@ -256,14 +256,25 @@ namespace DiveDeepAPI.Repository
 
         }
 
-        public async Task UpdateCartBooking(Booking updateBooking)
+        public async Task UpdateCartBooking(Booking updateBooking, Booking oldBooking)
         {
-            
+            foreach (Product_Booking pb in oldBooking.Product_Bookings)
+            {
+                Product_Booking pbToBeRemoved = new Product_Booking() { Product_BookingId = pb.Product_BookingId };
+                _diveDeepContext.Product_Bookings.Remove(pbToBeRemoved);
+            }
 
+            //update is retarded, productbookings related to the booking in question on the database is merely added on to with whatever contents there is in the provided booking. hence the remove first. 
             _diveDeepContext.Bookings.Update(updateBooking);
 
             await _diveDeepContext.SaveChangesAsync();
         }
 
+        public async Task UpdateBooking(Booking updateBooking)
+        {
+            _diveDeepContext.Bookings.Update(updateBooking);
+
+            await _diveDeepContext.SaveChangesAsync();
+        }
     }
 }

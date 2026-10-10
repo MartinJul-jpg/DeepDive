@@ -32,7 +32,7 @@ namespace DeepDive.Controllers
             {
                 Booking foundCart = await _diveDeepApiService.GetCartByUserAsync(_userId);
 
-                foundCart.ExceedsStock = await _diveDeepApiService.ValidateBookingAsync(_userId);
+                foundCart.ExceedsStock = await _diveDeepApiService.HasBookingOverlap(_userId);
                 TryValidateModel(foundCart, nameof(Booking));
 
                 Booking cartPrice = await _diveDeepApiService.GetCartByUserAsync(_userId);
@@ -44,8 +44,9 @@ namespace DeepDive.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Index(int? bookingId, int? productId, int? quantity, Booking cart)
+        public async Task<IActionResult> Index(int? bookingId, int? productId, int? quantity, Booking cartFromForm)
         {
+            Booking currentCart = await _diveDeepApiService.GetCartByUserAsync(_userId);
 
             // Handle quantity update for specific product
             if (productId.HasValue && quantity.HasValue && bookingId.HasValue)
@@ -57,10 +58,8 @@ namespace DeepDive.Controllers
                     ProductId = productId.Value,
                     Product = product,
                     BookingId = bookingId.Value,
-                    Booking = cart,
+                    Booking = cartFromForm,
                 };
-
-                Booking currentCart = await _diveDeepApiService.GetCartByUserAsync(_userId);
 
                 // Count how many of this product are in the cart
                 List<Product_Booking> ofSameProduct = new List<Product_Booking>();
@@ -90,17 +89,19 @@ namespace DeepDive.Controllers
                         currentCart.Product_Bookings.Add(newProductBooking);
                     }
                 }
-
-                cart = currentCart;
             }
 
-            await _diveDeepApiService.UpdateCartAsync(cart);
+            currentCart.Start = cartFromForm.Start;
+            currentCart.End = cartFromForm.End;
+
+            await _diveDeepApiService.UpdateCartAsync(currentCart);
 
             ModelState.Clear();
 
+            // might be a redundant call, use currentCart instead, it does make sure the database and inmemory is in sync though
             Booking foundCart = await _diveDeepApiService.GetCartByUserAsync(_userId);
 
-            foundCart.ExceedsStock = await _diveDeepApiService.ValidateBookingAsync(_userId);
+            foundCart.ExceedsStock = await _diveDeepApiService.HasBookingOverlap(_userId);
             TryValidateModel(foundCart, nameof(Booking));
 
             if (foundCart.Product_Bookings.Count <= 0)
@@ -116,7 +117,7 @@ namespace DeepDive.Controllers
         {
             Booking foundCart = await _diveDeepApiService.GetCartByUserAsync(_userId);
 
-            foundCart.ExceedsStock = await _diveDeepApiService.ValidateBookingAsync(_userId);
+            foundCart.ExceedsStock = await _diveDeepApiService.HasBookingOverlap(_userId);
             TryValidateModel(foundCart, nameof(Booking));
 
             if (ModelState.IsValid)

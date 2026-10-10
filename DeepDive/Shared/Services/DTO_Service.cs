@@ -116,7 +116,7 @@ namespace Shared.Services
             DTO.Start = booking.Start;
             DTO.End = booking.End;
 
-            DTO.Products = booking.Product_Bookings?.Select(pb => ProductToDTO(pb.Product)).ToList() ?? new List<ProductDTO>();
+            DTO.ProductsDTOs = booking.Product_Bookings?.Select(pb => ProductToDTO(pb.Product)).ToList() ?? new List<ProductDTO>();
 
             return DTO;
         }
@@ -131,9 +131,9 @@ namespace Shared.Services
             booking.Start = DTO.Start;
             booking.End = DTO.End;
 
-            if (DTO.Products != null)
+            if (DTO.ProductsDTOs != null)
             {
-                booking.Product_Bookings = DTO.Products?
+                booking.Product_Bookings = DTO.ProductsDTOs?
                 .Select(productDTO => new Product_Booking()
                 {
                     ProductId = productDTO.ProductId,

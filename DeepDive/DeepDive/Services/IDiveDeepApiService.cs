@@ -35,7 +35,7 @@ namespace DeepDive.Services
 
         Task<Booking> GetCartByUserAsync(string userid);
 
-        Task<bool> ValidateBookingAsync(string userid);
+        Task<bool> HasBookingOverlap(string userid);
 
         Task AddProductToCartAsync(int productid, string userid);
     }

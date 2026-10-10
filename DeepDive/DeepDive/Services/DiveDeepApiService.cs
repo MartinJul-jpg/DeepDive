@@ -180,7 +180,7 @@ namespace DeepDive.Services
         }
 
         //DONE
-        public async Task<bool> ValidateBookingAsync(string userid)
+        public async Task<bool> HasBookingOverlap(string userid)
         {
             using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
             using var request = new HttpRequestMessage(HttpMethod.Get, $"api/Cart/Validate/{userid}");

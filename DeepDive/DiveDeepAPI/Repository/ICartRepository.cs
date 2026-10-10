@@ -5,20 +5,23 @@ namespace DiveDeepAPI.Repository
     public interface ICartRepository
     {
         Task<Booking?> GetCart(string UserId);
+
         Task<Booking?> GetBookingById(int bookingId);
 
         Task<List<Booking>> GetConfirmedBookings(string UserId);
 
         Task<List<Booking>> GetAllConfirmedBookigns();
 
-        Task AddNewCart(Booking booking);
+        Task AddNewCartAsync(Booking booking);
 
         Task<bool> FinalizedCart(string UserId);
 
-        Task<bool> ValidateBookingOverlap(string userId);
+        Task<bool> HasBookingOverlap(string userId);
 
         Task<bool> DeleteBooking(int bookingId);
 
-        Task UpdateCartBooking(Booking updateBooking);
+        Task UpdateCartBooking(Booking updateBooking, Booking oldBooking);
+
+        Task UpdateBooking(Booking updateBooking);
     }
 }

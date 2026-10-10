@@ -46,7 +46,7 @@ namespace DiveDeepAPI.Controllers
                 End = cart.End,
 
                 //ProductIds = cart.Product_Bookings?.Select(pp => pp.ProductId).ToList() ?? new List<int>(),
-                Products = productDTOs
+                ProductsDTOs = productDTOs
             };
             return Ok(cartDTO);
         }
@@ -66,7 +66,7 @@ namespace DiveDeepAPI.Controllers
                 Start = bookings.Start,
                 End = bookings.End,
 
-                Products = bookings.Product_Bookings?.Select(pb => _DTO_Service.ProductToDTO(pb.Product)).ToList() ?? new List<ProductDTO>()
+                ProductsDTOs = bookings.Product_Bookings?.Select(pb => _DTO_Service.ProductToDTO(pb.Product)).ToList() ?? new List<ProductDTO>()
             };
             return Ok(bookingDTOs);
         }
@@ -89,7 +89,7 @@ namespace DiveDeepAPI.Controllers
                 End = b.End,
 
                 //ProductIds = b.Product_Bookings?.Select(pp => pp.ProductId).ToList() ?? new List<int>(),
-                Products = b.Product_Bookings?.Select(pb => _DTO_Service.ProductToDTO(pb.Product)).ToList() ?? new List<ProductDTO>()
+                ProductsDTOs = b.Product_Bookings?.Select(pb => _DTO_Service.ProductToDTO(pb.Product)).ToList() ?? new List<ProductDTO>()
             });
             return Ok(bookingDTOs);
         }
@@ -113,7 +113,7 @@ namespace DiveDeepAPI.Controllers
                 End = b.End,
 
                 //ProductIds = b.Product_Bookings?.Select(pp => pp.ProductId).ToList() ?? new List<int>(),
-                Products = b.Product_Bookings?.Select(pb => _DTO_Service.ProductToDTO(pb.Product)).ToList() ?? new List<ProductDTO>()
+                ProductsDTOs = b.Product_Bookings?.Select(pb => _DTO_Service.ProductToDTO(pb.Product)).ToList() ?? new List<ProductDTO>()
             });
             return Ok(bookingDTO);
         }
@@ -145,7 +145,7 @@ namespace DiveDeepAPI.Controllers
 
             if (oldCart == null) return BadRequest();
 
-            await _cartRepository.UpdateCartBooking(updatedCart);
+            await _cartRepository.UpdateCartBooking(updatedCart, oldCart);
             return Ok();
         }
 
@@ -155,17 +155,25 @@ namespace DiveDeepAPI.Controllers
             if (productId < 1) return BadRequest();
             if (string.IsNullOrEmpty(userId)) return BadRequest();
 
-            var updateCart = await _cartRepository.GetCart(userId);
+            Booking updatedCart = await _cartRepository.GetCart(userId);
 
-            var productBooking = new Product_Booking
+            foreach (Product_Booking pb in updatedCart.Product_Bookings)
+            {
+                pb.Product = null;
+                pb.Booking = null;
+            }
+
+            Booking oldCart = new Booking() { Product_Bookings = new List<Product_Booking>(updatedCart.Product_Bookings) };
+
+            Product_Booking productBooking = new Product_Booking
             {
                 ProductId = productId,
-                BookingId = updateCart.BookingId
+                BookingId = updatedCart.BookingId
             };
 
-            updateCart.Product_Bookings.Add(productBooking);
+            updatedCart.Product_Bookings.Add(productBooking);
 
-            await _cartRepository.UpdateCartBooking(updateCart);
+            await _cartRepository.UpdateCartBooking(updatedCart, oldCart);
             return Ok();
         }
 
@@ -186,7 +194,7 @@ namespace DiveDeepAPI.Controllers
 
             updatedBooking.Finalized = true;
 
-            await _cartRepository.UpdateCartBooking(updatedBooking);
+            await _cartRepository.UpdateBooking(updatedBooking);
             return Ok();
         }
 
@@ -208,13 +216,13 @@ namespace DiveDeepAPI.Controllers
         [HttpGet("Validate/{UserId}")]
         public async Task<IActionResult> ValidateUserCart(string userId)
         {
-            if (await _cartRepository.ValidateBookingOverlap(userId))
+            if (await _cartRepository.HasBookingOverlap(userId))
             {
-                return BadRequest();
+                return Ok();
             }
             else
             {
-                return Ok();
+                return Conflict();
             }
         }
     }
