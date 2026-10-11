@@ -1,8 +1,9 @@
-﻿using Shared.DTOs;
-using Shared.Models;
-using DiveDeepAPI.Repository;
-using Shared.Services;
+﻿using DiveDeepAPI.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Shared.DTOs;
+using Shared.Models;
+using Shared.Services;
 
 namespace DiveDeepAPI.Controllers
 {
@@ -111,7 +112,14 @@ namespace DiveDeepAPI.Controllers
                 
                 if (product == null) return BadRequest();
 
-                await _productRepository.UpdateProduct(product);
+                try
+                {
+                    await _productRepository.UpdateProduct(product);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return Conflict();
+                }
             }
 
             return Ok();

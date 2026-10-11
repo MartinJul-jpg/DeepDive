@@ -1,4 +1,5 @@
-﻿using Shared.DTOs;
+﻿using Microsoft.EntityFrameworkCore;
+using Shared.DTOs;
 using Shared.Models;
 using Shared.Services;
 using System.Text.Json;
@@ -163,6 +164,11 @@ namespace DeepDive.Services
                 "application/json");
 
             using var response = await httpClient.SendAsync(request);
+
+            if ((int)response.StatusCode == 409)
+            {
+                throw new DbUpdateConcurrencyException();
+            }
         }
 
         //DONE
@@ -177,6 +183,11 @@ namespace DeepDive.Services
                 "application/json");
 
             using var response = await httpClient.SendAsync(request);
+
+            if ((int)response.StatusCode == 409)
+            {
+                throw new DbUpdateConcurrencyException();
+            }
         }
 
         //DONE

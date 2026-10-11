@@ -1,5 +1,6 @@
 ﻿using DiveDeepAPI.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Shared.DTOs;
 using Shared.Models;
@@ -223,7 +224,15 @@ namespace DiveDeepAPI.Controllers
 
             updatedBooking.Finalized = true;
 
-            await _cartRepository.UpdateBooking(updatedBooking);
+            try
+            {
+                await _cartRepository.UpdateBooking(updatedBooking);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return Conflict();
+            }
+
             return Ok();
         }
 
