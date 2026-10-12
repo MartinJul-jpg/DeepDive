@@ -1,4 +1,5 @@
 using DeepDive.Services;
+using DeepDive.Services.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Shared.Data;
@@ -13,12 +14,18 @@ namespace DeepDive
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddSingleton<AuthState>();
+
             builder.Services.AddScoped<IDiveDeepApiService, DiveDeepApiService>();
             builder.Services.AddScoped<IDTO_Service, DTO_Service>();
 
             // Weather API
             builder.Services.AddScoped<IWeatherHttpService, WeatherHttpService>();
 
+            builder.Services.AddScoped(sp => new HttpClient(new AuthHeaderHandler(sp.GetRequiredService<AuthState>()) { InnerHandler = new HttpClientHandler() })
+            {
+                BaseAddress = new Uri("https://localhost:7126/")
+            });
 
             builder.Services.AddHttpClient("DeepDiveApi", client => {
                 client.BaseAddress = new Uri("https://localhost:7126/");
