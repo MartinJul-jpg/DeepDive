@@ -1,6 +1,7 @@
 ﻿using Shared.Data;
 using Microsoft.EntityFrameworkCore;
 using Shared.Models;
+using DiveDeepAPI.Data;
 
 namespace DiveDeepAPI.Repository
 {

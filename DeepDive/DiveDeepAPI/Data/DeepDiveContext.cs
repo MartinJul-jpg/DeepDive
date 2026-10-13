@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Shared.Models;
+using Shared.Data;
 
-namespace Shared.Data
+namespace DiveDeepAPI.Data
 {
     public class DiveDeepContext : IdentityDbContext<ApplicationUser>
     {

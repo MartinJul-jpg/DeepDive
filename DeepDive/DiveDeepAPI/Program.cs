@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using Shared.Services;
 using System.Security.Claims;
+using DiveDeepAPI.Data;
 
 namespace DiveDeepAPI
 {
@@ -41,7 +42,8 @@ namespace DiveDeepAPI
             builder.Services.AddDbContext<DiveDeepContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("default"));
-                options.UseSqlServer(builder => builder.MigrationsAssembly("DiveDeepAPI"));
+                //was needed when divedeepcontext temporarily lived in shared
+                //options.UseSqlServer(builder => builder.MigrationsAssembly("DiveDeepAPI"));
             });
 
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
