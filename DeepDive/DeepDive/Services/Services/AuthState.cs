@@ -21,13 +21,7 @@ namespace DeepDive.Services.Services
         public string? AccessToken { get { return Session?.GetString(AccessTokenKey); } }
         public string? Email { get { return Session?.GetString(EmailKey); } }
         public string? UserId { get { return Session?.GetString(UserIdKey); } }
-        public List<string>? Roles 
-        { 
-            get 
-            {
-                return Session?.GetString(RolesKey)?.Split(',').ToList();
-            } 
-        }
+        public List<string>? Roles { get { return Session?.GetString(RolesKey)?.Split(',').ToList(); } }
         public bool IsLoggedIn { get { return !string.IsNullOrWhiteSpace(AccessToken); } }
 
         public void SignIn(string email, string accessToken)
