@@ -1,4 +1,4 @@
-﻿namespace DeepDive.Services.Services
+﻿namespace DeepDive.Services.AuthServices
 {
     // Fejlsvaret (ValidationProblem) fra Identity API'ets /register endpoint.
     public class IdentityProblemResponse

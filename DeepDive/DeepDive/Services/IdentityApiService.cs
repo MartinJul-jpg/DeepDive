@@ -1,4 +1,4 @@
-﻿using DeepDive.Services.Services;
+﻿using DeepDive.Services.AuthServices;
 using DeepDive.ViewModels;
 
 namespace DeepDive.Services

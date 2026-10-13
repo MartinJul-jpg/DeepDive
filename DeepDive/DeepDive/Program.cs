@@ -1,5 +1,5 @@
 using DeepDive.Services;
-using DeepDive.Services.Services;
+using DeepDive.Services.AuthServices;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Shared.Data;
@@ -14,7 +14,7 @@ namespace DeepDive
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllersWithViews();
 
-            //new stuff
+            //new stuff, keeps track of current session
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession(options =>
             {

@@ -1,4 +1,4 @@
-﻿namespace DeepDive.Services.Services
+﻿namespace DeepDive.Services.AuthServices
 {
     public class CurrentUserResponse
     {

@@ -1,4 +1,4 @@
-﻿namespace DeepDive.Services.Services
+﻿namespace DeepDive.Services.AuthServices
 {
     // Svaret fra Identity API'ets /login endpoint.
     public class AccessTokenResponse

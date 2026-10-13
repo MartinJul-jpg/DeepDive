@@ -1,6 +1,6 @@
 ﻿using System.Net.Http.Headers;
 
-namespace DeepDive.Services.Services
+namespace DeepDive.Services.AuthServices
 {
     // Sætter "Authorization: Bearer <token>" på alle kald, når brugeren er logget ind.
     public class AuthHeaderHandler : DelegatingHandler
