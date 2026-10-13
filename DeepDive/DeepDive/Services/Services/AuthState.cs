@@ -1,10 +1,13 @@
-﻿namespace DeepDive.Services.Services
+﻿using Microsoft.IdentityModel.Tokens;
+
+namespace DeepDive.Services.Services
 {
     public class AuthState
     {
         private const string AccessTokenKey = "Auth.AccessToken";
         private const string EmailKey = "Auth.Email";
         private const string UserIdKey = "Auth.UserId";
+        private const string RolesKey = "Auth.Roles";
 
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -18,6 +21,13 @@
         public string? AccessToken { get { return Session?.GetString(AccessTokenKey); } }
         public string? Email { get { return Session?.GetString(EmailKey); } }
         public string? UserId { get { return Session?.GetString(UserIdKey); } }
+        public List<string>? Roles 
+        { 
+            get 
+            {
+                return Session?.GetString(RolesKey)?.Split(',').ToList();
+            } 
+        }
         public bool IsLoggedIn { get { return !string.IsNullOrWhiteSpace(AccessToken); } }
 
         public void SignIn(string email, string accessToken)
@@ -33,7 +43,7 @@
             session.SetString(AccessTokenKey, accessToken);
         }
 
-        public void AddUserIdToSession(string userId)
+        public void AddUserInfoToState(string userId, List<string> roles)
         {
             ISession? session = Session;
 
@@ -43,6 +53,16 @@
             }
 
             session.SetString(UserIdKey, userId);
+            if (roles.IsNullOrEmpty())
+            {
+                session.SetString(RolesKey, string.Empty);
+            }
+            else
+            {
+                string roless = string.Join(',', roles);
+
+                session.SetString(RolesKey, roless);
+            }
         }
 
         public void SignOut()
@@ -54,6 +74,7 @@
                 session.Remove(EmailKey);
                 session.Remove(AccessTokenKey);
                 session.Remove(UserIdKey);
+                session.Remove(RolesKey);
             }
         }
     }

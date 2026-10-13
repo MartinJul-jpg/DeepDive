@@ -27,6 +27,7 @@ namespace DiveDeepAPI
             builder.Services.AddControllers();
 
             builder.Services.AddIdentityCore<ApplicationUser>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<DiveDeepContext>()
                 .AddApiEndpoints();
 
@@ -62,14 +63,27 @@ namespace DiveDeepAPI
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapIdentityApi<ApplicationUser>();
-            app.MapGet("/account/me", (ClaimsPrincipal principal) =>
+            app.MapGet("/account/me", async (ClaimsPrincipal principal, UserManager<ApplicationUser> userManager) =>
             {
-                string? userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                ApplicationUser? applicationUser = await userManager.GetUserAsync(principal);
 
-                return Results.Ok(new
+                string[] roles = Array.Empty<string>();
+                if (applicationUser != null)
                 {
-                    UserId = userId
-                });
+                    string? userId = await userManager.GetUserIdAsync(applicationUser);
+                    IList<string> assignedRoles = await userManager.GetRolesAsync(applicationUser);
+                    roles = assignedRoles.ToArray();
+
+                    return Results.Ok(new
+                    {
+                        UserId = userId,
+                        Roles = roles
+                    });
+                }
+                else
+                {
+                    return Results.NotFound();
+                }
             }).RequireAuthorization();
 
             app.MapControllers();

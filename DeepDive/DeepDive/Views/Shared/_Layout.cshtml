@@ -33,10 +33,14 @@
                 <p>@($"Hello! {AuthState.Email}")</p>
             }
 
-            @*bare så jeg kan se om den er hentet ordenligt during development*@
+            @*bare så jeg kan se om userInfo er hentet ordenligt during development*@
             @if (AuthState.UserId != null)
             {
-                <p>@($"Hello! {AuthState.UserId}")</p>
+                <p>@($"UserId: {AuthState.UserId}")</p>
+            }
+            @if (AuthState.Roles != null)
+            {
+                <p>@($"Roles: {string.Join(',', AuthState.Roles)}")</p>
             }
 
             <form id="searchForm" asp-controller="Search" asp-action="Show" method="post">

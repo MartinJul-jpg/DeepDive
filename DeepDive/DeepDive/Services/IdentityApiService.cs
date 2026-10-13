@@ -48,7 +48,7 @@ namespace DeepDive.Services
                     }
 
                     _authState.SignIn(_loginModel.Email, token.AccessToken);
-                    await GetUserId();
+                    await GetUserInfo();
                     //NavManager.NavigateTo("/golden");
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
@@ -142,7 +142,7 @@ namespace DeepDive.Services
             }
         }
 
-        private async Task GetUserId()
+        private async Task GetUserInfo()
         {
             try
             {
@@ -154,7 +154,7 @@ namespace DeepDive.Services
 
                     if (currentUserResponse != null)
                     {
-                        _authState.AddUserIdToSession(currentUserResponse.UserId);
+                        _authState.AddUserInfoToState(currentUserResponse.UserId, currentUserResponse.Roles);
 
                         return;
                     }
