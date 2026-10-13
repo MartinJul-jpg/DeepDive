@@ -1,25 +1,36 @@
 ﻿using DeepDive.Models;
-using DeepDive.Repository;
+using DeepDive.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Data;
+using Shared.Models;
+using System.Security.Claims;
 
 namespace DeepDive.Controllers
 {
+    [Authorize(Roles = "User")]
     public class UserController : Controller
     {
-        private CartRepository _cartRepository;
-
-        public UserController(CartRepository cartRepository)
+        private string _userId
         {
-            _cartRepository = cartRepository;
+            get { return User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException(); }
+        }
+
+        private readonly IDiveDeepApiService _diveDeepApiService;
+
+        public UserController(IDiveDeepApiService diveDeepApiService)
+        {
+            _diveDeepApiService = diveDeepApiService;
         }
 
         public IActionResult Index()
         {
             return View();
         }
-        public IActionResult ConfirmedBookings()
+        public async Task<IActionResult> ConfirmedBookings()
         {
-            List<Booking> bookings = _cartRepository.GetAllBookings();
+            List<Booking> bookings = await _diveDeepApiService.GetAllUserBookingsAsync(_userId);
             return View(bookings);
         }
 

@@ -1,64 +1,62 @@
-﻿using DeepDive.Data;
-using DeepDive.Models;
-using DeepDive.Repository;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using DeepDive.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Shared.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace DeepDive.Controllers
 {
     [Authorize(Roles = "User")]
     public class CartController : Controller
     {
-        public string _userId
+        private string _userId
         {
-            get { return _userManager.GetUserId(this.User); }
+            get { return User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException(); }
         }
 
-        private CartRepository _cartRepository;
-        private ProductRepository _productRepository;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private IDiveDeepApiService _diveDeepApiService;
 
-        public CartController(CartRepository cartRepository, ProductRepository productRepository, UserManager<ApplicationUser> userManager)
+        public CartController(IDiveDeepApiService diveDeepApiService)
         {
-            _cartRepository = cartRepository;
-            _productRepository = productRepository;
-            _userManager = userManager;
+            _diveDeepApiService = diveDeepApiService;
         }
+
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            if (_cartRepository.GetCart(_userId) != null && _cartRepository.GetCart(_userId).Product_Bookings.Count > 0)
+            await _diveDeepApiService.CreateCartAsync(_userId);
+
+            Booking foundCart = await _diveDeepApiService.GetCartByUserAsync(_userId);
+
+            if (foundCart != null && foundCart.Product_Bookings.Count > 0)
             {
-                _cartRepository.ValidateBookingOverlap(_cartRepository.GetCart(_userId), _userId);
-                TryValidateModel(_cartRepository.GetCart(_userId), nameof(Booking));
+                foundCart.ExceedsStock = await _diveDeepApiService.HasBookingOverlap(_userId);
+                TryValidateModel(foundCart, nameof(Booking));
 
-                _cartRepository.GetCart(_userId).CalculatePriceOfBooking();
+                foundCart.CalculatePriceOfBooking();
 
-                return View(_cartRepository.GetCart(_userId));
+                return View(foundCart);
             }
 
             return View();
         }
 
-        public IActionResult Index(int? bookingId, int? productId, int? quantity, Booking cart)
+        public async Task<IActionResult> Index(int? bookingId, int? productId, int? quantity, Booking cartFromForm)
         {
+            Booking currentCart = await _diveDeepApiService.GetCartByUserAsync(_userId);
 
             // Handle quantity update for specific product
             if (productId.HasValue && quantity.HasValue && bookingId.HasValue)
             {
                 // Get info for new Product_Booking
-                Product? product = _productRepository.GetProductById(productId.Value);
+                Product? product = await _diveDeepApiService.GetProductByIdAsync(productId.Value);
                 Product_Booking newProductBooking = new Product_Booking
                 {
                     ProductId = productId.Value,
                     Product = product,
                     BookingId = bookingId.Value,
-                    Booking = cart,
+                    Booking = cartFromForm,
                 };
-
-                Booking currentCart = _cartRepository.GetCart(_userId);
 
                 // Count how many of this product are in the cart
                 List<Product_Booking> ofSameProduct = new List<Product_Booking>();
@@ -88,35 +86,42 @@ namespace DeepDive.Controllers
                         currentCart.Product_Bookings.Add(newProductBooking);
                     }
                 }
-
-                _cartRepository.UpdateCartProducts(currentCart, _userId);
             }
 
-            _cartRepository.UpdateCartDates(cart, _userId);
+            currentCart.Start = cartFromForm.Start;
+            currentCart.End = cartFromForm.End;
+
+            await _diveDeepApiService.UpdateCartAsync(currentCart);
 
             ModelState.Clear();
-            _cartRepository.ValidateBookingOverlap(_cartRepository.GetCart(_userId), _userId);
-            TryValidateModel(_cartRepository.GetCart(_userId), nameof(Booking));
 
-            // If the cart is empty, return empty view
-            if (_cartRepository.GetCart(_userId).Product_Bookings.Count <= 0)
+            // might be a redundant call, use currentCart instead, it does make sure the database and inmemory is in sync though
+            Booking foundCart = await _diveDeepApiService.GetCartByUserAsync(_userId);
+
+            foundCart.ExceedsStock = await _diveDeepApiService.HasBookingOverlap(_userId);
+            TryValidateModel(foundCart, nameof(Booking));
+
+            if (foundCart.Product_Bookings.Count <= 0)
             {
                 return View();
             }
 
-            return View(_cartRepository.GetCart(_userId));
+            foundCart.CalculatePriceOfBooking();
+
+            return View(foundCart);
         }
 
         [HttpPost]
-        public IActionResult Add(Booking cart)
+        public async Task<IActionResult> Add(Booking cart)
         {
-            _cartRepository.ValidateBookingOverlap(_cartRepository.GetCart(_userId), _userId);
-            TryValidateModel(_cartRepository.GetCart(_userId), nameof(Booking));
+            Booking foundCart = await _diveDeepApiService.GetCartByUserAsync(_userId);
+
+            foundCart.ExceedsStock = await _diveDeepApiService.HasBookingOverlap(_userId);
+            TryValidateModel(foundCart, nameof(Booking));
 
             if (ModelState.IsValid)
             {
-                _cartRepository.AddBooking(_cartRepository.GetCart(_userId));
-                _cartRepository.ClearCart(_userId);
+                await _diveDeepApiService.FinalizeBookingAsync(_userId);
 
                 return RedirectToAction("Index", "Home");
             }

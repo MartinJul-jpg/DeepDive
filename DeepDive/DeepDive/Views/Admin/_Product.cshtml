@@ -41,12 +41,12 @@
 
             // comment2: disabled form controls are not submitted, the more you know
             <select disabled id="productTypeSelector" class="form-select">
-                <option value="BCD" selected="@(Model is DeepDive.Models.BCD ? "selected" : null)">BCD</option>
-                <option value="DivingSuit" selected="@(Model is DeepDive.Models.DivingSuit ? "selected" : null)">DivingSuit</option>
-                <option value="Fin" selected="@(Model is DeepDive.Models.Fin ? "selected" : null)">Fin</option>
-                <option value="RegulatorSet" selected="@(Model is DeepDive.Models.RegulatorSet ? "selected" : null)">RegulatorSet</option>
-                <option value="Snorkel" selected="@(Model is DeepDive.Models.Snorkel ? "selected" : null)">Snorkel</option>
-                <option value="Tank" selected="@(Model is DeepDive.Models.Tank ? "selected" : null)">Tank</option>
+                <option value="BCD" selected="@(Model is Shared.Models.BCD ? "selected" : null)">BCD</option>
+                <option value="DivingSuit" selected="@(Model is Shared.Models.DivingSuit ? "selected" : null)">DivingSuit</option>
+                <option value="Fin" selected="@(Model is Shared.Models.Fin ? "selected" : null)">Fin</option>
+                <option value="RegulatorSet" selected="@(Model is Shared.Models.RegulatorSet ? "selected" : null)">RegulatorSet</option>
+                <option value="Snorkel" selected="@(Model is Shared.Models.Snorkel ? "selected" : null)">Snorkel</option>
+                <option value="Tank" selected="@(Model is Shared.Models.Tank ? "selected" : null)">Tank</option>
             </select>
             
             // comment3: fix for comment2, add hidden field for the value which will be posted

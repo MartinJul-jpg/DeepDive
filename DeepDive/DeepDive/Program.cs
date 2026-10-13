@@ -1,8 +1,7 @@
-using DeepDive.Data;
-using DeepDive.Repository;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using DeepDive.Services;
+using DeepDive.Services.AuthServices;
+using Shared.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace DeepDive
 {
@@ -13,11 +12,45 @@ namespace DeepDive
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddScoped<CartRepository>();
-            builder.Services.AddScoped<ProductRepository>();
+            //new stuff, keeps track of current session
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            });
+
+            builder.Services.AddHttpContextAccessor();
+            //end of new stuff
+
+            //more new stuff, authentication via [Authorize] is kinda ass without an assigned authentication service? 
+            builder.Services
+                .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
+            //end of new stuff
+
+            builder.Services.AddScoped<AuthState>();
+
+            builder.Services.AddScoped<IIdentityApiService, IdentityApiService>();
+            builder.Services.AddScoped<IDiveDeepApiService, DiveDeepApiService>();
+            builder.Services.AddScoped<IDTO_Service, DTO_Service>();
 
             // Weather API
             builder.Services.AddScoped<IWeatherHttpService, WeatherHttpService>();
+
+            //whatever httpclient you make out of this includes sessions accesstoken
+            builder.Services.AddScoped(sp => new HttpClient(new AuthHeaderHandler(sp.GetRequiredService<AuthState>()) { InnerHandler = new HttpClientHandler() })
+            {
+                BaseAddress = new Uri("https://localhost:7126/")
+            });
+
+            //httpclient factory setup
+            builder.Services.AddHttpClient("DeepDiveApi", client => {
+                client.BaseAddress = new Uri("https://localhost:7126/");
+            });
+
             builder.Services.AddHttpClient("GeolocateClient", client =>
             {
                 client.BaseAddress = new Uri("https://geocoding-api.open-meteo.com/v1/");
@@ -31,25 +64,23 @@ namespace DeepDive
                 client.BaseAddress = new Uri("https://marine-api.open-meteo.com/v1/");
             });
 
-            builder.Services.AddDbContext<DeepDiveContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("default")));
-
-            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<DeepDiveContext>();
             var app = builder.Build();
 
             app.UseStaticFiles();
             app.UseRouting();
+
+            //new stuff
+            app.UseSession();
+            //end of new stuff
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.MapControllerRoute
             (
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}"
             );
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.MapRazorPages();
 
             app.Run();
         }

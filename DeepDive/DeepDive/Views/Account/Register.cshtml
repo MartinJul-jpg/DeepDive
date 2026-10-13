@@ -1,0 +1,65 @@
+﻿@model AccountViewModel;
+
+<section class="auth-section container py-5">
+    <div class="auth-card mx-auto shadow-sm">
+        <div class="text-center mb-4">
+            <img src="/vv_logo.png" alt="Vinyl Vault logo" class="auth-logo mb-3" />
+            <h2 class="display-6 fw-bold mb-1">Opret konto</h2>
+            <p class="text-secondary mb-0">Kom i gang med at bygge din vinylsamling.</p>
+        </div>
+
+        <form asp-controller="Account" asp-action="Register" method="post">
+
+            <div class="mb-3">
+                <label asp-for="RegisterModel.Email" class="form-label">E-mail</label>
+                <input asp-for="RegisterModel.Email" type="email" class="form-control" placeholder="navn@eksempel.dk" />
+                <span asp-validation-for="RegisterModel.Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="RegisterModel.Password" class="form-label">Adgangskode</label>
+                <input asp-for="RegisterModel.Password" type="password" class="form-control" />
+                <span asp-validation-for="RegisterModel.Password" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="RegisterModel.ConfirmPassword" class="form-label">Gentag adgangskode</label>
+                <input asp-for="RegisterModel.ConfirmPassword" type="password" class="form-control" />
+                <span asp-validation-for="RegisterModel.ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn vv-primary btn-lg w-100 mt-2 shadow" disabled="@Model.IdentityApiService.IsBusy">
+                @if (Model.IdentityApiService.IsBusy)
+                {
+                    <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                }
+                Opret konto
+            </button>
+
+            @if (Model.IdentityApiService.SuccessMessage is not null)
+            {
+                <div class="alert alert-success mt-4 mb-0">@Model.IdentityApiService.SuccessMessage</div>
+            }
+
+            @if (Model.IdentityApiService.ErrorMessage is not null)
+            {
+                <div class="alert alert-danger mt-4 mb-0">
+                    @Model.IdentityApiService.ErrorMessage
+                    @if (Model.IdentityApiService.ApiErrors.Count > 0)
+                    {
+                        <ul class="mb-0 mt-2">
+                            @foreach (var error in Model.IdentityApiService.ApiErrors)
+                            {
+                                <li>@error</li>
+                            }
+                        </ul>
+                    }
+                </div>
+            }
+        </form>
+
+        <p class="text-center text-secondary mt-4 mb-0">
+            Har du allerede en konto? <NavLink href="login">Log ind her</NavLink>
+        </p>
+    </div>
+</section>

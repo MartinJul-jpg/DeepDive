@@ -1,42 +1,47 @@
-﻿using DeepDive.Data;
-using DeepDive.Models;
-using DeepDive.Repository;
+﻿using DeepDive.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Data;
+using Shared.Models;
+using System.Security.Claims;
 
 namespace DeepDive.Controllers
 {
     public class ProductController : Controller
     {
-        private CartRepository _cartRepository;
-        private ProductRepository _productRepository;
-        private readonly UserManager<ApplicationUser> _userManager;
-
-        public ProductController(CartRepository cartRepository, ProductRepository productRepository, UserManager<ApplicationUser> userManager)
+        private string _userId
         {
-            _cartRepository = cartRepository;
-            _productRepository = productRepository;
-            _userManager = userManager;
+            get { return User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException(); }
         }
+
+        private readonly IDiveDeepApiService _diveDeepApiService;
+
+        public ProductController(IDiveDeepApiService diveDeepApiService)
+        {
+            _diveDeepApiService = diveDeepApiService;
+        }
+
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Show(int id)
+        public async Task<IActionResult> Show(int id)
         {
-            Product product = _productRepository.GetProductById(id);
+            Product product = await _diveDeepApiService.GetProductByIdAsync(id);
 
             return View(product);
         }
 
         [Authorize(Roles = "User")]
-        public IActionResult AddTocart(int id, int amount)
+        public async Task<IActionResult> AddTocart(int id, int amount)
         {
+            await _diveDeepApiService.CreateCartAsync(_userId);
+
             for (int i = 0; i < amount; i++)
             {
-                _cartRepository.AddProductToCart(id, _userManager.GetUserId(this.User));
+                await _diveDeepApiService.AddProductToCartAsync(id, _userId);
             }
             return RedirectToAction("Index", "cart");
         }
