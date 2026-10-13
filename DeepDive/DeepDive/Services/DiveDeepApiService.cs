@@ -3,16 +3,19 @@ using Shared.DTOs;
 using Shared.Models;
 using Shared.Services;
 using System.Text.Json;
+using static System.Net.WebRequestMethods;
 
 namespace DeepDive.Services
 {
     public class DiveDeepApiService : IDiveDeepApiService
     {
+        private readonly HttpClient _http;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IDTO_Service _DTO_Service;
 
-        public DiveDeepApiService(IHttpClientFactory httpClientFactory, IDTO_Service DTO_Service)
+        public DiveDeepApiService(HttpClient httpClient, IHttpClientFactory httpClientFactory, IDTO_Service DTO_Service)
         {
+            _http = httpClient;
             _httpClientFactory = httpClientFactory;
             _DTO_Service = DTO_Service;
         }
@@ -28,7 +31,7 @@ namespace DeepDive.Services
         //DONE
         public async Task AddProductAsync(Product product)
         {
-            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
+            using var httpClient = _http;
             var productjson = JsonSerializer.Serialize(_DTO_Service.ProductToDTO(product));
             using var request = new HttpRequestMessage(HttpMethod.Post, $"api/Product");
             request.Content = new StringContent(
@@ -50,7 +53,7 @@ namespace DeepDive.Services
         //DONE
         public async Task DeleteBookingAsync(int bookingid)
         {
-            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
+            using var httpClient = _http;
             using var request = new HttpRequestMessage(HttpMethod.Delete, $"api/Cart/{bookingid}");
             using var response = await httpClient.SendAsync(request);
         }
@@ -58,7 +61,7 @@ namespace DeepDive.Services
         //DONE
         public async Task DeleteProductAsync(int productid)
         {
-            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
+            using var httpClient = _http;
             using var request = new HttpRequestMessage(HttpMethod.Delete, $"api/Product/{productid}");
             using var response = await httpClient.SendAsync(request);
         }
@@ -155,7 +158,7 @@ namespace DeepDive.Services
         //DONE
         public async Task UpdateBookingAsync(Booking booking)
         {
-            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
+            using var httpClient = _http;
             var productjson = JsonSerializer.Serialize(_DTO_Service.BookingToDTO(booking));
             using var request = new HttpRequestMessage(HttpMethod.Put, $"api/Cart/UpdateBooking");
             request.Content = new StringContent(
@@ -174,7 +177,7 @@ namespace DeepDive.Services
         //DONE
         public async Task UpdateProductAsync(Product product)
         {
-            using var httpClient = _httpClientFactory.CreateClient("DeepDiveApi");
+            using var httpClient = _http;
             var productjson = JsonSerializer.Serialize(_DTO_Service.ProductToDTO(product));
             using var request = new HttpRequestMessage(HttpMethod.Put, $"api/Product");
             request.Content = new StringContent(

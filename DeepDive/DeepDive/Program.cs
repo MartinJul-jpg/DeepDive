@@ -1,8 +1,5 @@
 using DeepDive.Services;
 using DeepDive.Services.AuthServices;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Shared.Data;
 using Shared.Services;
 
 namespace DeepDive

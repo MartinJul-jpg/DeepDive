@@ -1,4 +1,5 @@
 ﻿using DiveDeepAPI.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -207,10 +208,9 @@ namespace DiveDeepAPI.Controllers
             return Ok();
         }
 
-        //Add Authorize here later 
-
         // PUT localhost:8080/api/Cart/UpdateBooking
         // sent booking updates database booking, returns OK
+        [Authorize("Admin")]
         [HttpPut("UpdateBooking")]
         public async Task<IActionResult> UpdateBooking([FromBody]BookingDTO DTO)
         {
@@ -236,10 +236,9 @@ namespace DiveDeepAPI.Controllers
             return Ok();
         }
 
-        // Same here
-
         // DELETE localhost:8080/api/Cart/[bookingId]
         // deletes database booking, returns OK
+        [Authorize("Admin")]
         [HttpDelete("{bookingId}")]
         public async Task<IActionResult> DeleteBooking(int bookingId)
         {
