@@ -5,24 +5,23 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Data;
 using Shared.Models;
+using System.Security.Claims;
 
 namespace DeepDive.Controllers
 {
     [Authorize(Roles = "User")]
     public class UserController : Controller
     {
-        public string _userId
+        private string _userId
         {
-            get { return _userManager.GetUserId(this.User); }
+            get { return User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException(); }
         }
 
         private readonly IDiveDeepApiService _diveDeepApiService;
-        private readonly UserManager<ApplicationUser> _userManager;
 
-        public UserController(IDiveDeepApiService diveDeepApiService, UserManager<ApplicationUser> userManager)
+        public UserController(IDiveDeepApiService diveDeepApiService)
         {
             _diveDeepApiService = diveDeepApiService;
-            _userManager = userManager;
         }
 
         public IActionResult Index()

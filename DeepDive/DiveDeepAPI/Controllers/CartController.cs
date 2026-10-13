@@ -210,7 +210,7 @@ namespace DiveDeepAPI.Controllers
 
         // PUT localhost:8080/api/Cart/UpdateBooking
         // sent booking updates database booking, returns OK
-        [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPut("UpdateBooking")]
         public async Task<IActionResult> UpdateBooking([FromBody]BookingDTO DTO)
         {
@@ -238,7 +238,7 @@ namespace DiveDeepAPI.Controllers
 
         // DELETE localhost:8080/api/Cart/[bookingId]
         // deletes database booking, returns OK
-        [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{bookingId}")]
         public async Task<IActionResult> DeleteBooking(int bookingId)
         {

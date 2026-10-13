@@ -15,13 +15,8 @@ namespace DeepDive.Controllers
     {
         private readonly IDiveDeepApiService _diveDeepApiService; 
 
-        private readonly UserManager<ApplicationUser> _userManager;
-
-
-
-        public AdminController(IDiveDeepApiService diveDeepApiService, UserManager<ApplicationUser> userManager)
+        public AdminController(IDiveDeepApiService diveDeepApiService)
         {
-            _userManager = userManager;
             _diveDeepApiService = diveDeepApiService;
         }
 

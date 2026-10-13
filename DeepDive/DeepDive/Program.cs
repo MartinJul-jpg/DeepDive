@@ -1,6 +1,7 @@
 using DeepDive.Services;
 using DeepDive.Services.AuthServices;
 using Shared.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace DeepDive
 {
@@ -24,6 +25,12 @@ namespace DeepDive
             builder.Services.AddHttpContextAccessor();
             //end of new stuff
 
+            //more new stuff, authentication via [Authorize] is kinda ass without an assigned authentication service? 
+            builder.Services
+                .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
+            //end of new stuff
+
             builder.Services.AddScoped<AuthState>();
 
             builder.Services.AddScoped<IIdentityApiService, IdentityApiService>();
@@ -33,11 +40,13 @@ namespace DeepDive
             // Weather API
             builder.Services.AddScoped<IWeatherHttpService, WeatherHttpService>();
 
+            //whatever httpclient you make out of this includes sessions accesstoken
             builder.Services.AddScoped(sp => new HttpClient(new AuthHeaderHandler(sp.GetRequiredService<AuthState>()) { InnerHandler = new HttpClientHandler() })
             {
                 BaseAddress = new Uri("https://localhost:7126/")
             });
 
+            //httpclient factory setup
             builder.Services.AddHttpClient("DeepDiveApi", client => {
                 client.BaseAddress = new Uri("https://localhost:7126/");
             });
@@ -64,14 +73,14 @@ namespace DeepDive
             app.UseSession();
             //end of new stuff
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.MapControllerRoute
             (
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}"
             );
-
-            app.UseAuthentication();
-            app.UseAuthorization();
 
             app.Run();
         }

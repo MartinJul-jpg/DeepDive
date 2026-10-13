@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Data;
 using Shared.Models;
+using System.Security.Claims;
 
 namespace DeepDive.Controllers
 {
@@ -11,17 +12,16 @@ namespace DeepDive.Controllers
     {
         private string _userId
         {
-            get { return _userManager.GetUserId(this.User); }
+            get { return User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException(); }
         }
 
         private readonly IDiveDeepApiService _diveDeepApiService;
-        private readonly UserManager<ApplicationUser> _userManager;
 
-        public PackageController(IDiveDeepApiService diveDeepApiService, UserManager<ApplicationUser> userManager)
+        public PackageController(IDiveDeepApiService diveDeepApiService)
         {
             _diveDeepApiService = diveDeepApiService;
-            _userManager = userManager;
         }
+
         public IActionResult Index()
         {
             return View();
@@ -44,7 +44,7 @@ namespace DeepDive.Controllers
                 Package package = await _diveDeepApiService.GetPackageByIdAsync(id);
                 foreach (Package_Product pp in package.Package_Products)
                 {
-                    await _diveDeepApiService.AddProductToCartAsync(pp.ProductId, _userManager.GetUserId(this.User));
+                    await _diveDeepApiService.AddProductToCartAsync(pp.ProductId, _userId);
                 }
             }
             return RedirectToAction("Index", "cart");

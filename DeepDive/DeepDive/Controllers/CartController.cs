@@ -1,9 +1,8 @@
-﻿using Shared.Data;
-using DeepDive.Services;
-using Microsoft.AspNetCore.Identity;
+﻿using DeepDive.Services;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace DeepDive.Controllers
 {
@@ -12,35 +11,31 @@ namespace DeepDive.Controllers
     {
         private string _userId
         {
-            get { return _userManager.GetUserId(this.User); }
+            get { return User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException(); }
         }
 
         private IDiveDeepApiService _diveDeepApiService;
-        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CartController(IDiveDeepApiService diveDeepApiService, UserManager<ApplicationUser> userManager)
+        public CartController(IDiveDeepApiService diveDeepApiService)
         {
             _diveDeepApiService = diveDeepApiService;
-            _userManager = userManager;
         }
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
             await _diveDeepApiService.CreateCartAsync(_userId);
 
-            Booking cart = await _diveDeepApiService.GetCartByUserAsync(_userId);
+            Booking foundCart = await _diveDeepApiService.GetCartByUserAsync(_userId);
 
-            if (await _diveDeepApiService.GetCartByUserAsync(_userId) != null && cart.Product_Bookings.Count > 0)
+            if (foundCart != null && foundCart.Product_Bookings.Count > 0)
             {
-                Booking foundCart = await _diveDeepApiService.GetCartByUserAsync(_userId);
-
                 foundCart.ExceedsStock = await _diveDeepApiService.HasBookingOverlap(_userId);
                 TryValidateModel(foundCart, nameof(Booking));
 
-                Booking cartPrice = await _diveDeepApiService.GetCartByUserAsync(_userId);
-                cartPrice.CalculatePriceOfBooking();
+                foundCart.CalculatePriceOfBooking();
 
-                return View(await _diveDeepApiService.GetCartByUserAsync(_userId));
+                return View(foundCart);
             }
 
             return View();
@@ -111,6 +106,8 @@ namespace DeepDive.Controllers
                 return View();
             }
 
+            foundCart.CalculatePriceOfBooking();
+
             return View(foundCart);
         }
 
@@ -131,7 +128,5 @@ namespace DeepDive.Controllers
 
             return RedirectToAction("Index", "Basket");
         }
-
-
     }
 }

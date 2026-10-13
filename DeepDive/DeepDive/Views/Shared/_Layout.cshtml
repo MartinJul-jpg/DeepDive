@@ -24,9 +24,11 @@
             <a class="btn btn-outline-secondary btn-lg w-10 shadow" asp-controller="Account" asp-action="Register">
                 Registrer
             </a>
-            <a class="btn btn-outline-secondary btn-lg w-10 shadow" asp-controller="Account" asp-action="Logout">
-                Log ud
-            </a>
+            <form asp-controller="Account" asp-action="Logout" method="post">
+                <button type="submit" class="btn btn-outline-secondary btn-lg w-10 shadow">
+                    Log ud
+                </button>
+            </form>
 
             @if (AuthState.Email != null)
             {

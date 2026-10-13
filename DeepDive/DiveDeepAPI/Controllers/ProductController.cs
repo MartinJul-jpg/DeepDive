@@ -71,7 +71,7 @@ namespace DiveDeepAPI.Controllers
 
         // POST localhost:8080/api/Product/Add/[type]
         // returnerer OK eller bad request hvis sendte produkt er null
-        [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddProduct([FromBody] ProductDTO DTO)
         {
@@ -88,7 +88,7 @@ namespace DiveDeepAPI.Controllers
 
         // DELETE localhost:8080/api/Product/[id]
         // returnerer OK, bad request hvis id er under 1, not found hvis produktet ikke findes. 
-        [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct([FromRoute] int id)
         {
@@ -103,7 +103,7 @@ namespace DiveDeepAPI.Controllers
 
         // PUT localhost:8080/api/Product/[id]
         // returnerer OK, badrequest hvis id er under 1, notfound hvis id'et ikke findes. 
-        [Authorize("Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> UpdateProduct([FromBody] ProductDTO DTO)
         {
