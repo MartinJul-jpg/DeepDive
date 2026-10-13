@@ -26,10 +26,7 @@ namespace DiveDeepAPI
 
             builder.Services.AddControllers();
 
-            builder.Services.AddIdentityCore<IdentityUser>()
-                .AddEntityFrameworkStores<DiveDeepContext>()
-                .AddApiEndpoints();
-
+            
             builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
             builder.Services.AddAuthorization();
 
@@ -59,9 +56,9 @@ namespace DiveDeepAPI
 
             app.UseCors("AllowDeepDiveClient");
 
-            app.UseAuthentication();
-            app.UseAuthorization();
-            app.MapIdentityApi<ApplicationUser>();
+            //app.UseAuthentication();
+            //app.UseAuthorization();
+            //app.MapIdentityApi<ApplicationUser>();
 
             app.MapControllers();
 

@@ -42,9 +42,7 @@ namespace DeepDive
                 options.UseSqlServer(builder.Configuration.GetConnectionString("default"));
             });
 
-            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<DiveDeepContext>();
+            
 
             var app = builder.Build();
 
@@ -56,10 +54,9 @@ namespace DeepDive
                 pattern: "{controller=Home}/{action=Index}/{id?}"
             );
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseAuthentication();
+            //app.UseAuthorization();
 
-            app.MapRazorPages();
 
             app.Run();
         }
