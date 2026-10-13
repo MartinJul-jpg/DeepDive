@@ -33,6 +33,12 @@
                 <p>@($"Hello! {AuthState.Email}")</p>
             }
 
+            @*bare så jeg kan se om den er hentet ordenligt during development*@
+            @if (AuthState.UserId != null)
+            {
+                <p>@($"Hello! {AuthState.UserId}")</p>
+            }
+
             <form id="searchForm" asp-controller="Search" asp-action="Show" method="post">
                 <div class="d-flex flex-wrap justify-content-center align-content-center">
                     <input style="width: 15vw;" type="text" name="searchQuery" />

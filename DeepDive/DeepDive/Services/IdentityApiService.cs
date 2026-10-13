@@ -36,6 +36,7 @@ namespace DeepDive.Services
             {
                 var response = await _http.PostAsJsonAsync("login", _loginModel);
 
+
                 if (response.IsSuccessStatusCode)
                 {
                     var token = await response.Content.ReadFromJsonAsync<AccessTokenResponse>();
@@ -46,7 +47,8 @@ namespace DeepDive.Services
                         return;
                     }
 
-                    _authState.SignIn(_loginModel.Email, token.AccessToken, );
+                    _authState.SignIn(_loginModel.Email, token.AccessToken);
+                    await GetUserId();
                     //NavManager.NavigateTo("/golden");
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
@@ -138,6 +140,50 @@ namespace DeepDive.Services
             {
                 // Svaret var ikke JSON – vis blot den generelle fejlbesked.
             }
+        }
+
+        private async Task GetUserId()
+        {
+            try
+            {
+                var response = await _http.GetAsync("account/me");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    CurrentUserResponse? currentUserResponse = await response.Content.ReadFromJsonAsync<CurrentUserResponse>();
+
+                    if (currentUserResponse != null)
+                    {
+                        _authState.AddUserIdToSession(currentUserResponse.UserId);
+
+                        return;
+                    }
+                    else
+                    {
+                        _errorMessage = "Hentningen lykkedes men det hentede objekt var tomt? ";
+                    }
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                {
+                    _errorMessage = "BrugerId kunne ikke hentes:";
+                    await ReadApiErrors(response);
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    _errorMessage = "API'et har intet /register endpoint (404).";
+                }
+                else
+                {
+                    _errorMessage = $"Hentning fejlede ({(int)response.StatusCode} {response.ReasonPhrase}).";
+                }
+            }
+            catch (HttpRequestException)
+            {
+                _errorMessage = "Kunne ikke forbinde til API’et.";
+            }
+
+            //logout such that you dont have a logged in user with no userId
+            Logout();
         }
     }
 }

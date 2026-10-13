@@ -4,8 +4,8 @@ using DiveDeepAPI.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
-using Shared.Data;
 using Shared.Services;
+using System.Security.Claims;
 
 namespace DiveDeepAPI
 {
@@ -62,6 +62,15 @@ namespace DiveDeepAPI
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapIdentityApi<ApplicationUser>();
+            app.MapGet("/account/me", (ClaimsPrincipal principal) =>
+            {
+                string? userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                return Results.Ok(new
+                {
+                    UserId = userId
+                });
+            }).RequireAuthorization();
 
             app.MapControllers();
 

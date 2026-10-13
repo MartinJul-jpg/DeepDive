@@ -20,7 +20,7 @@
         public string? UserId { get { return Session?.GetString(UserIdKey); } }
         public bool IsLoggedIn { get { return !string.IsNullOrWhiteSpace(AccessToken); } }
 
-        public void SignIn(string email, string accessToken, string userId)
+        public void SignIn(string email, string accessToken)
         {
             ISession? session = Session;
 
@@ -31,6 +31,17 @@
 
             session.SetString(EmailKey, email);
             session.SetString(AccessTokenKey, accessToken);
+        }
+
+        public void AddUserIdToSession(string userId)
+        {
+            ISession? session = Session;
+
+            if (session == null)
+            {
+                throw new InvalidOperationException("No active session was found? ");
+            }
+
             session.SetString(UserIdKey, userId);
         }
 
