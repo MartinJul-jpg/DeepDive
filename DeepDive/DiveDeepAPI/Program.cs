@@ -26,7 +26,7 @@ namespace DiveDeepAPI
 
             builder.Services.AddControllers();
 
-            builder.Services.AddIdentityCore<IdentityUser>()
+            builder.Services.AddIdentityCore<ApplicationUser>()
                 .AddEntityFrameworkStores<DiveDeepContext>()
                 .AddApiEndpoints();
 

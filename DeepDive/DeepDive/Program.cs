@@ -14,8 +14,22 @@ namespace DeepDive
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddSingleton<AuthState>();
+            //new stuff
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            });
 
+            builder.Services.AddHttpContextAccessor();
+            //end of new stuff
+
+            builder.Services.AddScoped<AuthState>();
+
+            builder.Services.AddScoped<IIdentityApiService, IdentityApiService>();
             builder.Services.AddScoped<IDiveDeepApiService, DiveDeepApiService>();
             builder.Services.AddScoped<IDTO_Service, DTO_Service>();
 
@@ -44,19 +58,15 @@ namespace DeepDive
                 client.BaseAddress = new Uri("https://marine-api.open-meteo.com/v1/");
             });
 
-            builder.Services.AddDbContext<DiveDeepContext>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("default"));
-            });
-
-            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<DiveDeepContext>();
-
             var app = builder.Build();
 
             app.UseStaticFiles();
             app.UseRouting();
+
+            //new stuff
+            app.UseSession();
+            //end of new stuff
+
             app.MapControllerRoute
             (
                 name: "default",
@@ -65,8 +75,6 @@ namespace DeepDive
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.MapRazorPages();
 
             app.Run();
         }

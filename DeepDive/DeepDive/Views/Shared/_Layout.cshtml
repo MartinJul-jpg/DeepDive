@@ -1,4 +1,5 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject AuthState AuthState
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,6 +17,22 @@
                 <img src="~/lib/custom/resource/logo.png" id="logoImg">
             </a>
             <h1 id="head"> DIVE DEEP </h1>
+
+            <a class="btn btn-outline-secondary btn-lg w-10 shadow" asp-controller="Account" asp-action="Login">
+                Log ind
+            </a>
+            <a class="btn btn-outline-secondary btn-lg w-10 shadow" asp-controller="Account" asp-action="Register">
+                Registrer
+            </a>
+            <a class="btn btn-outline-secondary btn-lg w-10 shadow" asp-controller="Account" asp-action="Logout">
+                Log ud
+            </a>
+
+            @if (AuthState.Email != null)
+            {
+                <p>@($"Hello! {AuthState.Email}")</p>
+            }
+
             <form id="searchForm" asp-controller="Search" asp-action="Show" method="post">
                 <div class="d-flex flex-wrap justify-content-center align-content-center">
                     <input style="width: 15vw;" type="text" name="searchQuery" />

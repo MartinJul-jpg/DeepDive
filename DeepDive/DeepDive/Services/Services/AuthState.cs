@@ -1,27 +1,49 @@
 ﻿namespace DeepDive.Services.Services
 {
-    // Holder på det bearer token, som API'et returnerer ved login.
-    // Tokenet ligger kun i hukommelsen og forsvinder ved genindlæsning af siden.
     public class AuthState
     {
-        public string? AccessToken { get; private set; }
-        public string? Email { get; private set; }
-        public bool IsLoggedIn => AccessToken is not null;
+        private const string AccessTokenKey = "Auth.AccessToken";
+        private const string EmailKey = "Auth.Email";
+        private const string UserIdKey = "Auth.UserId";
 
-        public event Action? Changed;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public void SignIn(string email, string accessToken)
+        public AuthState(IHttpContextAccessor httpContextAccessor)
         {
-            Email = email;
-            AccessToken = accessToken;
-            Changed?.Invoke();
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        private ISession? Session { get { return _httpContextAccessor.HttpContext?.Session; } }
+
+        public string? AccessToken { get { return Session?.GetString(AccessTokenKey); } }
+        public string? Email { get { return Session?.GetString(EmailKey); } }
+        public string? UserId { get { return Session?.GetString(UserIdKey); } }
+        public bool IsLoggedIn { get { return !string.IsNullOrWhiteSpace(AccessToken); } }
+
+        public void SignIn(string email, string accessToken, string userId)
+        {
+            ISession? session = Session;
+
+            if (session == null)
+            {
+                throw new InvalidOperationException("No active session was found? ");
+            }
+
+            session.SetString(EmailKey, email);
+            session.SetString(AccessTokenKey, accessToken);
+            session.SetString(UserIdKey, userId);
         }
 
         public void SignOut()
         {
-            Email = null;
-            AccessToken = null;
-            Changed?.Invoke();
+            ISession? session = Session;
+
+            if (session != null)
+            {
+                session.Remove(EmailKey);
+                session.Remove(AccessTokenKey);
+                session.Remove(UserIdKey);
+            }
         }
     }
 }
