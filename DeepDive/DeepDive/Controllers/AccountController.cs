@@ -6,11 +6,11 @@ namespace DeepDive.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IDiveDeepApiService _diveDeepApiService;
+        private readonly IAcountIdentityApiService _acountIdentityApiService;
 
-        public AccountController(IDiveDeepApiService diveDeepApiService)
+        public AccountController(IAcountIdentityApiService acountIdentityApiService)
         {
-            _diveDeepApiService = diveDeepApiService;
+            _acountIdentityApiService = acountIdentityApiService;
         }
         public IActionResult Index()
         {
@@ -25,9 +25,17 @@ namespace DeepDive.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel, AuthState authState)
         {
-            using var response = 
+            
+            var request = await _acountIdentityApiService.HandleLoginAsync(loginViewModel, authState);
+
+            if (request == null)
+            {
+                NotFound();
+            }
+
+            return View(request);
         }
     }
 }
