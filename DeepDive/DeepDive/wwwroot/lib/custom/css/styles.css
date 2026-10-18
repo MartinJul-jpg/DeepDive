@@ -41,6 +41,32 @@ figure {
     inset: 100px;
 }
 
+.cartCalender {
+    background: rgb(9, 25, 40);
+    border: 1px solid rgba(0, 180, 216, 0.2);
+    border-radius: 4px;
+    color: rgb(223, 240, 247);
+    outline: none;
+    font-family: Outfit, sans-serif;
+    padding: 12px 16px;
+    width: 100%;
+    font-size: 14px;
+    appearance: none;
+}
+
+    .cartCalender::-webkit-calendar-picker-indicator {
+        filter: invert(1) opacity(.5);
+        cursor: pointer;
+    }
+
+.admin-title {
+    font-family: Barlow Condensed, sans-serif;
+    font-weight: 800;
+    font-size: 48px;
+    letter-spacing: 0.06em;
+    color: rgb(223, 240, 247);
+}
+
 .product-category-btn {
     display: block;
     width: 100%;
@@ -346,6 +372,15 @@ figure {
     overflow: hidden;
 }
 
+.categoryTitle {
+    font-family: Barlow Condensed, sans-serif;
+    font-weight: 800;
+    font-size: clamp(40px, 7vw, 80px);
+    line-height: 1;
+    color: rgb(223, 240, 247);
+    letter-spacing: 0.02em;
+}
+
 .forecast-card {
     background: rgb(11, 30, 51);
     border: 1px solid rgba(var(--c, 0, 180, 216), 0.3);
@@ -464,6 +499,7 @@ figure {
 }
 
 .cartCard {
+    background: linear-gradient(0deg,#093046 0%, #041826 100%);
     text-align: left;
     width: 70%;
     height: auto;
@@ -471,8 +507,44 @@ figure {
     margin: auto;
 }
 
+.cartSmallText {
+    font-family: Barlow Condensed, sans-serif;
+    font-weight: 800;
+    font-size: 24px;
+    letter-spacing: 0.06em;
+    color: rgb(223, 240, 247);
+}
+
+.cartMediumText {
+    font-family: Barlow Condensed, sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    letter-spacing: 0.06em;
+    color: rgb(223, 240, 247);
+}
+
+.cartBigText {
+    font-family: Barlow Condensed, sans-serif;
+    font-weight: 800;
+    font-size: 50px;
+    letter-spacing: 0.06em;
+    color: rgb(223, 240, 247);
+}
+
 .bottomCartBtn {
     align-self: end;
+    width: 100%;
+    padding: 14px;
+    background: rgb(0, 180, 216);
+    color: rgb(5, 14, 26);
+    border-radius: 4px;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 17px;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    border: medium;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
 .packageImg {
@@ -1076,6 +1148,10 @@ figure {
     font-size: 16px;
 }
 
+#bookingForm {
+    text-align: center;
+}
+
 #minusBtn {
     border: 1px solid rgba(0, 180, 216, 0.3);
     border-radius: 3px;
@@ -1089,6 +1165,13 @@ figure {
 
 #cartItem {
     height: 50px;
+}
+
+.cartImg {
+    background: #83A9BB;
+    border-radius: 8px;
+    height: 40px;
+    width: 40px;
 }
 
 #itemPageTitle {
@@ -1316,6 +1399,12 @@ figure {
     height: 1px;
     color: rgb(0,54,100);
     background-color: rgb(0,54,100);
+}
+
+#infoSeperatorBright {
+    height: 1px;
+    color: white;
+    background-color: white;
 }
 
 #openTimeList {

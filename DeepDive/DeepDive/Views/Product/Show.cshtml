@@ -42,14 +42,16 @@
                 {
                     <p style="color: rgb(122, 172, 190); font-size: 11px; letter-spacing: 0.1em; margin-bottom: 9px;">VÆLG STØRRELSE</p>
                     <div class="size-options">
-                        @foreach (var sizeOption in sizes)
+                        @for (int i = 0; i < sizes.Count; i++)
                         {
+                            @if (sizes[i] == "N")
+                                sizes[i] = "M";
                             <label class="size-option">
                                 <input type="radio"
                                        name="size_@type"
-                                       value="@sizeOption"
+                                       value="@sizes[i]"
                                        required />
-                                <span>@sizeOption</span>
+                                <span>@sizes[i]</span>
                             </label>
                         }
                     </div>

@@ -2,6 +2,48 @@
 
 @using DeepDive.Models
 
+<div class="container">
+    <div style="margin-bottom: 28px; display: flex; gap: 8px; align-items: center; font-size: 13px;">
+        <a style="color: rgb(122, 172, 190); text-decoration: none;" href="/" data-discover="true">HJEM</a>
+        <span style="color: rgb(122, 172, 190);">/</span>
+        <a style="color: rgb(122, 172, 190); text-decoration: none;" href="/Category/Show/@Model[1].GetType().Name" data-discover="true">
+            @{
+                string showString = Model[1].GetType().Name.ToUpper();
+                switch (Model[1].GetType().Name.ToUpper())
+                {
+                    case "DIVINGSUIT":
+                        showString = "DRAGER";
+                        break;
+
+                    case "FIN":
+                        showString = "FINNER";
+                        break;
+
+                    case "REGULATORSET":
+                        showString = "REGULATORSÆT";
+                        break;
+
+                    case "SNORKEL":
+                        showString = "SNORKLER";
+                        break;
+
+                    case "TANK":
+                        showString = "TANKE";
+                        break;
+
+                    default:
+                        break;
+                }
+
+            }
+            @showString
+        </a>
+    </div>
+    <h1 class="categoryTitle">
+        @showString
+    </h1>
+</div>
+
 <div class="d-flex justify-content-center flex-wrap" id="productGrid">
     @foreach (Product product in Model)
     {
