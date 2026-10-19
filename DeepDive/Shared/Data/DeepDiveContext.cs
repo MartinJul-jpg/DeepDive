@@ -570,6 +570,8 @@ namespace Shared.Data
             modelBuilder.Entity<Booking>()
                 .Ignore(booking => booking.DurationInDays);
             modelBuilder.Entity<Booking>()
+                .Ignore(booking => booking.DaysTillToday);
+            modelBuilder.Entity<Booking>()
                 .Ignore(booking => booking.TotalPrice);
             modelBuilder.Entity<Booking>()
                 .Ignore(booking => booking.ExceedsStock);

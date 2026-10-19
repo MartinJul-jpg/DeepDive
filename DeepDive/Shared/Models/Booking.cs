@@ -19,12 +19,14 @@ namespace Shared.Models
             get
             {
                 DurationInDays = _end.DayNumber - _start.DayNumber;
+                DaysTillToday = _start.DayNumber - DateOnly.FromDateTime(DateTime.Now).DayNumber;
                 return _start;
             }
             set
             {
                 _start = value;
                 DurationInDays = _end.DayNumber - _start.DayNumber;
+                DaysTillToday = _start.DayNumber - DateOnly.FromDateTime(DateTime.Now).DayNumber;
                 CalculatePriceOfBooking();
             }
         }
@@ -34,17 +36,21 @@ namespace Shared.Models
             get
             {
                 DurationInDays = _end.DayNumber - _start.DayNumber;
+                DaysTillToday = _start.DayNumber - DateOnly.FromDateTime(DateTime.Now).DayNumber;
                 return _end;
             }
             set
             {
                 _end = value;
                 DurationInDays = _end.DayNumber - _start.DayNumber;
+                DaysTillToday = _start.DayNumber - DateOnly.FromDateTime(DateTime.Now).DayNumber;
                 CalculatePriceOfBooking();
             }
         }
-        [Range(1, int.MaxValue, ErrorMessage = "Dage må ikke ligge i fortiden.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Slut dag må ikke ligge før start.")]
         public int DurationInDays { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Booking må ikke ligge i fortiden.")]
+        public int DaysTillToday { get; set; }
         public double TotalPrice { get; set; }
         [Range(typeof(bool), "false", "false", ErrorMessage = $"Mængden af en vare overskrider lager på en af de pågældende datoer")]
         public bool ExceedsStock { get; set; }
