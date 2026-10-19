@@ -23,24 +23,22 @@ namespace DeepDive.Controllers
             _diveDeepApiService = diveDeepApiService;
             _userManager = userManager;
         }
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
             await _diveDeepApiService.CreateCartAsync(_userId);
 
-            Booking cart = await _diveDeepApiService.GetCartByUserAsync(_userId);
+            Booking foundCart = await _diveDeepApiService.GetCartByUserAsync(_userId);
 
-            if (await _diveDeepApiService.GetCartByUserAsync(_userId) != null && cart.Product_Bookings.Count > 0)
+            if (foundCart != null && foundCart.Product_Bookings.Count > 0)
             {
-                Booking foundCart = await _diveDeepApiService.GetCartByUserAsync(_userId);
-
                 foundCart.ExceedsStock = await _diveDeepApiService.HasBookingOverlap(_userId);
                 TryValidateModel(foundCart, nameof(Booking));
 
-                Booking cartPrice = await _diveDeepApiService.GetCartByUserAsync(_userId);
-                cartPrice.CalculatePriceOfBooking();
+                foundCart.CalculatePriceOfBooking();
 
-                return View(await _diveDeepApiService.GetCartByUserAsync(_userId));
+                return View(foundCart);
             }
 
             return View();

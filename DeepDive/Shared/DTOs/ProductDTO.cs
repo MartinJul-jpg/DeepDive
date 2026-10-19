@@ -7,7 +7,7 @@
         public string Brand { get; set; }
         public int Amount { get; set; }
         public string ImgPath { get; set; }
-        public byte[] RowVersion { get; set; }
+        public byte[]? RowVersion { get; set; }
 
         public string? Model { get; set; }
         public string? Size { get; set; }
