@@ -1,29 +1,368 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600&display=swap');
+
 body {
-    background-color: rgb(233,245,245);
-    margin: 0px;
+    background-color: #050F1B;
+    margin: 0;
+    padding-top: 80px;
+    font-family: Arial, sans-serif;
 }
-div {
-    text-align: center;
-    font-family: Arial;
-}
-input {
-    width: 10%;
-    margin: 10px;
-}
-/*button {
-    background-color: rgb(0,54,100);
-    color: white;
-    font-weight: bold;
-    border-radius: 20px;
-    border: none;
-}
-    */
+
 figure {
     height: 500px;
     width: 20%;
     margin: auto;
     margin-bottom: -10%;
     flex: 1 0 21%;
+}
+
+.hero-section {
+    position: relative;
+    min-height: 800px;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+}
+
+.hero-title {
+    color: #DFF0F7;
+    font-size: clamp(64px, 12vw, 140px);
+    font-weight: 900;
+}
+
+.hero-title-over {
+    font-family: Barlow Condensed, sans-serif;
+    letter-spacing: 0.2em;
+    color: rgb(6, 214, 160);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.hero-div-over {
+    position: absolute;
+    inset: 100px;
+}
+
+.cartCalender {
+    background: rgb(9, 25, 40);
+    border: 1px solid rgba(0, 180, 216, 0.2);
+    border-radius: 4px;
+    color: rgb(223, 240, 247);
+    outline: none;
+    font-family: Outfit, sans-serif;
+    padding: 12px 16px;
+    width: 100%;
+    font-size: 14px;
+    appearance: none;
+}
+
+    .cartCalender::-webkit-calendar-picker-indicator {
+        filter: invert(1) opacity(.5);
+        cursor: pointer;
+    }
+
+.admin-title {
+    font-family: Barlow Condensed, sans-serif;
+    font-weight: 800;
+    font-size: 48px;
+    letter-spacing: 0.06em;
+    color: rgb(223, 240, 247);
+}
+
+.product-category-btn {
+    display: block;
+    width: 100%;
+    padding: 13px;
+    background: #00B4D8;
+    border: 1px solid rgba(0, 180, 216, 0.25);
+    color: black;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+}
+
+.product-category-btn-secoundary {
+    display: block;
+    width: 100%;
+    padding: 13px;
+    background: rgba(0, 180, 216, 0.08);
+    border: 1px solid rgba(0, 180, 216, 0.25);
+    color: rgb(0, 180, 216);
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+}
+
+.product-text-price {
+    color: rgb(6, 214, 160);
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    margin: 0px;
+}
+
+.product-text-price-small-secoundary {
+    color: #74A5B7;
+    font-family: Barlow Condensed, sans-serif;
+    font-weight: 400;
+    margin: 0px;
+}
+
+.product-card {
+    background: #0B1E33;
+    background: linear-gradient(0deg,rgba(11, 30, 51, 1) 0%, rgba(11, 30, 51, 1) 25%, rgba(10, 41, 80, 1) 100%);
+    border-radius: 10px;
+    min-width: 400px;
+    min-height: 500px;
+    padding: 20px;
+    border: 1px solid rgba(0, 180, 216, 0.15);
+}
+
+.product-text-brand {
+    color: #00B4D8;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.16em;
+    font-weight: 600;
+}
+
+.product-text-model {
+    color: #DFF0F7;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.16em;
+    font-weight: 900;
+}
+
+.product-text-description {
+    color: #84ACBF;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    font-weight: 500;
+}
+
+.product-show-text-brand {
+    color: #00B4D8;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.16em;
+    font-weight: 700;
+    text-align: left;
+}
+
+.product-show-text-model {
+    color: #DFF0F7;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 55px;
+    letter-spacing: 0.16em;
+    font-weight: 900;
+    text-align: left;
+}
+
+.product-show-text-description {
+    color: #84ACBF;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.16em;
+    font-weight: 500;
+    text-align: left;
+}
+
+.product-show-text-price {
+    color: rgb(6, 214, 160);
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 35px;
+    font-weight: 800;
+    margin: 0px;
+}
+
+.product-show-text-price-small-secoundary {
+    color: #74A5B7;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    margin: 0px;
+}
+
+.hero-line {
+    width: 40px;
+    height: 2px;
+    background: rgb(6, 214, 160);
+}
+
+.hero-img-wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 100vw;
+    transform: translateX(-50%);
+}
+
+.hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+.hero-img-div {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgb(5, 14, 26) 20%, rgba(5, 14, 26, 0.3) 60%, rgba(5, 14, 26, 0.3) 70%, rgb(5, 14, 26) 80%);
+}
+
+.hero-img-secoundary-div {
+    position: absolute;
+    inset: 0px;
+    background: linear-gradient(to top, rgb(5, 14, 26) 0%, transparent 50%);
+}
+
+.hero-text {
+    color: #9DC8DB;
+    max-width: 50%;
+}
+
+.hero-btn-primary {
+    width: 12%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 32px;
+    background: rgb(0, 180, 216);
+    color: rgb(5, 14, 26);
+    border-radius: 4px;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.hero-btn-secoundary {
+    width: 12%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 32px;
+    border: 1px solid rgba(0, 180, 216, 0.4);
+    color: rgb(0, 180, 216);
+    border-radius: 4px;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    text-decoration: none;
+    background: rgba(0, 180, 216, 0.06);
+}
+
+.package-title {
+    color: #DFF0F7;
+    font-size: clamp(32px, 5vw, 50px);
+    font-weight: 900;
+}
+
+.packages-text-small {
+    color: #9DC8DB;
+    width: 40%;
+}
+
+.login-h1 {
+    color: #DFF0F7;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 48px;
+    font-weight: 600;
+    margin: 0px;
+}
+
+.login-h2 {
+    color: #74A5B7;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    margin: 0px;
+}
+
+.login-h3 {
+    color: #74A5B7;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    margin: 0px;
+    margin-bottom: 8px;
+}
+
+.login-h4 {
+    color: #74A5B7;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin: 0px;
+    margin-bottom: 8px;
+}
+
+.login-text-small {
+    color: #00B4D8;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    margin: 0px;
+}
+
+.login-input {
+    background: #0A2940;
+    color: white;
+    border: 1px solid rgba(0, 180, 216, 0.4);
+    border-radius: 4px;
+}
+
+    .login-input::placeholder {
+        color: white;
+    }
+
+    .login-input.form-control:focus {
+        background-color: #0A2940;
+        color: white;
+        border-color: #00B4D8;
+        box-shadow: 0 0 0 0.25rem rgba(0, 180, 216, 0.25);
+    }
+
+    .login-input:disabled {
+        background: #041826;
+    }
+
+.login-input-label {
+    color: white;
+}
+
+.form-floating > label.login-input-label {
+    color: white;
+    opacity: 1;
+}
+
+.login-input-label::placeholder {
+    color: white;
+}
+
+.login-btn-primary {
+    background: #00B4D8;
+    color: black;
+    margin-bottom: 20px;
+}
+
+.login-btn-danger {
+    background: #B75F63;
+    color: black;
+    margin-bottom: 20px;
 }
 
 .categoryImg {
@@ -33,37 +372,134 @@ figure {
     overflow: hidden;
 }
 
-.categoryBtn {
-    width: 20%;
-    height: 10%;
-    padding: 20px;
-    font-size: 120%;
-    background-color: rgb(0,54,100) !important;
-    border-radius: 0;
-    border-color: white;
-}
-.footerBox{
-    padding: 20px;
+.categoryTitle {
+    font-family: Barlow Condensed, sans-serif;
+    font-weight: 800;
+    font-size: clamp(40px, 7vw, 80px);
+    line-height: 1;
+    color: rgb(223, 240, 247);
+    letter-spacing: 0.02em;
 }
 
-.footerList{
-    list-style-type: none;
-    display: inline;  
+.forecast-card {
+    background: rgb(11, 30, 51);
+    border: 1px solid rgba(var(--c, 0, 180, 216), 0.3);
+    border-radius: 8px;
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: 100px 1fr auto;
+    gap: 20px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.forecast-card-text-day {
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: rgb(223, 240, 247);
+    line-height: 1;
+}
+
+.forecast-card-text-date {
+    font-size: 13px;
+    color: rgb(122, 172, 190);
+}
+
+.forecast-card-text-assesment {
+    font-size: 11px;
+    color: rgb(122, 172, 190);
+    max-width: 130px;
+    line-height: 1.4;
+}
+
+.forecast-card-text-small {
+    font-size: 13px;
+    color: rgb(157, 200, 219);
+}
+
+.forecast-card-text-medium {
+    font-size: 15px;
+    color: rgb(223, 240, 247);
+    font-weight: 500;
+}
+
+.forecast-card-square {
+    background: rgba(var(--c, 0, 180, 216), 0.1);
+    border: 1px solid rgba(var(--c, 0, 180, 216), 0.3);
+    border-radius: 5px;
+    padding: 8px 14px;
+    justify-items: center;
+    margin-bottom: 4px;
+}
+
+.forecast-card-accent {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: rgb(var(--c));
+}
+
+.today-badge {
+    background: rgba(var(--c), 0.1);
+    border: 1px solid rgba(var(--c), 0.3);
+    border-radius: 3px;
+    padding: 2px 8px;
+    margin-bottom: 4px;
+    display: inline-block;
+}
+
+    .today-badge span {
+        font-family: Barlow Condensed, sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        color: rgb(var(--c));
+    }
+
+.forecast-card-label {
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    color: rgb(var(--c));
+    margin: 5px;
+}
+
+.forecast-input-search {
+    padding: 14px 20px;
+    background: rgb(0, 180, 216);
+    color: rgb(5, 14, 26);
+    border: medium;
+    border-radius: 0px 4px 4px 0px;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.categoryBtn {
+    font-size: 110%;
+    background-color: #050F1B !important;
+    color: #6D8E9F;
+    border: none;
+    padding: 8px 10px;
     margin: 0;
-    padding: 0;
 }
 
 .sectionBtn {
     background-color: rgb(0,54,100);
-    height: 3000px;
+    min-height: 3000px;
     width: 350px;
 }
 
-.footerTitle{
-    text-decoration: underline;
-}
-
 .cartCard {
+    background: linear-gradient(0deg,#093046 0%, #041826 100%);
     text-align: left;
     width: 70%;
     height: auto;
@@ -71,15 +507,47 @@ figure {
     margin: auto;
 }
 
+.cartSmallText {
+    font-family: Barlow Condensed, sans-serif;
+    font-weight: 800;
+    font-size: 24px;
+    letter-spacing: 0.06em;
+    color: rgb(223, 240, 247);
+}
+
+.cartMediumText {
+    font-family: Barlow Condensed, sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    letter-spacing: 0.06em;
+    color: rgb(223, 240, 247);
+}
+
+.cartBigText {
+    font-family: Barlow Condensed, sans-serif;
+    font-weight: 800;
+    font-size: 50px;
+    letter-spacing: 0.06em;
+    color: rgb(223, 240, 247);
+}
+
 .bottomCartBtn {
     align-self: end;
+    width: 100%;
+    padding: 14px;
+    background: rgb(0, 180, 216);
+    color: rgb(5, 14, 26);
+    border-radius: 4px;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 17px;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    border: medium;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
-.productText{
-    text-align: left;
-}
-
-.packageImg{
+.packageImg {
     border: none;
     border-radius: 10px;
     margin: 5px;
@@ -87,16 +555,7 @@ figure {
     width: 30%;
 }
 
-.amountSelector{
-    height: 40px;
-    width: 40px;
-    margin: 0;
-    border-radius: 0;
-    border: none;
-    text-align: center;
-}
-
-.productCardText{
+.productCardText {
     overflow: hidden;
 }
 
@@ -104,11 +563,89 @@ figure {
     max-width: 60vw;
     width: 60vw;
     max-height: 40vw;
+    padding: 24px;
+    background: linear-gradient(0deg,rgba(11, 30, 51, 1) 0%, rgba(11, 30, 51, 1) 25%, rgba(10, 41, 80, 1) 80%);
 }
 
-.ProductShowButton{
-    width: 50%;
-    height: 10vh;
+.size-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.size-option {
+    position: relative;
+    cursor: pointer;
+}
+
+    .size-option input {
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    .size-option span {
+        display: inline-block;
+        padding: 7px 14px;
+        border-radius: 3px;
+        border: 1px solid rgba(0, 180, 216, 0.2);
+        background: transparent;
+        color: rgb(157, 200, 219);
+        transition: 0.15s;
+    }
+
+    .size-option:hover span {
+        border-color: rgba(0, 180, 216, 0.5);
+    }
+
+    .size-option input:checked + span {
+        background: rgba(0, 180, 216, 0.15);
+        border-color: rgb(0, 180, 216);
+        color: rgb(223, 240, 247);
+    }
+
+    .size-option input:focus-visible + span {
+        outline: 2px solid rgb(6, 214, 160);
+        outline-offset: 2px;
+    }
+
+.product-show-btn {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 20px;
+    background: rgb(0, 180, 216);
+    color: rgb(5, 14, 26);
+    border-radius: 4px;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.product-show-attribute-card {
+    padding: 12px 14px;
+    background: rgb(11, 30, 51);
+    border: 1px solid rgba(0, 180, 216, 0.1);
+    border-radius: 4px;
+    margin-top: 8px;
+}
+
+.product-show-attribute-title {
+    color: rgb(122, 172, 190);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+}
+
+.product-show-attribute-text {
+    color: rgb(223, 240, 247);
+    font-size: 14px;
+    margin-top: 3px;
 }
 
 .forecastDayCard {
@@ -123,32 +660,443 @@ figure {
 }
 
 .forecastImg {
-    width: 100%;
-    max-width: 100%;
+    width: 50px;
+    min-width: 20px;
     aspect-ratio: 1/1;
-    object-fit: cover;  
+    object-fit: contain;
 }
 
-.forecastDayText{
+.forecastDayText {
     font-size: 2vh;
 }
 
-#forecastInput {
-    width: 25%;
-    border-radius: 5px;
-    outline: none;
-    border: 1px solid #ccc;
+.searchBar {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    height: 40px;
 }
 
-#forecastCard {
-    background: white;
-    border: medium;
+.userBtn {
+    color: #9DC8DB;
+    font-size: 110%;
+    min-width: 60px;
+    background-color: #050F1B !important;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.header-left,
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+    .header-left > a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+    }
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+    .header-right .navbar-nav {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .header-right .nav-item {
+        display: flex;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+    }
+
+.package-images-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+.packageImg {
+    position: absolute;
+    width: 8rem;
+    height: 8rem;
+    transform: translate(-50%, -50%);
+    top: 50%;
+}
+
+.package-card {
+    background: #0B1E33;
+    background: linear-gradient(0deg,rgba(11, 30, 51, 1) 0%, rgba(11, 30, 51, 1) 25%, rgba(10, 41, 80, 1) 100%);
     border-radius: 10px;
-    padding: 10px;
+    min-width: 400px;
+    min-height: 400px;
+    padding: 20px;
+    border: 1px solid rgba(0, 180, 216, 0.15);
+    align-content: center;
 }
 
-#todaysForecastDayCard {
-    background: rgb(240, 234, 214);
+.package-text-over {
+    color: #00B4D8;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    font-weight: 600;
+}
+
+.package-text {
+    color: #DFF0F7;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 30px;
+    line-height: 1;
+    font-weight: 800;
+    margin-top: 5px;
+}
+
+.package-text-desciption {
+    color: rgb(157, 200, 219);
+    font-size: 13px;
+    line-height: 1.6;
+    margin-top: 10px;
+}
+
+.package-div-price {
+    display: flex;
+    align-items: flex-end;
+}
+
+.package-text-price {
+    color: rgb(6, 214, 160);
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    margin: 0px;
+}
+
+.package-text-price-small {
+    color: rgb(6, 214, 160);
+    font-family: Barlow Condensed, sans-serif;
+    font-weight: 400;
+    margin: 0px;
+}
+
+.package-text-price-small-secoundary {
+    color: #74A5B7;
+    font-family: Barlow Condensed, sans-serif;
+    font-weight: 400;
+    margin: 0px;
+}
+
+.package-btn-primary {
+    width: 45%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 20px;
+    background: rgb(0, 180, 216);
+    color: rgb(5, 14, 26);
+    border-radius: 4px;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.package-btn-secoundary {
+    width: 45%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 20px;
+    border: 1px solid rgba(0, 180, 216, 0.4);
+    color: rgb(0, 180, 216);
+    border-radius: 4px;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    text-decoration: none;
+    background: rgba(0, 180, 216, 0.06);
+}
+
+.forecast-input-button {
+    padding: 6px 14px;
+    background: rgba(0, 180, 216, 0.07);
+    border: 1px solid rgba(0, 180, 216, 0.2);
+    border-radius: 20px;
+    color: rgb(157, 200, 219);
+    font-size: 13px;
+    cursor: pointer;
+    font-family: Outfit, sans-serif;
+    transition: 0.15s;
+}
+
+.depth-gauge {
+    position: fixed;
+    right: 32px;
+    top: 50%;
+    transform: translateY(-50%);
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    z-index: 900;
+}
+
+@media (min-width: 1024px) {
+    .depth-gauge {
+        display: flex;
+    }
+}
+
+.depth-mark {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+    .depth-mark span {
+        font-family: 'Barlow Condensed', sans-serif;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        color: rgb(122, 172, 190);
+        transition: color 0.3s ease;
+    }
+
+.depth-line {
+    width: 24px;
+    height: 1px;
+    background: rgba(0, 180, 216, 0.3);
+    transform: scaleX(0.58);
+    transform-origin: left;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.depth-mark.active .depth-line {
+    background: rgb(6, 214, 160);
+    transform: scaleX(1);
+}
+
+.depth-mark.active span {
+    color: rgb(223, 240, 247);
+}
+
+.site-footer {
+    border-top: 1px solid rgba(0, 180, 216, 0.15);
+    padding: 56px 24px 40px;
+    background: linear-gradient(to bottom, rgb(5, 15, 27) 0%, rgb(5, 14, 26) 100%);
+}
+
+.footer-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+}
+
+.footer-col {
+    text-align: left;
+}
+
+.footer-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: rgb(0, 180, 216);
+    margin: 0;
+}
+
+.footer-title-line {
+    width: 28px;
+    height: 2px;
+    background: rgb(6, 214, 160);
+    margin: 10px 0 18px;
+}
+
+.footer-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgb(122, 172, 190);
+    margin: 14px 0 6px;
+}
+
+.footer-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+    .footer-list li {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 6px 0;
+        border-bottom: 1px solid rgba(0, 180, 216, 0.1);
+        font-size: 14px;
+        color: rgb(157, 200, 219);
+    }
+
+        .footer-list li span:first-child:not(:only-child) {
+            color: rgb(122, 172, 190);
+        }
+
+    .footer-list a {
+        color: rgb(157, 200, 219);
+        text-decoration: none;
+        transition: color 0.15s;
+    }
+
+        .footer-list a:hover {
+            color: rgb(6, 214, 160);
+        }
+
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+    }
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+    .user-menu form {
+        margin: 0;
+    }
+
+.user-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: rgb(157, 200, 219);
+    text-decoration: none;
+    transition: color 0.15s;
+}
+
+    .user-link:hover {
+        color: rgb(6, 214, 160);
+    }
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 180, 216, 0.12);
+    border: 1px solid rgba(0, 180, 216, 0.4);
+    color: rgb(0, 180, 216);
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.logout-btn {
+    padding: 6px 14px;
+    background: rgba(0, 180, 216, 0.06);
+    border: 1px solid rgba(0, 180, 216, 0.4);
+    border-radius: 4px;
+    color: rgb(0, 180, 216);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+    .logout-btn:hover {
+        background: rgba(0, 180, 216, 0.15);
+        border-color: rgb(0, 180, 216);
+    }
+
+#packages {
+    padding: 88px 24px;
+    max-width: 1200px;
+    margin: 0px auto;
+}
+
+#weatherforecast {
+    border: 1px solid rgba(0, 180, 216, 0.2);
+}
+
+#forecast-input-card {
+    background: linear-gradient(135deg, rgb(5, 14, 26) 0%, rgb(10, 32, 64) 100%);
+    padding: 64px;
+}
+
+#forecast-result-card {
+    background: #050E1A;
+    justify-content: center;
+}
+
+#forecast-input-title {
+    text-align: center;
+    color: #DFF0F7;
+    font-family: Barlow Condensed, sans-serif;
+    font-weight: 800;
+    font-size: clamp(40px, 7vw, 80px);
+    line-height: 0.95;
+    margin-bottom: 12px;
+}
+
+#forecast-input-description {
+    color: rgb(157, 200, 219);
+    font-size: 15px;
+    line-height: 1.6;
+    margin-top: 10px;
+    text-align: center;
+}
+
+#forecast-input {
+    flex: 1 1 0%;
+    padding: 14px 18px;
+    background: rgb(11, 30, 51);
+    border-width: 1px medium 1px 1px;
+    border-style: solid none solid solid;
+    border-color: rgba(0, 180, 216, 0.3) currentcolor rgba(0, 180, 216, 0.3) rgba(0, 180, 216, 0.3);
+    border-image: none;
+    border-radius: 4px 0px 0px 4px;
+    color: rgb(223, 240, 247);
+    outline: none;
+    font-family: Outfit, sans-serif;
+    font-size: 15px;
+    width: 40%;
 }
 
 #removeCartBtn {
@@ -159,31 +1107,83 @@ figure {
 }
 
 #productImg {
-    object-fit: cover;
+    object-fit: contain;
     overflow: hidden;
     margin: 0;
 }
 
+.amountSelector {
+    height: 40px;
+    width: 40px;
+    margin: 0;
+    border-radius: 0;
+    border: none;
+    text-align: center;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 17px;
+    color: rgb(223, 240, 247);
+    min-width: 20px;
+    background: rgb(11, 30, 51);
+    /* Firefox */
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+    /* Chrome, Edge, Safari */
+    .amountSelector::-webkit-outer-spin-button,
+    .amountSelector::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+
 #plusBtn {
-    border-radius: 0 5px 5px 0;
+    border: 1px solid rgba(0, 180, 216, 0.3);
+    border-radius: 3px;
+    color: rgb(157, 200, 219);
+    background: rgba(0, 180, 216, 0.1);
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
 }
 
-#minusBtn{
-    border-radius: 5px 0 0 5px;
+#bookingForm {
+    text-align: center;
 }
 
-#cartItem{
+#minusBtn {
+    border: 1px solid rgba(0, 180, 216, 0.3);
+    border-radius: 3px;
+    color: rgb(157, 200, 219);
+    background: rgba(0, 180, 216, 0.1);
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+}
+
+#cartItem {
     height: 50px;
+}
+
+.cartImg {
+    background: #83A9BB;
+    border-radius: 8px;
+    height: 40px;
+    width: 40px;
 }
 
 #itemPageTitle {
     font-size: 50px;
     margin: 0;
 }
+
 #itemPagePrice {
     font-size: 30px;
     margin: 0;
 }
+
 #pageContent {
     display: grid;
     grid-template-areas: "itemDiv1 itemDiv2";
@@ -191,72 +1191,131 @@ figure {
     gap: 3px;
     padding: 5px;
 }
-#pageContent div {
-    padding: 10px;
-    text-align: left;
-}
-#pageContent div.itemDiv {
-    display: flex;
-    flex-direction: column;
-}
-#pageContent div.itemDiv1 {
-    grid-area: itemDiv1;
-}
-#pageContent div.itemDiv2 {
-    grid-area: itemDiv2;
-}
-#pageContent img {
-    aspect-ratio: 1/3;
-    width: 100%;
-}
-#pageContent button {
-    height: 2%;
-    width: 15%;
-}
+
+    #pageContent div {
+        padding: 10px;
+        text-align: left;
+    }
+
+        #pageContent div.itemDiv {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #pageContent div.itemDiv1 {
+            grid-area: itemDiv1;
+        }
+
+        #pageContent div.itemDiv2 {
+            grid-area: itemDiv2;
+        }
+
+    #pageContent img {
+        aspect-ratio: 1/3;
+        width: 100%;
+    }
+
+    #pageContent button {
+        height: 2%;
+        width: 15%;
+    }
+
 #specs {
     list-style-type: none;
     padding: 0;
     border: 1px solid #ddd;
     width: 50%;
 }
-#specs li {
-    padding: 8px 16px;
-    border-bottom: 1px solid #ddd;
-}
+
+    #specs li {
+        padding: 8px 16px;
+        border-bottom: 1px solid #ddd;
+    }
+
 #categoryDiv {
     display: flex;
-    justify-content: center;
     align-items: center;
+    gap: 5px;
 }
-#headDiv {
-    background-color: rgb(126,208,222);
-    color: rgb(0,54,100); 
-    padding: 2%;
-    display: flex;
-    height: 130px;
-    align-items: center;
-    position: sticky;
+
+#mainHeader {
+    position: fixed;
     top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #050F1B;
+    transition: height 0.3s ease, box-shadow 0.3s ease;
 }
+
+    #mainHeader.small {
+        background-color: rgba(5, 15, 27, 0.95);
+        backdrop-filter: blur(8px);
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+    }
+
+        #mainHeader.small #headDiv {
+            height: 55px;
+        }
+
+        #mainHeader.small #logoImg {
+            width: 42px;
+            height: 42px;
+        }
+
+        #mainHeader.small #head {
+            font-size: 90%;
+        }
+
+        #mainHeader.small .categoryBtn {
+            font-size: 90%;
+            padding: 5px 7px;
+        }
+
+        #mainHeader.small #searchQuery {
+            height: 32px;
+        }
+
+        #mainHeader.small #searchBtn {
+            height: 32px;
+            padding: 6px 20px;
+        }
+
+        #mainHeader.small #shoppingCartBtn {
+            width: 42px;
+            height: 44px;
+        }
+
+        #mainHeader.small #shoppingCart {
+            width: 22px;
+            height: 22px;
+        }
+
+#headDiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 80px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    transition: height 0.3s ease, transform 0.3s ease;
+}
+
 #productDiv {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     flex-direction: row;
 }
-#footerDiv{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    min-height: 200px;
-    text-align: center;
-    list-style-position: inside;
-}
+
 #head {
     font-family: 'Arial Rounded MT';
-    font-size: 500%;
-    margin: 10px;
-    display: inline-block;
+    font-size: 100%;
+    margin: 0;
+    color: #00B4D8;
 }
+
 #searchInput {
     width: 30%;
     min-width: 200px;
@@ -265,57 +1324,111 @@ figure {
     padding: 5px 15px 5px 15px;
     font-size: 120%;
 }
+
+#searchForm {
+    margin: 0;
+    padding: 0;
+}
+
+#searchQuery {
+    height: 52px;
+    flex: 1 1 0%;
+    padding: 14px 18px;
+    background: rgb(11, 30, 51);
+    border-width: 1px medium 1px 1px;
+    border-style: solid none solid solid;
+    border-color: rgba(0, 180, 216, 0.3) currentcolor rgba(0, 180, 216, 0.3) rgba(0, 180, 216, 0.3);
+    border-image: none;
+    border-radius: 4px 0px 0px 4px;
+    color: rgb(223, 240, 247);
+    outline: none;
+    font-family: Outfit, sans-serif;
+    font-size: 15px;
+    width: 40%;
+}
+
+    #searchQuery::placeholder {
+        color: #6D8E9F;
+    }
+
 #searchBtn {
-    width: 5%;
-    background-color: rgb(0,54,100);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 5px 10px 5px 10px;
-    min-width: 65px;
-    font-size: 120%;
+    height: 52px;
+    padding: 14px 20px;
+    background: rgb(0, 180, 216);
+    color: rgb(5, 14, 26);
+    border: medium;
+    border-radius: 0px 4px 4px 0px;
+    font-family: Barlow Condensed, sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    cursor: pointer;
 }
+
 #shoppingCartBtn {
-    width: 5%;
+    width: 50px;
+    height: 54px;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 20px;
-    padding: 5px;
-    margin-left: auto;
     background-color: rgb(0,54,100);
 }
+
+
 #shoppingCart {
-    height: 45%;
-    width: 45%;
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
 }
+
 #logoImg {
-    width: 175px;
-    height: 125px;
-    padding: 10px;
-} 
-#infoSeperator{
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
+    padding: 6px;
+    box-sizing: border-box;
+    background-color: #DFF0F7;
+    border-radius: 12px;
+}
+
+#infoSeperator {
     height: 1px;
-    color:rgb(0,54,100);
+    color: rgb(0,54,100);
     background-color: rgb(0,54,100);
 }
+
+#infoSeperatorBright {
+    height: 1px;
+    color: white;
+    background-color: white;
+}
+
 #openTimeList {
     text-align: left;
     margin: 0px 5px 0px 15%;
     list-style-type: none;
 }
+
 #productGrid {
     width: 100%;
     margin: 0;
     padding: 1%;
 }
+
 #productText {
     text-decoration: none;
     color: black;
 }
 
-#packageText{
+#packageText {
     margin: 0px 20px 40px 20px;
 }
 
-#packageImageContainer{
+#packageImageContainer {
     height: 25vw;
     width: 25vw;
     padding: 20px;

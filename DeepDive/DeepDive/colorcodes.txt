@@ -1,0 +1,10 @@
+Light blue: #00B4D8
+White: #DFF0F7
+Dark navy: #050F1B
+Navy: #041826
+Dark blue: #0B1E33
+Contrast blue: #0A2940
+Contrast dark blue: #093046
+Green: #06D6A0
+Light green/blue: #83A9BB
+Orange: #FFBB57

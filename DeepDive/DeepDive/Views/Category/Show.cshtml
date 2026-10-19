@@ -2,15 +2,65 @@
 
 @using DeepDive.Models
 
+<div class="container">
+    <div style="margin-bottom: 28px; display: flex; gap: 8px; align-items: center; font-size: 13px;">
+        <a style="color: rgb(122, 172, 190); text-decoration: none;" href="/" data-discover="true">HJEM</a>
+        <span style="color: rgb(122, 172, 190);">/</span>
+        <a style="color: rgb(122, 172, 190); text-decoration: none;" href="/Category/Show/@Model[1].GetType().Name" data-discover="true">
+            @{
+                string showString = Model[1].GetType().Name.ToUpper();
+                switch (Model[1].GetType().Name.ToUpper())
+                {
+                    case "DIVINGSUIT":
+                        showString = "DRAGTER";
+                        break;
+
+                    case "FIN":
+                        showString = "FINNER";
+                        break;
+
+                    case "REGULATORSET":
+                        showString = "REGULATORSÆT";
+                        break;
+
+                    case "SNORKEL":
+                        showString = "SNORKLER";
+                        break;
+
+                    case "TANK":
+                        showString = "TANKE";
+                        break;
+
+                    default:
+                        break;
+                }
+
+            }
+            @showString
+        </a>
+    </div>
+    <h1 class="categoryTitle">
+        @showString
+    </h1>
+</div>
+
 <div class="d-flex justify-content-center flex-wrap" id="productGrid">
     @foreach (Product product in Model)
     {
-        <a id="productText" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")" class="card m-3" style="width: 15vw; height: 18vw;">
+        <div class="product-card card m-3" style="width: 15vw; height: 18vw;">
             <img src="@Url.Content(product.ImgPath)" class="categoryImg card-img-top m-1 h-auto" alt="..." style="height: 75%; max-height: 75%;">
-            <div class="card-body p-0 productCardText m-1" style="height: 25%; min-height: 25%;">
-                <p class="card-text m-0" style="font-size: 2vh; height: 60%; max-height: 60%; min-height: 60%;">@product.Brand @product.GetUniqueInfoPage()</p>
-                <h5 style="height: 40%; max-height: 40%; min-height: 40%; font-size: 3.5vh;">Kr. @product.Price per. dag</h5>
+
+            <h3 class="product-text-brand">@product.Brand</h3>
+            <h4 class="product-text-model">@product.GetUniqueInfoPage()</h4>
+            <h5 class="product-text-description">Det her er en kort beskrivelse af et produkt, som er en test tekst</h5>
+            <div class="package-div-price justify-content-start d-flex m-1">
+                <h5 class="product-text-price">@product.Price kr</h5>
+                <p class="product-text-price-small-secoundary">/ dag</p>
             </div>
-        </a>
+            <div class="d-flex gap-3">
+                <a class="btn btn-primary product-category-btn-secoundary" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")">Se produkt</a>
+                <a class="btn btn-primary product-category-btn" asp-controller="Product" asp-action="AddTocart" asp-route-id="@($"{product.ProductId}")" asp-route-amount="1">Tilføj til kurv</a>
+            </div>
+        </div>
     }
 </div>

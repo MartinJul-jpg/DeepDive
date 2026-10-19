@@ -19,6 +19,11 @@ namespace DeepDive.Controllers
 
         public async Task<IActionResult> Index(string searchTerm)
         {
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                ViewBag.ScrollToForecast = true;
+            }
+
             if (searchTerm == null)
             {
                 searchTerm = "Middelfart";

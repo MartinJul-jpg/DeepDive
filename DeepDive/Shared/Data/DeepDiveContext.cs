@@ -33,7 +33,7 @@ namespace Shared.Data
                     Size = "S,M,L",
                     Price = 125.0,
                     Amount = 5,
-                    ImgPath = "~/images/ScubaproNavigatorLiteBCD.jpg"
+                    ImgPath = "~/images/ScubaproNavigatorLiteBCD.png"
                 },
                 new BCD{
                     ProductId = 11,
@@ -42,7 +42,7 @@ namespace Shared.Data
                     Size = "S,M,L",
                     Price = 140.0,
                     Amount = 5,
-                    ImgPath = "~/images/ScubaproBCDGlide.jpg"
+                    ImgPath = "~/images/ScubaproBCDGlide.png"
                 },
                 new BCD{
                     ProductId = 12,
@@ -51,7 +51,7 @@ namespace Shared.Data
                     Size = "S,M,L",
                     Price = 200.0,
                     Amount = 5,
-                    ImgPath = "~/images/ScubaproBCDHydrosPro.jpg"
+                    ImgPath = "~/images/ScubaproBCDHydrosPro.png"
                 },
                 new BCD{
                     ProductId = 13,
@@ -60,7 +60,7 @@ namespace Shared.Data
                     Size = "S,M,L",
                     Price = 125.0,
                     Amount = 5,
-                    ImgPath = "~/images/SeacBCDModular.jpg"
+                    ImgPath = "~/images/SeacBCDModular.png"
                 },
                 new Tank{
                     ProductId = 20,
@@ -68,7 +68,7 @@ namespace Shared.Data
                     Volume = "5 liter",
                     Price = 150.0,
                     Amount = 5,
-                    ImgPath = "~/images/ScubaproDykkerflaske5liter.jpg"
+                    ImgPath = "~/images/ScubaproDykkerflaske5liter.png"
                 },
                 new Tank{
                     ProductId = 21,
@@ -76,7 +76,7 @@ namespace Shared.Data
                     Volume = "10 liter",
                     Price = 160.0,
                     Amount = 5,
-                    ImgPath = "~/images/ScubaproDykkerflaske10liter.jpg"
+                    ImgPath = "~/images/ScubaproDykkerflaske10liter.png"
                 },
                 new Tank{
                     ProductId = 22,
@@ -84,7 +84,7 @@ namespace Shared.Data
                     Volume = "12 liter",
                     Price = 170.0,
                     Amount = 5,
-                    ImgPath = "~/images/ScubaproDykkerflaske12liter.jpg"
+                    ImgPath = "~/images/ScubaproDykkerflaske12liter.png"
                 },
                 new Tank{
                     ProductId = 23,
@@ -92,7 +92,7 @@ namespace Shared.Data
                     Volume = "15 liter",
                     Price = 180.0,
                     Amount = 5,
-                    ImgPath = "~/images/ScubaproDykkerflaske15liter.jpg"
+                    ImgPath = "~/images/ScubaproDykkerflaske15liter.png"
                 },
                 new RegulatorSet{
                     ProductId = 30,
@@ -102,7 +102,7 @@ namespace Shared.Data
                     Octopus = "R105",
                     Price = 125.0,
                     Amount = 5,
-                    ImgPath = "~/images/scubapro_mk25_s600_regulator_2_98f86760b6.jpg"
+                    ImgPath = "~/images/scubapro_mk25_s600_regulator_2_98f86760b6.png"
                 },
                 new RegulatorSet{
                     ProductId = 31,
@@ -112,7 +112,7 @@ namespace Shared.Data
                     Octopus = "R095",
                     Price = 100.0,
                     Amount = 5,
-                    ImgPath = "~/images/scubapro_mk25_s600_regulator_2_98f86760b6.jpg"
+                    ImgPath = "~/images/scubapro_mk25_s600_regulator_2_98f86760b6.png"
                 },
                 new RegulatorSet{
                     ProductId = 32,
@@ -122,7 +122,7 @@ namespace Shared.Data
                     Octopus = "S270",
                     Price = 150.0,
                     Amount = 5,
-                    ImgPath = "~/images/mk25-bt-a700carbon-s270.w1200.jpg"
+                    ImgPath = "~/images/mk25-bt-a700carbon-s270.w1200.png"
                 },
                 new Fin{
                     ProductId = 40,
@@ -131,7 +131,7 @@ namespace Shared.Data
                     Size = "XS,S,M,L,XL",
                     Price = 50.0,
                     Amount = 5,
-                    ImgPath = "~/images/ScubaproJetFin.jpg"
+                    ImgPath = "~/images/ScubaproJetFin.png"
                 },
                 new Fin{
                     ProductId = 41,
@@ -140,7 +140,7 @@ namespace Shared.Data
                     Size = "XS,S,M,L,XL",
                     Price = 50.0,
                     Amount = 5,
-                    ImgPath = "~/images/ScubaproGoTravel.jpg"
+                    ImgPath = "~/images/ScubaproGoTravel.png"
                 },
                 new Fin{
                     ProductId = 42,
@@ -149,7 +149,7 @@ namespace Shared.Data
                     Size = "XS,S,M,L,XL",
                     Price = 60.0,
                     Amount = 5,
-                    ImgPath = "~/images/ScubaproSeawingSupernova.jpg"
+                    ImgPath = "~/images/ScubaproSeawingSupernova.png"
                 },
                 new Fin{
                     ProductId = 43,
@@ -158,7 +158,7 @@ namespace Shared.Data
                     Size = "XS,S,M,L,XL",
                     Price = 50.0,
                     Amount = 5,
-                    ImgPath = "~/images/SeacPropulsion.jpg"
+                    ImgPath = "~/images/SeacPropulsion.png"
                 },
                 new Fin{
                     ProductId = 44,
@@ -167,7 +167,7 @@ namespace Shared.Data
                     Size = "XS,S,M,L,XL",
                     Price = 50.0,
                     Amount = 5,
-                    ImgPath = "~/images/SeacALA.jpg"
+                    ImgPath = "~/images/SeacALA.png"
                 },
                 new Fin{
                     ProductId = 45,
@@ -176,7 +176,7 @@ namespace Shared.Data
                     Size = "XS,S,M,L,XL",
                     Price = 75.0,
                     Amount = 5,
-                    ImgPath = "~/images/FourthElementTech.jpg"
+                    ImgPath = "~/images/FourthElementTech.png"
                 },
                 new Fin{
                     ProductId = 46,
@@ -185,7 +185,7 @@ namespace Shared.Data
                     Size = "XS,S,M,L,XL",
                     Price = 80.0,
                     Amount = 5,
-                    ImgPath = "~/images/FourthElementRecFin.jpg"
+                    ImgPath = "~/images/FourthElementRecFin.png"
                 },
                 new DivingSuit
                 {
@@ -198,7 +198,7 @@ namespace Shared.Data
                     Thickness = "3 mm",
                     Price = 100,
                     Amount = 5,
-                    ImgPath = "~/images/ScubaproDefinition3mm.jpg"
+                    ImgPath = "~/images/ScubaproDefinition3mm.png"
                 },
                 new DivingSuit
                 {
@@ -211,7 +211,7 @@ namespace Shared.Data
                     Thickness = "5 mm",
                     Price = 100,
                     Amount = 5,
-                    ImgPath = "~/images/ScubaproDefinition5mm.jpg"
+                    ImgPath = "~/images/ScubaproDefinition5mm.png"
                 },
                 new DivingSuit
                 {
@@ -224,7 +224,7 @@ namespace Shared.Data
                     Thickness = "7 mm",
                     Price = 100,
                     Amount = 5,
-                    ImgPath = "~/images/ScubaproDefinition7mm.jpg"
+                    ImgPath = "~/images/ScubaproDefinition7mm.png"
                 },
                 new DivingSuit
                 {
@@ -237,7 +237,7 @@ namespace Shared.Data
                     Thickness = "3.5 mm",
                     Price = 100,
                     Amount = 5,
-                    ImgPath = "~/images/WaterproofW5.jpg"
+                    ImgPath = "~/images/WaterproofW5.png"
                 },
                 new DivingSuit
                 {
@@ -250,7 +250,7 @@ namespace Shared.Data
                     Thickness = "5 mm",
                     Price = 120,
                     Amount = 5,
-                    ImgPath = "~/images/FourthElementProteus.jpg"
+                    ImgPath = "~/images/FourthElementProteus.png"
                 },
                 new DivingSuit
                 {
@@ -263,7 +263,7 @@ namespace Shared.Data
                     Thickness = " ",
                     Price = 300,
                     Amount = 5,
-                    ImgPath = "~/images/ScubaproExodry4-0.jpg"
+                    ImgPath = "~/images/ScubaproExodry4-0.png"
                 },
                 new DivingSuit
                 {
@@ -276,7 +276,7 @@ namespace Shared.Data
                     Thickness = " ",
                     Price = 320,
                     Amount = 5,
-                    ImgPath = "~/images/WaterproofD7Evo.jpg"
+                    ImgPath = "~/images/WaterproofD7Evo.png"
                 },
                 new DivingSuit
                 {
@@ -289,7 +289,7 @@ namespace Shared.Data
                     Thickness = " ",
                     Price = 350,
                     Amount = 5,
-                    ImgPath = "~/images/SantiE-LitePlus.jpg"
+                    ImgPath = "~/images/SantiE-LitePlus.png"
                 },
                 new Snorkel{
                     ProductId = 60,
@@ -297,7 +297,7 @@ namespace Shared.Data
                     Model = "Ghost",
                     Price = 50,
                     Amount = 5,
-                    ImgPath = "~/images/ScubaproGhost.jpg"
+                    ImgPath = "~/images/ScubaproGhost.png"
                 },
                 new Snorkel{
                     ProductId = 61,
@@ -305,7 +305,7 @@ namespace Shared.Data
                     Model = "D-Mask",
                     Price = 60,
                     Amount = 5,
-                    ImgPath = "~/images/ScubaproD-Mask.jpg"
+                    ImgPath = "~/images/ScubaproD-Mask.png"
                 },
                 new Snorkel{
                     ProductId = 62,
@@ -313,7 +313,7 @@ namespace Shared.Data
                     Model = "Spectra Mini",
                     Price = 50,
                     Amount = 5,
-                    ImgPath = "~/images/ScubaproSpectraMini.jpg"
+                    ImgPath = "~/images/ScubaproSpectraMini.png"
                 },
                 new Snorkel{
                     ProductId = 63,
@@ -321,7 +321,7 @@ namespace Shared.Data
                     Model = "Crystal VU",
                     Price = 75,
                     Amount = 5,
-                    ImgPath = "~/images/ScubaproCrystalVU.jpg"
+                    ImgPath = "~/images/ScubaproCrystalVU.png"
                 },
                 new Snorkel{
                     ProductId = 64,
@@ -329,7 +329,7 @@ namespace Shared.Data
                     Model = "Scout Kontrast",
                     Price = 75,
                     Amount = 5,
-                    ImgPath = "~/images/FourthElementScoutKontrast.jpg"
+                    ImgPath = "~/images/FourthElementScoutKontrast.png"
                 },
                 new Snorkel{
                     ProductId = 65,
@@ -337,7 +337,7 @@ namespace Shared.Data
                     Model = "Scout Enhance",
                     Price = 75.0,
                     Amount = 5,
-                    ImgPath = "~/images/FourthElementScoutEnhance.jpg"
+                    ImgPath = "~/images/FourthElementScoutEnhance.png"
                 },
                 new Snorkel{
                     ProductId = 66,
@@ -345,7 +345,7 @@ namespace Shared.Data
                     Model = "Element",
                     Price = 75.0,
                     Amount = 5,
-                    ImgPath = "~/images/TusaElement.jpg"
+                    ImgPath = "~/images/TusaElement.png"
                 },
             };
 

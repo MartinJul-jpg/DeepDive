@@ -10,89 +10,126 @@
     <link rel="stylesheet" href="~/lib/custom/css/styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <div id="headDiv">
-            <a asp-controller="Home" asp-action="Index">
-                <img src="~/lib/custom/resource/logo.png" id="logoImg">
-            </a>
-            <h1 id="head"> DIVE DEEP </h1>
-            <partial name="_LoginPartial" />
-            <form id="searchForm" asp-controller="Search" asp-action="Show" method="post">
-                <div class="d-flex flex-wrap justify-content-center align-content-center">
-                    <input style="width: 15vw;" type="text" name="searchQuery" />
-                    <input type="submit" value="SØG" id="searchBtn" />
-                </div>
-            </form>
-            <a asp-controller="Cart" asp-action="Index" id="shoppingCartBtn" class="btn btn-primary">
-                <img id="shoppingCart"
-                     src="~/lib/custom/resource/whiteshoppingCart.png"
-                     alt="Shopping cart">
-            </a>
-        </div>
-        <div id="categoryDiv">
-            <a asp-controller="Category" asp-action="Show" asp-route-id="BCD" class="btn categoryBtn btn-secondary">
-                BCD
-            </a>
-            <a asp-controller="Category" asp-action="Show" asp-route-id="DivingSuit" class="btn categoryBtn btn-secondary">
-                Dragter
-            </a>
-            <a asp-controller="Category" asp-action="Show" asp-route-id="Fin" class="btn categoryBtn btn-secondary">
-                Finner
-            </a>
-            <a asp-controller="Category" asp-action="Show" asp-route-id="RegulatorSet" class="btn categoryBtn btn-secondary">
-                Regulatorsæt
-            </a>
-            <a asp-controller="Category" asp-action="Show" asp-route-id="Snorkel" class="btn categoryBtn btn-secondary">
-                Snorkler
-            </a>
-            <a asp-controller="Category" asp-action="Show" asp-route-id="Tank" class="btn categoryBtn btn-secondary">
-                Tanke
-            </a>
+    <header id="mainHeader">
+
+        <div id="headDiv" class="justify-content-between">
+            <div class="header-left">
+                <a style="display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0;" href="/" data-discover="true">
+                    <img alt="DiveDeep" style="width: 44px; height: 34px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(0, 180, 216, 0.25);" src="~/lib/custom/resource/logo.png">
+                    <span style="font-family: Barlow Condensed, sans-serif; font-weight: 800; font-size: 21px; letter-spacing: 0.08em; color: rgb(223, 240, 247);">
+                        DIVE
+                        <span style="color: rgb(0, 180, 216);">DEEP</span>
+                    </span>
+                </a>
+
+            </div>
+
+            <div id="categoryDiv" class="gap-3">
+                <a asp-controller="Category" asp-action="Show" asp-route-id="BCD" class="btn categoryBtn btn-secondary">
+                    BCD
+                </a>
+                <a asp-controller="Category" asp-action="Show" asp-route-id="DivingSuit" class="btn categoryBtn btn-secondary">
+                    Dragter
+                </a>
+                <a asp-controller="Category" asp-action="Show" asp-route-id="Fin" class="btn categoryBtn btn-secondary">
+                    Finner
+                </a>
+                <a asp-controller="Category" asp-action="Show" asp-route-id="RegulatorSet" class="btn categoryBtn btn-secondary">
+                    Regulatorsæt
+                </a>
+                <a asp-controller="Category" asp-action="Show" asp-route-id="Snorkel" class="btn categoryBtn btn-secondary">
+                    Snorkler
+                </a>
+                <a asp-controller="Category" asp-action="Show" asp-route-id="Tank" class="btn categoryBtn btn-secondary">
+                    Tanke
+                </a>
+            </div>
+            <div class="header-right">
+                <form id="searchForm" asp-controller="Search" asp-action="Show" method="post">
+                    <div class="searchBar d-flex m-3 p-0">
+                        <input type="text"
+                               name="searchQuery"
+                               id="searchQuery"
+                               placeholder="Søg..." />
+
+                        <input type="submit"
+                               value="SØG"
+                               id="searchBtn"
+                               class="m-0" />
+                    </div>
+                </form>
+
+                <partial name="_LoginPartial" />
+                <a asp-controller="Cart" asp-action="Index" id="shoppingCartBtn" class="btn btn-primary">
+                    <img id="shoppingCart"
+                         src="~/lib/custom/resource/whiteshoppingCart.png"
+                         alt="Shopping cart">
+                </a>
+            </div>
         </div>
 
+        
     </header>
-    <div>
-        @RenderSection("categorySector", false)
-    </div>
-    <div class="container" style="width: 90%;">
+    <div class="justify-content-center align-items-center">
         @RenderBody()
     </div>
-    <hr id="infoSeperator">
-    <div id="footerDiv">
-        <div class="footerBox">
-            <h5 class="footerTitle">Information</h5>
-            <ul class="footerList">
-                <li>Åbningstider:</li>
-                <ul id="openTimeList">
-                    <li>Mandag-fredag: 10:00 - 17:30 </li>
-                    <li>Lørdag: 10:00 - 14:00</li>
-                    <li>Søndag: Lukket</li>
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3 class="footer-title">INFORMATION</h3>
+                <div class="footer-title-line"></div>
+                <p class="footer-label">Åbningstider</p>
+                <ul class="footer-list">
+                    <li><span>Mandag–fredag</span><span>10:00 – 17:30</span></li>
+                    <li><span>Lørdag</span><span>10:00 – 14:00</span></li>
+                    <li><span>Søndag</span><span>Lukket</span></li>
                 </ul>
-            </ul>
-        </div>
-        <div class="footerBox">
-            <h5 class="footerTitle">Kundeservice </h5>
-            <ul class="footerList">
-                <li>
-                    +45 60 70 80 90
-                </li>
-                <li>
-                    info@divedeep.dk
-                </li>
-            </ul>
-        </div>
-        <div class="footerBox">
-            <h5 class="footerTitle">Dive Deep A/S</h5>
-            <ul class="footerList">
-                <li>Adresse:</li>
-                <li> Dykkervej 10</li>
-                <li>5000 Odense C</li>
-                <br />
+            </div>
 
-                <li>CVR: 81828384</li>
-            </ul>
+            <div class="footer-col">
+                <h3 class="footer-title">KUNDESERVICE</h3>
+                <div class="footer-title-line"></div>
+                <ul class="footer-list">
+                    <li><span>Telefon</span><a href="tel:+4560708090">+45 60 70 80 90</a></li>
+                    <li><span>E-mail</span><a href="mailto:info@divedeep.dk">info@divedeep.dk</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3 class="footer-title">DIVE DEEP A/S</h3>
+                <div class="footer-title-line"></div>
+                <p class="footer-label">Adresse</p>
+                <ul class="footer-list">
+                    <li><span>Dykkervej 10</span></li>
+                    <li><span>5000 Odense C</span></li>
+                </ul>
+                <p class="footer-label">CVR</p>
+                <ul class="footer-list">
+                    <li><span>81828384</span></li>
+                </ul>
+            </div>
         </div>
-    </div>
+    </footer>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<script>
+    let lastScrollY = window.scrollY;
+    const header = document.getElementById("mainHeader");
+
+    window.addEventListener("scroll", () => {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+            // Scrolling down
+            header.classList.add("small");
+        }
+        else if (currentScrollY < lastScrollY) {
+            // Scrolling up
+            header.classList.remove("small");
+        }
+
+        lastScrollY = currentScrollY;
+    });
+</script>
