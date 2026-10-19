@@ -1,10 +1,8 @@
-﻿using System.Reflection;
-
-namespace DeepDive.Models
+﻿namespace Shared.Models
 {
-    public class Fin : Product
+    public class BCD : Product
     {
-        public string? Model { get; set; }
+        public string? Model{ get; set; }
         public string? Size { get; set; }
 
         public override string GetUniqueInfo()

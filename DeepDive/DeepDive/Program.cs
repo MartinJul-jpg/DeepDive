@@ -1,8 +1,8 @@
-using DeepDive.Data;
-using DeepDive.Repository;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using DeepDive.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Shared.Data;
+using Shared.Services;
 
 namespace DeepDive
 {
@@ -13,11 +13,17 @@ namespace DeepDive
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddScoped<CartRepository>();
-            builder.Services.AddScoped<ProductRepository>();
+            builder.Services.AddScoped<IDiveDeepApiService, DiveDeepApiService>();
+            builder.Services.AddScoped<IDTO_Service, DTO_Service>();
 
             // Weather API
             builder.Services.AddScoped<IWeatherHttpService, WeatherHttpService>();
+
+
+            builder.Services.AddHttpClient("DeepDiveApi", client => {
+                client.BaseAddress = new Uri("https://localhost:7126/");
+            });
+
             builder.Services.AddHttpClient("GeolocateClient", client =>
             {
                 client.BaseAddress = new Uri("https://geocoding-api.open-meteo.com/v1/");
@@ -31,11 +37,15 @@ namespace DeepDive
                 client.BaseAddress = new Uri("https://marine-api.open-meteo.com/v1/");
             });
 
-            builder.Services.AddDbContext<DeepDiveContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("default")));
+            builder.Services.AddDbContext<DiveDeepContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("default"));
+            });
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<DeepDiveContext>();
+                .AddEntityFrameworkStores<DiveDeepContext>();
+
             var app = builder.Build();
 
             app.UseStaticFiles();

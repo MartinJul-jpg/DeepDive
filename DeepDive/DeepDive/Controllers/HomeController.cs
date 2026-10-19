@@ -1,19 +1,19 @@
 ﻿using DeepDive.Models;
-using DeepDive.Repository;
 using DeepDive.Services;
 using DeepDive.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Models;
 
 namespace DeepDive.Controllers
 {
     public class HomeController : Controller
     {
-        private ProductRepository _productRepository;
+        private readonly IDiveDeepApiService _diveDeepApiService;
         private IWeatherHttpService _weatherHttpService;
 
-        public HomeController(ProductRepository productRepository, IWeatherHttpService weatherHttpService)
+        public HomeController(IDiveDeepApiService diveDeepApiService, IWeatherHttpService weatherHttpService)
         {
-            _productRepository = productRepository;
+            _diveDeepApiService = diveDeepApiService;
             _weatherHttpService = weatherHttpService;
         }
 
@@ -23,7 +23,7 @@ namespace DeepDive.Controllers
             {
                 searchTerm = "Middelfart";
             }
-            List<Package> packages =  new List<Package>(_productRepository.GetAllPackages());
+            List<Package> packages =  new List<Package>( await _diveDeepApiService.GetAllPackagesAsync());
 
             var cityRespone = await _weatherHttpService.GetCityByNameAsync(searchTerm);
             if (cityRespone == null)

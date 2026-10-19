@@ -1,124 +1,81 @@
-﻿using DeepDive.Data;
-using DeepDive.Models;
+﻿using Shared.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
+using Shared.Models;
 
-namespace DeepDive.Repository
+namespace DiveDeepAPI.Repository
 {
-    public class CartRepository
+    public class CartRepository : ICartRepository
     {
-        private string _userId { get; set; }
-        private Booking _cart
+        private readonly DiveDeepContext _diveDeepContext;
+        private readonly IProductRepository _productRepository;
+
+        public CartRepository(DiveDeepContext diveDeepContext, IProductRepository productRepository)
         {
-            get 
-            {
-                Booking cart = NonFinalizedcart();
-
-                return cart;
-            }
-            set 
-            {
-                Booking cart = NonFinalizedcart();
-
-                cart = value; 
-            }
-        }
-
-        private readonly ProductRepository _productRepository;
-        private readonly DeepDiveContext _deepDiveContext;
-
-        public CartRepository(DeepDiveContext deepDiveContext, ProductRepository productRepository)
-        {
+            _diveDeepContext = diveDeepContext;
             _productRepository = productRepository;
-            _deepDiveContext = deepDiveContext;
-        }
-        public Booking GetCart(string userId)
-        {
-            _userId = userId;
-
-            return _cart;
         }
 
-        public void UpdateCartDates(Booking cart, string userId)
+        public async Task<Booking?> GetCart(string UserId)
         {
-            _userId = userId;
+            var cart = await _diveDeepContext.Bookings
+                .Include(p => p.Product_Bookings)
+                .ThenInclude(p => p.Product)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(u => u.UserId == UserId && u.Finalized == false);
 
-            _cart.Start = cart.Start;
-            _cart.End = cart.End;
-            _cart.ExceedsStock = cart.ExceedsStock;
-
-            _deepDiveContext.SaveChanges();
+            return cart;
         }
 
-        public void UpdateCartProducts(Booking cart, string userId)
+        public async Task<Booking> GetBookingById(int bookingId)
         {
-            _userId = userId;
-
-        }
-
-        public void UpdateCartOverlap(bool exceedsStock, string userId)
-        {
-            _userId = userId;
-
-            _cart.ExceedsStock = exceedsStock;
-
-            _deepDiveContext.SaveChanges();
+            var booking = await _diveDeepContext.Bookings
+             .Include(p => p.Product_Bookings)
+             .ThenInclude(p => p.Product)
+             .AsNoTracking()
+             .SingleOrDefaultAsync(u => u.BookingId == bookingId);
+            return booking;
         } 
 
-        public void UpdateCartFromAdminPage(Booking booking)
+        public async Task<List<Booking>> GetConfirmedBookings(string UserId)
         {
-            _deepDiveContext.Bookings.Update(booking);
-            _deepDiveContext.SaveChanges();
+            var bookings = await _diveDeepContext.Bookings.Include(p => p.Product_Bookings)
+                .ThenInclude(p => p.Product).Where(u => u.UserId == UserId && u.Finalized == true).
+                ToListAsync();
+            return bookings;
         }
 
-        public void ClearCart(string userId)
+        public async Task<List<Booking>> GetAllConfirmedBookigns()
         {
-            _userId = userId;
-
-            _deepDiveContext.Bookings.Remove(_cart);
-            _deepDiveContext.SaveChanges();
-        }
-       
-
-        public void ResetCart(string userId)
-        {
-            _userId = userId;
-
-            _deepDiveContext.Bookings.Add(new Booking() { Finalized = false, UserId = userId });
-
-            _cart.Start = DateOnly.FromDateTime(DateTime.Today);
-            _cart.End = DateOnly.FromDateTime(DateTime.Today.AddDays(1));
-
-            _deepDiveContext.SaveChanges();
+            var bookings = await _diveDeepContext.Bookings.Include(p => p.Product_Bookings)
+                .ThenInclude(p => p.Product).Where(u => u.Finalized == true).
+                ToListAsync();
+            return bookings;
         }
 
-        public void AddProductToCart(int id, string userId)
+        public async Task AddNewCartAsync(Booking booking)
         {
-            _userId = userId;
-
-            //this if needed anymore? 
-            if (_cart == null)
-            {
-                ResetCart(userId);
-            }
-
-
-            _cart.Product_Bookings.Add(new Product_Booking()
-            {
-                ProductId = id,
-                Product = _productRepository.GetProductById(id),
-                Booking = _cart
-            });
-
-            _cart.CalculatePriceOfBooking();
-
-            _deepDiveContext.SaveChanges();
+            await _diveDeepContext.Bookings.AddAsync(booking);
+            await _diveDeepContext.SaveChangesAsync();
         }
 
-        public void ValidateBookingOverlap(Booking cart, string userId)
+        public async Task<bool> FinalizedCart(string UserId)
         {
-            _userId = userId;
-            
+            var booking = await _diveDeepContext.Bookings
+               .Include(p => p.Product_Bookings)
+               .ThenInclude(p => p.Product)
+               .SingleOrDefaultAsync(u => u.UserId == UserId && u.Finalized == false);
+
+            if (booking.ExceedsStock == true) return false;
+
+            booking.Finalized = true;
+            _diveDeepContext.Update(booking);
+            await _diveDeepContext.SaveChangesAsync();
+            return true;
+        }
+        public async Task<bool> HasBookingOverlap(string userId)
+        {
+            Booking cart = await GetCart(userId);
+
             //getting cartDates<DateOnly>
             //is filled with the dates that exist within carts timespan
             List<DateOnly> cartDates = new List<DateOnly>();
@@ -149,7 +106,7 @@ namespace DeepDive.Repository
 
             //getting Bookings<Booking>
             //gets all finalized Bookings that exist in the database
-            List<Booking> bookings = _deepDiveContext.Bookings
+            List<Booking> bookings = _diveDeepContext.Bookings
                 .Where(b => b.Finalized == true)
                 .Include(b => b.Product_Bookings)
                 .ToList();
@@ -236,7 +193,7 @@ namespace DeepDive.Repository
                     int cartProductId = cartProductIdTuple.Item1;
                     int cartProductIdAmount = cartProductIdTuple.Item2;
 
-                    int amount = _productRepository.GetProductById(cartProductId).Amount;
+                    int amount = (await _productRepository.GetProductById(cartProductId)).Amount;
                     foreach (var item in pbs.Where(pb => pb.ProductId == cartProductId))
                     {
                         //in here only pbs with the correct productId are present
@@ -244,13 +201,11 @@ namespace DeepDive.Repository
 
                         if (amount < cartProductIdAmount)
                         {
-                            UpdateCartOverlap(true, _userId);
-                            return;
+                            return true;
                         }
                     }
                 }
             }
-
             //in case no overlapping Bookings are detected, a check is required anyway,
             //checks that store capacity isnt exceeded by cart, in general
             foreach ((int, int) cartProductIdTuple in cartProductIdsTuple)
@@ -258,104 +213,49 @@ namespace DeepDive.Repository
                 int cartProductId = cartProductIdTuple.Item1;
                 int cartProductIdAmount = cartProductIdTuple.Item2;
 
-                int amount = _productRepository.GetProductById(cartProductId).Amount;
+                int amount = (await _productRepository.GetProductById(cartProductId)).Amount;
 
                 if (amount < cartProductIdAmount)
                 {
-                    UpdateCartOverlap(true, _userId);
-                    return;
+                    return true;
                 }
             }
-
             //cart items did not exceed remaining stock, at any point
-            UpdateCartOverlap(false, _userId);
-            return;
+            return false;
         }
 
-        private Booking NonFinalizedcart()
+        public async Task<bool> DeleteBooking(int bookingId)
         {
-            Booking cart;
-
-            if (_deepDiveContext.Bookings
-                    .Where(b => b.UserId == _userId)
-                    .Where(b => b.Finalized == false)
-                    .Include(b => b.Product_Bookings)
-                    .ThenInclude(b => b.Product).IsNullOrEmpty())
+            var booking = _diveDeepContext.Bookings.Find(bookingId);
+            if (booking != null && booking.Finalized == true)
             {
-                Booking booking = new Booking() { Finalized = false, UserId = _userId };
+                _diveDeepContext.Bookings.Remove(booking);
+                await _diveDeepContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
 
-                booking.Start = DateOnly.FromDateTime(DateTime.Today);
-                booking.End = DateOnly.FromDateTime(DateTime.Today.AddDays(1));
+        }
 
-                _deepDiveContext.Bookings.Add(booking);
-
-                _deepDiveContext.SaveChanges();
+        public async Task UpdateCartBooking(Booking updateBooking, Booking oldBooking)
+        {
+            foreach (Product_Booking pb in oldBooking.Product_Bookings)
+            {
+                Product_Booking pbToBeRemoved = new Product_Booking() { Product_BookingId = pb.Product_BookingId };
+                _diveDeepContext.Product_Bookings.Remove(pbToBeRemoved);
             }
 
-            cart = _deepDiveContext.Bookings
-                    .Where(b => b.UserId == _userId)
-                    .Where(b => b.Finalized == false)
-                    .Include(b => b.Product_Bookings)
-                    .ThenInclude(b => b.Product)
-                    .ToList()
-                    .First();
+            //update is retarded, productbookings related to the booking in question on the database is merely added on to with whatever contents there is in the provided booking. hence the remove first. 
+            _diveDeepContext.Bookings.Update(updateBooking);
 
-            return cart;
+            await _diveDeepContext.SaveChangesAsync();
         }
 
-        //Lived in BookingRepository before
-        public void AddBooking(Booking cart)
+        public async Task UpdateBooking(Booking updateBooking)
         {
-            Booking booking = _cart;
-            booking.Start = cart.Start;
-            booking.End = cart.End;
-            booking.Finalized = true;
-            _deepDiveContext.SaveChanges();
+            _diveDeepContext.Bookings.Update(updateBooking);
 
-            foreach (Product_Booking pb in cart.Product_Bookings)
-            {
-                pb.Product = null;
-                pb.Booking = null;
-                pb.BookingId = booking.BookingId;
-                _deepDiveContext.Product_Bookings.Add(pb);
-            }
-            _deepDiveContext.SaveChanges();
+            await _diveDeepContext.SaveChangesAsync();
         }
-
-        public List<Booking> GetAllBookings()
-        {
-            List<Booking> bookings = _deepDiveContext.Bookings
-                .Where(b => b.Finalized == true)
-                .Include(b => b.Product_Bookings)
-                .ThenInclude(pb => pb.Product)
-                .Include(u => u.User)
-                .ToList();
-            return bookings;
-        }
-
-        public Booking? GetBookingById(int id)
-        {
-            Booking booking = _deepDiveContext.Bookings
-                .Include(b => b.Product_Bookings)
-                .ThenInclude(pb => pb.Product)
-                .Include(ui => ui.User)
-                .Where(booking => booking.BookingId == id)
-                .ToList()
-                .First();
-
-            return booking;
-        }  
-
-        public void DeleteBookingAdmin(int id)
-        {
-            var foundbooking = _deepDiveContext.Bookings.Find(id);
-            if (foundbooking != null)
-            {
-                _deepDiveContext.Bookings.Remove(foundbooking);
-                _deepDiveContext.SaveChanges();
-            }
-        }
-
-       
     }
 }

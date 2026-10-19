@@ -1,14 +1,11 @@
-﻿using DeepDive.Models;
-using DeepDive.Repository;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client.NativeInterop;
-using System.Drawing;
+using Shared.Models;
 
-namespace DeepDive.Data
+namespace Shared.Data
 {
-    public class DeepDiveContext : IdentityDbContext<ApplicationUser>
+    public class DiveDeepContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Package>Packages { get; set; }
         public DbSet<Package_Product> Package_Products { get; set; }
@@ -22,7 +19,7 @@ namespace DeepDive.Data
         public DbSet<DivingSuit> DivingSuits { get; set; }
         public DbSet<Fin> Fins { get; set; }
 
-        public DeepDiveContext(DbContextOptions dbcontextOptions) :base(dbcontextOptions) { }
+        public DiveDeepContext(DbContextOptions dbcontextOptions) :base(dbcontextOptions) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

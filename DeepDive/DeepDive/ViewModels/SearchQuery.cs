@@ -1,4 +1,6 @@
-﻿namespace DeepDive.Models
+﻿using Shared.Models;
+
+namespace DeepDive.ViewModels
 {
     public class SearchQuery
     {

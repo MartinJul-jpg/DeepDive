@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using DeepDive.Data;
+using Shared.Data;
 
 namespace DeepDive.Areas.Identity.Pages.Account;
 

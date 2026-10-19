@@ -1,25 +1,26 @@
 ﻿using DeepDive.Models;
-using DeepDive.Repository;
+using DeepDive.Services;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Models;
 
 namespace DeepDive.Controllers
 {
     public class CategoryController : Controller
     {
-        private ProductRepository _productRepository;
+        private readonly IDiveDeepApiService _diveDeepApiService;
 
-        public CategoryController(CartRepository cartRepository, ProductRepository productRepository)
+        public CategoryController(IDiveDeepApiService diveDeepApiService)
         {
-            _productRepository = productRepository;
+            _diveDeepApiService = diveDeepApiService;
         }
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Show(string id)
+        public async Task<IActionResult> Show(string id)
         {
-            List<Product> repoList = new List<Product>(_productRepository.GetAllProducts());
+            List<Product> repoList = new List<Product>(await _diveDeepApiService.GetAllProductAsync());
             List<Product> resultList = new List<Product>();
 
             foreach (Product product in repoList)

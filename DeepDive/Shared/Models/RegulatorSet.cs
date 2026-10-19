@@ -1,8 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.Reflection;
-
-namespace DeepDive.Models
+﻿namespace Shared.Models
 {
     public class RegulatorSet : Product
     {

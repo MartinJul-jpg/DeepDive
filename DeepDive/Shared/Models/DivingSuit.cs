@@ -1,4 +1,4 @@
-﻿namespace DeepDive.Models
+﻿namespace Shared.Models
 {
     public class DivingSuit : Product
     {

@@ -1,22 +1,25 @@
-﻿using DeepDive.Data;
-using DeepDive.Models;
-using DeepDive.Repository;
+﻿using DeepDive.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Data;
+using Shared.Models;
 
 namespace DeepDive.Controllers
 {
     public class PackageController : Controller
     {
-        private CartRepository _cartRepository;
-        private ProductRepository _productRepository;
+        private string _userId
+        {
+            get { return _userManager.GetUserId(this.User); }
+        }
+
+        private readonly IDiveDeepApiService _diveDeepApiService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public PackageController(CartRepository cartRepository, ProductRepository productRepository, UserManager<ApplicationUser> userManager)
+        public PackageController(IDiveDeepApiService diveDeepApiService, UserManager<ApplicationUser> userManager)
         {
-            _cartRepository = cartRepository;
-            _productRepository = productRepository;
+            _diveDeepApiService = diveDeepApiService;
             _userManager = userManager;
         }
         public IActionResult Index()
@@ -24,22 +27,24 @@ namespace DeepDive.Controllers
             return View();
         }
 
-        public IActionResult Show(int id)
+        public async Task<IActionResult> Show(int id)
         {
-            Package package = _productRepository.GetPackageById(id);
+            Package package = await _diveDeepApiService.GetPackageByIdAsync(id);
 
             return View(package);
         }
 
         [Authorize(Roles = "User")]
-        public IActionResult AddPackageTocart(int id, int amount)
+        public async Task<IActionResult> AddPackageTocart(int id, int amount)
         {
+            await _diveDeepApiService.CreateCartAsync(_userId);
+
             for (int i = 0; i < amount; i++)
             {
-                Package package = _productRepository.GetPackageById(id);
+                Package package = await _diveDeepApiService.GetPackageByIdAsync(id);
                 foreach (Package_Product pp in package.Package_Products)
                 {
-                    _cartRepository.AddProductToCart(pp.ProductId, _userManager.GetUserId(this.User));
+                    await _diveDeepApiService.AddProductToCartAsync(pp.ProductId, _userManager.GetUserId(this.User));
                 }
             }
             return RedirectToAction("Index", "cart");

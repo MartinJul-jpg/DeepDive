@@ -1,4 +1,5 @@
-﻿using DeepDive.Models;
+﻿
+using Shared.Models;
 
 namespace DeepDive.ViewModels
 {
