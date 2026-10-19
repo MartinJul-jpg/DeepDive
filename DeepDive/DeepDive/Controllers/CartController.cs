@@ -109,6 +109,8 @@ namespace DeepDive.Controllers
                 return View();
             }
 
+            foundCart.CalculatePriceOfBooking();
+
             return View(foundCart);
         }
 
