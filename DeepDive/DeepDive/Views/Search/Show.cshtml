@@ -7,16 +7,40 @@
             @foreach (Package package in Model.Packages)
             {
                 double _price = 0;
-                <a id="productText" class="card m-1" asp-controller="Package" asp-action="Show" asp-route-id="@($"{package.PackageId}")">
-                    <div class="d-flex justify-content-evenly  flex-wrap" style="width: 32rem; height: 80%; padding: 24px">
-                        @foreach (Package_Product pp in package.Package_Products)
-                        {
-                            _price += pp.Product.Price;
-                            <img src="@Url.Content(pp.Product.ImgPath)" class="packageImg" style="width: 8rem; height: 8rem" alt="...">
+                <div class="package-card m-1">
+                    <div class="package-images-container">
+                        @{
+                            int count = package.Package_Products.Count();
+                            int index = 0;
+
+                            foreach (Package_Product pp in package.Package_Products)
+                            {
+                                double offset = (index - (count - 1) / 2.0) * 40;
+                                _price += pp.Product.Price;
+
+                                <img src="@Url.Content(pp.Product.ImgPath)" class="packageImg"
+                                     style="left: calc(50% + @(offset)px); z-index: @(index);"
+                                     alt="..." />
+
+                                index++;
+                            }
                         }
                     </div>
-                    <h4 id="packageText" class="card-text">Pakkeløsning @package.PackageId - @_price kr. per dag</h4>
-                </a>
+                    <p class="package-text-over">Test tekst</p>
+                    <h3 class="package-text">Pakkeløsning @package.PackageId</h3>
+                    <p class="package-text-desciption">Den nemme løsning til en dag ved kysten for voksne og begyndere.</p>
+                    <div class="package-div-price justify-content-between d-flex m-1">
+                        <div class="package-div-price d-flex">
+                            <h3 class="package-text-price">@_price kr</h3>
+                            <p class="package-text-price-small-secoundary">/ dag</p>
+                        </div>
+                        <p class="package-text-price-small">Spar 0 kr/dag</p>
+                    </div>
+                    <div style="margin: 20px 0px 0px 0px;" class="d-flex justify-content-evenly">
+                        <a class="btn btn-primary package-btn-secoundary" asp-controller="Package" asp-action="Show" asp-route-id="@($"{package.PackageId}")">Se pakke</a>
+                        <a class="btn btn-primary package-btn-primary" asp-controller="Package" asp-action="AddPackageTocart" asp-route-id="@($"{package.PackageId}")" asp-route-amount="1">Tilføj til kurv</a>
+                    </div>
+                </div>
             }
         }
     </div>
@@ -28,13 +52,21 @@
         {
             @foreach (Product product in Model.Products)
             {
-                <a id="productText" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")" class="card m-3" style="width: 15vw; height: 18vw;">
+                <div class="product-card card m-3" style="width: 15vw; height: 18vw;">
                     <img src="@Url.Content(product.ImgPath)" class="categoryImg card-img-top m-1 h-auto" alt="..." style="height: 75%; max-height: 75%;">
-                    <div class="card-body p-0 productCardText m-1" style="height: 25%; min-height: 25%;">
-                        <p class="card-text m-0" style="font-size: 2vh; height: 60%; max-height: 60%; min-height: 60%;">@product.Brand @product.GetUniqueInfoPage()</p>
-                        <h5 style="height: 40%; max-height: 40%; min-height: 40%; font-size: 3.5vh;">Kr. @product.Price per. dag</h5>
+
+                    <h3 class="product-text-brand">@product.Brand</h3>
+                    <h4 class="product-text-model">@product.GetUniqueInfoPage()</h4>
+                    <h5 class="product-text-description">Det her er en kort beskrivelse af et produkt, som er en test tekst</h5>
+                    <div class="package-div-price justify-content-start d-flex m-1">
+                        <h5 class="product-text-price">@product.Price kr</h5>
+                        <p class="product-text-price-small-secoundary">/ dag</p>
                     </div>
-                </a>
+                    <div class="d-flex gap-3">
+                        <a class="btn btn-primary product-category-btn-secoundary" asp-controller="Product" asp-action="Show" asp-route-id="@($"{product.ProductId}")">Se produkt</a>
+                        <a class="btn btn-primary product-category-btn" asp-controller="Product" asp-action="AddTocart" asp-route-id="@($"{product.ProductId}")" asp-route-amount="1">Tilføj til kurv</a>
+                    </div>
+                </div>
             }
         }
     </div>

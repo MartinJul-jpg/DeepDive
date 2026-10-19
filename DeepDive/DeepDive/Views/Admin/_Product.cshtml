@@ -4,40 +4,41 @@
     string action = ViewBag.Action ?? string.Empty;
 }
 
-<form method="post" asp-controller="Admin" asp-action="@action">
-    @if (action == "EditProduct")
-    {
-        <input type="hidden" asp-for="ProductId" />
-        <input type="hidden" asp-for="RowVersion" />
-        
-        // adding hidden field for imgpath until the proper solution for changing pictures is added
-        <input type="hidden" asp-for="ImgPath" />
-    }
-
-    <div class="mb-3">
-        @if (action == "CreateNewProduct")
-        {
-            <select id="productTypeSelector" name="productTypeSelector" class="form-select">
-                <option value="BCD">BCD</option>
-                <option value="DivingSuit">DivingSuit</option>
-                <option value="Fin">Fin</option>
-                <option value="RegulatorSet">RegulatorSet</option>
-                <option value="Snorkel">Snorkel</option>
-                <option value="Tank">Tank</option>
-            </select>
-
-        }
-
+<div class="container">
+    <form method="post" asp-controller="Admin" asp-action="@action">
         @if (action == "EditProduct")
         {
-            // comment1: fix for comment2, determine Model specialisation type for use in comment3
-            string productTypeValue = 
-                  Model is BCD ? "BCD"
-                : Model is DivingSuit ? "DivingSuit"
-                : Model is RegulatorSet ? "RegulatorSet"
-                : Model is Snorkel ? "Snorkel"
-                : Model is Tank ? "Tank"
-                : string.Empty;
+            <input type="hidden" asp-for="ProductId" />
+            <input type="hidden" asp-for="RowVersion" />
+
+            // adding hidden field for imgpath until the proper solution for changing pictures is added
+            <input type="hidden" asp-for="ImgPath" />
+        }
+
+        <div class="mb-3">
+            @if (action == "CreateNewProduct")
+            {
+                <select id="productTypeSelector" name="productTypeSelector" class="form-select">
+                    <option value="BCD">BCD</option>
+                    <option value="DivingSuit">DivingSuit</option>
+                    <option value="Fin">Fin</option>
+                    <option value="RegulatorSet">RegulatorSet</option>
+                    <option value="Snorkel">Snorkel</option>
+                    <option value="Tank">Tank</option>
+                </select>
+
+            }
+
+            @if (action == "EditProduct")
+            {
+                // comment1: fix for comment2, determine Model specialisation type for use in comment3
+                string productTypeValue =
+                      Model is BCD ? "BCD"
+                    : Model is DivingSuit ? "DivingSuit"
+                    : Model is RegulatorSet ? "RegulatorSet"
+                    : Model is Snorkel ? "Snorkel"
+                    : Model is Tank ? "Tank"
+                    : string.Empty;
 
             // comment2: disabled form controls are not submitted, the more you know
             <select disabled id="productTypeSelector" class="form-select">
@@ -68,101 +69,102 @@
         
 
     
-        <div id="fieldsBCD" class="subclassFields" style="display:none;">
-            <div class="form-floating mb-3">
-                <input type="text" name="Model" id="floatingModelBCD" class="form-control" value="@((Model as BCD)?.Model)" placeholder="1" />
-                <label for="floatingModelBCD">Model</label>
+            <div id="fieldsBCD" class="subclassFields" style="display:none;">
+                <div class="form-floating mb-3">
+                    <input type="text" name="Model" id="floatingModelBCD" class="form-control" value="@((Model as BCD)?.Model)" placeholder="1" />
+                    <label for="floatingModelBCD">Model</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="text" name="Size" class="form-control" value="@((Model as BCD)?.Size)" placeholder="1" />
+                    <label for="floatingSizeBCD">Size</label>
+                </div>
             </div>
 
-            <div class="form-floating mb-3">
-                <input type="text" name="Size" class="form-control" value="@((Model as BCD)?.Size)" placeholder="1" />
-                <label for="floatingSizeBCD">Size</label>
+            <div id="fieldsDivingSuit" class="subclassFields" style="display:none;">
+                <div class="form-floating mb-3">
+                    <input type="text" name="Model" id="floatingModelDivingsuit" class="form-control" value="@((Model as DivingSuit)?.Model)" placeholder="1" />
+                    <label for="floatingModelDivingsuit">Model</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="text" name="Size" id="floatingSizeDivingsuit" class="form-control" value="@((Model as DivingSuit)?.Size)" placeholder="1" />
+                    <label for="floatingSizeDivingsuit">Size</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="text" name="Type" id="floatingTypeDivingsuit" class="form-control" value="@((Model as DivingSuit)?.Type)" placeholder="1" />
+                    <label for="floatingTypeDivingsuit">Type</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="text" name="Gender" id="floatingGenderDivingsuit" class="form-control" value="@((Model as DivingSuit)?.Gender)" placeholder="1" />
+                    <label for="floatingGenderDivingsuit">Gender</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="text" name="Thickness" id="floatingThicknessDivingsuit" class="form-control" value="@((Model as DivingSuit)?.Thickness)" placeholder="1" />
+                    <label for="floatingThicknessDivingsuit">Thickness</label>
+                </div>
+
+            </div>
+
+            <div id="fieldsFin" class="subclassFields" style="display:none;">
+                <div class="form-floating mb-3">
+                    <input type="text" name="Model" id="floatingModelFin" class="form-control" value="@((Model as Fin)?.Model)" placeholder="1" />
+                    <label for="floatingModelFin">Model</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="text" name="Size" id="floatingSizeFin" class="form-control" value="@((Model as Fin)?.Size)" placeholder="1" />
+                    <label for="floatingSizeFin">Size</label>
+                </div>
+
+
+            </div>
+
+            <div id="fieldsRegulatorSet" class="subclassFields" style="display:none;">
+
+                <div class="form-floating mb-3">
+                    <input type="text" name="FirstStage" id="floatingFirstStageRegulatorSet" class="form-control" value="@((Model as RegulatorSet)?.FirstStage)" placeholder="1" />
+                    <label for="floatingFirstStageRegulatorSet">FirstStage</label>
+                </div>
+
+
+                <div class="form-floating mb-3">
+                    <input type="text" name="SecondStage" id="floatingSecondStageOctopusRegulatorSet" class="form-control" value="@((Model as RegulatorSet)?.SecondStage)" placeholder="1" />
+                    <label for="floatingSecondStageOctopusRegulatorSet">SecondStage</label>
+                </div>
+
+
+                <div class="form-floating mb-3">
+                    <input type="text" name="Octopus" id="floatingOctopusRegulatorSet" class="form-control" value="@((Model as RegulatorSet)?.Octopus)" placeholder="1" />
+                    <label for="floatingOctopusRegulatorSet">Octopus</label>
+                </div>
+            </div>
+
+            <div id="fieldsSnorkel" class="subclassFields" style="display:none;">
+
+                <div class="form-floating mb-3">
+                    <input type="text" name="Model" class="form-control" value="@((Model as Snorkel)?.Model)" placeholder="1" />
+                    <label for="floatingModelSnorkel">Model</label>
+                </div>
+            </div>
+
+            <div id="fieldsTank" class="subclassFields" style="display:none;">
+
+                <div class="form-floating mb-3">
+                    <input type="text" name="Model" class="form-control" value="@((Model as Tank)?.Volume)" placeholder="1" />
+                    <label for="floatingVolumeTank">Volume</label>
+                </div>
+            </div>
+            <div>
+                <input type="submit" class="btn-success" value="Save" />
             </div>
         </div>
-
-        <div id="fieldsDivingSuit" class="subclassFields" style="display:none;">
-            <div class="form-floating mb-3">
-                <input type="text" name="Model" id="floatingModelDivingsuit" class="form-control" value="@((Model as DivingSuit)?.Model)" placeholder="1" />
-                <label for="floatingModelDivingsuit">Model</label>
-            </div>
-
-            <div class="form-floating mb-3">
-                <input type="text" name="Size" id="floatingSizeDivingsuit" class="form-control" value="@((Model as DivingSuit)?.Size)" placeholder="1" />
-                <label for="floatingSizeDivingsuit">Size</label>
-            </div>
-
-            <div class="form-floating mb-3">
-                <input type="text" name="Type" id="floatingTypeDivingsuit" class="form-control" value="@((Model as DivingSuit)?.Type)" placeholder="1" />
-                <label for="floatingTypeDivingsuit">Type</label>
-            </div>
-
-            <div class="form-floating mb-3">
-                <input type="text" name="Gender" id="floatingGenderDivingsuit" class="form-control" value="@((Model as DivingSuit)?.Gender)" placeholder="1" />
-                <label for="floatingGenderDivingsuit">Gender</label>
-            </div>
-
-            <div class="form-floating mb-3">
-                <input type="text" name="Thickness" id="floatingThicknessDivingsuit" class="form-control" value="@((Model as DivingSuit)?.Thickness)" placeholder="1" />
-                <label for="floatingThicknessDivingsuit">Thickness</label>
-            </div>
-
-        </div>
-
-        <div id="fieldsFin" class="subclassFields" style="display:none;">
-            <div class="form-floating mb-3">
-                <input type="text" name="Model" id="floatingModelFin" class="form-control" value="@((Model as Fin)?.Model)" placeholder="1" />
-                <label for="floatingModelFin">Model</label>
-            </div>
-
-            <div class="form-floating mb-3">
-                <input type="text" name="Size" id="floatingSizeFin" class="form-control" value="@((Model as Fin)?.Size)" placeholder="1" />
-                <label for="floatingSizeFin">Size</label>
-            </div>
-
-
-        </div>
-
-        <div id="fieldsRegulatorSet" class="subclassFields" style="display:none;">
-
-            <div class="form-floating mb-3">
-                <input type="text" name="FirstStage" id="floatingFirstStageRegulatorSet" class="form-control" value="@((Model as RegulatorSet)?.FirstStage)" placeholder="1" />
-                <label for="floatingFirstStageRegulatorSet">FirstStage</label>
-            </div>
-
-
-            <div class="form-floating mb-3">
-                <input type="text" name="SecondStage" id="floatingSecondStageOctopusRegulatorSet" class="form-control" value="@((Model as RegulatorSet)?.SecondStage)" placeholder="1" />
-                <label for="floatingSecondStageOctopusRegulatorSet">SecondStage</label>
-            </div>
-
-
-            <div class="form-floating mb-3">
-                <input type="text" name="Octopus" id="floatingOctopusRegulatorSet" class="form-control" value="@((Model as RegulatorSet)?.Octopus)" placeholder="1" />
-                <label for="floatingOctopusRegulatorSet">Octopus</label>
-            </div>
-        </div>
-
-        <div id="fieldsSnorkel" class="subclassFields" style="display:none;">
-
-            <div class="form-floating mb-3">
-                <input type="text" name="Model" class="form-control" value="@((Model as Snorkel)?.Model)" placeholder="1" />
-                <label for="floatingModelSnorkel">Model</label>
-            </div>
-        </div>
-
-        <div id="fieldsTank" class="subclassFields" style="display:none;">
-
-            <div class="form-floating mb-3">
-                <input type="text" name="Model" class="form-control" value="@((Model as Tank)?.Volume)" placeholder="1" />
-                <label for="floatingVolumeTank">Volume</label>
-            </div>
-        </div>
-        <div>
-            <input type="submit" class="btn-success" value="Save" />
-        </div>
-    </div>
-    <div class="text-danger" asp-validation-summary="All"></div>
-</form>
+        <div class="text-danger" asp-validation-summary="All"></div>
+    </form>
+</div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {

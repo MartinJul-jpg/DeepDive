@@ -1,121 +1,255 @@
-﻿@using DeepDive.Models
+﻿@using System.Globalization
+@using DeepDive.Models
 @using DeepDive.ViewModels
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @model HomeViewModel;
 
-<br />
-<div id="forecastCard" class="">
-    <h2>Vejrudsigt</h2>
-    <form asp-action="Index" asp-controller="Home">
-        <input id="forecastInput" type="search" name="searchTerm" placeholder="Søg eller vælg et dykningssted" list="diveSites" />
-        <datalist id="diveSites">
-            <!-- Fyn -->
-            <option value="Middelfart" />
-            <option value="Strib" />
-            <option value="Kerteminde" />
-            <option value="Svendborg" />
-            <option value="Faaborg" />
-            <option value="Nyborg" />
-            <option value="Assens" />
-            <option value="Rudkøbing" />
+<div class="depth-gauge" id="depthGauge">
+    <div class="depth-mark active"><span>0M</span><div class="depth-line"></div></div>
+    <div class="depth-mark"><span>10M</span><div class="depth-line"></div></div>
+    <div class="depth-mark"><span>20M</span><div class="depth-line"></div></div>
+    <div class="depth-mark"><span>30M</span><div class="depth-line"></div></div>
+    <div class="depth-mark"><span>40M</span><div class="depth-line"></div></div>
+</div>
 
-            <!-- Sjælland -->
-            <option value="Helsingør" />
-            <option value="Rørvig" />
-            <option value="Kalundborg" />
-            <option value="Korsør" />
+<section class="hero-section align-content-center">
+    <div class="hero-img-wrapper">
+        <img class="hero-img" src="~/lib/custom/resource/frontpage-diver.jpg" />
+        <div class="hero-img-div"></div>
+        <div class="hero-img-secoundary-div"></div>
+    </div>
+    <div class="hero-div-over">
+        <div class="d-flex mb-2 align-items-center gap-2">
+            <div class="hero-line"></div>
+            <span class="hero-title-over">PROFESSIONELT DYKKERUDSTYR</span>
+        </div>
+        <div>
+            <h1 class="hero-title">
+                DIVE
+                <br>
+                <span style="color: #00B4D8;">DEEP</span>
+            </h1>
+        </div>
+        <p class="hero-text">
+            Lej komplet dykkerudstyr af høj kvalitet.
+            Alt fra BCD og dragter til tanke og regulatorsæt.
+            Serviceret og klar til dit næste dyk.
+        </p>
+        <div class="d-flex gap-4">
+            <a href="#packages" class="hero-btn-primary btn btn-primary">Se udstyr</a>
+            <a href="#weatherforecast" class="hero-btn-secoundary btn btn-secondary">Se vejrudsigt</a>
+        </div>
+    </div>
+</section>
 
-            <!-- Jylland -->
-            <option value="Kollerup" />
-            <option value="Aarhus" />
-            <option value="Ebeltoft" />
-            <option value="Grenaa" />
+<section id="packages">
 
-            <!-- Bornholm -->
-            <option value="Rønne" />
-            <option value="Gudhjem" />
-        </datalist>
-        <input class="btn btn-success" type="submit" />
-    </form>
+    @* Package title/text *@
+    <div class="d-flex flex-column align-items-md-end flex-md-row justify-content-between gap-5">
+        <div>
+            <div class="d-flex mb-2 align-items-center gap-2">
+                <div class="hero-line"></div>
+                <span class="hero-title-over">PAKKELØSNINGER</span>
+            </div>
+            <h2 class="package-title">
+                MERE DYK. <br />
+                <span style="color: #00B4D8;">MINDRE BESVÆR.</span>
+            </h2>
+        </div>
+        <p class="packages-text-small">Vores pakker samler det rigtige udstyr til dit dyk og giver dig en bedre dagspris end ved enkeltleje.</p>
+    </div>
 
-    <h4>@(Model.ForecastViewModel.City.Name)</h4>
-    <div class="row d-flex justify-content-evenly">
-        @for (int i = 0; i < 7; i++)
+    @* Packages shown *@
+    <div class="d-flex justify-content-center flex-wrap">
+        @foreach (Package package in Model.Packages)
         {
-            <div class="forecastDayCard">
-                <h3 class="forecastDayText">@(Model.ForecastViewModel.WeatherForecast.TimeStamps[i].ToShortDateString())</h3>
-                <img class="forecastImg" src="~/images/WeatherCodeImages/WeatherCode@(Model.ForecastViewModel.WeatherForecast.WeatherCode[i]).png" alt="TodayForecast" />
-                @if (Model.ForecastViewModel.MarineForecast.HasMarineWeatherStation)
-                {
-                    <p style="font-size: 0.7vw">
-                        Vandtemperatur: @(Model.ForecastViewModel.MarineForecast.SeaSurfaceTempearture[i].ToString("0"))°C <br />
-                        Bølgehøjde: @(Model.ForecastViewModel.MarineForecast.WaveHeight[i].ToString("0.##")) m <br />
-                        Vindhastighed: @(Model.ForecastViewModel.WeatherForecast.WindSpeed[i].ToString("0")) m/s <br />
-                        Nedbør: @(Model.ForecastViewModel.WeatherForecast.PrecipitationSum[i].ToString("0.##")) mm <br />
-                    </p>
-                    @if (Model.ForecastViewModel.WeatherForecast.WeatherCode[i] >= 95)
-                    {
-                        <p>ALT DYKNING FRARÅDES GRUNDET TORDENVEJR</p>
-                    }
-                    else
-                    {
-                        @if (Model.ForecastViewModel.MarineForecast.WaveHeight[i] < 1.5
-                        && Model.ForecastViewModel.WeatherForecast.PrecipitationSum[i] < 2
-                        && Model.ForecastViewModel.WeatherForecast.WeatherCode[i] < 95
-                        && Model.ForecastViewModel.WeatherForecast.WindSpeed[i] < 8)
-                        {
-                            <p>
-                                Dykkeforhold: Gode
-                            </p>
-                        }
-                        else
-                        {
-                            <p>
-                                Dykkeforhold: Dårlige
-                            </p>
-                        }
-                        var temp = Model.ForecastViewModel.MarineForecast.SeaSurfaceTempearture[0];
-                        var tempCategory = temp switch
-                        {
-                            < 10 => "Tørdragt",
-                            >= 10 and < 18 => "Våddragt (7mm)",
-                            >= 18 and < 24 => "Våddragt (5mm)",
-                            _ => "Våddragt (3mm)"
-                        };
-                        <p>Forslået dragttype: @tempCategory</p>
-                        <div style="height: 1vh; width: 100%;">
-                            @if (Model.ForecastViewModel.WeatherForecast.WeatherCode[i] >= 95)
-                            {
+            double _price = 0;
+            <div class="package-card m-1">
+                <div class="package-images-container">
+                    @{
+                        int count = package.Package_Products.Count();
+                        int index = 0;
 
-                            }
-                        </div>
-                    }
-                }
-                else
-                {
-                    <p>Ingen vejrstation fundet</p>
-                }
+                        foreach (Package_Product pp in package.Package_Products)
+                        {
+                            double offset = (index - (count - 1) / 2.0) * 40;
+                            _price += pp.Product.Price;
 
+                            <img src="@Url.Content(pp.Product.ImgPath)" class="packageImg"
+                                 style="left: calc(50% + @(offset)px); z-index: @(index);"
+                                 alt="..." />
+
+                            index++;
+                        }
+                    }
+                </div>
+                <p class="package-text-over">Test tekst</p>
+                <h3 class="package-text">Pakkeløsning @package.PackageId</h3>
+                <p class="package-text-desciption">Den nemme løsning til en dag ved kysten for voksne og begyndere.</p>
+                <div class="package-div-price justify-content-between d-flex m-1">
+                    <div class="package-div-price d-flex">
+                        <h3 class="package-text-price">@_price kr</h3>
+                        <p class="package-text-price-small-secoundary">/ dag</p>
+                    </div>
+                    <p class="package-text-price-small">Spar 0 kr/dag</p>
+                </div>
+                <div style="margin: 20px 0px 0px 0px;" class="d-flex justify-content-evenly">
+                    <a class="btn btn-primary package-btn-secoundary" asp-controller="Package" asp-action="Show" asp-route-id="@($"{package.PackageId}")">Se pakke</a>
+                    <a class="btn btn-primary package-btn-primary" asp-controller="Package" asp-action="AddPackageTocart" asp-route-id="@($"{package.PackageId}")" asp-route-amount="1">Tilføj til kurv</a>
+                </div>
             </div>
         }
     </div>
-</div>
-<br />
-<h1 class="text-decoration-underline">Pakke tilbud</h1>
-<div class="d-flex justify-content-center flex-wrap">
-    @foreach (Package package in Model.Packages)
-    {
-        double _price = 0;
-        <a id="productText" class="card m-1" asp-controller="Package" asp-action="Show" asp-route-id="@($"{package.PackageId}")">
-            <div class="d-flex justify-content-evenly  flex-wrap" style="width: 32rem; height: 80%; padding: 24px">
-                @foreach (Package_Product pp in package.Package_Products)
-                {
-                    _price += pp.Product.Price;
-                    <img src="@Url.Content(pp.Product.ImgPath)" class="packageImg" style="width: 8rem; height: 8rem" alt="...">
+</section>
+
+<section id="weatherforecast">
+    <div id="forecast-input-card" class="d-flex flex-column align-items-center justify-content-center">
+        <div>
+            <div class="d-flex justify-content-center align-items-md-center gap-3">
+                <div class="hero-line"></div>
+                <span class="hero-title-over">DYKKER-VEJRUDSIGT</span>
+                <div class="hero-line"></div>
+            </div>
+            <h1 id="forecast-input-title">
+                7-DAGES<br />
+                <span style="color: #00B4D8">VEJRUDSIGT</span>
+            </h1>
+            <p id="forecast-input-description">Tjek om vejret er optimalt til dit næste dyk. Vi vurderer vejret for dig, og giver dig en vudering.</p>
+        </div>
+        <div style="width: 60%; margin-top: 24px;">
+            <form class="gap-0 d-flex" asp-action="Index" asp-controller="Home">
+                <input placeholder="Søg efter by... f.eks. Middelfart" name="searchTerm" id="forecast-input" type="text" value="">
+                <input type="submit" class="forecast-input-search" value="SØG" />
+            </form>
+            <div style="margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;">
+                @{
+                    var cities = new List<string> { "Middelfart", "Strib", "Kerteminde", "Svendborg", "Faaborg", "Nyborg", "Assens", "Rudkøbing", "Helsingør", "Rørvig", "Kalundborg", "Korsør", "Kollerup", "Aarhus", "Ebeltoft", "Grenaa", "Vejle", "Rønne", "Gudhjem" };
+                    foreach (var city in cities)
+                    {
+                        <form asp-action="Index" asp-controller="Home">
+                            <button name="searchTerm" value="@city" class="forecast-input-button">@city</button>
+                        </form>
+                    }
                 }
             </div>
-            <h4 id="packageText" class="card-text">Pakkeløsning @package.PackageId - @_price kr. per dag</h4>
-        </a>
+        </div>
+    </div>
+
+    <div id="forecast-result-card" class="d-flex flex-column align-items-center justify-content-center">
+        <div style="width: 75%;">
+            <h2 style="font-family: Barlow Condensed, sans-serif; font-weight: 800; font-size: 36px; color: rgb(223, 240, 247); margin-bottom: 8px; margin-top: 48px;">@(Model.ForecastViewModel.City.Name)</h2>
+            <p style="font-size: 14px; color: rgb(157, 200, 219); margin-bottom: 16px;">0 ud af 7 dage har gode dykkerbetingelser</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <div style="width: 10px; height: 10px; border-radius: 50%; background: rgb(6, 214, 160);"></div>
+                    <span class="forecast-card-text-small">Optimalt</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <div style="width: 10px; height: 10px; border-radius: 50%; background: rgb(0, 180, 216);"></div>
+                    <span class="forecast-card-text-small">Godt</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <div style="width: 10px; height: 10px; border-radius: 50%; background: rgb(224, 176, 96);"></div>
+                    <span class="forecast-card-text-small">Muligt</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <div style="width: 10px; height: 10px; border-radius: 50%; background: rgb(224, 112, 112);"></div>
+                    <span class="forecast-card-text-small">Ikke egnet</span>
+                </div>
+            </div>
+            <br />
+            @{
+                var divingLevels = new List<string> { "Ikke egnet", "Muligt", "Godt", "Optimalt" };
+                var divingColors = new List<string> { "#ff6b6b", "#ffd32a", "#06d6a0", "#00B4D8" };
+
+                string state = "Ikke vuderet";
+                bool isFirst = true;
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    @for (int i = 0; i < 7; i++)
+                    {
+                        double windSpeed = Model.ForecastViewModel.WeatherForecast.WindSpeed[i];
+                        double waveHeight = Model.ForecastViewModel.MarineForecast.WaveHeight[i];
+                        double precipitation = Model.ForecastViewModel.WeatherForecast.PrecipitationSum[i];
+                        int weatherCode = Model.ForecastViewModel.WeatherForecast.WeatherCode[i];
+
+                        // Evaluate each criterion independently
+                        int windLevel = windSpeed < 4 ? 3 : windSpeed <= 8 ? 2 : windSpeed <= 11 ? 1 : 0;
+                        int waveLevel = waveHeight < 0.5 ? 3 : waveHeight <= 1.5 ? 2 : waveHeight <= 2.0 ? 1 : 0;
+                        int precipLevel = precipitation == 0 ? 3 : precipitation < 2 ? 2 : precipitation <= 5 ? 1 : 0;
+                        int stormLevel = weatherCode >= 95 ? 0 : weatherCode >= 93 ? 1 : 3;
+
+                        // Take the minimum (most restrictive) level
+                        int levelIndex = new[] { windLevel, waveLevel, precipLevel, stormLevel }.Min();
+                        state = divingLevels[levelIndex];
+
+                        var levels = new[]
+                        {
+                            (Rgb: "224, 112, 112", Label: "❌ IKKE EGNET", Text: "Ikke egnet til dykning"),
+                            (Rgb: "224, 176, 96",  Label: "⚠️ MULIGT",    Text: "Dykning mulig, men vejret er dårligt"),
+                            (Rgb: "0, 180, 216",   Label: "👍 GODT",      Text: "Godt til dykning"),
+                            (Rgb: "6, 214, 160",   Label: "🤿 OPTIMALT",  Text: "Optimale dykkerbetingelser!")
+                        };
+                        var level = levels[divingLevels.IndexOf(state)];
+
+                        
+                        <div class="forecast-card" style="--c: @level.Rgb">
+                            <div class="forecast-card-accent"></div>
+                            <div style="padding-left: 8px;">
+                                @if (isFirst)
+                                {
+                                    isFirst = false;
+                                    <div class="today-badge"><span>I DAG</span></div>
+                                }
+                                <p class="forecast-card-text-day">@Model.ForecastViewModel.WeatherForecast.TimeStamps[i].ToString("ddd", new CultureInfo("da-DK"))</p>
+                                <p class="forecast-card-text-date">@Model.ForecastViewModel.WeatherForecast.TimeStamps[i].ToString("d. MMM.", new CultureInfo("da-DK"))</p>
+                            </div>
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                                    <img class="forecastImg" src="~/images/WeatherCodeImages/WeatherCode@(Model.ForecastViewModel.WeatherForecast.WeatherCode[i]).png" alt="TodayForecast" />
+                                    <div>
+                                        <p class="forecast-card-text-small">@state</p>
+                                        <p class="forecast-card-text-small">🌊 @Model.ForecastViewModel.MarineForecast.WaveHeight[i].ToString("0.##") m</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                                    <span class="forecast-card-text-small">💨 @Model.ForecastViewModel.WeatherForecast.WindSpeed[i].ToString("0") m/s</span>
+                                    <span class="forecast-card-text-small">🌧 @Model.ForecastViewModel.WeatherForecast.PrecipitationSum[i].ToString("0.#") mm</span>
+                                </div>
+                            </div>
+                            <div style="text-align: right; min-width: 130px;">
+                                <div class="forecast-card-square">
+                                    <p class="forecast-card-label flex-column align-items-center">@level.Label</p>
+                                </div>
+                                <p class="forecast-card-text-assesment">@level.Text</p>
+                            </div>
+                        </div>
+                    }
+                    <br />
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<script>
+    const marks = document.querySelectorAll('#depthGauge .depth-mark');
+
+    function updateDepthGauge() {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = max > 0 ? window.scrollY / max : 0;           // 0 to 1
+        const active = Math.round(progress * (marks.length - 1));      // 0 to 4
+        marks.forEach((m, i) => m.classList.toggle('active', i === active));
     }
-</div>
+
+    window.addEventListener('scroll', updateDepthGauge, { passive: true });
+    window.addEventListener('resize', updateDepthGauge);
+    updateDepthGauge();
+</script>
+
+@if (ViewBag.ScrollToForecast == true)
+{
+    <script>
+        document.location.hash = "#weatherforecast";
+    </script>
+}

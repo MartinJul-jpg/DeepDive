@@ -2,41 +2,121 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using DeepDive.Models;
 
+<div class="container" style="margin-bottom: 28px; display: flex; gap: 8px; align-items: center; font-size: 13px;">
+    <a style="color: rgb(122, 172, 190); text-decoration: none;" href="/" data-discover="true">HJEM</a>
+    <span style="color: rgb(122, 172, 190);">/</span>
+    <span style="color: rgb(0, 180, 216);">PAKKELØSNING: @Model.PackageId</span>
+</div>
+
 @{
     int amount = 1;
     double _price = 0;
-    <div class="container text-center m-5">
-        <div class="row">
-            <div class="col">
-                <div id="packageImageContainer" class="card d-flex flex-wrap justify-content-evenly align-content-center">
-                    @foreach (Package_Product pp in Model.Package_Products)
-                    {
-                        <img src="@Url.Content(pp.Product.ImgPath)" class="packageImg">
-                        _price += pp.Product.Price;
-                    }
+    <div style="margin-bottom: 80px;" class="gap-5 container d-flex">
+        <div class="col-2 card productImgContainer" style="width: 50%;">
+            @{
+                int count = Model.Package_Products.Count();
+                int index = 0;
+
+                foreach (Package_Product pp in Model.Package_Products)
+                {
+                    double offset = (index - (count - 1) / 2.0) * 40;
+                    _price += pp.Product.Price;
+
+                    <img src="@Url.Content(pp.Product.ImgPath)" class="packageImg"
+                         style="left: calc(50% + @(offset)px); z-index: @(index);"
+                         alt="..." />
+
+                    index++;
+                }
+            }
+        </div>
+        <div class="col justify-content-center" style="width: 50%;">
+            <br />
+            <h5 class="product-show-text-brand">@($"{Model.PackageId}")</h5>
+            <h3 class="product-show-text-model">PAKKELØSNING: @Model.PackageId</h3>
+            <p class="product-show-text-description">Det her er en kort beskrivelse af et produkt, som er en test tekst</p>
+
+            <div class="grid gap-2" style="margin-top: 26px;">
+                <div class="product-show-attribute-card">
+                    <p class="product-show-attribute-title">TYKKELSE</p>
+                    <p class="product-show-attribute-text">3mm</p>
+                </div>
+                <div class="product-show-attribute-card">
+                    <p class="product-show-attribute-title">TYPE</p>
+                    <p class="product-show-attribute-text">Våddragt</p>
                 </div>
             </div>
-            <div class="col productText">
-                <h3>Pakke: @Model.PackageId</h3>
-                <br />
-                <h5>Pris: @_price kr. per dag</h5>
+
+            <div style="margin-top: 24px;">
+                <p style="color: rgb(122, 172, 190); font-size: 11px; letter-spacing: 0.1em; margin-bottom: 9px;">VÆLG STØRRELSE</p>
+                @{
+                    var sizesByType = new Dictionary<string, List<string>>();
+
+                    foreach (var packageProduct in Model.Package_Products)
+                    {
+                        var (type, size) = packageProduct.Product switch
+                        {
+                            BCD bcd => ("BCD", bcd.Size),
+                            DivingSuit suit => ("DivingSuit", suit.Size),
+                            Fin fin => ("Fin", fin.Size),
+                            _ => (null, null)
+                        };
+
+                        if (type is null || string.IsNullOrWhiteSpace(size))
+                            continue;
+
+                        if (!sizesByType.TryGetValue(type, out var sizes))
+                        {
+                            sizes = new List<string>();
+                            sizesByType[type] = sizes;
+                        }
+
+                        if (!sizes.Contains(size))
+                        {
+                            var allSizes = size.Split(",");
+                            foreach(var s in allSizes)                            
+                                sizes.Add(s);
+                        }
+                    }
+                }
+
+                @foreach (var sizeGroup in sizesByType)
+                {
+                    <p style ="color: rgb(122, 172, 190); font-size: 11px; letter-spacing: 0.1em; margin-bottom: 9px; margin-top: 12px;">@sizeGroup.Key</p>
+
+                    <div class="size-options">
+                        @foreach (var size in sizeGroup.Value)
+                        {
+                            <label class="size-option">
+                                <input type="radio"
+                                       name="size_@sizeGroup.Key"
+                                       value="@size"
+                                       required />
+                                <span>@size</span>
+                            </label>
+                        }
+                    </div>
+                }
             </div>
-            <div class="col">
-                <div class="d-flex justify-content-center" style="height: 40px;">
+
+            <div style="margin-top: 50px;" class="d-flex justify-content-between">
+                <div class="package-div-price justify-content-start d-flex m-1">
+                    <h5 class="product-show-text-price">@_price kr</h5>
+                    <p class="product-show-text-price-small-secoundary">/ dag</p>
+                </div>
+                <div class="d-flex justify-content-center" style="height: 30px;">
                     <button id="minusBtn" name="minusBtn" class="amountSelector btn btn-primary">-</button>
                     <input class="amountSelector m-0" type="number" value="@amount" />
                     <button id="plusBtn" name="addBtn" class="amountSelector btn btn-primary">+</button>
                 </div>
-                <br />
-                <div class="justify-content-center">
-                    <form asp-controller="Package" asp-action="AddPackageToCart" method="get">
-                        <input type="hidden" name="id" value="@Model.PackageId" />
-                        <input type="hidden" name="amount" id="amountInput" value="@amount" />
+            </div>
+            <div class="justify-content-center">
+                <form asp-controller="Package" asp-action="AddPackageToCart" method="get">
+                    <input type="hidden" name="id" value="@Model.PackageId" />
+                    <input type="hidden" name="amount" id="amountInput" value="@amount" />
 
-                        <button type="submit" class="btn btn-success" style="margin: 10px;">Book</button>
-                    </form>
-                </div>
-                <p class="text-info-emphasis">@($"På lager: ?")</p>
+                    <button type="submit" class="product-show-btn btn btn-primary" style="margin: 10px;">Tilføj til kurv</button>
+                </form>
             </div>
         </div>
     </div>
